@@ -1,0 +1,5325 @@
+{
+  "generated": "2026-06-09T06:57:09Z",
+  "items": [
+    {
+      "name": "Fatal Devouring Beauty",
+      "might": 21600,
+      "po": 233,
+      "w": 2,
+      "h": 2,
+      "tiles": 4,
+      "mpt": 5400,
+      "size": "2x2"
+    },
+    {
+      "name": "Exalted Easter park",
+      "might": 8000,
+      "po": 33600,
+      "w": 20,
+      "h": 20,
+      "tiles": 400,
+      "mpt": 20,
+      "size": "20x20"
+    },
+    {
+      "name": "Exalted Green Anniversary Cake",
+      "might": 8000,
+      "po": 35200,
+      "w": 20,
+      "h": 20,
+      "tiles": 400,
+      "mpt": 20,
+      "size": "20x20"
+    },
+    {
+      "name": "Exalted Green Beer Pavilon",
+      "might": 8000,
+      "po": 32000,
+      "w": 20,
+      "h": 20,
+      "tiles": 400,
+      "mpt": 20,
+      "size": "20x20"
+    },
+    {
+      "name": "Exalted Green Christmas Fountain",
+      "might": 8000,
+      "po": 16800,
+      "w": 10,
+      "h": 20,
+      "tiles": 200,
+      "mpt": 40,
+      "size": "10x20"
+    },
+    {
+      "name": "Exalted Green Easter Hotspring",
+      "might": 8000,
+      "po": 35200,
+      "w": 20,
+      "h": 20,
+      "tiles": 400,
+      "mpt": 20,
+      "size": "20x20"
+    },
+    {
+      "name": "Exalted Green Frost Fountain",
+      "might": 8000,
+      "po": 16800,
+      "w": 10,
+      "h": 20,
+      "tiles": 200,
+      "mpt": 40,
+      "size": "10x20"
+    },
+    {
+      "name": "Exalted Green Guardian of Nature",
+      "might": 8000,
+      "po": 36800,
+      "w": 20,
+      "h": 20,
+      "tiles": 400,
+      "mpt": 20,
+      "size": "20x20"
+    },
+    {
+      "name": "Exalted Green Keg Forest",
+      "might": 8000,
+      "po": 35200,
+      "w": 20,
+      "h": 20,
+      "tiles": 400,
+      "mpt": 20,
+      "size": "20x20"
+    },
+    {
+      "name": "Exalted Green Oktoberfest Garden",
+      "might": 8000,
+      "po": 33600,
+      "w": 20,
+      "h": 20,
+      "tiles": 400,
+      "mpt": 20,
+      "size": "20x20"
+    },
+    {
+      "name": "Exalted Purple Anniversary Cake",
+      "might": 8000,
+      "po": 35200,
+      "w": 20,
+      "h": 20,
+      "tiles": 400,
+      "mpt": 20,
+      "size": "20x20"
+    },
+    {
+      "name": "Exalted Purple Beer Pavilon",
+      "might": 8000,
+      "po": 32000,
+      "w": 20,
+      "h": 20,
+      "tiles": 400,
+      "mpt": 20,
+      "size": "20x20"
+    },
+    {
+      "name": "Exalted Purple Easter Hotspring",
+      "might": 8000,
+      "po": 35200,
+      "w": 20,
+      "h": 20,
+      "tiles": 400,
+      "mpt": 20,
+      "size": "20x20"
+    },
+    {
+      "name": "Exalted Purple Guardian of Nature",
+      "might": 8000,
+      "po": 36800,
+      "w": 20,
+      "h": 20,
+      "tiles": 400,
+      "mpt": 20,
+      "size": "20x20"
+    },
+    {
+      "name": "Exalted Purple Keg Forest",
+      "might": 8000,
+      "po": 35200,
+      "w": 20,
+      "h": 20,
+      "tiles": 400,
+      "mpt": 20,
+      "size": "20x20"
+    },
+    {
+      "name": "Exalted Red Anniversary Cake",
+      "might": 8000,
+      "po": 35200,
+      "w": 20,
+      "h": 20,
+      "tiles": 400,
+      "mpt": 20,
+      "size": "20x20"
+    },
+    {
+      "name": "Exalted Red Beer Pavilon",
+      "might": 8000,
+      "po": 32000,
+      "w": 20,
+      "h": 20,
+      "tiles": 400,
+      "mpt": 20,
+      "size": "20x20"
+    },
+    {
+      "name": "Exalted Red Christmas Fountain",
+      "might": 8000,
+      "po": 13000,
+      "w": 10,
+      "h": 20,
+      "tiles": 200,
+      "mpt": 40,
+      "size": "10x20"
+    },
+    {
+      "name": "Exalted Red Easter Hotspring",
+      "might": 8000,
+      "po": 35200,
+      "w": 20,
+      "h": 20,
+      "tiles": 400,
+      "mpt": 20,
+      "size": "20x20"
+    },
+    {
+      "name": "Exalted Red Frost Fountain",
+      "might": 8000,
+      "po": 16800,
+      "w": 10,
+      "h": 20,
+      "tiles": 200,
+      "mpt": 40,
+      "size": "10x20"
+    },
+    {
+      "name": "Exalted Red Guardian of Nature",
+      "might": 8000,
+      "po": 36800,
+      "w": 20,
+      "h": 20,
+      "tiles": 400,
+      "mpt": 20,
+      "size": "20x20"
+    },
+    {
+      "name": "Exalted Red Keg Forest",
+      "might": 8000,
+      "po": 35200,
+      "w": 20,
+      "h": 20,
+      "tiles": 400,
+      "mpt": 20,
+      "size": "20x20"
+    },
+    {
+      "name": "Exalted Red Oktoberfest Garden",
+      "might": 8000,
+      "po": 33600,
+      "w": 20,
+      "h": 20,
+      "tiles": 400,
+      "mpt": 20,
+      "size": "20x20"
+    },
+    {
+      "name": "Fatal Blooming Fang",
+      "might": 7200,
+      "po": 212,
+      "w": 2,
+      "h": 2,
+      "tiles": 4,
+      "mpt": 1800,
+      "size": "2x2"
+    },
+    {
+      "name": "Exalted Green Anniversary Balloon",
+      "might": 6000,
+      "po": 32000,
+      "w": 20,
+      "h": 20,
+      "tiles": 400,
+      "mpt": 15,
+      "size": "20x20"
+    },
+    {
+      "name": "Exalted Green Easter Ruins",
+      "might": 6000,
+      "po": 32000,
+      "w": 20,
+      "h": 20,
+      "tiles": 400,
+      "mpt": 15,
+      "size": "20x20"
+    },
+    {
+      "name": "Exalted Green Guardian of Renewal",
+      "might": 6000,
+      "po": 34500,
+      "w": 20,
+      "h": 20,
+      "tiles": 400,
+      "mpt": 15,
+      "size": "20x20"
+    },
+    {
+      "name": "Exalted Purple Anniversary Balloon",
+      "might": 6000,
+      "po": 32000,
+      "w": 20,
+      "h": 20,
+      "tiles": 400,
+      "mpt": 15,
+      "size": "20x20"
+    },
+    {
+      "name": "Exalted Purple Christmas Fountain",
+      "might": 6000,
+      "po": 13000,
+      "w": 10,
+      "h": 20,
+      "tiles": 200,
+      "mpt": 30,
+      "size": "10x20"
+    },
+    {
+      "name": "Exalted Purple Easter Ruins",
+      "might": 6000,
+      "po": 32000,
+      "w": 20,
+      "h": 20,
+      "tiles": 400,
+      "mpt": 15,
+      "size": "20x20"
+    },
+    {
+      "name": "Exalted Purple Frost Fountain",
+      "might": 6000,
+      "po": 13000,
+      "w": 10,
+      "h": 20,
+      "tiles": 200,
+      "mpt": 30,
+      "size": "10x20"
+    },
+    {
+      "name": "Exalted Purple Guardian of Renewal",
+      "might": 6000,
+      "po": 34500,
+      "w": 20,
+      "h": 20,
+      "tiles": 400,
+      "mpt": 15,
+      "size": "20x20"
+    },
+    {
+      "name": "Exalted Purple Oktoberfest Garden",
+      "might": 6000,
+      "po": 26000,
+      "w": 20,
+      "h": 20,
+      "tiles": 400,
+      "mpt": 15,
+      "size": "20x20"
+    },
+    {
+      "name": "Exalted Red Anniversary Balloon",
+      "might": 6000,
+      "po": 32000,
+      "w": 20,
+      "h": 20,
+      "tiles": 400,
+      "mpt": 15,
+      "size": "20x20"
+    },
+    {
+      "name": "Exalted Red Easter Ruins",
+      "might": 6000,
+      "po": 32000,
+      "w": 20,
+      "h": 20,
+      "tiles": 400,
+      "mpt": 15,
+      "size": "20x20"
+    },
+    {
+      "name": "Exalted Red Guardian of Renewal",
+      "might": 6000,
+      "po": 34500,
+      "w": 20,
+      "h": 20,
+      "tiles": 400,
+      "mpt": 15,
+      "size": "20x20"
+    },
+    {
+      "name": "Exalted Green Christmas Pyramid Candle Powered",
+      "might": 4000,
+      "po": 17600,
+      "w": 10,
+      "h": 20,
+      "tiles": 200,
+      "mpt": 20,
+      "size": "10x20"
+    },
+    {
+      "name": "Exalted Green Christmas Pyramid Watermill Powered",
+      "might": 4000,
+      "po": 17600,
+      "w": 10,
+      "h": 20,
+      "tiles": 200,
+      "mpt": 20,
+      "size": "10x20"
+    },
+    {
+      "name": "Exalted Green Lava Scorpion Temple",
+      "might": 4000,
+      "po": 17600,
+      "w": 10,
+      "h": 20,
+      "tiles": 200,
+      "mpt": 20,
+      "size": "10x20"
+    },
+    {
+      "name": "Exalted Green Light Memorial Fountain",
+      "might": 4000,
+      "po": 17600,
+      "w": 10,
+      "h": 20,
+      "tiles": 200,
+      "mpt": 20,
+      "size": "10x20"
+    },
+    {
+      "name": "Exalted Green Orange Tea Party Ride",
+      "might": 4000,
+      "po": 18400,
+      "w": 10,
+      "h": 20,
+      "tiles": 200,
+      "mpt": 20,
+      "size": "10x20"
+    },
+    {
+      "name": "Exalted Green Shadow Memorial Fountain",
+      "might": 4000,
+      "po": 17600,
+      "w": 10,
+      "h": 20,
+      "tiles": 200,
+      "mpt": 20,
+      "size": "10x20"
+    },
+    {
+      "name": "Exalted Green Starfruit Rotating Swing",
+      "might": 4000,
+      "po": 18400,
+      "w": 10,
+      "h": 20,
+      "tiles": 200,
+      "mpt": 20,
+      "size": "10x20"
+    },
+    {
+      "name": "Exalted Green Water Shrine of Duality",
+      "might": 4000,
+      "po": 16800,
+      "w": 10,
+      "h": 20,
+      "tiles": 200,
+      "mpt": 20,
+      "size": "10x20"
+    },
+    {
+      "name": "Exalted Green Water Spider Temple",
+      "might": 4000,
+      "po": 17600,
+      "w": 10,
+      "h": 20,
+      "tiles": 200,
+      "mpt": 20,
+      "size": "10x20"
+    },
+    {
+      "name": "Exalted Purple Christmas Pyramid Candle Powered",
+      "might": 4000,
+      "po": 17600,
+      "w": 10,
+      "h": 20,
+      "tiles": 200,
+      "mpt": 20,
+      "size": "10x20"
+    },
+    {
+      "name": "Exalted Purple Christmas Pyramid Watermill Powered",
+      "might": 4000,
+      "po": 17600,
+      "w": 10,
+      "h": 20,
+      "tiles": 200,
+      "mpt": 20,
+      "size": "10x20"
+    },
+    {
+      "name": "Exalted Purple Lava Scorpion Temple",
+      "might": 4000,
+      "po": 17600,
+      "w": 10,
+      "h": 20,
+      "tiles": 200,
+      "mpt": 20,
+      "size": "10x20"
+    },
+    {
+      "name": "Exalted Purple Light Memorial Fountain",
+      "might": 4000,
+      "po": 17600,
+      "w": 10,
+      "h": 20,
+      "tiles": 200,
+      "mpt": 20,
+      "size": "10x20"
+    },
+    {
+      "name": "Exalted Purple Orange Tea Party Ride",
+      "might": 4000,
+      "po": 18400,
+      "w": 10,
+      "h": 20,
+      "tiles": 200,
+      "mpt": 20,
+      "size": "10x20"
+    },
+    {
+      "name": "Exalted Purple Shadow Memorial Fountain",
+      "might": 4000,
+      "po": 17600,
+      "w": 10,
+      "h": 20,
+      "tiles": 200,
+      "mpt": 20,
+      "size": "10x20"
+    },
+    {
+      "name": "Exalted Purple Starfruit Rotating Swing",
+      "might": 4000,
+      "po": 18400,
+      "w": 10,
+      "h": 20,
+      "tiles": 200,
+      "mpt": 20,
+      "size": "10x20"
+    },
+    {
+      "name": "Exalted Purple Water Spider Temple",
+      "might": 4000,
+      "po": 17600,
+      "w": 10,
+      "h": 20,
+      "tiles": 200,
+      "mpt": 20,
+      "size": "10x20"
+    },
+    {
+      "name": "Exalted Red Christmas Pyramid Candle Powered",
+      "might": 4000,
+      "po": 17600,
+      "w": 10,
+      "h": 20,
+      "tiles": 200,
+      "mpt": 20,
+      "size": "10x20"
+    },
+    {
+      "name": "Exalted Red Christmas Pyramid Watermill Powered",
+      "might": 4000,
+      "po": 17600,
+      "w": 10,
+      "h": 20,
+      "tiles": 200,
+      "mpt": 20,
+      "size": "10x20"
+    },
+    {
+      "name": "Exalted Red Lava Scorpion Temple",
+      "might": 4000,
+      "po": 17600,
+      "w": 10,
+      "h": 20,
+      "tiles": 200,
+      "mpt": 20,
+      "size": "10x20"
+    },
+    {
+      "name": "Exalted Red Lava Shrine of Duality",
+      "might": 4000,
+      "po": 16800,
+      "w": 10,
+      "h": 20,
+      "tiles": 200,
+      "mpt": 20,
+      "size": "10x20"
+    },
+    {
+      "name": "Exalted Red Light Memorial Fountain",
+      "might": 4000,
+      "po": 17600,
+      "w": 10,
+      "h": 20,
+      "tiles": 200,
+      "mpt": 20,
+      "size": "10x20"
+    },
+    {
+      "name": "Exalted Red Orange Tea Party Ride",
+      "might": 4000,
+      "po": 18400,
+      "w": 10,
+      "h": 20,
+      "tiles": 200,
+      "mpt": 20,
+      "size": "10x20"
+    },
+    {
+      "name": "Exalted Red Shadow Memorial Fountain",
+      "might": 4000,
+      "po": 17600,
+      "w": 10,
+      "h": 20,
+      "tiles": 200,
+      "mpt": 20,
+      "size": "10x20"
+    },
+    {
+      "name": "Exalted Red Starfruit Rotating Swing",
+      "might": 4000,
+      "po": 18400,
+      "w": 10,
+      "h": 20,
+      "tiles": 200,
+      "mpt": 20,
+      "size": "10x20"
+    },
+    {
+      "name": "Exalted Red Water Spider Temple",
+      "might": 4000,
+      "po": 17600,
+      "w": 10,
+      "h": 20,
+      "tiles": 200,
+      "mpt": 20,
+      "size": "10x20"
+    },
+    {
+      "name": "Exalted Green Cave of the Winter Fox",
+      "might": 3000,
+      "po": 16000,
+      "w": 10,
+      "h": 20,
+      "tiles": 200,
+      "mpt": 15,
+      "size": "10x20"
+    },
+    {
+      "name": "Exalted Green Cave of the Winter Polar Bear",
+      "might": 3000,
+      "po": 16000,
+      "w": 10,
+      "h": 20,
+      "tiles": 200,
+      "mpt": 15,
+      "size": "10x20"
+    },
+    {
+      "name": "Exalted Green Cerulean Garden of Abundance",
+      "might": 3000,
+      "po": 16000,
+      "w": 10,
+      "h": 20,
+      "tiles": 200,
+      "mpt": 15,
+      "size": "10x20"
+    },
+    {
+      "name": "Exalted Green Kiwi Rollercoaster",
+      "might": 3000,
+      "po": 17250,
+      "w": 10,
+      "h": 20,
+      "tiles": 200,
+      "mpt": 15,
+      "size": "10x20"
+    },
+    {
+      "name": "Exalted Green Lava Mountain of Wrath",
+      "might": 3000,
+      "po": 16000,
+      "w": 10,
+      "h": 20,
+      "tiles": 200,
+      "mpt": 15,
+      "size": "10x20"
+    },
+    {
+      "name": "Exalted Green Lava Shrine of Duality",
+      "might": 3000,
+      "po": 13000,
+      "w": 10,
+      "h": 20,
+      "tiles": 200,
+      "mpt": 15,
+      "size": "10x20"
+    },
+    {
+      "name": "Exalted Green Ruby Garden of Abundance",
+      "might": 3000,
+      "po": 16000,
+      "w": 10,
+      "h": 20,
+      "tiles": 200,
+      "mpt": 15,
+      "size": "10x20"
+    },
+    {
+      "name": "Exalted Green Water Mountain of Wrath",
+      "might": 3000,
+      "po": 16000,
+      "w": 10,
+      "h": 20,
+      "tiles": 200,
+      "mpt": 15,
+      "size": "10x20"
+    },
+    {
+      "name": "Exalted Green Watermelon Rollercoaster",
+      "might": 3000,
+      "po": 17250,
+      "w": 10,
+      "h": 20,
+      "tiles": 200,
+      "mpt": 15,
+      "size": "10x20"
+    },
+    {
+      "name": "Exalted Purple Cave of the Winter Fox",
+      "might": 3000,
+      "po": 16000,
+      "w": 10,
+      "h": 20,
+      "tiles": 200,
+      "mpt": 15,
+      "size": "10x20"
+    },
+    {
+      "name": "Exalted Purple Cave of the Winter Polar Bear",
+      "might": 3000,
+      "po": 16000,
+      "w": 10,
+      "h": 20,
+      "tiles": 200,
+      "mpt": 15,
+      "size": "10x20"
+    },
+    {
+      "name": "Exalted Purple Cerulean Garden of Abundance",
+      "might": 3000,
+      "po": 16000,
+      "w": 10,
+      "h": 20,
+      "tiles": 200,
+      "mpt": 15,
+      "size": "10x20"
+    },
+    {
+      "name": "Exalted Purple Kiwi Rollercoaster",
+      "might": 3000,
+      "po": 17250,
+      "w": 10,
+      "h": 20,
+      "tiles": 200,
+      "mpt": 15,
+      "size": "10x20"
+    },
+    {
+      "name": "Exalted Purple Lava Mountain of Wrath",
+      "might": 3000,
+      "po": 16000,
+      "w": 10,
+      "h": 20,
+      "tiles": 200,
+      "mpt": 15,
+      "size": "10x20"
+    },
+    {
+      "name": "Exalted Purple Lava Shrine of Duality",
+      "might": 3000,
+      "po": 13000,
+      "w": 10,
+      "h": 20,
+      "tiles": 200,
+      "mpt": 15,
+      "size": "10x20"
+    },
+    {
+      "name": "Exalted Purple Ruby Garden of Abundance",
+      "might": 3000,
+      "po": 16000,
+      "w": 10,
+      "h": 20,
+      "tiles": 200,
+      "mpt": 15,
+      "size": "10x20"
+    },
+    {
+      "name": "Exalted Purple Water Mountain of Wrath",
+      "might": 3000,
+      "po": 16000,
+      "w": 10,
+      "h": 20,
+      "tiles": 200,
+      "mpt": 15,
+      "size": "10x20"
+    },
+    {
+      "name": "Exalted Purple Water Shrine of Duality",
+      "might": 3000,
+      "po": 13000,
+      "w": 10,
+      "h": 20,
+      "tiles": 200,
+      "mpt": 15,
+      "size": "10x20"
+    },
+    {
+      "name": "Exalted Purple Watermelon Rollercoaster",
+      "might": 3000,
+      "po": 17250,
+      "w": 10,
+      "h": 20,
+      "tiles": 200,
+      "mpt": 15,
+      "size": "10x20"
+    },
+    {
+      "name": "Exalted Red Cave of the Winter Fox",
+      "might": 3000,
+      "po": 16000,
+      "w": 10,
+      "h": 20,
+      "tiles": 200,
+      "mpt": 15,
+      "size": "10x20"
+    },
+    {
+      "name": "Exalted Red Cave of the Winter Polar Bear",
+      "might": 3000,
+      "po": 16000,
+      "w": 10,
+      "h": 20,
+      "tiles": 200,
+      "mpt": 15,
+      "size": "10x20"
+    },
+    {
+      "name": "Exalted Red Cerulean Garden of Abundance",
+      "might": 3000,
+      "po": 16000,
+      "w": 10,
+      "h": 20,
+      "tiles": 200,
+      "mpt": 15,
+      "size": "10x20"
+    },
+    {
+      "name": "Exalted Red Kiwi Rollercoaster",
+      "might": 3000,
+      "po": 17250,
+      "w": 10,
+      "h": 20,
+      "tiles": 200,
+      "mpt": 15,
+      "size": "10x20"
+    },
+    {
+      "name": "Exalted Red Lava Mountain of Wrath",
+      "might": 3000,
+      "po": 16000,
+      "w": 10,
+      "h": 20,
+      "tiles": 200,
+      "mpt": 15,
+      "size": "10x20"
+    },
+    {
+      "name": "Exalted Red Ruby Garden of Abundance",
+      "might": 3000,
+      "po": 16000,
+      "w": 10,
+      "h": 20,
+      "tiles": 200,
+      "mpt": 15,
+      "size": "10x20"
+    },
+    {
+      "name": "Exalted Red Water Mountain of Wrath",
+      "might": 3000,
+      "po": 16000,
+      "w": 10,
+      "h": 20,
+      "tiles": 200,
+      "mpt": 15,
+      "size": "10x20"
+    },
+    {
+      "name": "Exalted Red Watermelon Rollercoaster",
+      "might": 3000,
+      "po": 17250,
+      "w": 10,
+      "h": 20,
+      "tiles": 200,
+      "mpt": 15,
+      "size": "10x20"
+    },
+    {
+      "name": "Empire's defender - year 15",
+      "might": 1900,
+      "po": 0,
+      "w": 5,
+      "h": 10,
+      "tiles": 50,
+      "mpt": 38,
+      "size": "5x10"
+    },
+    {
+      "name": "Empire's defender - year 14",
+      "might": 1800,
+      "po": 0,
+      "w": 5,
+      "h": 10,
+      "tiles": 50,
+      "mpt": 36,
+      "size": "5x10"
+    },
+    {
+      "name": "Empire's defender - year 13",
+      "might": 1700,
+      "po": 0,
+      "w": 5,
+      "h": 10,
+      "tiles": 50,
+      "mpt": 34,
+      "size": "5x10"
+    },
+    {
+      "name": "Empire's defender - year 12",
+      "might": 1600,
+      "po": 0,
+      "w": 5,
+      "h": 10,
+      "tiles": 50,
+      "mpt": 32,
+      "size": "5x10"
+    },
+    {
+      "name": "Empire's defender - year 11",
+      "might": 1500,
+      "po": 0,
+      "w": 5,
+      "h": 10,
+      "tiles": 50,
+      "mpt": 30,
+      "size": "5x10"
+    },
+    {
+      "name": "Empire's defender - year 10",
+      "might": 1400,
+      "po": 0,
+      "w": 5,
+      "h": 10,
+      "tiles": 50,
+      "mpt": 28,
+      "size": "5x10"
+    },
+    {
+      "name": "Empire's defender - year 9",
+      "might": 1300,
+      "po": 0,
+      "w": 5,
+      "h": 10,
+      "tiles": 50,
+      "mpt": 26,
+      "size": "5x10"
+    },
+    {
+      "name": "The Mountain Sea-goat",
+      "might": 1300,
+      "po": 0,
+      "w": 5,
+      "h": 10,
+      "tiles": 50,
+      "mpt": 26,
+      "size": "5x10"
+    },
+    {
+      "name": "Empire's defender - year 8",
+      "might": 1200,
+      "po": 0,
+      "w": 5,
+      "h": 10,
+      "tiles": 50,
+      "mpt": 24,
+      "size": "5x10"
+    },
+    {
+      "name": "Fatal Biteweed",
+      "might": 1200,
+      "po": 193,
+      "w": 2,
+      "h": 2,
+      "tiles": 4,
+      "mpt": 300,
+      "size": "2x2"
+    },
+    {
+      "name": "The Archer",
+      "might": 1200,
+      "po": 0,
+      "w": 5,
+      "h": 10,
+      "tiles": 50,
+      "mpt": 24,
+      "size": "5x10"
+    },
+    {
+      "name": "Celebration of Spring",
+      "might": 1100,
+      "po": 0,
+      "w": 5,
+      "h": 10,
+      "tiles": 50,
+      "mpt": 22,
+      "size": "5x10"
+    },
+    {
+      "name": "Empire's defender - year 7",
+      "might": 1100,
+      "po": 0,
+      "w": 5,
+      "h": 10,
+      "tiles": 50,
+      "mpt": 22,
+      "size": "5x10"
+    },
+    {
+      "name": "Rainbow leprechaun",
+      "might": 1100,
+      "po": 0,
+      "w": 5,
+      "h": 10,
+      "tiles": 50,
+      "mpt": 22,
+      "size": "5x10"
+    },
+    {
+      "name": "The Water-bearer",
+      "might": 1100,
+      "po": 0,
+      "w": 5,
+      "h": 10,
+      "tiles": 50,
+      "mpt": 22,
+      "size": "5x10"
+    },
+    {
+      "name": "Abyss exposition",
+      "might": 1000,
+      "po": 0,
+      "w": 5,
+      "h": 10,
+      "tiles": 50,
+      "mpt": 20,
+      "size": "5x10"
+    },
+    {
+      "name": "Aged timeless king",
+      "might": 1000,
+      "po": 0,
+      "w": 5,
+      "h": 10,
+      "tiles": 50,
+      "mpt": 20,
+      "size": "5x10"
+    },
+    {
+      "name": "Alice's twin workshop",
+      "might": 1000,
+      "po": 0,
+      "w": 5,
+      "h": 10,
+      "tiles": 50,
+      "mpt": 20,
+      "size": "5x10"
+    },
+    {
+      "name": "Ancestral calavera altar",
+      "might": 1000,
+      "po": 0,
+      "w": 5,
+      "h": 10,
+      "tiles": 50,
+      "mpt": 20,
+      "size": "5x10"
+    },
+    {
+      "name": "Anniversary Pavilion",
+      "might": 1000,
+      "po": 0,
+      "w": 5,
+      "h": 10,
+      "tiles": 50,
+      "mpt": 20,
+      "size": "5x10"
+    },
+    {
+      "name": "Anniversary after-party shambles",
+      "might": 1000,
+      "po": 0,
+      "w": 5,
+      "h": 10,
+      "tiles": 50,
+      "mpt": 20,
+      "size": "5x10"
+    },
+    {
+      "name": "Anniversary party celebration",
+      "might": 1000,
+      "po": 4350,
+      "w": 5,
+      "h": 10,
+      "tiles": 50,
+      "mpt": 20,
+      "size": "5x10"
+    },
+    {
+      "name": "Artefacts from Beyond the Horizon",
+      "might": 1000,
+      "po": 0,
+      "w": 5,
+      "h": 10,
+      "tiles": 50,
+      "mpt": 20,
+      "size": "5x10"
+    },
+    {
+      "name": "Autumn gobbler's refuge",
+      "might": 1000,
+      "po": 0,
+      "w": 5,
+      "h": 10,
+      "tiles": 50,
+      "mpt": 20,
+      "size": "5x10"
+    },
+    {
+      "name": "Barrel of joy",
+      "might": 1000,
+      "po": 0,
+      "w": 5,
+      "h": 5,
+      "tiles": 25,
+      "mpt": 40,
+      "size": "5x5"
+    },
+    {
+      "name": "Beehive meadow",
+      "might": 1000,
+      "po": 0,
+      "w": 5,
+      "h": 10,
+      "tiles": 50,
+      "mpt": 20,
+      "size": "5x10"
+    },
+    {
+      "name": "Beer barrel well",
+      "might": 1000,
+      "po": 0,
+      "w": 5,
+      "h": 10,
+      "tiles": 50,
+      "mpt": 20,
+      "size": "5x10"
+    },
+    {
+      "name": "Beer pond",
+      "might": 1000,
+      "po": 0,
+      "w": 5,
+      "h": 10,
+      "tiles": 50,
+      "mpt": 20,
+      "size": "5x10"
+    },
+    {
+      "name": "Beer wagon",
+      "might": 1000,
+      "po": 0,
+      "w": 5,
+      "h": 10,
+      "tiles": 50,
+      "mpt": 20,
+      "size": "5x10"
+    },
+    {
+      "name": "Blood Tyrant of the Afterlife",
+      "might": 1000,
+      "po": 0,
+      "w": 5,
+      "h": 10,
+      "tiles": 50,
+      "mpt": 20,
+      "size": "5x10"
+    },
+    {
+      "name": "Blood Tyrant of the Skies",
+      "might": 1000,
+      "po": 0,
+      "w": 5,
+      "h": 10,
+      "tiles": 50,
+      "mpt": 20,
+      "size": "5x10"
+    },
+    {
+      "name": "Bounty of the seas",
+      "might": 1000,
+      "po": 4400,
+      "w": 5,
+      "h": 10,
+      "tiles": 50,
+      "mpt": 20,
+      "size": "5x10"
+    },
+    {
+      "name": "Bride of the waves",
+      "might": 1000,
+      "po": 1800,
+      "w": 5,
+      "h": 5,
+      "tiles": 25,
+      "mpt": 40,
+      "size": "5x5"
+    },
+    {
+      "name": "Carnival canal",
+      "might": 1000,
+      "po": 0,
+      "w": 5,
+      "h": 10,
+      "tiles": 50,
+      "mpt": 20,
+      "size": "5x10"
+    },
+    {
+      "name": "Celebratory banquet",
+      "might": 1000,
+      "po": 0,
+      "w": 5,
+      "h": 10,
+      "tiles": 50,
+      "mpt": 20,
+      "size": "5x10"
+    },
+    {
+      "name": "Cherry blossom guardian",
+      "might": 1000,
+      "po": 0,
+      "w": 5,
+      "h": 10,
+      "tiles": 50,
+      "mpt": 20,
+      "size": "5x10"
+    },
+    {
+      "name": "Chords of Harmony",
+      "might": 1000,
+      "po": 0,
+      "w": 5,
+      "h": 10,
+      "tiles": 50,
+      "mpt": 20,
+      "size": "5x10"
+    },
+    {
+      "name": "Cobra king's triumph",
+      "might": 1000,
+      "po": 0,
+      "w": 5,
+      "h": 10,
+      "tiles": 50,
+      "mpt": 20,
+      "size": "5x10"
+    },
+    {
+      "name": "Corrupted nature goddess",
+      "might": 1000,
+      "po": 0,
+      "w": 5,
+      "h": 10,
+      "tiles": 50,
+      "mpt": 20,
+      "size": "5x10"
+    },
+    {
+      "name": "Crab rock",
+      "might": 1000,
+      "po": 3500,
+      "w": 5,
+      "h": 10,
+      "tiles": 50,
+      "mpt": 20,
+      "size": "5x10"
+    },
+    {
+      "name": "Crouching tiger",
+      "might": 1000,
+      "po": 0,
+      "w": 5,
+      "h": 10,
+      "tiles": 50,
+      "mpt": 20,
+      "size": "5x10"
+    },
+    {
+      "name": "Crow's crypt",
+      "might": 1000,
+      "po": 0,
+      "w": 5,
+      "h": 10,
+      "tiles": 50,
+      "mpt": 20,
+      "size": "5x10"
+    },
+    {
+      "name": "Defiled crypt",
+      "might": 1000,
+      "po": 4350,
+      "w": 5,
+      "h": 10,
+      "tiles": 50,
+      "mpt": 20,
+      "size": "5x10"
+    },
+    {
+      "name": "Demise of the sky despot",
+      "might": 1000,
+      "po": 0,
+      "w": 5,
+      "h": 10,
+      "tiles": 50,
+      "mpt": 20,
+      "size": "5x10"
+    },
+    {
+      "name": "Diorama of the Cataclysm",
+      "might": 1000,
+      "po": 0,
+      "w": 5,
+      "h": 10,
+      "tiles": 50,
+      "mpt": 20,
+      "size": "5x10"
+    },
+    {
+      "name": "Dovecote",
+      "might": 1000,
+      "po": 0,
+      "w": 5,
+      "h": 5,
+      "tiles": 25,
+      "mpt": 40,
+      "size": "5x5"
+    },
+    {
+      "name": "Downfall of the giants",
+      "might": 1000,
+      "po": 0,
+      "w": 5,
+      "h": 10,
+      "tiles": 50,
+      "mpt": 20,
+      "size": "5x10"
+    },
+    {
+      "name": "Dragon hatchery",
+      "might": 1000,
+      "po": 4350,
+      "w": 5,
+      "h": 10,
+      "tiles": 50,
+      "mpt": 20,
+      "size": "5x10"
+    },
+    {
+      "name": "Elephant's fountain",
+      "might": 1000,
+      "po": 0,
+      "w": 5,
+      "h": 10,
+      "tiles": 50,
+      "mpt": 20,
+      "size": "5x10"
+    },
+    {
+      "name": "Empire's defender - year 6",
+      "might": 1000,
+      "po": 0,
+      "w": 5,
+      "h": 10,
+      "tiles": 50,
+      "mpt": 20,
+      "size": "5x10"
+    },
+    {
+      "name": "Enchanted wintertide hut",
+      "might": 1000,
+      "po": 0,
+      "w": 5,
+      "h": 10,
+      "tiles": 50,
+      "mpt": 20,
+      "size": "5x10"
+    },
+    {
+      "name": "Eternally slumbering tyrant",
+      "might": 1000,
+      "po": 0,
+      "w": 5,
+      "h": 10,
+      "tiles": 50,
+      "mpt": 20,
+      "size": "5x10"
+    },
+    {
+      "name": "Eternity garden",
+      "might": 1000,
+      "po": 0,
+      "w": 5,
+      "h": 10,
+      "tiles": 50,
+      "mpt": 20,
+      "size": "5x10"
+    },
+    {
+      "name": "Exalted Berimond pool",
+      "might": 1000,
+      "po": 0,
+      "w": 5,
+      "h": 10,
+      "tiles": 50,
+      "mpt": 20,
+      "size": "5x10"
+    },
+    {
+      "name": "Exalted Carnival Gondola",
+      "might": 1000,
+      "po": 0,
+      "w": 5,
+      "h": 10,
+      "tiles": 50,
+      "mpt": 20,
+      "size": "5x10"
+    },
+    {
+      "name": "Exalted Elemental knight",
+      "might": 1000,
+      "po": 0,
+      "w": 5,
+      "h": 10,
+      "tiles": 50,
+      "mpt": 20,
+      "size": "5x10"
+    },
+    {
+      "name": "Exalted Green Beer Barrel Well",
+      "might": 1000,
+      "po": 0,
+      "w": 5,
+      "h": 10,
+      "tiles": 50,
+      "mpt": 20,
+      "size": "5x10"
+    },
+    {
+      "name": "Exalted Green Carnival Canal",
+      "might": 1000,
+      "po": 0,
+      "w": 5,
+      "h": 10,
+      "tiles": 50,
+      "mpt": 20,
+      "size": "5x10"
+    },
+    {
+      "name": "Exalted Green Christmas Present Stash",
+      "might": 1000,
+      "po": 4100,
+      "w": 5,
+      "h": 10,
+      "tiles": 50,
+      "mpt": 20,
+      "size": "5x10"
+    },
+    {
+      "name": "Exalted Green Forging of Fury's Blade",
+      "might": 1000,
+      "po": 0,
+      "w": 5,
+      "h": 10,
+      "tiles": 50,
+      "mpt": 20,
+      "size": "5x10"
+    },
+    {
+      "name": "Exalted Green Frozen tarantula spring",
+      "might": 1000,
+      "po": 0,
+      "w": 5,
+      "h": 10,
+      "tiles": 50,
+      "mpt": 20,
+      "size": "5x10"
+    },
+    {
+      "name": "Exalted Green Guardian of Nurture",
+      "might": 1000,
+      "po": 0,
+      "w": 5,
+      "h": 10,
+      "tiles": 50,
+      "mpt": 20,
+      "size": "5x10"
+    },
+    {
+      "name": "Exalted Green Guardian of Plenty",
+      "might": 1000,
+      "po": 0,
+      "w": 5,
+      "h": 10,
+      "tiles": 50,
+      "mpt": 20,
+      "size": "5x10"
+    },
+    {
+      "name": "Exalted Green Hut of the Infernal Shaman",
+      "might": 1000,
+      "po": 0,
+      "w": 5,
+      "h": 10,
+      "tiles": 50,
+      "mpt": 20,
+      "size": "5x10"
+    },
+    {
+      "name": "Exalted Green Jester's Mask",
+      "might": 1000,
+      "po": 0,
+      "w": 5,
+      "h": 10,
+      "tiles": 50,
+      "mpt": 20,
+      "size": "5x10"
+    },
+    {
+      "name": "Exalted Green Lizard's Cove",
+      "might": 1000,
+      "po": 0,
+      "w": 5,
+      "h": 10,
+      "tiles": 50,
+      "mpt": 20,
+      "size": "5x10"
+    },
+    {
+      "name": "Exalted Green Pineapple Ride",
+      "might": 1000,
+      "po": 0,
+      "w": 5,
+      "h": 10,
+      "tiles": 50,
+      "mpt": 20,
+      "size": "5x10"
+    },
+    {
+      "name": "Exalted Green Pirate Water Slide",
+      "might": 1000,
+      "po": 0,
+      "w": 5,
+      "h": 10,
+      "tiles": 50,
+      "mpt": 20,
+      "size": "5x10"
+    },
+    {
+      "name": "Exalted Green Royal pleasure nook",
+      "might": 1000,
+      "po": 0,
+      "w": 5,
+      "h": 10,
+      "tiles": 50,
+      "mpt": 20,
+      "size": "5x10"
+    },
+    {
+      "name": "Exalted Green Spooky Crypt",
+      "might": 1000,
+      "po": 0,
+      "w": 5,
+      "h": 10,
+      "tiles": 50,
+      "mpt": 20,
+      "size": "5x10"
+    },
+    {
+      "name": "Exalted Green Spring of elation",
+      "might": 1000,
+      "po": 0,
+      "w": 5,
+      "h": 10,
+      "tiles": 50,
+      "mpt": 20,
+      "size": "5x10"
+    },
+    {
+      "name": "Exalted Green Sweet Surprise Cake",
+      "might": 1000,
+      "po": 0,
+      "w": 5,
+      "h": 10,
+      "tiles": 50,
+      "mpt": 20,
+      "size": "5x10"
+    },
+    {
+      "name": "Exalted Green Taming of the wild",
+      "might": 1000,
+      "po": 0,
+      "w": 5,
+      "h": 10,
+      "tiles": 50,
+      "mpt": 20,
+      "size": "5x10"
+    },
+    {
+      "name": "Exalted Green Well of Maddness",
+      "might": 1000,
+      "po": 0,
+      "w": 5,
+      "h": 10,
+      "tiles": 50,
+      "mpt": 20,
+      "size": "5x10"
+    },
+    {
+      "name": "Exalted Halloween altar",
+      "might": 1000,
+      "po": 0,
+      "w": 5,
+      "h": 10,
+      "tiles": 50,
+      "mpt": 20,
+      "size": "5x10"
+    },
+    {
+      "name": "Exalted Livestock Hut",
+      "might": 1000,
+      "po": 0,
+      "w": 5,
+      "h": 10,
+      "tiles": 50,
+      "mpt": 20,
+      "size": "5x10"
+    },
+    {
+      "name": "Exalted Oktoberfest Fair",
+      "might": 1000,
+      "po": 0,
+      "w": 5,
+      "h": 10,
+      "tiles": 50,
+      "mpt": 20,
+      "size": "5x10"
+    },
+    {
+      "name": "Exalted Pedestal of eternal love",
+      "might": 1000,
+      "po": 0,
+      "w": 5,
+      "h": 10,
+      "tiles": 50,
+      "mpt": 20,
+      "size": "5x10"
+    },
+    {
+      "name": "Exalted Pedestal of passionate love",
+      "might": 1000,
+      "po": 0,
+      "w": 5,
+      "h": 10,
+      "tiles": 50,
+      "mpt": 20,
+      "size": "5x10"
+    },
+    {
+      "name": "Exalted Purple Carnival Canal",
+      "might": 1000,
+      "po": 0,
+      "w": 5,
+      "h": 10,
+      "tiles": 50,
+      "mpt": 20,
+      "size": "5x10"
+    },
+    {
+      "name": "Exalted Purple Christmas Pyramid",
+      "might": 1000,
+      "po": 4100,
+      "w": 5,
+      "h": 10,
+      "tiles": 50,
+      "mpt": 20,
+      "size": "5x10"
+    },
+    {
+      "name": "Exalted Purple Forging of Fury's Blade",
+      "might": 1000,
+      "po": 0,
+      "w": 5,
+      "h": 10,
+      "tiles": 50,
+      "mpt": 20,
+      "size": "5x10"
+    },
+    {
+      "name": "Exalted Purple Guardian of Nurture",
+      "might": 1000,
+      "po": 0,
+      "w": 5,
+      "h": 10,
+      "tiles": 50,
+      "mpt": 20,
+      "size": "5x10"
+    },
+    {
+      "name": "Exalted Purple Guardian of Plenty",
+      "might": 1000,
+      "po": 0,
+      "w": 5,
+      "h": 10,
+      "tiles": 50,
+      "mpt": 20,
+      "size": "5x10"
+    },
+    {
+      "name": "Exalted Purple Pineapple Ride",
+      "might": 1000,
+      "po": 0,
+      "w": 5,
+      "h": 10,
+      "tiles": 50,
+      "mpt": 20,
+      "size": "5x10"
+    },
+    {
+      "name": "Exalted Purple Pirate Water Slide",
+      "might": 1000,
+      "po": 0,
+      "w": 5,
+      "h": 10,
+      "tiles": 50,
+      "mpt": 20,
+      "size": "5x10"
+    },
+    {
+      "name": "Exalted Purple Spooky Crypt",
+      "might": 1000,
+      "po": 0,
+      "w": 5,
+      "h": 10,
+      "tiles": 50,
+      "mpt": 20,
+      "size": "5x10"
+    },
+    {
+      "name": "Exalted Purple Spring of elation",
+      "might": 1000,
+      "po": 0,
+      "w": 5,
+      "h": 10,
+      "tiles": 50,
+      "mpt": 20,
+      "size": "5x10"
+    },
+    {
+      "name": "Exalted Purple Sweet Surprise Cake",
+      "might": 1000,
+      "po": 0,
+      "w": 5,
+      "h": 10,
+      "tiles": 50,
+      "mpt": 20,
+      "size": "5x10"
+    },
+    {
+      "name": "Exalted Purple Taming of the wild",
+      "might": 1000,
+      "po": 0,
+      "w": 5,
+      "h": 10,
+      "tiles": 50,
+      "mpt": 20,
+      "size": "5x10"
+    },
+    {
+      "name": "Exalted Red Carnival Canal",
+      "might": 1000,
+      "po": 0,
+      "w": 5,
+      "h": 10,
+      "tiles": 50,
+      "mpt": 20,
+      "size": "5x10"
+    },
+    {
+      "name": "Exalted Red Christmas Stall",
+      "might": 1000,
+      "po": 4100,
+      "w": 5,
+      "h": 10,
+      "tiles": 50,
+      "mpt": 20,
+      "size": "5x10"
+    },
+    {
+      "name": "Exalted Red Forging of Fury's Blade",
+      "might": 1000,
+      "po": 0,
+      "w": 5,
+      "h": 10,
+      "tiles": 50,
+      "mpt": 20,
+      "size": "5x10"
+    },
+    {
+      "name": "Exalted Red Grand Tournament Blade",
+      "might": 1000,
+      "po": 4100,
+      "w": 5,
+      "h": 10,
+      "tiles": 50,
+      "mpt": 20,
+      "size": "5x10"
+    },
+    {
+      "name": "Exalted Red Grand Tournament Training Ground",
+      "might": 1000,
+      "po": 3900,
+      "w": 5,
+      "h": 10,
+      "tiles": 50,
+      "mpt": 20,
+      "size": "5x10"
+    },
+    {
+      "name": "Exalted Red Guardian of Nurture",
+      "might": 1000,
+      "po": 0,
+      "w": 5,
+      "h": 10,
+      "tiles": 50,
+      "mpt": 20,
+      "size": "5x10"
+    },
+    {
+      "name": "Exalted Red Guardian of Plenty",
+      "might": 1000,
+      "po": 0,
+      "w": 5,
+      "h": 10,
+      "tiles": 50,
+      "mpt": 20,
+      "size": "5x10"
+    },
+    {
+      "name": "Exalted Red Hut of the Infernal Shaman",
+      "might": 1000,
+      "po": 0,
+      "w": 5,
+      "h": 10,
+      "tiles": 50,
+      "mpt": 20,
+      "size": "5x10"
+    },
+    {
+      "name": "Exalted Red Pineapple Ride",
+      "might": 1000,
+      "po": 0,
+      "w": 5,
+      "h": 10,
+      "tiles": 50,
+      "mpt": 20,
+      "size": "5x10"
+    },
+    {
+      "name": "Exalted Red Pirate Water Slide",
+      "might": 1000,
+      "po": 0,
+      "w": 5,
+      "h": 10,
+      "tiles": 50,
+      "mpt": 20,
+      "size": "5x10"
+    },
+    {
+      "name": "Exalted Red Spooky Crypt",
+      "might": 1000,
+      "po": 0,
+      "w": 5,
+      "h": 10,
+      "tiles": 50,
+      "mpt": 20,
+      "size": "5x10"
+    },
+    {
+      "name": "Exalted Red Spring of elation",
+      "might": 1000,
+      "po": 4100,
+      "w": 5,
+      "h": 10,
+      "tiles": 50,
+      "mpt": 20,
+      "size": "5x10"
+    },
+    {
+      "name": "Exalted Red Sweet Surprise Cake",
+      "might": 1000,
+      "po": 0,
+      "w": 5,
+      "h": 10,
+      "tiles": 50,
+      "mpt": 20,
+      "size": "5x10"
+    },
+    {
+      "name": "Exalted Red Taming of the wild",
+      "might": 1000,
+      "po": 0,
+      "w": 5,
+      "h": 10,
+      "tiles": 50,
+      "mpt": 20,
+      "size": "5x10"
+    },
+    {
+      "name": "Exalted Red Well of Maddness",
+      "might": 1000,
+      "po": 0,
+      "w": 5,
+      "h": 10,
+      "tiles": 50,
+      "mpt": 20,
+      "size": "5x10"
+    },
+    {
+      "name": "Exalted Shabby Livestock Hut",
+      "might": 1000,
+      "po": 0,
+      "w": 5,
+      "h": 10,
+      "tiles": 50,
+      "mpt": 20,
+      "size": "5x10"
+    },
+    {
+      "name": "Exalted Shamrock pub",
+      "might": 1000,
+      "po": 0,
+      "w": 5,
+      "h": 10,
+      "tiles": 50,
+      "mpt": 20,
+      "size": "5x10"
+    },
+    {
+      "name": "Exalted Spring time tower",
+      "might": 1000,
+      "po": 0,
+      "w": 5,
+      "h": 10,
+      "tiles": 50,
+      "mpt": 20,
+      "size": "5x10"
+    },
+    {
+      "name": "Exalted Sturdy Livestock Hut",
+      "might": 1000,
+      "po": 0,
+      "w": 5,
+      "h": 10,
+      "tiles": 50,
+      "mpt": 20,
+      "size": "5x10"
+    },
+    {
+      "name": "Exalted Viking statues",
+      "might": 1000,
+      "po": 0,
+      "w": 5,
+      "h": 10,
+      "tiles": 50,
+      "mpt": 20,
+      "size": "5x10"
+    },
+    {
+      "name": "Exalted banquet table",
+      "might": 1000,
+      "po": 0,
+      "w": 5,
+      "h": 10,
+      "tiles": 50,
+      "mpt": 20,
+      "size": "5x10"
+    },
+    {
+      "name": "Exalted beehive meadow",
+      "might": 1000,
+      "po": 0,
+      "w": 5,
+      "h": 10,
+      "tiles": 50,
+      "mpt": 20,
+      "size": "5x10"
+    },
+    {
+      "name": "Exalted chess garden",
+      "might": 1000,
+      "po": 0,
+      "w": 5,
+      "h": 10,
+      "tiles": 50,
+      "mpt": 20,
+      "size": "5x10"
+    },
+    {
+      "name": "Exalted dragon bones",
+      "might": 1000,
+      "po": 0,
+      "w": 5,
+      "h": 10,
+      "tiles": 50,
+      "mpt": 20,
+      "size": "5x10"
+    },
+    {
+      "name": "Exalted giant's agony",
+      "might": 1000,
+      "po": 0,
+      "w": 5,
+      "h": 10,
+      "tiles": 50,
+      "mpt": 20,
+      "size": "5x10"
+    },
+    {
+      "name": "Exalted goddess of nature",
+      "might": 1000,
+      "po": 0,
+      "w": 5,
+      "h": 10,
+      "tiles": 50,
+      "mpt": 20,
+      "size": "5x10"
+    },
+    {
+      "name": "Exalted jester's mask",
+      "might": 1000,
+      "po": 0,
+      "w": 5,
+      "h": 10,
+      "tiles": 50,
+      "mpt": 20,
+      "size": "5x10"
+    },
+    {
+      "name": "Exalted pirate ship",
+      "might": 1000,
+      "po": 0,
+      "w": 5,
+      "h": 10,
+      "tiles": 50,
+      "mpt": 20,
+      "size": "5x10"
+    },
+    {
+      "name": "Exalted present base",
+      "might": 1000,
+      "po": 0,
+      "w": 5,
+      "h": 10,
+      "tiles": 50,
+      "mpt": 20,
+      "size": "5x10"
+    },
+    {
+      "name": "Exalted scorpion temple",
+      "might": 1000,
+      "po": 0,
+      "w": 5,
+      "h": 10,
+      "tiles": 50,
+      "mpt": 20,
+      "size": "5x10"
+    },
+    {
+      "name": "Exalted summer gazebo",
+      "might": 1000,
+      "po": 0,
+      "w": 5,
+      "h": 10,
+      "tiles": 50,
+      "mpt": 20,
+      "size": "5x10"
+    },
+    {
+      "name": "Exalted timeless king",
+      "might": 1000,
+      "po": 0,
+      "w": 5,
+      "h": 10,
+      "tiles": 50,
+      "mpt": 20,
+      "size": "5x10"
+    },
+    {
+      "name": "Exalted wolf slayer",
+      "might": 1000,
+      "po": 0,
+      "w": 5,
+      "h": 10,
+      "tiles": 50,
+      "mpt": 20,
+      "size": "5x10"
+    },
+    {
+      "name": "Fabulous holidays",
+      "might": 1000,
+      "po": 4350,
+      "w": 5,
+      "h": 10,
+      "tiles": 50,
+      "mpt": 20,
+      "size": "5x10"
+    },
+    {
+      "name": "Fire Peaks cabin",
+      "might": 1000,
+      "po": 0,
+      "w": 5,
+      "h": 10,
+      "tiles": 50,
+      "mpt": 20,
+      "size": "5x10"
+    },
+    {
+      "name": "Flat earth fountain",
+      "might": 1000,
+      "po": 1500,
+      "w": 4,
+      "h": 4,
+      "tiles": 16,
+      "mpt": 62,
+      "size": "4x4"
+    },
+    {
+      "name": "Forest predator's ruin",
+      "might": 1000,
+      "po": 0,
+      "w": 5,
+      "h": 10,
+      "tiles": 50,
+      "mpt": 20,
+      "size": "5x10"
+    },
+    {
+      "name": "Forging of Fury's Blade",
+      "might": 1000,
+      "po": 0,
+      "w": 5,
+      "h": 10,
+      "tiles": 50,
+      "mpt": 20,
+      "size": "5x10"
+    },
+    {
+      "name": "Forgotten forest spirit",
+      "might": 1000,
+      "po": 0,
+      "w": 5,
+      "h": 10,
+      "tiles": 50,
+      "mpt": 20,
+      "size": "5x10"
+    },
+    {
+      "name": "Fountain of Samurai Honour",
+      "might": 1000,
+      "po": 0,
+      "w": 5,
+      "h": 10,
+      "tiles": 50,
+      "mpt": 20,
+      "size": "5x10"
+    },
+    {
+      "name": "Fountain of plenty",
+      "might": 1000,
+      "po": 0,
+      "w": 5,
+      "h": 10,
+      "tiles": 50,
+      "mpt": 20,
+      "size": "5x10"
+    },
+    {
+      "name": "Fountain of the forefathers",
+      "might": 1000,
+      "po": 0,
+      "w": 5,
+      "h": 5,
+      "tiles": 25,
+      "mpt": 40,
+      "size": "5x5"
+    },
+    {
+      "name": "Frozen Cove",
+      "might": 1000,
+      "po": 0,
+      "w": 5,
+      "h": 10,
+      "tiles": 50,
+      "mpt": 20,
+      "size": "5x10"
+    },
+    {
+      "name": "Frozen tarantula spring",
+      "might": 1000,
+      "po": 0,
+      "w": 5,
+      "h": 10,
+      "tiles": 50,
+      "mpt": 20,
+      "size": "5x10"
+    },
+    {
+      "name": "Garden of splendor",
+      "might": 1000,
+      "po": 0,
+      "w": 5,
+      "h": 10,
+      "tiles": 50,
+      "mpt": 20,
+      "size": "5x10"
+    },
+    {
+      "name": "Giant's agony",
+      "might": 1000,
+      "po": 0,
+      "w": 5,
+      "h": 10,
+      "tiles": 50,
+      "mpt": 20,
+      "size": "5x10"
+    },
+    {
+      "name": "Gingerbread house",
+      "might": 1000,
+      "po": 0,
+      "w": 5,
+      "h": 10,
+      "tiles": 50,
+      "mpt": 20,
+      "size": "5x10"
+    },
+    {
+      "name": "Glorious crown court",
+      "might": 1000,
+      "po": 0,
+      "w": 5,
+      "h": 10,
+      "tiles": 50,
+      "mpt": 20,
+      "size": "5x10"
+    },
+    {
+      "name": "Goddess of nature",
+      "might": 1000,
+      "po": 0,
+      "w": 5,
+      "h": 10,
+      "tiles": 50,
+      "mpt": 20,
+      "size": "5x10"
+    },
+    {
+      "name": "Gold turtle hut",
+      "might": 1000,
+      "po": 0,
+      "w": 5,
+      "h": 10,
+      "tiles": 50,
+      "mpt": 20,
+      "size": "5x10"
+    },
+    {
+      "name": "Grand Anniversary Banquet",
+      "might": 1000,
+      "po": 0,
+      "w": 5,
+      "h": 10,
+      "tiles": 50,
+      "mpt": 20,
+      "size": "5x10"
+    },
+    {
+      "name": "Grandpa NomNom",
+      "might": 1000,
+      "po": 0,
+      "w": 5,
+      "h": 10,
+      "tiles": 50,
+      "mpt": 20,
+      "size": "5x10"
+    },
+    {
+      "name": "Grimbert's oath",
+      "might": 1000,
+      "po": 1750,
+      "w": 3,
+      "h": 4,
+      "tiles": 12,
+      "mpt": 83,
+      "size": "3x4"
+    },
+    {
+      "name": "Guardian of Nurture",
+      "might": 1000,
+      "po": 0,
+      "w": 5,
+      "h": 10,
+      "tiles": 50,
+      "mpt": 20,
+      "size": "5x10"
+    },
+    {
+      "name": "Guardian of Plenty",
+      "might": 1000,
+      "po": 4000,
+      "w": 5,
+      "h": 10,
+      "tiles": 50,
+      "mpt": 20,
+      "size": "5x10"
+    },
+    {
+      "name": "Guardian of light",
+      "might": 1000,
+      "po": 0,
+      "w": 5,
+      "h": 10,
+      "tiles": 50,
+      "mpt": 20,
+      "size": "5x10"
+    },
+    {
+      "name": "Guardian of shadows",
+      "might": 1000,
+      "po": 0,
+      "w": 5,
+      "h": 10,
+      "tiles": 50,
+      "mpt": 20,
+      "size": "5x10"
+    },
+    {
+      "name": "Guardian of the Empire",
+      "might": 1000,
+      "po": 1750,
+      "w": 5,
+      "h": 5,
+      "tiles": 25,
+      "mpt": 40,
+      "size": "5x5"
+    },
+    {
+      "name": "Guardians of the reaper",
+      "might": 1000,
+      "po": 0,
+      "w": 5,
+      "h": 10,
+      "tiles": 50,
+      "mpt": 20,
+      "size": "5x10"
+    },
+    {
+      "name": "Hanami teahouse",
+      "might": 1000,
+      "po": 0,
+      "w": 5,
+      "h": 10,
+      "tiles": 50,
+      "mpt": 20,
+      "size": "5x10"
+    },
+    {
+      "name": "Haunted atelier",
+      "might": 1000,
+      "po": 0,
+      "w": 5,
+      "h": 10,
+      "tiles": 50,
+      "mpt": 20,
+      "size": "5x10"
+    },
+    {
+      "name": "Headsman's lair",
+      "might": 1000,
+      "po": 0,
+      "w": 5,
+      "h": 10,
+      "tiles": 50,
+      "mpt": 20,
+      "size": "5x10"
+    },
+    {
+      "name": "Holy nomad hero turtle",
+      "might": 1000,
+      "po": 0,
+      "w": 5,
+      "h": 10,
+      "tiles": 50,
+      "mpt": 20,
+      "size": "5x10"
+    },
+    {
+      "name": "Honeymoon hideout",
+      "might": 1000,
+      "po": 0,
+      "w": 5,
+      "h": 10,
+      "tiles": 50,
+      "mpt": 20,
+      "size": "5x10"
+    },
+    {
+      "name": "Horsetail banner",
+      "might": 1000,
+      "po": 700,
+      "w": 3,
+      "h": 3,
+      "tiles": 9,
+      "mpt": 111,
+      "size": "3x3"
+    },
+    {
+      "name": "Hunter's rest",
+      "might": 1000,
+      "po": 0,
+      "w": 5,
+      "h": 10,
+      "tiles": 50,
+      "mpt": 20,
+      "size": "5x10"
+    },
+    {
+      "name": "Hut of the infernal shaman",
+      "might": 1000,
+      "po": 0,
+      "w": 5,
+      "h": 10,
+      "tiles": 50,
+      "mpt": 20,
+      "size": "5x10"
+    },
+    {
+      "name": "Ice-sealed terror",
+      "might": 1000,
+      "po": 0,
+      "w": 5,
+      "h": 10,
+      "tiles": 50,
+      "mpt": 20,
+      "size": "5x10"
+    },
+    {
+      "name": "Imperial Dawn Hoplite Monument",
+      "might": 1000,
+      "po": 4500,
+      "w": 5,
+      "h": 10,
+      "tiles": 50,
+      "mpt": 20,
+      "size": "5x10"
+    },
+    {
+      "name": "Imperial Dawn Monument",
+      "might": 1000,
+      "po": 4250,
+      "w": 5,
+      "h": 10,
+      "tiles": 50,
+      "mpt": 20,
+      "size": "5x10"
+    },
+    {
+      "name": "Imperial Dusk Hoplite Monument",
+      "might": 1000,
+      "po": 5000,
+      "w": 5,
+      "h": 10,
+      "tiles": 50,
+      "mpt": 20,
+      "size": "5x10"
+    },
+    {
+      "name": "Imperial Dusk Monument",
+      "might": 1000,
+      "po": 4500,
+      "w": 5,
+      "h": 10,
+      "tiles": 50,
+      "mpt": 20,
+      "size": "5x10"
+    },
+    {
+      "name": "Ivory Mahabodhi fountain",
+      "might": 1000,
+      "po": 4350,
+      "w": 5,
+      "h": 10,
+      "tiles": 50,
+      "mpt": 20,
+      "size": "5x10"
+    },
+    {
+      "name": "Jester's mask",
+      "might": 1000,
+      "po": 0,
+      "w": 5,
+      "h": 10,
+      "tiles": 50,
+      "mpt": 20,
+      "size": "5x10"
+    },
+    {
+      "name": "Jubilee market",
+      "might": 1000,
+      "po": 0,
+      "w": 5,
+      "h": 10,
+      "tiles": 50,
+      "mpt": 20,
+      "size": "5x10"
+    },
+    {
+      "name": "Knight of the red sun",
+      "might": 1000,
+      "po": 0,
+      "w": 5,
+      "h": 10,
+      "tiles": 50,
+      "mpt": 20,
+      "size": "5x10"
+    },
+    {
+      "name": "Knight of the torrents",
+      "might": 1000,
+      "po": 700,
+      "w": 3,
+      "h": 3,
+      "tiles": 9,
+      "mpt": 111,
+      "size": "3x3"
+    },
+    {
+      "name": "Koi pond patio",
+      "might": 1000,
+      "po": 0,
+      "w": 5,
+      "h": 10,
+      "tiles": 50,
+      "mpt": 20,
+      "size": "5x10"
+    },
+    {
+      "name": "Legend of Berimond",
+      "might": 1000,
+      "po": 3000,
+      "w": 5,
+      "h": 10,
+      "tiles": 50,
+      "mpt": 20,
+      "size": "5x10"
+    },
+    {
+      "name": "Leopold's gratitude",
+      "might": 1000,
+      "po": 1750,
+      "w": 3,
+      "h": 4,
+      "tiles": 12,
+      "mpt": 83,
+      "size": "3x4"
+    },
+    {
+      "name": "Leprechaun's Hideout",
+      "might": 1000,
+      "po": 600,
+      "w": 5,
+      "h": 5,
+      "tiles": 25,
+      "mpt": 40,
+      "size": "5x5"
+    },
+    {
+      "name": "Leprechaun's gold stack",
+      "might": 1000,
+      "po": 0,
+      "w": 5,
+      "h": 10,
+      "tiles": 50,
+      "mpt": 20,
+      "size": "5x10"
+    },
+    {
+      "name": "Light from the deep",
+      "might": 1000,
+      "po": 0,
+      "w": 5,
+      "h": 10,
+      "tiles": 50,
+      "mpt": 20,
+      "size": "5x10"
+    },
+    {
+      "name": "Lizard's cove",
+      "might": 1000,
+      "po": 0,
+      "w": 5,
+      "h": 10,
+      "tiles": 50,
+      "mpt": 20,
+      "size": "5x10"
+    },
+    {
+      "name": "Lord of the deep",
+      "might": 1000,
+      "po": 0,
+      "w": 5,
+      "h": 10,
+      "tiles": 50,
+      "mpt": 20,
+      "size": "5x10"
+    },
+    {
+      "name": "Lost king's hedge maze",
+      "might": 1000,
+      "po": 0,
+      "w": 5,
+      "h": 10,
+      "tiles": 50,
+      "mpt": 20,
+      "size": "5x10"
+    },
+    {
+      "name": "Lotus pond",
+      "might": 1000,
+      "po": 0,
+      "w": 5,
+      "h": 10,
+      "tiles": 50,
+      "mpt": 20,
+      "size": "5x10"
+    },
+    {
+      "name": "Love parkour",
+      "might": 1000,
+      "po": 0,
+      "w": 5,
+      "h": 10,
+      "tiles": 50,
+      "mpt": 20,
+      "size": "5x10"
+    },
+    {
+      "name": "Lovers' Battlefield",
+      "might": 1000,
+      "po": 0,
+      "w": 5,
+      "h": 10,
+      "tiles": 50,
+      "mpt": 20,
+      "size": "5x10"
+    },
+    {
+      "name": "Magical rainbow cave",
+      "might": 1000,
+      "po": 0,
+      "w": 5,
+      "h": 10,
+      "tiles": 50,
+      "mpt": 20,
+      "size": "5x10"
+    },
+    {
+      "name": "Merry leprechaun",
+      "might": 1000,
+      "po": 0,
+      "w": 5,
+      "h": 10,
+      "tiles": 50,
+      "mpt": 20,
+      "size": "5x10"
+    },
+    {
+      "name": "Mighty crystal palace",
+      "might": 1000,
+      "po": 0,
+      "w": 5,
+      "h": 10,
+      "tiles": 50,
+      "mpt": 20,
+      "size": "5x10"
+    },
+    {
+      "name": "Monument of the eternal empire",
+      "might": 1000,
+      "po": 0,
+      "w": 5,
+      "h": 10,
+      "tiles": 50,
+      "mpt": 20,
+      "size": "5x10"
+    },
+    {
+      "name": "Mulled wine stall",
+      "might": 1000,
+      "po": 0,
+      "w": 5,
+      "h": 10,
+      "tiles": 50,
+      "mpt": 20,
+      "size": "5x10"
+    },
+    {
+      "name": "Necromancer's lair",
+      "might": 1000,
+      "po": 0,
+      "w": 5,
+      "h": 10,
+      "tiles": 50,
+      "mpt": 20,
+      "size": "5x10"
+    },
+    {
+      "name": "Nomad totem",
+      "might": 1000,
+      "po": 1900,
+      "w": 5,
+      "h": 5,
+      "tiles": 25,
+      "mpt": 40,
+      "size": "5x5"
+    },
+    {
+      "name": "Nutcracker's grotto",
+      "might": 1000,
+      "po": 0,
+      "w": 5,
+      "h": 10,
+      "tiles": 50,
+      "mpt": 20,
+      "size": "5x10"
+    },
+    {
+      "name": "Octopus carousel",
+      "might": 1000,
+      "po": 0,
+      "w": 5,
+      "h": 10,
+      "tiles": 50,
+      "mpt": 20,
+      "size": "5x10"
+    },
+    {
+      "name": "Octopus's garden",
+      "might": 1000,
+      "po": 0,
+      "w": 5,
+      "h": 10,
+      "tiles": 50,
+      "mpt": 20,
+      "size": "5x10"
+    },
+    {
+      "name": "Oinari messenger",
+      "might": 1000,
+      "po": 0,
+      "w": 5,
+      "h": 10,
+      "tiles": 50,
+      "mpt": 20,
+      "size": "5x10"
+    },
+    {
+      "name": "Oktoberfest after-party shambles",
+      "might": 1000,
+      "po": 0,
+      "w": 5,
+      "h": 10,
+      "tiles": 50,
+      "mpt": 20,
+      "size": "5x10"
+    },
+    {
+      "name": "Oktoberfest beer garden",
+      "might": 1000,
+      "po": 4350,
+      "w": 5,
+      "h": 10,
+      "tiles": 50,
+      "mpt": 20,
+      "size": "5x10"
+    },
+    {
+      "name": "Oktoberforest",
+      "might": 1000,
+      "po": 0,
+      "w": 5,
+      "h": 10,
+      "tiles": 50,
+      "mpt": 20,
+      "size": "5x10"
+    },
+    {
+      "name": "Ometecuhtli's Treasure",
+      "might": 1000,
+      "po": 0,
+      "w": 5,
+      "h": 10,
+      "tiles": 50,
+      "mpt": 20,
+      "size": "5x10"
+    },
+    {
+      "name": "Pagoda garden",
+      "might": 1000,
+      "po": 0,
+      "w": 5,
+      "h": 10,
+      "tiles": 50,
+      "mpt": 20,
+      "size": "5x10"
+    },
+    {
+      "name": "Pirate lava slide",
+      "might": 1000,
+      "po": 0,
+      "w": 5,
+      "h": 10,
+      "tiles": 50,
+      "mpt": 20,
+      "size": "5x10"
+    },
+    {
+      "name": "Pirate merry-go-round",
+      "might": 1000,
+      "po": 0,
+      "w": 5,
+      "h": 10,
+      "tiles": 50,
+      "mpt": 20,
+      "size": "5x10"
+    },
+    {
+      "name": "Pirate water slide",
+      "might": 1000,
+      "po": 0,
+      "w": 5,
+      "h": 10,
+      "tiles": 50,
+      "mpt": 20,
+      "size": "5x10"
+    },
+    {
+      "name": "Poisoned spider pond",
+      "might": 1000,
+      "po": 0,
+      "w": 5,
+      "h": 10,
+      "tiles": 50,
+      "mpt": 20,
+      "size": "5x10"
+    },
+    {
+      "name": "Pond of the Nymph",
+      "might": 1000,
+      "po": 0,
+      "w": 5,
+      "h": 10,
+      "tiles": 50,
+      "mpt": 20,
+      "size": "5x10"
+    },
+    {
+      "name": "Pool of Fortune",
+      "might": 1000,
+      "po": 0,
+      "w": 5,
+      "h": 10,
+      "tiles": 50,
+      "mpt": 20,
+      "size": "5x10"
+    },
+    {
+      "name": "Pool of the Berimond kings",
+      "might": 1000,
+      "po": 3500,
+      "w": 5,
+      "h": 10,
+      "tiles": 50,
+      "mpt": 20,
+      "size": "5x10"
+    },
+    {
+      "name": "Pool of tranquility",
+      "might": 1000,
+      "po": 0,
+      "w": 5,
+      "h": 10,
+      "tiles": 50,
+      "mpt": 20,
+      "size": "5x10"
+    },
+    {
+      "name": "Pretzel Power Pavilion",
+      "might": 1000,
+      "po": 0,
+      "w": 5,
+      "h": 10,
+      "tiles": 50,
+      "mpt": 20,
+      "size": "5x10"
+    },
+    {
+      "name": "Putrid pumpkin plaza",
+      "might": 1000,
+      "po": 0,
+      "w": 5,
+      "h": 10,
+      "tiles": 50,
+      "mpt": 20,
+      "size": "5x10"
+    },
+    {
+      "name": "Rainbow's end",
+      "might": 1000,
+      "po": 0,
+      "w": 5,
+      "h": 10,
+      "tiles": 50,
+      "mpt": 20,
+      "size": "5x10"
+    },
+    {
+      "name": "Rise of the Khan",
+      "might": 1000,
+      "po": 0,
+      "w": 5,
+      "h": 10,
+      "tiles": 50,
+      "mpt": 20,
+      "size": "5x10"
+    },
+    {
+      "name": "Royal pleasure nook",
+      "might": 1000,
+      "po": 4450,
+      "w": 5,
+      "h": 10,
+      "tiles": 50,
+      "mpt": 20,
+      "size": "5x10"
+    },
+    {
+      "name": "Sacred Mahabodhi fountain",
+      "might": 1000,
+      "po": 0,
+      "w": 5,
+      "h": 10,
+      "tiles": 50,
+      "mpt": 20,
+      "size": "5x10"
+    },
+    {
+      "name": "Sacred elephant shrine",
+      "might": 1000,
+      "po": 0,
+      "w": 5,
+      "h": 10,
+      "tiles": 50,
+      "mpt": 20,
+      "size": "5x10"
+    },
+    {
+      "name": "Saga of the Terror Bird",
+      "might": 1000,
+      "po": 0,
+      "w": 5,
+      "h": 10,
+      "tiles": 50,
+      "mpt": 20,
+      "size": "5x10"
+    },
+    {
+      "name": "Seas of death",
+      "might": 1000,
+      "po": 4000,
+      "w": 5,
+      "h": 10,
+      "tiles": 50,
+      "mpt": 20,
+      "size": "5x10"
+    },
+    {
+      "name": "Seer's leisure nook",
+      "might": 1000,
+      "po": 0,
+      "w": 5,
+      "h": 10,
+      "tiles": 50,
+      "mpt": 20,
+      "size": "5x10"
+    },
+    {
+      "name": "Shamrock pub",
+      "might": 1000,
+      "po": 0,
+      "w": 5,
+      "h": 10,
+      "tiles": 50,
+      "mpt": 20,
+      "size": "5x10"
+    },
+    {
+      "name": "Shamrock wagon",
+      "might": 1000,
+      "po": 4350,
+      "w": 5,
+      "h": 10,
+      "tiles": 50,
+      "mpt": 20,
+      "size": "5x10"
+    },
+    {
+      "name": "Shipwreck Cove",
+      "might": 1000,
+      "po": 4350,
+      "w": 5,
+      "h": 10,
+      "tiles": 50,
+      "mpt": 20,
+      "size": "5x10"
+    },
+    {
+      "name": "Shipwreck bow",
+      "might": 1000,
+      "po": 0,
+      "w": 5,
+      "h": 10,
+      "tiles": 50,
+      "mpt": 20,
+      "size": "5x10"
+    },
+    {
+      "name": "Shipwreck stern",
+      "might": 1000,
+      "po": 0,
+      "w": 5,
+      "h": 10,
+      "tiles": 50,
+      "mpt": 20,
+      "size": "5x10"
+    },
+    {
+      "name": "Shrine of Ometecuhtli",
+      "might": 1000,
+      "po": 4350,
+      "w": 5,
+      "h": 10,
+      "tiles": 50,
+      "mpt": 20,
+      "size": "5x10"
+    },
+    {
+      "name": "Shrine of the forest guardians",
+      "might": 1000,
+      "po": 0,
+      "w": 5,
+      "h": 10,
+      "tiles": 50,
+      "mpt": 20,
+      "size": "5x10"
+    },
+    {
+      "name": "Skull fountain",
+      "might": 1000,
+      "po": 0,
+      "w": 5,
+      "h": 10,
+      "tiles": 50,
+      "mpt": 20,
+      "size": "5x10"
+    },
+    {
+      "name": "Snowflake lake",
+      "might": 1000,
+      "po": 0,
+      "w": 5,
+      "h": 10,
+      "tiles": 50,
+      "mpt": 20,
+      "size": "5x10"
+    },
+    {
+      "name": "Spectre of the deep",
+      "might": 1000,
+      "po": 0,
+      "w": 5,
+      "h": 10,
+      "tiles": 50,
+      "mpt": 20,
+      "size": "5x10"
+    },
+    {
+      "name": "Spirit elephants fountain",
+      "might": 1000,
+      "po": 0,
+      "w": 5,
+      "h": 10,
+      "tiles": 50,
+      "mpt": 20,
+      "size": "5x10"
+    },
+    {
+      "name": "Spirit of nature",
+      "might": 1000,
+      "po": 0,
+      "w": 5,
+      "h": 10,
+      "tiles": 50,
+      "mpt": 20,
+      "size": "5x10"
+    },
+    {
+      "name": "Spooky crypt",
+      "might": 1000,
+      "po": 0,
+      "w": 5,
+      "h": 10,
+      "tiles": 50,
+      "mpt": 20,
+      "size": "5x10"
+    },
+    {
+      "name": "Spring of Harmony",
+      "might": 1000,
+      "po": 0,
+      "w": 5,
+      "h": 10,
+      "tiles": 50,
+      "mpt": 20,
+      "size": "5x10"
+    },
+    {
+      "name": "Spring of elation",
+      "might": 1000,
+      "po": 0,
+      "w": 5,
+      "h": 10,
+      "tiles": 50,
+      "mpt": 20,
+      "size": "5x10"
+    },
+    {
+      "name": "Spring spirit's pond",
+      "might": 1000,
+      "po": 0,
+      "w": 5,
+      "h": 10,
+      "tiles": 50,
+      "mpt": 20,
+      "size": "5x10"
+    },
+    {
+      "name": "Spring time tower",
+      "might": 1000,
+      "po": 0,
+      "w": 5,
+      "h": 10,
+      "tiles": 50,
+      "mpt": 20,
+      "size": "5x10"
+    },
+    {
+      "name": "Spring tree shrine",
+      "might": 1000,
+      "po": 0,
+      "w": 5,
+      "h": 10,
+      "tiles": 50,
+      "mpt": 20,
+      "size": "5x10"
+    },
+    {
+      "name": "Starlight beer pond",
+      "might": 1000,
+      "po": 0,
+      "w": 5,
+      "h": 10,
+      "tiles": 50,
+      "mpt": 20,
+      "size": "5x10"
+    },
+    {
+      "name": "Sultan's secret retreat",
+      "might": 1000,
+      "po": 0,
+      "w": 5,
+      "h": 10,
+      "tiles": 50,
+      "mpt": 20,
+      "size": "5x10"
+    },
+    {
+      "name": "Sunshine beer pond",
+      "might": 1000,
+      "po": 0,
+      "w": 5,
+      "h": 10,
+      "tiles": 50,
+      "mpt": 20,
+      "size": "5x10"
+    },
+    {
+      "name": "Swamp predator's ruin",
+      "might": 1000,
+      "po": 4350,
+      "w": 5,
+      "h": 10,
+      "tiles": 50,
+      "mpt": 20,
+      "size": "5x10"
+    },
+    {
+      "name": "Sweet surprise cake",
+      "might": 1000,
+      "po": 0,
+      "w": 5,
+      "h": 10,
+      "tiles": 50,
+      "mpt": 20,
+      "size": "5x10"
+    },
+    {
+      "name": "Taming of the wild",
+      "might": 1000,
+      "po": 0,
+      "w": 5,
+      "h": 10,
+      "tiles": 50,
+      "mpt": 20,
+      "size": "5x10"
+    },
+    {
+      "name": "Taming of the wolves",
+      "might": 1000,
+      "po": 0,
+      "w": 5,
+      "h": 10,
+      "tiles": 50,
+      "mpt": 20,
+      "size": "5x10"
+    },
+    {
+      "name": "Temple of harmony",
+      "might": 1000,
+      "po": 0,
+      "w": 5,
+      "h": 10,
+      "tiles": 50,
+      "mpt": 20,
+      "size": "5x10"
+    },
+    {
+      "name": "Terracotta soldiers",
+      "might": 1000,
+      "po": 0,
+      "w": 5,
+      "h": 10,
+      "tiles": 50,
+      "mpt": 20,
+      "size": "5x10"
+    },
+    {
+      "name": "Terror of the north",
+      "might": 1000,
+      "po": 0,
+      "w": 5,
+      "h": 10,
+      "tiles": 50,
+      "mpt": 20,
+      "size": "5x10"
+    },
+    {
+      "name": "The Bull",
+      "might": 1000,
+      "po": 0,
+      "w": 5,
+      "h": 10,
+      "tiles": 50,
+      "mpt": 20,
+      "size": "5x10"
+    },
+    {
+      "name": "The Dawning of Evil",
+      "might": 1000,
+      "po": 0,
+      "w": 5,
+      "h": 10,
+      "tiles": 50,
+      "mpt": 20,
+      "size": "5x10"
+    },
+    {
+      "name": "The Devil's brewery",
+      "might": 1000,
+      "po": 0,
+      "w": 5,
+      "h": 10,
+      "tiles": 50,
+      "mpt": 20,
+      "size": "5x10"
+    },
+    {
+      "name": "The Enduring Emperor",
+      "might": 1000,
+      "po": 0,
+      "w": 5,
+      "h": 10,
+      "tiles": 50,
+      "mpt": 20,
+      "size": "5x10"
+    },
+    {
+      "name": "The Founding Farmer",
+      "might": 1000,
+      "po": 0,
+      "w": 5,
+      "h": 10,
+      "tiles": 50,
+      "mpt": 20,
+      "size": "5x10"
+    },
+    {
+      "name": "The Legends of Berimond",
+      "might": 1000,
+      "po": 0,
+      "w": 5,
+      "h": 10,
+      "tiles": 50,
+      "mpt": 20,
+      "size": "5x10"
+    },
+    {
+      "name": "The Once and Future Kings",
+      "might": 1000,
+      "po": 0,
+      "w": 5,
+      "h": 10,
+      "tiles": 50,
+      "mpt": 20,
+      "size": "5x10"
+    },
+    {
+      "name": "The Ram",
+      "might": 1000,
+      "po": 0,
+      "w": 5,
+      "h": 10,
+      "tiles": 50,
+      "mpt": 20,
+      "size": "5x10"
+    },
+    {
+      "name": "The Reaper's forge",
+      "might": 1000,
+      "po": 0,
+      "w": 5,
+      "h": 10,
+      "tiles": 50,
+      "mpt": 20,
+      "size": "5x10"
+    },
+    {
+      "name": "The Scorpion",
+      "might": 1000,
+      "po": 0,
+      "w": 5,
+      "h": 10,
+      "tiles": 50,
+      "mpt": 20,
+      "size": "5x10"
+    },
+    {
+      "name": "The Sleeper of R'lyeh",
+      "might": 1000,
+      "po": 0,
+      "w": 5,
+      "h": 10,
+      "tiles": 50,
+      "mpt": 20,
+      "size": "5x10"
+    },
+    {
+      "name": "The Sovereign Stone",
+      "might": 1000,
+      "po": 0,
+      "w": 5,
+      "h": 5,
+      "tiles": 25,
+      "mpt": 40,
+      "size": "5x5"
+    },
+    {
+      "name": "The frozen emperor",
+      "might": 1000,
+      "po": 4350,
+      "w": 5,
+      "h": 10,
+      "tiles": 50,
+      "mpt": 20,
+      "size": "5x10"
+    },
+    {
+      "name": "The fury forge",
+      "might": 1000,
+      "po": 0,
+      "w": 5,
+      "h": 10,
+      "tiles": 50,
+      "mpt": 20,
+      "size": "5x10"
+    },
+    {
+      "name": "The reaper's throne",
+      "might": 1000,
+      "po": 0,
+      "w": 5,
+      "h": 10,
+      "tiles": 50,
+      "mpt": 20,
+      "size": "5x10"
+    },
+    {
+      "name": "The stone of rising fury",
+      "might": 1000,
+      "po": 0,
+      "w": 5,
+      "h": 10,
+      "tiles": 50,
+      "mpt": 20,
+      "size": "5x10"
+    },
+    {
+      "name": "The warrior eagle",
+      "might": 1000,
+      "po": 0,
+      "w": 5,
+      "h": 10,
+      "tiles": 50,
+      "mpt": 20,
+      "size": "5x10"
+    },
+    {
+      "name": "Throne of the black house",
+      "might": 1000,
+      "po": 0,
+      "w": 5,
+      "h": 10,
+      "tiles": 50,
+      "mpt": 20,
+      "size": "5x10"
+    },
+    {
+      "name": "Throne of the blue house",
+      "might": 1000,
+      "po": 0,
+      "w": 5,
+      "h": 10,
+      "tiles": 50,
+      "mpt": 20,
+      "size": "5x10"
+    },
+    {
+      "name": "Throne of the teal dynasty",
+      "might": 1000,
+      "po": 0,
+      "w": 5,
+      "h": 10,
+      "tiles": 50,
+      "mpt": 20,
+      "size": "5x10"
+    },
+    {
+      "name": "Throne of the teal house",
+      "might": 1000,
+      "po": 0,
+      "w": 5,
+      "h": 10,
+      "tiles": 50,
+      "mpt": 20,
+      "size": "5x10"
+    },
+    {
+      "name": "Tide garden",
+      "might": 1000,
+      "po": 3500,
+      "w": 5,
+      "h": 10,
+      "tiles": 50,
+      "mpt": 20,
+      "size": "5x10"
+    },
+    {
+      "name": "Tiki Shrine",
+      "might": 1000,
+      "po": 0,
+      "w": 5,
+      "h": 10,
+      "tiles": 50,
+      "mpt": 20,
+      "size": "5x10"
+    },
+    {
+      "name": "Tiki Volcano",
+      "might": 1000,
+      "po": 0,
+      "w": 5,
+      "h": 10,
+      "tiles": 50,
+      "mpt": 20,
+      "size": "5x10"
+    },
+    {
+      "name": "Timeless king",
+      "might": 1000,
+      "po": 0,
+      "w": 5,
+      "h": 10,
+      "tiles": 50,
+      "mpt": 20,
+      "size": "5x10"
+    },
+    {
+      "name": "Tom's twin workshop",
+      "might": 1000,
+      "po": 0,
+      "w": 5,
+      "h": 10,
+      "tiles": 50,
+      "mpt": 20,
+      "size": "5x10"
+    },
+    {
+      "name": "Tomb of the three-eyed Khan",
+      "might": 1000,
+      "po": 0,
+      "w": 5,
+      "h": 10,
+      "tiles": 50,
+      "mpt": 20,
+      "size": "5x10"
+    },
+    {
+      "name": "Totems of the ancestors",
+      "might": 1000,
+      "po": 0,
+      "w": 5,
+      "h": 10,
+      "tiles": 50,
+      "mpt": 20,
+      "size": "5x10"
+    },
+    {
+      "name": "Treasure of the sunken city",
+      "might": 1000,
+      "po": 4200,
+      "w": 5,
+      "h": 10,
+      "tiles": 50,
+      "mpt": 20,
+      "size": "5x10"
+    },
+    {
+      "name": "Treasures of the deep",
+      "might": 1000,
+      "po": 3800,
+      "w": 5,
+      "h": 10,
+      "tiles": 50,
+      "mpt": 20,
+      "size": "5x10"
+    },
+    {
+      "name": "Tree of decay",
+      "might": 1000,
+      "po": 0,
+      "w": 5,
+      "h": 10,
+      "tiles": 50,
+      "mpt": 20,
+      "size": "5x10"
+    },
+    {
+      "name": "Triumph of honor",
+      "might": 1000,
+      "po": 0,
+      "w": 5,
+      "h": 10,
+      "tiles": 50,
+      "mpt": 20,
+      "size": "5x10"
+    },
+    {
+      "name": "Triumph of strength",
+      "might": 1000,
+      "po": 0,
+      "w": 5,
+      "h": 10,
+      "tiles": 50,
+      "mpt": 20,
+      "size": "5x10"
+    },
+    {
+      "name": "Vernal crown monument",
+      "might": 1000,
+      "po": 4350,
+      "w": 5,
+      "h": 10,
+      "tiles": 50,
+      "mpt": 20,
+      "size": "5x10"
+    },
+    {
+      "name": "Vitalised timeless king",
+      "might": 1000,
+      "po": 0,
+      "w": 5,
+      "h": 10,
+      "tiles": 50,
+      "mpt": 20,
+      "size": "5x10"
+    },
+    {
+      "name": "Well of madness",
+      "might": 1000,
+      "po": 0,
+      "w": 5,
+      "h": 10,
+      "tiles": 50,
+      "mpt": 20,
+      "size": "5x10"
+    },
+    {
+      "name": "Well of solitude",
+      "might": 1000,
+      "po": 0,
+      "w": 5,
+      "h": 10,
+      "tiles": 50,
+      "mpt": 20,
+      "size": "5x10"
+    },
+    {
+      "name": "Well of treachery",
+      "might": 1000,
+      "po": 0,
+      "w": 5,
+      "h": 10,
+      "tiles": 50,
+      "mpt": 20,
+      "size": "5x10"
+    },
+    {
+      "name": "Whale lagoon",
+      "might": 1000,
+      "po": 3750,
+      "w": 5,
+      "h": 10,
+      "tiles": 50,
+      "mpt": 20,
+      "size": "5x10"
+    },
+    {
+      "name": "Wicker bunny",
+      "might": 1000,
+      "po": 1200,
+      "w": 5,
+      "h": 5,
+      "tiles": 25,
+      "mpt": 40,
+      "size": "5x5"
+    },
+    {
+      "name": "Wings of freedom",
+      "might": 1000,
+      "po": 0,
+      "w": 5,
+      "h": 5,
+      "tiles": 25,
+      "mpt": 40,
+      "size": "5x5"
+    },
+    {
+      "name": "Winter carousel",
+      "might": 1000,
+      "po": 0,
+      "w": 5,
+      "h": 10,
+      "tiles": 50,
+      "mpt": 20,
+      "size": "5x10"
+    },
+    {
+      "name": "Winter fountain",
+      "might": 1000,
+      "po": 0,
+      "w": 5,
+      "h": 10,
+      "tiles": 50,
+      "mpt": 20,
+      "size": "5x10"
+    },
+    {
+      "name": "Winter gifts stall",
+      "might": 1000,
+      "po": 0,
+      "w": 5,
+      "h": 10,
+      "tiles": 50,
+      "mpt": 20,
+      "size": "5x10"
+    },
+    {
+      "name": "Winter pyramid",
+      "might": 1000,
+      "po": 0,
+      "w": 5,
+      "h": 10,
+      "tiles": 50,
+      "mpt": 20,
+      "size": "5x10"
+    },
+    {
+      "name": "Wintertide candy cane coaster",
+      "might": 1000,
+      "po": 0,
+      "w": 5,
+      "h": 10,
+      "tiles": 50,
+      "mpt": 20,
+      "size": "5x10"
+    },
+    {
+      "name": "Wintertide sleigh coaster",
+      "might": 1000,
+      "po": 0,
+      "w": 5,
+      "h": 10,
+      "tiles": 50,
+      "mpt": 20,
+      "size": "5x10"
+    },
+    {
+      "name": "Wrath of the kraken",
+      "might": 1000,
+      "po": 950,
+      "w": 3,
+      "h": 4,
+      "tiles": 12,
+      "mpt": 83,
+      "size": "3x4"
+    },
+    {
+      "name": "Zen garden",
+      "might": 1000,
+      "po": 0,
+      "w": 5,
+      "h": 10,
+      "tiles": 50,
+      "mpt": 20,
+      "size": "5x10"
+    },
+    {
+      "name": "Empire's defender - year 5",
+      "might": 900,
+      "po": 0,
+      "w": 5,
+      "h": 10,
+      "tiles": 50,
+      "mpt": 18,
+      "size": "5x10"
+    },
+    {
+      "name": "Rocky horror",
+      "might": 900,
+      "po": 0,
+      "w": 5,
+      "h": 10,
+      "tiles": 50,
+      "mpt": 18,
+      "size": "5x10"
+    },
+    {
+      "name": "Spring bonfire",
+      "might": 900,
+      "po": 0,
+      "w": 5,
+      "h": 10,
+      "tiles": 50,
+      "mpt": 18,
+      "size": "5x10"
+    },
+    {
+      "name": "The Fish",
+      "might": 900,
+      "po": 0,
+      "w": 5,
+      "h": 10,
+      "tiles": 50,
+      "mpt": 18,
+      "size": "5x10"
+    },
+    {
+      "name": "Triumph of loyalty",
+      "might": 900,
+      "po": 0,
+      "w": 5,
+      "h": 10,
+      "tiles": 50,
+      "mpt": 18,
+      "size": "5x10"
+    },
+    {
+      "name": "Crow tower",
+      "might": 850,
+      "po": 0,
+      "w": 5,
+      "h": 10,
+      "tiles": 50,
+      "mpt": 17,
+      "size": "5x10"
+    },
+    {
+      "name": "Savior of the empire",
+      "might": 850,
+      "po": 0,
+      "w": 5,
+      "h": 10,
+      "tiles": 50,
+      "mpt": 17,
+      "size": "5x10"
+    },
+    {
+      "name": "The forefathers of Berimond",
+      "might": 850,
+      "po": 0,
+      "w": 5,
+      "h": 10,
+      "tiles": 50,
+      "mpt": 17,
+      "size": "5x10"
+    },
+    {
+      "name": "Triumph of bravery",
+      "might": 850,
+      "po": 0,
+      "w": 5,
+      "h": 10,
+      "tiles": 50,
+      "mpt": 17,
+      "size": "5x10"
+    },
+    {
+      "name": "Well of darkness",
+      "might": 850,
+      "po": 0,
+      "w": 5,
+      "h": 10,
+      "tiles": 50,
+      "mpt": 17,
+      "size": "5x10"
+    },
+    {
+      "name": "Wrath of the nomads",
+      "might": 850,
+      "po": 4200,
+      "w": 5,
+      "h": 10,
+      "tiles": 50,
+      "mpt": 17,
+      "size": "5x10"
+    },
+    {
+      "name": "Festival tower",
+      "might": 825,
+      "po": 0,
+      "w": 5,
+      "h": 10,
+      "tiles": 50,
+      "mpt": 16,
+      "size": "5x10"
+    },
+    {
+      "name": "Nobility garden",
+      "might": 825,
+      "po": 0,
+      "w": 5,
+      "h": 10,
+      "tiles": 50,
+      "mpt": 16,
+      "size": "5x10"
+    },
+    {
+      "name": "Blood well",
+      "might": 800,
+      "po": 0,
+      "w": 5,
+      "h": 10,
+      "tiles": 50,
+      "mpt": 16,
+      "size": "5x10"
+    },
+    {
+      "name": "Chalice of the hattrick hero",
+      "might": 800,
+      "po": 3850,
+      "w": 5,
+      "h": 10,
+      "tiles": 50,
+      "mpt": 16,
+      "size": "5x10"
+    },
+    {
+      "name": "Crow's blood cavern",
+      "might": 800,
+      "po": 0,
+      "w": 5,
+      "h": 10,
+      "tiles": 50,
+      "mpt": 16,
+      "size": "5x10"
+    },
+    {
+      "name": "Empire's defender - year 4",
+      "might": 800,
+      "po": 0,
+      "w": 5,
+      "h": 10,
+      "tiles": 50,
+      "mpt": 16,
+      "size": "5x10"
+    },
+    {
+      "name": "Field of glory",
+      "might": 800,
+      "po": 0,
+      "w": 5,
+      "h": 10,
+      "tiles": 50,
+      "mpt": 16,
+      "size": "5x10"
+    },
+    {
+      "name": "Grail of the defensive rock",
+      "might": 800,
+      "po": 3750,
+      "w": 5,
+      "h": 10,
+      "tiles": 50,
+      "mpt": 16,
+      "size": "5x10"
+    },
+    {
+      "name": "Guard of honor",
+      "might": 800,
+      "po": 0,
+      "w": 5,
+      "h": 10,
+      "tiles": 50,
+      "mpt": 16,
+      "size": "5x10"
+    },
+    {
+      "name": "Slayer of the wolves",
+      "might": 800,
+      "po": 0,
+      "w": 5,
+      "h": 10,
+      "tiles": 50,
+      "mpt": 16,
+      "size": "5x10"
+    },
+    {
+      "name": "The Kingdoms Cup",
+      "might": 800,
+      "po": 4000,
+      "w": 5,
+      "h": 10,
+      "tiles": 50,
+      "mpt": 16,
+      "size": "5x10"
+    },
+    {
+      "name": "King's Crypt",
+      "might": 775,
+      "po": 0,
+      "w": 5,
+      "h": 10,
+      "tiles": 50,
+      "mpt": 15,
+      "size": "5x10"
+    },
+    {
+      "name": "Requiem for a yak princess",
+      "might": 775,
+      "po": 0,
+      "w": 5,
+      "h": 10,
+      "tiles": 50,
+      "mpt": 15,
+      "size": "5x10"
+    },
+    {
+      "name": "Defender of the realm",
+      "might": 750,
+      "po": 0,
+      "w": 5,
+      "h": 10,
+      "tiles": 50,
+      "mpt": 15,
+      "size": "5x10"
+    },
+    {
+      "name": "Throne of the black dynasty",
+      "might": 750,
+      "po": 0,
+      "w": 5,
+      "h": 10,
+      "tiles": 50,
+      "mpt": 15,
+      "size": "5x10"
+    },
+    {
+      "name": "Flight of the Nomad Princess",
+      "might": 725,
+      "po": 0,
+      "w": 5,
+      "h": 10,
+      "tiles": 50,
+      "mpt": 14,
+      "size": "5x10"
+    },
+    {
+      "name": "Empire's defender - year 3",
+      "might": 700,
+      "po": 0,
+      "w": 5,
+      "h": 10,
+      "tiles": 50,
+      "mpt": 14,
+      "size": "5x10"
+    },
+    {
+      "name": "Falconer's outpost",
+      "might": 700,
+      "po": 0,
+      "w": 5,
+      "h": 10,
+      "tiles": 50,
+      "mpt": 14,
+      "size": "5x10"
+    },
+    {
+      "name": "Garden of the Ivory Queen",
+      "might": 700,
+      "po": 0,
+      "w": 5,
+      "h": 10,
+      "tiles": 50,
+      "mpt": 14,
+      "size": "5x10"
+    },
+    {
+      "name": "Pool of eternal beauty",
+      "might": 700,
+      "po": 0,
+      "w": 5,
+      "h": 10,
+      "tiles": 50,
+      "mpt": 14,
+      "size": "5x10"
+    },
+    {
+      "name": "Scorpio's nature",
+      "might": 700,
+      "po": 0,
+      "w": 5,
+      "h": 10,
+      "tiles": 50,
+      "mpt": 14,
+      "size": "5x10"
+    },
+    {
+      "name": "Scorpio's park",
+      "might": 700,
+      "po": 0,
+      "w": 5,
+      "h": 10,
+      "tiles": 50,
+      "mpt": 14,
+      "size": "5x10"
+    },
+    {
+      "name": "The Crab",
+      "might": 700,
+      "po": 0,
+      "w": 5,
+      "h": 10,
+      "tiles": 50,
+      "mpt": 14,
+      "size": "5x10"
+    },
+    {
+      "name": "The Great twins",
+      "might": 700,
+      "po": 0,
+      "w": 5,
+      "h": 10,
+      "tiles": 50,
+      "mpt": 14,
+      "size": "5x10"
+    },
+    {
+      "name": "The Lion",
+      "might": 700,
+      "po": 0,
+      "w": 5,
+      "h": 10,
+      "tiles": 50,
+      "mpt": 14,
+      "size": "5x10"
+    },
+    {
+      "name": "The Maiden",
+      "might": 700,
+      "po": 0,
+      "w": 5,
+      "h": 10,
+      "tiles": 50,
+      "mpt": 14,
+      "size": "5x10"
+    },
+    {
+      "name": "The Scales",
+      "might": 700,
+      "po": 0,
+      "w": 5,
+      "h": 10,
+      "tiles": 50,
+      "mpt": 14,
+      "size": "5x10"
+    },
+    {
+      "name": "Virgo's nature",
+      "might": 700,
+      "po": 0,
+      "w": 5,
+      "h": 10,
+      "tiles": 50,
+      "mpt": 14,
+      "size": "5x10"
+    },
+    {
+      "name": "Virgo's park",
+      "might": 700,
+      "po": 0,
+      "w": 5,
+      "h": 10,
+      "tiles": 50,
+      "mpt": 14,
+      "size": "5x10"
+    },
+    {
+      "name": "Royal banquet",
+      "might": 650,
+      "po": 0,
+      "w": 5,
+      "h": 10,
+      "tiles": 50,
+      "mpt": 13,
+      "size": "5x10"
+    },
+    {
+      "name": "Royal pleasure garden",
+      "might": 650,
+      "po": 0,
+      "w": 5,
+      "h": 10,
+      "tiles": 50,
+      "mpt": 13,
+      "size": "5x10"
+    },
+    {
+      "name": "Throne of the blue dynasty",
+      "might": 650,
+      "po": 0,
+      "w": 5,
+      "h": 10,
+      "tiles": 50,
+      "mpt": 13,
+      "size": "5x10"
+    },
+    {
+      "name": "Triumph of courage",
+      "might": 650,
+      "po": 0,
+      "w": 5,
+      "h": 10,
+      "tiles": 50,
+      "mpt": 13,
+      "size": "5x10"
+    },
+    {
+      "name": "Triumph of pride",
+      "might": 650,
+      "po": 0,
+      "w": 5,
+      "h": 10,
+      "tiles": 50,
+      "mpt": 13,
+      "size": "5x10"
+    },
+    {
+      "name": "Victory column",
+      "might": 650,
+      "po": 135,
+      "w": 4,
+      "h": 4,
+      "tiles": 16,
+      "mpt": 40,
+      "size": "4x4"
+    },
+    {
+      "name": "Celestial pool",
+      "might": 625,
+      "po": 0,
+      "w": 5,
+      "h": 10,
+      "tiles": 50,
+      "mpt": 12,
+      "size": "5x10"
+    },
+    {
+      "name": "Fury's tomb",
+      "might": 625,
+      "po": 0,
+      "w": 5,
+      "h": 10,
+      "tiles": 50,
+      "mpt": 12,
+      "size": "5x10"
+    },
+    {
+      "name": "Pool of the summoning",
+      "might": 625,
+      "po": 0,
+      "w": 5,
+      "h": 10,
+      "tiles": 50,
+      "mpt": 12,
+      "size": "5x10"
+    },
+    {
+      "name": "Empire's defender - year 2",
+      "might": 600,
+      "po": 0,
+      "w": 5,
+      "h": 10,
+      "tiles": 50,
+      "mpt": 12,
+      "size": "5x10"
+    },
+    {
+      "name": "Bleeding tree",
+      "might": 550,
+      "po": 0,
+      "w": 5,
+      "h": 10,
+      "tiles": 50,
+      "mpt": 11,
+      "size": "5x10"
+    },
+    {
+      "name": "Pedestal of eternal love",
+      "might": 550,
+      "po": 0,
+      "w": 5,
+      "h": 10,
+      "tiles": 50,
+      "mpt": 11,
+      "size": "5x10"
+    },
+    {
+      "name": "Pond of bizarre beauty",
+      "might": 550,
+      "po": 0,
+      "w": 5,
+      "h": 10,
+      "tiles": 50,
+      "mpt": 11,
+      "size": "5x10"
+    },
+    {
+      "name": "Predator pond",
+      "might": 550,
+      "po": 0,
+      "w": 5,
+      "h": 10,
+      "tiles": 50,
+      "mpt": 11,
+      "size": "5x10"
+    },
+    {
+      "name": "Empire's defender - year 1",
+      "might": 500,
+      "po": 0,
+      "w": 5,
+      "h": 10,
+      "tiles": 50,
+      "mpt": 10,
+      "size": "5x10"
+    },
+    {
+      "name": "Kala's pond",
+      "might": 500,
+      "po": 0,
+      "w": 5,
+      "h": 10,
+      "tiles": 50,
+      "mpt": 10,
+      "size": "5x10"
+    },
+    {
+      "name": "Pedestal of passionate love",
+      "might": 500,
+      "po": 0,
+      "w": 5,
+      "h": 10,
+      "tiles": 50,
+      "mpt": 10,
+      "size": "5x10"
+    },
+    {
+      "name": "Tamer of the wolves",
+      "might": 500,
+      "po": 0,
+      "w": 5,
+      "h": 10,
+      "tiles": 50,
+      "mpt": 10,
+      "size": "5x10"
+    },
+    {
+      "name": "Ancestors of the Storm Islands",
+      "might": 450,
+      "po": 0,
+      "w": 5,
+      "h": 10,
+      "tiles": 50,
+      "mpt": 9,
+      "size": "5x10"
+    },
+    {
+      "name": "Green turtle hut",
+      "might": 450,
+      "po": 0,
+      "w": 5,
+      "h": 10,
+      "tiles": 50,
+      "mpt": 9,
+      "size": "5x10"
+    },
+    {
+      "name": "Necromancer's despair",
+      "might": 450,
+      "po": 0,
+      "w": 5,
+      "h": 10,
+      "tiles": 50,
+      "mpt": 9,
+      "size": "5x10"
+    },
+    {
+      "name": "Red turtle hut",
+      "might": 450,
+      "po": 0,
+      "w": 5,
+      "h": 10,
+      "tiles": 50,
+      "mpt": 9,
+      "size": "5x10"
+    },
+    {
+      "name": "Sacrificial pond",
+      "might": 450,
+      "po": 0,
+      "w": 5,
+      "h": 10,
+      "tiles": 50,
+      "mpt": 9,
+      "size": "5x10"
+    },
+    {
+      "name": "Thorn dancer",
+      "might": 450,
+      "po": 0,
+      "w": 5,
+      "h": 10,
+      "tiles": 50,
+      "mpt": 9,
+      "size": "5x10"
+    },
+    {
+      "name": "Tomb of the fallen",
+      "might": 450,
+      "po": 0,
+      "w": 5,
+      "h": 10,
+      "tiles": 50,
+      "mpt": 9,
+      "size": "5x10"
+    },
+    {
+      "name": "Turtle hut",
+      "might": 450,
+      "po": 0,
+      "w": 5,
+      "h": 10,
+      "tiles": 50,
+      "mpt": 9,
+      "size": "5x10"
+    },
+    {
+      "name": "Well of souls",
+      "might": 450,
+      "po": 0,
+      "w": 5,
+      "h": 10,
+      "tiles": 50,
+      "mpt": 9,
+      "size": "5x10"
+    },
+    {
+      "name": "Witness to the past",
+      "might": 450,
+      "po": 0,
+      "w": 5,
+      "h": 10,
+      "tiles": 50,
+      "mpt": 9,
+      "size": "5x10"
+    },
+    {
+      "name": "Fountain of inner peace",
+      "might": 425,
+      "po": 0,
+      "w": 5,
+      "h": 10,
+      "tiles": 50,
+      "mpt": 8,
+      "size": "5x10"
+    },
+    {
+      "name": "Royal fountain",
+      "might": 425,
+      "po": 0,
+      "w": 5,
+      "h": 10,
+      "tiles": 50,
+      "mpt": 8,
+      "size": "5x10"
+    },
+    {
+      "name": "Garden of meditation",
+      "might": 400,
+      "po": 0,
+      "w": 5,
+      "h": 10,
+      "tiles": 50,
+      "mpt": 8,
+      "size": "5x10"
+    },
+    {
+      "name": "Hero of the Underworld",
+      "might": 400,
+      "po": 0,
+      "w": 5,
+      "h": 10,
+      "tiles": 50,
+      "mpt": 8,
+      "size": "5x10"
+    },
+    {
+      "name": "March hare's hideout",
+      "might": 400,
+      "po": 0,
+      "w": 5,
+      "h": 10,
+      "tiles": 50,
+      "mpt": 8,
+      "size": "5x10"
+    },
+    {
+      "name": "Masters Cup",
+      "might": 400,
+      "po": 0,
+      "w": 5,
+      "h": 10,
+      "tiles": 50,
+      "mpt": 8,
+      "size": "5x10"
+    },
+    {
+      "name": "Might of the bear",
+      "might": 400,
+      "po": 0,
+      "w": 5,
+      "h": 10,
+      "tiles": 50,
+      "mpt": 8,
+      "size": "5x10"
+    },
+    {
+      "name": "Pride of the lion",
+      "might": 400,
+      "po": 0,
+      "w": 5,
+      "h": 10,
+      "tiles": 50,
+      "mpt": 8,
+      "size": "5x10"
+    },
+    {
+      "name": "Royal Gallery",
+      "might": 400,
+      "po": 0,
+      "w": 5,
+      "h": 10,
+      "tiles": 50,
+      "mpt": 8,
+      "size": "5x10"
+    },
+    {
+      "name": "Shrine of Empires",
+      "might": 400,
+      "po": 0,
+      "w": 5,
+      "h": 10,
+      "tiles": 50,
+      "mpt": 8,
+      "size": "5x10"
+    },
+    {
+      "name": "Starlight beer wagon",
+      "might": 400,
+      "po": 0,
+      "w": 5,
+      "h": 10,
+      "tiles": 50,
+      "mpt": 8,
+      "size": "5x10"
+    },
+    {
+      "name": "Sunshine beer wagon",
+      "might": 400,
+      "po": 0,
+      "w": 5,
+      "h": 10,
+      "tiles": 50,
+      "mpt": 8,
+      "size": "5x10"
+    },
+    {
+      "name": "Throne of community",
+      "might": 400,
+      "po": 0,
+      "w": 5,
+      "h": 10,
+      "tiles": 50,
+      "mpt": 8,
+      "size": "5x10"
+    },
+    {
+      "name": "Throne of the Necromancer",
+      "might": 400,
+      "po": 0,
+      "w": 5,
+      "h": 10,
+      "tiles": 50,
+      "mpt": 8,
+      "size": "5x10"
+    },
+    {
+      "name": "Tree of the black widows",
+      "might": 400,
+      "po": 0,
+      "w": 5,
+      "h": 10,
+      "tiles": 50,
+      "mpt": 8,
+      "size": "5x10"
+    },
+    {
+      "name": "Tree of the summoning",
+      "might": 400,
+      "po": 0,
+      "w": 5,
+      "h": 10,
+      "tiles": 50,
+      "mpt": 8,
+      "size": "5x10"
+    },
+    {
+      "name": "Vitalised elephant's fountain",
+      "might": 400,
+      "po": 0,
+      "w": 5,
+      "h": 10,
+      "tiles": 50,
+      "mpt": 8,
+      "size": "5x10"
+    },
+    {
+      "name": "Well of love",
+      "might": 400,
+      "po": 0,
+      "w": 5,
+      "h": 10,
+      "tiles": 50,
+      "mpt": 8,
+      "size": "5x10"
+    },
+    {
+      "name": "Dragon head",
+      "might": 350,
+      "po": 72,
+      "w": 3,
+      "h": 4,
+      "tiles": 12,
+      "mpt": 29,
+      "size": "3x4"
+    },
+    {
+      "name": "Royal Desert Table",
+      "might": 350,
+      "po": 720,
+      "w": 3,
+      "h": 3,
+      "tiles": 9,
+      "mpt": 38,
+      "size": "3x3"
+    },
+    {
+      "name": "Runestones",
+      "might": 350,
+      "po": 0,
+      "w": 5,
+      "h": 10,
+      "tiles": 50,
+      "mpt": 7,
+      "size": "5x10"
+    },
+    {
+      "name": "Thorn skull",
+      "might": 150,
+      "po": 80,
+      "w": 3,
+      "h": 4,
+      "tiles": 12,
+      "mpt": 12,
+      "size": "3x4"
+    },
+    {
+      "name": "Crystal mountain",
+      "might": 100,
+      "po": 50,
+      "w": 5,
+      "h": 5,
+      "tiles": 25,
+      "mpt": 4,
+      "size": "5x5"
+    },
+    {
+      "name": "Haunted tree",
+      "might": 85,
+      "po": 70,
+      "w": 5,
+      "h": 5,
+      "tiles": 25,
+      "mpt": 3,
+      "size": "5x5"
+    },
+    {
+      "name": "Bunch of eggs",
+      "might": 80,
+      "po": 150,
+      "w": 2,
+      "h": 2,
+      "tiles": 4,
+      "mpt": 20,
+      "size": "2x2"
+    },
+    {
+      "name": "Fatal Tiny Bite Bud",
+      "might": 80,
+      "po": 175,
+      "w": 2,
+      "h": 2,
+      "tiles": 4,
+      "mpt": 20,
+      "size": "2x2"
+    },
+    {
+      "name": "Spiral Stone of the Sunlit Shore",
+      "might": 80,
+      "po": 150,
+      "w": 2,
+      "h": 2,
+      "tiles": 4,
+      "mpt": 20,
+      "size": "2x2"
+    },
+    {
+      "name": "Maiden of the thorns",
+      "might": 50,
+      "po": 22,
+      "w": 3,
+      "h": 3,
+      "tiles": 9,
+      "mpt": 5,
+      "size": "3x3"
+    },
+    {
+      "name": "Wine fountain",
+      "might": 50,
+      "po": 25,
+      "w": 4,
+      "h": 4,
+      "tiles": 16,
+      "mpt": 3,
+      "size": "4x4"
+    },
+    {
+      "name": "Festival square",
+      "might": 14,
+      "po": 0,
+      "w": 5,
+      "h": 10,
+      "tiles": 50,
+      "mpt": 0,
+      "size": "5x10"
+    },
+    {
+      "name": "Jousting arena",
+      "might": 12,
+      "po": 180,
+      "w": 6,
+      "h": 10,
+      "tiles": 60,
+      "mpt": 0,
+      "size": "6x10"
+    },
+    {
+      "name": "Castle garden",
+      "might": 11,
+      "po": 0,
+      "w": 5,
+      "h": 10,
+      "tiles": 50,
+      "mpt": 0,
+      "size": "5x10"
+    },
+    {
+      "name": "Gold knight",
+      "might": 10,
+      "po": 0,
+      "w": 5,
+      "h": 10,
+      "tiles": 50,
+      "mpt": 0,
+      "size": "5x10"
+    },
+    {
+      "name": "King's tree",
+      "might": 8,
+      "po": 87,
+      "w": 6,
+      "h": 6,
+      "tiles": 36,
+      "mpt": 0,
+      "size": "6x6"
+    },
+    {
+      "name": "Park",
+      "might": 8,
+      "po": 0,
+      "w": 5,
+      "h": 10,
+      "tiles": 50,
+      "mpt": 0,
+      "size": "5x10"
+    },
+    {
+      "name": "Brave farmer",
+      "might": 3,
+      "po": 35,
+      "w": 3,
+      "h": 3,
+      "tiles": 9,
+      "mpt": 0,
+      "size": "3x3"
+    },
+    {
+      "name": "Death's fountain",
+      "might": 3,
+      "po": 160,
+      "w": 4,
+      "h": 4,
+      "tiles": 16,
+      "mpt": 0,
+      "size": "4x4"
+    },
+    {
+      "name": "Dragon fountain",
+      "might": 3,
+      "po": 31,
+      "w": 4,
+      "h": 4,
+      "tiles": 16,
+      "mpt": 0,
+      "size": "4x4"
+    },
+    {
+      "name": "Frozen bard",
+      "might": 3,
+      "po": 43,
+      "w": 3,
+      "h": 3,
+      "tiles": 9,
+      "mpt": 0,
+      "size": "3x3"
+    },
+    {
+      "name": "Honorable warrior",
+      "might": 3,
+      "po": 41,
+      "w": 3,
+      "h": 3,
+      "tiles": 9,
+      "mpt": 0,
+      "size": "3x3"
+    },
+    {
+      "name": "Robber captain",
+      "might": 3,
+      "po": 40,
+      "w": 3,
+      "h": 3,
+      "tiles": 9,
+      "mpt": 0,
+      "size": "3x3"
+    },
+    {
+      "name": "Scorpion temple",
+      "might": 3,
+      "po": 0,
+      "w": 5,
+      "h": 10,
+      "tiles": 50,
+      "mpt": 0,
+      "size": "5x10"
+    },
+    {
+      "name": "Sundial",
+      "might": 3,
+      "po": 28,
+      "w": 4,
+      "h": 4,
+      "tiles": 16,
+      "mpt": 0,
+      "size": "4x4"
+    },
+    {
+      "name": "Theater",
+      "might": 3,
+      "po": 30,
+      "w": 4,
+      "h": 4,
+      "tiles": 16,
+      "mpt": 0,
+      "size": "4x4"
+    },
+    {
+      "name": "True friends",
+      "might": 3,
+      "po": 42,
+      "w": 3,
+      "h": 3,
+      "tiles": 9,
+      "mpt": 0,
+      "size": "3x3"
+    },
+    {
+      "name": "Arsenal",
+      "might": 2,
+      "po": 0,
+      "w": 3,
+      "h": 3,
+      "tiles": 9,
+      "mpt": 0,
+      "size": "3x3"
+    },
+    {
+      "name": "Champions Cup",
+      "might": 2,
+      "po": 28,
+      "w": 5,
+      "h": 5,
+      "tiles": 25,
+      "mpt": 0,
+      "size": "5x5"
+    },
+    {
+      "name": "Drill ground",
+      "might": 2,
+      "po": 0,
+      "w": 4,
+      "h": 5,
+      "tiles": 20,
+      "mpt": 0,
+      "size": "4x5"
+    },
+    {
+      "name": "Field kitchen",
+      "might": 2,
+      "po": 0,
+      "w": 4,
+      "h": 5,
+      "tiles": 20,
+      "mpt": 0,
+      "size": "4x5"
+    },
+    {
+      "name": "Gallows",
+      "might": 2,
+      "po": 19,
+      "w": 3,
+      "h": 4,
+      "tiles": 12,
+      "mpt": 0,
+      "size": "3x4"
+    },
+    {
+      "name": "Glorious warrior",
+      "might": 2,
+      "po": 0,
+      "w": 5,
+      "h": 10,
+      "tiles": 50,
+      "mpt": 0,
+      "size": "5x10"
+    },
+    {
+      "name": "Hero statue",
+      "might": 2,
+      "po": 13,
+      "w": 3,
+      "h": 3,
+      "tiles": 9,
+      "mpt": 0,
+      "size": "3x3"
+    },
+    {
+      "name": "Lovers' fall",
+      "might": 2,
+      "po": 28,
+      "w": 5,
+      "h": 5,
+      "tiles": 25,
+      "mpt": 0,
+      "size": "5x5"
+    },
+    {
+      "name": "Market stall",
+      "might": 2,
+      "po": 20,
+      "w": 3,
+      "h": 4,
+      "tiles": 12,
+      "mpt": 0,
+      "size": "3x4"
+    },
+    {
+      "name": "Ornamental tree",
+      "might": 2,
+      "po": 7,
+      "w": 2,
+      "h": 2,
+      "tiles": 4,
+      "mpt": 0,
+      "size": "2x2"
+    },
+    {
+      "name": "The clever wives",
+      "might": 2,
+      "po": 26,
+      "w": 3,
+      "h": 3,
+      "tiles": 9,
+      "mpt": 0,
+      "size": "3x3"
+    },
+    {
+      "name": "War banner",
+      "might": 2,
+      "po": 22,
+      "w": 3,
+      "h": 3,
+      "tiles": 9,
+      "mpt": 0,
+      "size": "3x3"
+    },
+    {
+      "name": "Wheelbarrow",
+      "might": 2,
+      "po": 18,
+      "w": 3,
+      "h": 4,
+      "tiles": 12,
+      "mpt": 0,
+      "size": "3x4"
+    },
+    {
+      "name": "Ancient relic",
+      "might": 1,
+      "po": 14,
+      "w": 3,
+      "h": 3,
+      "tiles": 9,
+      "mpt": 0,
+      "size": "3x3"
+    },
+    {
+      "name": "Cage",
+      "might": 1,
+      "po": 6,
+      "w": 3,
+      "h": 3,
+      "tiles": 9,
+      "mpt": 0,
+      "size": "3x3"
+    },
+    {
+      "name": "Carriage",
+      "might": 1,
+      "po": 11,
+      "w": 3,
+      "h": 3,
+      "tiles": 9,
+      "mpt": 0,
+      "size": "3x3"
+    },
+    {
+      "name": "Flagpole",
+      "might": 1,
+      "po": 12,
+      "w": 3,
+      "h": 3,
+      "tiles": 9,
+      "mpt": 0,
+      "size": "3x3"
+    },
+    {
+      "name": "Fruit of pleasures",
+      "might": 1,
+      "po": 39,
+      "w": 5,
+      "h": 5,
+      "tiles": 25,
+      "mpt": 0,
+      "size": "5x5"
+    },
+    {
+      "name": "Fusion garden",
+      "might": 1,
+      "po": 10,
+      "w": 5,
+      "h": 10,
+      "tiles": 50,
+      "mpt": 0,
+      "size": "5x10"
+    },
+    {
+      "name": "Fusion garden of splendor",
+      "might": 1,
+      "po": 10,
+      "w": 5,
+      "h": 10,
+      "tiles": 50,
+      "mpt": 0,
+      "size": "5x10"
+    },
+    {
+      "name": "Fusion maze",
+      "might": 1,
+      "po": 10,
+      "w": 5,
+      "h": 10,
+      "tiles": 50,
+      "mpt": 0,
+      "size": "5x10"
+    },
+    {
+      "name": "Fusion monument",
+      "might": 1,
+      "po": 10,
+      "w": 5,
+      "h": 10,
+      "tiles": 50,
+      "mpt": 0,
+      "size": "5x10"
+    },
+    {
+      "name": "Fusion park",
+      "might": 1,
+      "po": 10,
+      "w": 5,
+      "h": 10,
+      "tiles": 50,
+      "mpt": 0,
+      "size": "5x10"
+    },
+    {
+      "name": "Hanging cage",
+      "might": 1,
+      "po": 10,
+      "w": 3,
+      "h": 3,
+      "tiles": 9,
+      "mpt": 0,
+      "size": "3x3"
+    },
+    {
+      "name": "Horn of thunder",
+      "might": 1,
+      "po": 0,
+      "w": 3,
+      "h": 3,
+      "tiles": 9,
+      "mpt": 0,
+      "size": "3x3"
+    },
+    {
+      "name": "King Pig",
+      "might": 1,
+      "po": 18,
+      "w": 3,
+      "h": 3,
+      "tiles": 9,
+      "mpt": 0,
+      "size": "3x3"
+    },
+    {
+      "name": "King's sword",
+      "might": 1,
+      "po": 39,
+      "w": 5,
+      "h": 5,
+      "tiles": 25,
+      "mpt": 0,
+      "size": "5x5"
+    },
+    {
+      "name": "Knight's triumph",
+      "might": 1,
+      "po": 39,
+      "w": 5,
+      "h": 5,
+      "tiles": 25,
+      "mpt": 0,
+      "size": "5x5"
+    },
+    {
+      "name": "Necromancer's cabin",
+      "might": 1,
+      "po": 0,
+      "w": 5,
+      "h": 10,
+      "tiles": 50,
+      "mpt": 0,
+      "size": "5x10"
+    },
+    {
+      "name": "Nymph fountain",
+      "might": 1,
+      "po": 26,
+      "w": 4,
+      "h": 4,
+      "tiles": 16,
+      "mpt": 0,
+      "size": "4x4"
+    },
+    {
+      "name": "Outhouse",
+      "might": 1,
+      "po": 5,
+      "w": 3,
+      "h": 3,
+      "tiles": 9,
+      "mpt": 0,
+      "size": "3x3"
+    },
+    {
+      "name": "Pennant",
+      "might": 1,
+      "po": 0,
+      "w": 3,
+      "h": 3,
+      "tiles": 9,
+      "mpt": 0,
+      "size": "3x3"
+    },
+    {
+      "name": "Pillory",
+      "might": 1,
+      "po": 4,
+      "w": 3,
+      "h": 3,
+      "tiles": 9,
+      "mpt": 0,
+      "size": "3x3"
+    },
+    {
+      "name": "Royal herald",
+      "might": 1,
+      "po": 55,
+      "w": 5,
+      "h": 5,
+      "tiles": 25,
+      "mpt": 0,
+      "size": "5x5"
+    },
+    {
+      "name": "Signpost",
+      "might": 1,
+      "po": 4,
+      "w": 3,
+      "h": 3,
+      "tiles": 9,
+      "mpt": 0,
+      "size": "3x3"
+    },
+    {
+      "name": "Small well",
+      "might": 1,
+      "po": 8,
+      "w": 3,
+      "h": 3,
+      "tiles": 9,
+      "mpt": 0,
+      "size": "3x3"
+    },
+    {
+      "name": "Supplies",
+      "might": 1,
+      "po": 4,
+      "w": 3,
+      "h": 3,
+      "tiles": 9,
+      "mpt": 0,
+      "size": "3x3"
+    },
+    {
+      "name": "Training scarecrow",
+      "might": 1,
+      "po": 13,
+      "w": 3,
+      "h": 3,
+      "tiles": 9,
+      "mpt": 0,
+      "size": "3x3"
+    },
+    {
+      "name": "Weapons rack",
+      "might": 1,
+      "po": 7,
+      "w": 3,
+      "h": 3,
+      "tiles": 9,
+      "mpt": 0,
+      "size": "3x3"
+    },
+    {
+      "name": "Witch well",
+      "might": 1,
+      "po": 9,
+      "w": 3,
+      "h": 3,
+      "tiles": 9,
+      "mpt": 0,
+      "size": "3x3"
+    }
+  ]
+}

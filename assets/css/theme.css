@@ -248,3 +248,27 @@ a:hover { text-decoration: underline; }
 @media (max-width: 520px) {
     .topbar .nav-link.hide-sm { display: none; }
 }
+
+/* ===========================================================================
+   Overview engine (shared sortable/searchable tables)
+   =========================================================================== */
+.ov-bar { display: flex; flex-wrap: wrap; gap: 12px; align-items: center; margin: 18px 0 12px; }
+.ov-bar .search { max-width: 100%; flex: 1 1 280px; }
+.ov-count { color: var(--text-faint); font-size: .85rem; }
+.ov-scroll { overflow-x: auto; border: 1px solid var(--border); border-radius: var(--radius); }
+table.ov { width: 100%; border-collapse: collapse; font-size: .9rem; }
+table.ov th {
+    position: sticky; top: 0; z-index: 1;
+    background: var(--bg-elev-2); color: var(--text-dim);
+    text-align: left; padding: 11px 14px; white-space: nowrap;
+    font-size: .74rem; letter-spacing: .06em; text-transform: uppercase;
+    border-bottom: 1px solid var(--border); cursor: pointer; user-select: none;
+}
+table.ov th:hover { color: var(--text); }
+table.ov th .arrow { color: var(--gold); margin-left: 4px; opacity: 0; }
+table.ov th.sorted .arrow { opacity: 1; }
+table.ov th.num, table.ov td.num { text-align: right; font-variant-numeric: tabular-nums; }
+table.ov td { padding: 10px 14px; border-bottom: 1px solid var(--border-soft); }
+table.ov tbody tr:hover td { background: rgba(255,255,255,.025); }
+table.ov td.name { color: var(--text); font-weight: 600; }
+table.ov .muted { color: var(--text-faint); }

@@ -91,6 +91,62 @@ window.TOOLS = [
     tags: ["layout", "castle", "buildings", "planner"],
   },
 
+  // ---- Overviews ---------------------------------------------------------
+  {
+    slug: "overview-decorations",
+    cat: "overviews",
+    name: "Decorations",
+    desc: "Every decoration with might, deco points & size — sort by might-per-tile.",
+    icon: "🎴",
+    status: "live",
+    tags: ["decorations", "deco", "might", "po", "decoration points", "layout"],
+  },
+  {
+    slug: "overview-generals",
+    cat: "overviews",
+    name: "Generals",
+    desc: "Commanders, their rarities, skills and combat bonuses.",
+    icon: "🎖️",
+    status: "soon",
+    tags: ["generals", "commanders", "skills", "abilities"],
+  },
+  {
+    slug: "overview-equipment-sets",
+    cat: "overviews",
+    name: "Equipment Sets",
+    desc: "Set bonuses, required pieces and effects.",
+    icon: "🛡️",
+    status: "soon",
+    tags: ["equipment", "sets", "gear", "bonuses"],
+  },
+  {
+    slug: "overview-troops-tools",
+    cat: "overviews",
+    name: "Troops & Tools",
+    desc: "Every unit and siege tool with attack/defence stats.",
+    icon: "⚔️",
+    status: "soon",
+    tags: ["troops", "units", "tools", "siege", "attack", "defence"],
+  },
+  {
+    slug: "overview-loot-box",
+    cat: "overviews",
+    name: "Loot Boxes",
+    desc: "Loot box contents and drop chances.",
+    icon: "📦",
+    status: "soon",
+    tags: ["loot box", "mystery box", "drops"],
+  },
+  {
+    slug: "overview-event-rewards",
+    cat: "overviews",
+    name: "Event Rewards",
+    desc: "Reward tracks for the rotating events.",
+    icon: "🏅",
+    status: "soon",
+    tags: ["event", "rewards", "milestones"],
+  },
+
   // ---- Rankings & stats --------------------------------------------------
   {
     slug: "rankings",

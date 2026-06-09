@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Decorations Overview — Empire Toolbox</title>
+  <meta name="description" content="Every Goodgame Empire decoration: might, decoration points and size, sortable by efficiency." />
+  <link rel="stylesheet" href="../../assets/css/theme.css" />
+</head>
+<body>
+  <header class="topbar">
+    <div class="wrap">
+      <a class="brand" href="../../"><span class="crest">🛡️</span> Empire <b>Toolbox</b></a>
+    </div>
+  </header>
+
+  <main class="wrap">
+    <div class="tool-head">
+      <a class="back" href="../../">← All tools</a>
+      <h1>🎴 Decorations Overview</h1>
+      <p>Every decoration in the game with its might, decoration points and size.
+         Click any column to sort — try <b>Might / tile</b> to find the most
+         space-efficient might.</p>
+    </div>
+
+    <section class="panel">
+      <div id="ov"></div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <div class="wrap"><p>Data extracted from the community game-data cache. One row per decoration (strongest variant shown).</p></div>
+  </footer>
+
+  <script src="../../assets/js/corrections.js"></script>
+  <script src="../../assets/js/overview.js"></script>
+  <script>
+    fetch("./data/decorations.json")
+      .then((r) => r.json())
+      .then((d) => {
+        const fix = window.ggeFixName || ((s) => s);
+        const data = d.items.map((it) => ({ ...it, name: fix(it.name) }));
+        const num = (v) => (v || 0).toLocaleString();
+        EmpireOverview({
+          mount: document.getElementById("ov"),
+          data,
+          searchKeys: ["name"],
+          defaultSort: { key: "might", dir: -1 },
+          placeholder: "Search " + data.length + " decorations…",
+          columns: [
+            { key: "name", label: "Decoration", cls: "name" },
+            { key: "might", label: "Might", num: true, fmt: num },
+            { key: "po", label: "Deco pts", num: true, fmt: num },
+            { key: "size", label: "Size" },
+            { key: "tiles", label: "Tiles", num: true },
+            { key: "mpt", label: "Might / tile", num: true, fmt: num },
+          ],
+        });
+      })
+      .catch((e) => {
+        document.getElementById("ov").innerHTML = '<p class="muted">Could not load decoration data.</p>';
+        console.error(e);
+      });
+  </script>
+</body>
+</html>
