@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Attack Speed &amp; Detection — Empire Toolbox</title>
+  <meta name="description" content="Calculate land time, horse boosts and detection time for a Goodgame Empire attack." />
+  <link rel="stylesheet" href="../../assets/css/theme.css" />
+</head>
+<body>
+  <header class="topbar">
+    <div class="wrap">
+      <a class="brand" href="../../"><span class="crest">🛡️</span> Empire <b>Toolbox</b></a>
+    </div>
+  </header>
+
+  <main class="wrap">
+    <div class="tool-head">
+      <a class="back" href="../../">← All tools</a>
+      <h1>🐎 Attack Speed &amp; Detection</h1>
+      <p>Work out exactly when your army lands and the moment the defender can
+         first detect it. Inputs save automatically in your browser.</p>
+    </div>
+
+    <section class="panel">
+      <h2>Attack parameters</h2>
+      <div class="field-grid">
+        <div class="field">
+          <label for="distance">Attack distance (fields)</label>
+          <input type="number" id="distance" step="0.1" min="0.1" value="100" />
+        </div>
+        <div class="field">
+          <label for="speed">Slowest unit speed</label>
+          <input type="number" id="speed" step="1" min="1" value="6" />
+          <span class="hint">Speed stat of the slowest unit in the wave.</span>
+        </div>
+        <div class="field">
+          <label for="units">Army size (units)</label>
+          <input type="number" id="units" step="1" min="1" max="100000" value="1000" />
+        </div>
+        <div class="field">
+          <label for="playerLevel">Player level</label>
+          <input type="number" id="playerLevel" step="1" min="0" max="1020" value="70" />
+          <span class="hint">Levels ≤ 25 get a beginner speed boost.</span>
+        </div>
+        <div class="field">
+          <label for="stableLevel">Stable level</label>
+          <select id="stableLevel">
+            <option value="0">No stable</option>
+            <option value="1">Level 1</option>
+            <option value="2">Level 2</option>
+            <option value="3" selected>Level 3</option>
+          </select>
+        </div>
+        <div class="field">
+          <label for="horseType">Horse type</label>
+          <select id="horseType">
+            <option value="none">None</option>
+            <option value="Horse">Horse</option>
+            <option value="Warhorse">Warhorse</option>
+            <option value="Courser" selected>Courser</option>
+          </select>
+        </div>
+      </div>
+    </section>
+
+    <section class="panel">
+      <h2>Speed bonuses</h2>
+      <div class="field-grid">
+        <div class="field">
+          <label for="commander">Commander (%)</label>
+          <input type="number" id="commander" step="1" min="0" max="100" value="0" placeholder="max 100" />
+        </div>
+        <div class="field">
+          <label for="glory">Glory title</label>
+          <select id="glory"><option value="0">0%</option><option value="20">20%</option></select>
+        </div>
+        <div class="field">
+          <label for="vip">VIP level</label>
+          <select id="vip">
+            <option value="0">0%</option><option value="20">20%</option><option value="25">25%</option>
+            <option value="30">30%</option><option value="35">35%</option><option value="40">40%</option>
+            <option value="50">50%</option>
+          </select>
+        </div>
+        <div class="field">
+          <label for="global">Global bonus</label>
+          <select id="global"><option value="0">0%</option><option value="10">10%</option><option value="60">60%</option></select>
+        </div>
+        <div class="field">
+          <label for="hol">Hall of Legends</label>
+          <select id="hol">
+            <option value="0">0%</option><option value="10">10%</option><option value="20">20%</option>
+            <option value="30">30%</option><option value="40">40%</option><option value="50">50%</option>
+            <option value="60">60%</option><option value="70">70%</option><option value="80">80%</option>
+          </select>
+        </div>
+        <div class="field">
+          <label for="war">Alliance war bonus</label>
+          <select id="war"><option value="0">No</option><option value="100">Yes (100%)</option></select>
+        </div>
+      </div>
+    </section>
+
+    <section class="panel">
+      <h2>Detection</h2>
+      <div class="field-grid">
+        <div class="field">
+          <label for="sightBonus">Defender sight bonus (%)</label>
+          <input type="number" id="sightBonus" step="1" min="0" value="0" />
+        </div>
+        <div class="field">
+          <label for="earlyDetection">Early detection (%)</label>
+          <input type="number" id="earlyDetection" step="1" min="0" value="0" />
+        </div>
+        <div class="field">
+          <label for="laterDetection">Later detection (%)</label>
+          <input type="number" id="laterDetection" step="1" min="0" value="0" />
+        </div>
+      </div>
+    </section>
+
+    <section class="results">
+      <div class="result">
+        <div class="label">Land time</div>
+        <div class="value" id="arrivalTime">00:00:00</div>
+      </div>
+      <div class="result">
+        <div class="label">Detected after</div>
+        <div class="value small" id="detectionTime">00:00:00</div>
+      </div>
+      <div class="result">
+        <div class="label">Time left once seen</div>
+        <div class="value small" id="detectionTimeAfter">00:00:00</div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <div class="wrap"><p>Formula reverse-engineered from the community travel calculator. Verify against in-game before relying on it.</p></div>
+  </footer>
+
+  <script src="app.js"></script>
+</body>
+</html>

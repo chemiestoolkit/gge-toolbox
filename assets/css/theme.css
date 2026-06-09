@@ -1,0 +1,250 @@
+/* ===========================================================================
+   Empire Toolbox — shared theme
+   Used by the hub and every tool page so the whole site feels like one app.
+   =========================================================================== */
+
+:root {
+    --bg:          #0e1116;
+    --bg-elev:     #161b22;
+    --bg-elev-2:   #1d242d;
+    --border:      #2a313c;
+    --border-soft: #222933;
+    --text:        #e6edf3;
+    --text-dim:    #9aa7b4;
+    --text-faint:  #6b7785;
+    --gold:        #e3b341;
+    --gold-dim:    #b8902f;
+    --accent:      #4f9dde;
+    --good:        #3fb950;
+    --bad:         #f85149;
+    --radius:      12px;
+    --radius-sm:   8px;
+    --shadow:      0 6px 24px rgba(0, 0, 0, .35);
+    --maxw:        1080px;
+    --font:        system-ui, -apple-system, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+}
+
+* { box-sizing: border-box; }
+
+html, body {
+    margin: 0;
+    padding: 0;
+    background: var(--bg);
+    color: var(--text);
+    font-family: var(--font);
+    line-height: 1.5;
+    -webkit-font-smoothing: antialiased;
+}
+
+a { color: var(--accent); text-decoration: none; }
+a:hover { text-decoration: underline; }
+
+.wrap { max-width: var(--maxw); margin: 0 auto; padding: 0 20px; }
+
+/* ---- Top bar ------------------------------------------------------------- */
+.topbar {
+    position: sticky;
+    top: 0;
+    z-index: 20;
+    background: rgba(14, 17, 22, .82);
+    backdrop-filter: blur(10px);
+    border-bottom: 1px solid var(--border-soft);
+}
+.topbar .wrap {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    height: 60px;
+}
+.brand {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-weight: 800;
+    letter-spacing: .3px;
+    color: var(--text);
+    font-size: 1.1rem;
+}
+.brand:hover { text-decoration: none; }
+.brand .crest { font-size: 1.3rem; filter: drop-shadow(0 1px 2px rgba(0,0,0,.5)); }
+.brand b { color: var(--gold); }
+.topbar .spacer { flex: 1; }
+.topbar .nav-link { color: var(--text-dim); font-size: .92rem; font-weight: 600; }
+.topbar .nav-link:hover { color: var(--text); text-decoration: none; }
+
+/* ---- Hero ---------------------------------------------------------------- */
+.hero { padding: 44px 0 18px; text-align: center; }
+.hero h1 {
+    margin: 0 0 8px;
+    font-size: clamp(1.8rem, 4vw, 2.8rem);
+    letter-spacing: .5px;
+}
+.hero h1 b { color: var(--gold); }
+.hero p { margin: 0 auto; max-width: 620px; color: var(--text-dim); }
+
+/* ---- Search + filters ---------------------------------------------------- */
+.controls {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+    align-items: center;
+    justify-content: center;
+    margin: 26px 0 8px;
+}
+.search {
+    flex: 1 1 320px;
+    max-width: 460px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    background: var(--bg-elev);
+    border: 1px solid var(--border);
+    border-radius: 999px;
+    padding: 9px 16px;
+}
+.search input {
+    flex: 1;
+    background: none;
+    border: none;
+    outline: none;
+    color: var(--text);
+    font-size: .95rem;
+}
+.search .icon { color: var(--text-faint); }
+
+.chips { display: flex; flex-wrap: wrap; gap: 8px; justify-content: center; }
+.chip {
+    cursor: pointer;
+    user-select: none;
+    border: 1px solid var(--border);
+    background: var(--bg-elev);
+    color: var(--text-dim);
+    border-radius: 999px;
+    padding: 7px 14px;
+    font-size: .85rem;
+    font-weight: 600;
+    transition: .15s;
+}
+.chip:hover { color: var(--text); border-color: var(--gold-dim); }
+.chip.active { background: var(--gold); color: #1a1206; border-color: var(--gold); }
+
+/* ---- Tool grid ----------------------------------------------------------- */
+.section-label {
+    margin: 34px 0 14px;
+    font-size: .78rem;
+    letter-spacing: .14em;
+    text-transform: uppercase;
+    color: var(--text-faint);
+    font-weight: 700;
+}
+.grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(230px, 1fr));
+    gap: 14px;
+}
+.card {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    background: var(--bg-elev);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 18px;
+    transition: .15s;
+    overflow: hidden;
+}
+.card:hover { border-color: var(--gold-dim); transform: translateY(-2px); text-decoration: none; }
+.card.disabled { opacity: .55; pointer-events: none; }
+.card .ico {
+    font-size: 1.5rem;
+    width: 42px; height: 42px;
+    display: grid; place-items: center;
+    background: var(--bg-elev-2);
+    border-radius: 10px;
+    border: 1px solid var(--border-soft);
+}
+.card h3 { margin: 4px 0 0; font-size: 1.02rem; color: var(--text); }
+.card p { margin: 0; font-size: .85rem; color: var(--text-dim); }
+.card .badge {
+    position: absolute; top: 12px; right: 12px;
+    font-size: .64rem; font-weight: 700; letter-spacing: .08em;
+    text-transform: uppercase;
+    padding: 3px 8px; border-radius: 999px;
+}
+.badge.soon { background: #20262e; color: var(--text-faint); border: 1px solid var(--border); }
+.badge.new  { background: rgba(63,185,80,.15); color: var(--good); border: 1px solid rgba(63,185,80,.35); }
+
+.empty { text-align: center; color: var(--text-faint); padding: 40px 0; }
+
+/* ---- Footer -------------------------------------------------------------- */
+.footer {
+    margin-top: 56px;
+    border-top: 1px solid var(--border-soft);
+    padding: 26px 0 50px;
+    color: var(--text-faint);
+    font-size: .85rem;
+    text-align: center;
+}
+.footer a { color: var(--text-dim); }
+
+/* ===========================================================================
+   Tool-page shell (shared form/result styling for calculators & sims)
+   =========================================================================== */
+.tool-head { padding: 26px 0 8px; }
+.tool-head .back { font-size: .85rem; color: var(--text-dim); font-weight: 600; }
+.tool-head h1 { margin: 10px 0 4px; font-size: clamp(1.5rem, 3vw, 2.1rem); }
+.tool-head p { margin: 0; color: var(--text-dim); max-width: 640px; }
+
+.panel {
+    background: var(--bg-elev);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 20px;
+    margin: 16px 0;
+}
+.panel > h2 {
+    margin: 0 0 14px;
+    font-size: .78rem; letter-spacing: .12em; text-transform: uppercase;
+    color: var(--gold); font-weight: 700;
+}
+
+.field-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: 14px;
+}
+.field { display: flex; flex-direction: column; gap: 5px; }
+.field label { font-size: .82rem; color: var(--text-dim); font-weight: 600; }
+.field input, .field select {
+    background: var(--bg);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-sm);
+    color: var(--text);
+    padding: 9px 11px;
+    font-size: .95rem;
+    outline: none;
+}
+.field input:focus, .field select:focus { border-color: var(--gold-dim); }
+.field input:disabled, .field select:disabled { opacity: .5; }
+.field .hint { font-size: .72rem; color: var(--text-faint); }
+
+.results {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+    gap: 14px;
+}
+.result {
+    background: linear-gradient(160deg, var(--bg-elev-2), var(--bg-elev));
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 16px 18px;
+    text-align: center;
+}
+.result .label { font-size: .74rem; letter-spacing: .08em; text-transform: uppercase; color: var(--text-faint); }
+.result .value { font-size: 1.7rem; font-weight: 800; color: var(--gold); margin-top: 4px; font-variant-numeric: tabular-nums; }
+.result .value.small { font-size: 1.25rem; color: var(--text); }
+
+@media (max-width: 520px) {
+    .topbar .nav-link.hide-sm { display: none; }
+}
