@@ -8,10 +8,15 @@ ASSET_ROOT = "https://empire-html5.goodgamestudios.com/default/assets/"
 dll_path, data_path = sys.argv[1], sys.argv[2]
 dll = open(dll_path, encoding="utf-8", errors="ignore").read()
 
-# Map equipmentID -> render path.
+# Map equipmentID -> render path. Standard pieces use Item_Unique_<id>; the
+# Hero-slot commander pieces use Hero_Unique_<id> (same equipmentID, different
+# asset prefix) — index both so Hero-slot items get their art too.
 idx = {}
 for p in re.findall(r"itemassets/Equipment/Uniques/Item_Unique_\d+/Item_Unique_\d+--\d+", dll):
     eid = re.search(r"Item_Unique_(\d+)--", p).group(1)
+    idx.setdefault(eid, p)
+for p in re.findall(r"itemassets/Equipment/Uniques/Hero_Unique_\d+/Hero_Unique_\d+--\d+", dll):
+    eid = re.search(r"Hero_Unique_(\d+)--", p).group(1)
     idx.setdefault(eid, p)
 
 data = json.load(open(data_path))
