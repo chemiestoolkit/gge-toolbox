@@ -1,4 +1,4 @@
-/* Attack Speed & Detection — Empire Toolbox
+/* Attack Speed & Detection — Maxy's Empire Toolkit
    Clean reimplementation of the travel-time + detection model.
    Reference behaviour: GeneralsCamp travel calculator (credited). */
 

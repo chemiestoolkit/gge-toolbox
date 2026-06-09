@@ -1,4 +1,4 @@
-/* Empire Toolbox — reusable overview engine.
+/* Maxy's Empire Toolkit — reusable overview engine.
    Renders a searchable, sortable table from a column spec. Used by every
    overview tool so they share behaviour and styling.
 

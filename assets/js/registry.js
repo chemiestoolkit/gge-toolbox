@@ -1,5 +1,5 @@
 /* ===========================================================================
-   Empire Toolbox — tool registry
+   Maxy's Empire Toolkit — tool registry
    The hub is generated from this list. To add a tool: drop a folder under
    /tools/<slug>/ with an index.html, then add an entry here.
    status: "live" | "soon"

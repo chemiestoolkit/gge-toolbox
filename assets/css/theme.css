@@ -143,6 +143,39 @@ a:hover { text-decoration: underline; }
 .social-note a { color: var(--text-faint); }
 .social-note a:hover { color: var(--text-dim); }
 
+/* ---- GGS News card ------------------------------------------------------- */
+.home-news-row {
+    margin: 14px 0 0;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 14px;
+}
+@media (max-width: 680px) { .home-news-row { grid-template-columns: 1fr; } }
+
+.news-list { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 10px; }
+.news-item { display: flex; gap: 12px; align-items: baseline; font-size: .85rem; }
+.news-date { flex: 0 0 5rem; font-size: .75rem; color: var(--text-faint); font-variant-numeric: tabular-nums; }
+.news-title { color: var(--text-dim); }
+.news-title:hover { color: var(--text); text-decoration: none; }
+.news-all { display: inline-block; margin-top: 14px; font-size: .8rem; color: var(--text-dim); }
+.news-all:hover { color: var(--gold); text-decoration: none; }
+
+/* ---- Events grid --------------------------------------------------------- */
+.events-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(210px, 1fr));
+    gap: 8px;
+}
+.event-chip {
+    background: var(--bg-elev-2);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-sm);
+    padding: 8px 12px;
+    font-size: .78rem;
+}
+.event-chip-name { font-weight: 600; color: var(--text); margin-bottom: 3px; }
+.event-chip-dates { color: var(--text-faint); font-size: .72rem; line-height: 1.5; }
+
 /* ---- Search + filters ---------------------------------------------------- */
 .controls {
     display: flex;

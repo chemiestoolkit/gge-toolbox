@@ -1,4 +1,4 @@
-/* Empire Toolbox — hub renderer. Builds the searchable, filterable tool grid
+/* Maxy's Empire Toolkit — hub renderer. Builds the searchable, filterable tool grid
    from window.TOOLS. No dependencies, no build step. */
 (function () {
   const CATS = [

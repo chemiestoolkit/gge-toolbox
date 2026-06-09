@@ -1,4 +1,4 @@
-/* Gacha Spin Simulator — Empire Toolbox
+/* Gacha Spin Simulator — Maxy's Empire Toolkit
    Real drop data per game version. Pick event + version + level, read the odds,
    then run weighted-random spins. */
 

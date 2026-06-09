@@ -1,4 +1,4 @@
-/* Empire Toolbox — shared name corrections.
+/* Maxy's Empire Toolkit — shared name corrections.
    Goodgame's own game data contains some misspellings. Map the raw (wrong)
    name to the corrected one here; tools apply this when displaying names.
    Keep keys EXACTLY as they appear in the data. Add new ones as you find them. */
