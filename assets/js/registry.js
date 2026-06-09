@@ -53,6 +53,16 @@ window.TOOLS = [
     tags: ["rift", "raid", "points", "event"],
   },
 
+  {
+    slug: "rift-optimizer",
+    cat: "calculators",
+    name: "Rift Commander Maker",
+    desc: "Mark the Rift equipment you own and get the optimal gear combo for maximum set bonuses.",
+    icon: "🌀",
+    status: "live",
+    tags: ["rift", "equipment", "optimizer", "gear", "set bonuses", "commander"],
+  },
+
   // ---- Simulators --------------------------------------------------------
   {
     slug: "gacha-sim",

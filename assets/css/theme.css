@@ -252,6 +252,7 @@ a:hover { text-decoration: underline; }
 /* ===========================================================================
    Tool-page shell (shared form/result styling for calculators & sims)
    =========================================================================== */
+.tool-head .tool-icon { width: 40px; height: 40px; object-fit: contain; vertical-align: middle; margin-right: 4px; filter: drop-shadow(0 1px 3px rgba(0,0,0,.5)); }
 .tool-head { padding: 26px 0 8px; }
 .tool-head .back { font-size: .85rem; color: var(--text-dim); font-weight: 600; }
 .tool-head h1 { margin: 10px 0 4px; font-size: clamp(1.5rem, 3vw, 2.1rem); }
