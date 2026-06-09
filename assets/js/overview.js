@@ -12,6 +12,7 @@
    })
 */
 window.EmpireOverview = function (opts) {
+  if (opts.layout === "cards") return cardOverview(opts);
   const { mount, data, columns, searchKeys = ["name"] } = opts;
   let sort = opts.defaultSort || { key: columns[0].key, dir: 1 };
   let query = "";
@@ -97,3 +98,89 @@ window.EmpireOverview = function (opts) {
   render();
   return { render };
 };
+
+/* Card layout: image + title + stat list, with search and a sort dropdown.
+   opts.card = { img:(row)=>url|null, title:(row)=>str, corner?:(row)=>str|null,
+                 stats:[{label, key, num?, fmt?}], placeholder?:'🎴' }
+   opts.sortOptions = [{key,label,num}]  (defaults to card.stats) */
+function cardOverview(opts) {
+  const { mount, data, card, searchKeys = ["name"] } = opts;
+  const sortOptions = opts.sortOptions ||
+    card.stats.map((s) => ({ key: s.key, label: s.label, num: s.num }));
+  let sort = opts.defaultSort || { key: sortOptions[0].key, dir: sortOptions[0].num ? -1 : 1 };
+  let query = "";
+
+  const esc = (s) => String(s == null ? "" : s).replace(/[&<>"]/g, (c) =>
+    ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]));
+
+  const bar = document.createElement("div");
+  bar.className = "ov-bar";
+  const search = document.createElement("label");
+  search.className = "search";
+  search.innerHTML = '<span class="icon">🔍</span>';
+  const input = document.createElement("input");
+  input.type = "search"; input.placeholder = opts.placeholder || "Search…"; input.autocomplete = "off";
+  search.appendChild(input);
+
+  const sortWrap = document.createElement("div");
+  sortWrap.className = "ov-sort";
+  const sel = document.createElement("select");
+  sel.innerHTML = sortOptions.map((o) => '<option value="' + o.key + '">Sort: ' + o.label + "</option>").join("");
+  sel.value = sort.key;
+  const dirBtn = document.createElement("button");
+  const setDirLabel = () => (dirBtn.textContent = sort.dir === 1 ? "▲ Asc" : "▼ Desc");
+  setDirLabel();
+  sortWrap.append(sel, dirBtn);
+
+  const count = document.createElement("span");
+  count.className = "ov-count";
+  bar.append(search, sortWrap, count);
+
+  const grid = document.createElement("div");
+  grid.className = "ov-cards";
+  mount.append(bar, grid);
+
+  input.addEventListener("input", () => { query = input.value.trim().toLowerCase(); render(); });
+  sel.addEventListener("change", () => {
+    sort.key = sel.value;
+    sort.dir = (sortOptions.find((o) => o.key === sel.value) || {}).num ? -1 : 1;
+    setDirLabel(); render();
+  });
+  dirBtn.addEventListener("click", () => { sort.dir *= -1; setDirLabel(); render(); });
+
+  function rows() {
+    let r = data;
+    if (query) r = r.filter((row) => searchKeys.some((k) => String(row[k] || "").toLowerCase().includes(query)));
+    const numeric = sortOptions.find((o) => o.key === sort.key)?.num;
+    return [...r].sort((a, b) => {
+      const x = a[sort.key], y = b[sort.key];
+      if (numeric) return ((+x || 0) - (+y || 0)) * sort.dir;
+      return String(x).localeCompare(String(y)) * sort.dir;
+    });
+  }
+
+  function render() {
+    const list = rows();
+    count.textContent = list.length + (list.length === 1 ? " entry" : " entries");
+    grid.innerHTML = list.map((row) => {
+      const url = card.img(row);
+      const corner = card.corner ? card.corner(row) : null;
+      const thumb = url
+        ? '<img loading="lazy" src="' + esc(url) + '" alt="" onerror="this.parentNode.innerHTML=\'<span class=&quot;ph&quot;>' + (card.placeholder || "🎴") + '</span>\'">'
+        : '<span class="ph">' + (card.placeholder || "🎴") + "</span>";
+      const stats = card.stats.map((s) => {
+        const v = s.fmt ? s.fmt(row[s.key], row) : esc(row[s.key]);
+        return '<div class="stat"><span class="k">' + esc(s.label) + '</span><span class="v">' + v + "</span></div>";
+      }).join("");
+      return (
+        '<div class="ov-card"><div class="thumb">' +
+        (corner ? '<span class="corner">' + esc(corner) + "</span>" : "") +
+        thumb + '</div><div class="body"><div class="title">' + esc(card.title(row)) +
+        '</div><div class="stats">' + stats + "</div></div></div>"
+      );
+    }).join("");
+  }
+
+  render();
+  return { render };
+}

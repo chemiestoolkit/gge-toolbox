@@ -272,3 +272,40 @@ table.ov td { padding: 10px 14px; border-bottom: 1px solid var(--border-soft); }
 table.ov tbody tr:hover td { background: rgba(255,255,255,.025); }
 table.ov td.name { color: var(--text); font-weight: 600; }
 table.ov .muted { color: var(--text-faint); }
+
+/* card layout */
+.ov-sort { display: flex; align-items: center; gap: 6px; }
+.ov-sort select {
+    background: var(--bg-elev); border: 1px solid var(--border); color: var(--text);
+    border-radius: var(--radius-sm); padding: 8px 10px; font-size: .9rem; outline: none;
+}
+.ov-sort button {
+    background: var(--bg-elev); border: 1px solid var(--border); color: var(--text-dim);
+    border-radius: var(--radius-sm); padding: 8px 11px; cursor: pointer; font-size: .9rem;
+}
+.ov-sort button:hover { color: var(--text); border-color: var(--gold-dim); }
+.ov-cards {
+    display: grid; grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); gap: 14px;
+}
+.ov-card {
+    display: flex; flex-direction: column;
+    background: var(--bg-elev); border: 1px solid var(--border); border-radius: var(--radius);
+    overflow: hidden; transition: .15s;
+}
+.ov-card:hover { border-color: var(--gold-dim); transform: translateY(-2px); }
+.ov-card .thumb {
+    aspect-ratio: 1 / 1; display: grid; place-items: center;
+    background: radial-gradient(circle at 50% 35%, #232c37, var(--bg)); position: relative;
+}
+.ov-card .thumb img { width: 100%; height: 100%; object-fit: contain; padding: 10px; }
+.ov-card .thumb .ph { color: var(--text-faint); font-size: 2rem; }
+.ov-card .body { padding: 11px 13px 13px; display: flex; flex-direction: column; gap: 8px; }
+.ov-card .title { font-weight: 700; font-size: .92rem; color: var(--text); line-height: 1.25; }
+.ov-card .stats { display: flex; flex-direction: column; gap: 3px; }
+.ov-card .stat { display: flex; justify-content: space-between; font-size: .8rem; }
+.ov-card .stat .k { color: var(--text-faint); }
+.ov-card .stat .v { color: var(--text); font-variant-numeric: tabular-nums; font-weight: 600; }
+.ov-card .corner {
+    position: absolute; top: 8px; left: 8px; font-size: .68rem; font-weight: 700;
+    background: rgba(0,0,0,.55); color: var(--gold); padding: 2px 7px; border-radius: 999px;
+}

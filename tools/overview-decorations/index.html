@@ -44,17 +44,28 @@
         EmpireOverview({
           mount: document.getElementById("ov"),
           data,
+          layout: "cards",
           searchKeys: ["name"],
           defaultSort: { key: "might", dir: -1 },
           placeholder: "Search " + data.length + " decorations…",
-          columns: [
-            { key: "name", label: "Decoration", cls: "name" },
-            { key: "might", label: "Might", num: true, fmt: num },
-            { key: "po", label: "Deco pts", num: true, fmt: num },
-            { key: "size", label: "Size" },
-            { key: "tiles", label: "Tiles", num: true },
-            { key: "mpt", label: "Might / tile", num: true, fmt: num },
+          sortOptions: [
+            { key: "might", label: "Might", num: true },
+            { key: "po", label: "Deco points", num: true },
+            { key: "mpt", label: "Might / tile", num: true },
+            { key: "tiles", label: "Size (tiles)", num: true },
+            { key: "name", label: "Name" },
           ],
+          card: {
+            title: (r) => r.name,
+            img: (r) => r.img || null,
+            corner: (r) => r.size,
+            placeholder: "🎴",
+            stats: [
+              { label: "Might", key: "might", num: true, fmt: num },
+              { label: "Deco pts", key: "po", num: true, fmt: num },
+              { label: "Might/tile", key: "mpt", num: true, fmt: num },
+            ],
+          },
         });
       })
       .catch((e) => {
