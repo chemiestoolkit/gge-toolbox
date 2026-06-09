@@ -306,7 +306,7 @@
     const id = String(item.id);
     const isOwned = owned.has(id);
     const slotLabel = isGem ? GEM_LABELS[item.gemType] : item.slot;
-    const name = isGem ? (set.name.split(" ").pop() + " " + GEM_LABELS[item.gemType]) : item.name;
+    const name = isGem ? (item.name || GEM_LABELS[item.gemType]) : item.name;
 
     const row = document.createElement("div");
     row.className = "item-toggle" + (isOwned ? " owned" : "");
@@ -456,7 +456,7 @@
         const itemName = val.item
           ? esc(val.item.name)
           : val.gem
-          ? esc(val.set.name.split(" ").pop() + " " + GEM_LABELS[val.gem.gemType])
+          ? esc(val.gem.name || GEM_LABELS[val.gem.gemType])
           : "?";
         const pcs = setCounts[val.setID] || 0;
         html += `<tr>
@@ -549,12 +549,19 @@
       for (const gem of set.gems) {
         const row = document.createElement("div");
         row.className = "ref-item-row";
-        const ph = document.createElement("div");
-        ph.className = "ref-item-ph"; ph.textContent = "💎";
-        row.appendChild(ph);
+        if (gem.img) {
+          const img = document.createElement("img");
+          img.src = gem.img; img.alt = gem.name;
+          img.onerror = function () { this.outerHTML = `<div class="ref-item-ph">💎</div>`; };
+          row.appendChild(img);
+        } else {
+          const ph = document.createElement("div");
+          ph.className = "ref-item-ph"; ph.textContent = "💎";
+          row.appendChild(ph);
+        }
         const info = document.createElement("div");
         info.className = "ref-item-info";
-        info.innerHTML = `<div class="slot-tag">${esc(GEM_LABELS[gem.gemType])}</div><div class="name">${esc(gem.effects.map((e) => prettifyLabel(e.label)).join(" · ") || "—")}</div>`;
+        info.innerHTML = `<div class="slot-tag">${esc(GEM_LABELS[gem.gemType])}</div><div class="name">${esc(gem.name || "—")}</div>`;
         row.appendChild(info);
         itemsCol.appendChild(row);
       }

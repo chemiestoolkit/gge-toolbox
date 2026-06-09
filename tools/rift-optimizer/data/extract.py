@@ -10,7 +10,9 @@ import json, sys, re, urllib.request, os, tempfile
 ITEMS_URL = "https://raw.githubusercontent.com/GeneralsCamp/ggempire-data-cache/main/public/data/empire/items_latest.json"
 LANG_URL  = "https://raw.githubusercontent.com/GeneralsCamp/ggempire-data-cache/main/public/data/lang/en.json"
 DLL_URL   = "https://raw.githubusercontent.com/GeneralsCamp/ggempire-data-cache/main/public/data/empire/dll/ggs.dll.latest.js"
-CDN       = "https://empire-html5.goodgamestudios.com/default/assets/itemassets/"
+# Asset matches in the DLL already start with "itemassets/", so the base must NOT
+# repeat it — otherwise the URL gets a double "itemassets/itemassets/" and 404s.
+CDN       = "https://empire-html5.goodgamestudios.com/default/assets/"
 OUT       = os.path.join(os.path.dirname(__file__), "rift.json")
 
 SLOT_NAMES = {"1": "Armor", "2": "Weapon", "3": "Helmet", "4": "Artifact", "6": "Hero"}
@@ -44,20 +46,21 @@ def parse_effects(effects_str, effects_map, lang):
 def build_img_index(dll_text):
     """Return dict: lowercase asset key → full CDN URL."""
     idx = {}
-    # Equipment items
-    for m in re.finditer(r'itemassets/Equipment/Uniques/(Item_Unique_\d+)/([^"\']+)', dll_text):
-        folder, rest = m.group(1), m.group(2)
-        key = folder.lower()
+    # Standard equipment items (slots 1-4): Item_Unique_<eid>
+    for m in re.finditer(r'itemassets/Equipment/Uniques/Item_Unique_(\d+)/[^"\']+', dll_text):
+        key = "item_unique_" + m.group(1)
         if key not in idx:
             idx[key] = CDN + m.group(0) + ".webp"
-    # Gems — they reuse equipment or gem assets; fall back to gem ID path if present
-    for m in re.finditer(r'itemassets/Equipment/Gems/([^"\']+)', dll_text):
-        path = m.group(1)
-        # key on first path component
-        parts = path.split("/")
-        key = "gem_" + parts[0].lower() if parts else ""
-        if key and key not in idx:
-            idx[key] = CDN + "itemassets/Equipment/Gems/" + path + ".webp"
+    # Hero items (slot 6): Hero_Unique_<eid> — these are the General/Commander pieces
+    for m in re.finditer(r'itemassets/Equipment/Uniques/Hero_Unique_(\d+)/[^"\']+', dll_text):
+        key = "item_unique_" + m.group(1)  # key by equipmentID so item_img() finds it
+        if key not in idx:
+            idx[key] = CDN + m.group(0) + ".webp"
+    # Unique gems: Item_Gem_Unique_<gemID>
+    for m in re.finditer(r'itemassets/Equipment/UniqueGems/Item_Gem_Unique_(\d+)/[^"\']+', dll_text):
+        key = "gem_" + m.group(1)
+        if key not in idx:
+            idx[key] = CDN + m.group(0) + ".webp"
     return idx
 
 def main():
@@ -83,10 +86,12 @@ def main():
 
     nine_piece_sids = {str(s["setID"]) for s in eq_sets if str(s.get("neededItems","")) == "9"}
 
+    # True Rift sets sell for Rift Shards. Sets that sell for Offering Shards are
+    # the Victorious (PvP) and Stalwart (castellan) sets — exclude those here.
     rift_gem_sids = set()
     for g in gems_data:
         sid = str(g.get("setID",""))
-        if sid in nine_piece_sids and (g.get("sellRiftShard") or g.get("sellOfferingShard")):
+        if sid in nine_piece_sids and g.get("sellRiftShard"):
             rift_gem_sids.add(sid)
 
     print(f"  Found {len(rift_gem_sids)} rift set IDs.", file=sys.stderr)
@@ -156,7 +161,7 @@ def main():
         return lang_name(f"equipment_unique_{eid}") or lang_name(f"equipment_unique_{eid}_name", f"Item {eid}")
 
     def gem_name(gid):
-        return lang_name(f"gem_{gid}_name") or lang_name(f"gem_{gid}", "")
+        return lang_name(f"gem_unique_{gid}") or lang_name(f"gem_{gid}_name") or lang_name(f"gem_{gid}", "")
 
     # Build output
     sets_out = []
