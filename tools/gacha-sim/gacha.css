@@ -1,0 +1,61 @@
+/* Gacha Spin Simulator — tool-specific styles */
+
+.cols { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+@media (max-width: 820px) { .cols { grid-template-columns: 1fr; } }
+
+.poolmeta {
+  display: flex; flex-wrap: wrap; gap: 18px;
+  margin-top: 14px; padding-top: 14px; border-top: 1px solid var(--border-soft);
+  font-size: .88rem; color: var(--text-dim);
+}
+.poolmeta b { color: var(--text); }
+
+/* rarity colours */
+.r1 { color: #d7dde3; } .r2 { color: #58e16f; } .r3 { color: #c09bf8; } .r4 { color: #f4b551; }
+.dot { display:inline-block; width:9px; height:9px; border-radius:50%; margin-right:6px; vertical-align:middle; }
+.dot.r1 { background:#d7dde3; } .dot.r2 { background:#58e16f; } .dot.r3 { background:#c09bf8; } .dot.r4 { background:#f4b551; }
+
+.legend { display:flex; flex-wrap:wrap; gap:14px; margin-bottom:12px; font-size:.8rem; color:var(--text-dim); }
+
+.odds-scroll { max-height: 420px; overflow-y: auto; border-radius: var(--radius-sm); }
+table.odds { width: 100%; border-collapse: collapse; font-size: .88rem; }
+table.odds th {
+  position: sticky; top: 0; background: var(--bg-elev-2);
+  text-align: left; padding: 8px 10px; color: var(--text-faint);
+  font-size: .72rem; letter-spacing: .06em; text-transform: uppercase;
+  border-bottom: 1px solid var(--border);
+}
+table.odds td { padding: 7px 10px; border-bottom: 1px solid var(--border-soft); }
+table.odds tr:hover td { background: rgba(255,255,255,.02); }
+table.odds .pct { text-align: right; font-variant-numeric: tabular-nums; color: var(--text); }
+table.odds .amt { color: var(--text-faint); }
+
+.spin-btns { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 16px; }
+.btn {
+  cursor: pointer; border: 1px solid var(--gold-dim); background: var(--gold); color: #1a1206;
+  font-weight: 700; font-size: .9rem; padding: 9px 16px; border-radius: var(--radius-sm); transition: .12s;
+}
+.btn:hover { filter: brightness(1.08); }
+.btn:active { transform: translateY(1px); }
+.btn.ghost { background: transparent; color: var(--text-dim); border-color: var(--border); }
+.btn.ghost:hover { color: var(--text); }
+
+.sim-stats { margin-bottom: 14px; }
+
+.rarity-bar { display: flex; height: 12px; border-radius: 6px; overflow: hidden; background: var(--bg); margin-bottom: 6px; }
+.rarity-bar span { transition: width .2s; }
+.rarity-bar .s1 { background:#d7dde3; } .rarity-bar .s2 { background:#58e16f; }
+.rarity-bar .s3 { background:#c09bf8; } .rarity-bar .s4 { background:#f4b551; }
+.rarity-legend { display:flex; flex-wrap:wrap; gap:12px; font-size:.76rem; color:var(--text-faint); margin-bottom:14px; }
+
+.sub { font-size:.8rem; letter-spacing:.1em; text-transform:uppercase; color:var(--text-faint); margin:18px 0 10px; }
+.haul { max-height: 320px; overflow-y: auto; display: flex; flex-direction: column; gap: 4px; }
+.haul .row {
+  display: flex; justify-content: space-between; align-items: center; gap: 10px;
+  padding: 6px 10px; background: var(--bg); border: 1px solid var(--border-soft);
+  border-radius: var(--radius-sm); font-size: .86rem;
+}
+.haul .row .qty { color: var(--text-faint); font-variant-numeric: tabular-nums; }
+.haul .row.flash { animation: flash .6s ease; }
+@keyframes flash { from { background: rgba(244,181,81,.18); } to { background: var(--bg); } }
+.muted { color: var(--text-faint); font-size: .88rem; }

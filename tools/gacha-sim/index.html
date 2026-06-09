@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Gacha Spin Simulator — Empire Toolbox</title>
+  <meta name="description" content="See real drop rates and simulate gacha / loot-box spins for Goodgame Empire." />
+  <link rel="stylesheet" href="../../assets/css/theme.css" />
+  <link rel="stylesheet" href="gacha.css" />
+</head>
+<body>
+  <header class="topbar">
+    <div class="wrap">
+      <a class="brand" href="../../"><span class="crest">🛡️</span> Empire <b>Toolbox</b></a>
+    </div>
+  </header>
+
+  <main class="wrap">
+    <div class="tool-head">
+      <a class="back" href="../../">← All tools</a>
+      <h1>🎰 Gacha Spin Simulator</h1>
+      <p>Real drop rates straight from the game data. Pick a gacha or loot box,
+         read the odds, then spin as much as you like — no rubies required.</p>
+    </div>
+
+    <section class="panel">
+      <h2>Pick a pool</h2>
+      <div class="field-grid">
+        <div class="field">
+          <label for="source">Gacha / loot box</label>
+          <select id="source"></select>
+        </div>
+        <div class="field">
+          <label for="target">Target reward (optional)</label>
+          <select id="target"><option value="">— pick to see pulls-to-get —</option></select>
+          <span class="hint" id="targetHint"></span>
+        </div>
+      </div>
+      <div class="poolmeta" id="poolmeta"></div>
+    </section>
+
+    <div class="cols">
+      <!-- ODDS -->
+      <section class="panel">
+        <h2>Drop rates</h2>
+        <div class="legend" id="legend"></div>
+        <div class="odds-scroll"><table class="odds" id="oddsTable"></table></div>
+      </section>
+
+      <!-- SIMULATOR -->
+      <section class="panel">
+        <h2>Simulator</h2>
+        <div class="spin-btns">
+          <button class="btn" data-pulls="1">Spin ×1</button>
+          <button class="btn" data-pulls="10">Spin ×10</button>
+          <button class="btn" data-pulls="100">Spin ×100</button>
+          <button class="btn ghost" id="resetBtn">Reset</button>
+        </div>
+        <div class="results sim-stats">
+          <div class="result"><div class="label">Total spins</div><div class="value small" id="statPulls">0</div></div>
+          <div class="result"><div class="label">Cost spent</div><div class="value small" id="statCost">0</div></div>
+          <div class="result"><div class="label">Best pull</div><div class="value small" id="statBest">—</div></div>
+        </div>
+        <div class="rarity-bar" id="rarityBar"></div>
+        <h3 class="sub">Your haul</h3>
+        <div class="haul" id="haul"><p class="muted">Spin to start collecting.</p></div>
+      </section>
+    </div>
+  </main>
+
+  <footer class="footer">
+    <div class="wrap"><p>Drop rates extracted from the community game-data cache (GeneralsCamp). Rates reflect the last data update and may differ from the live game.</p></div>
+  </footer>
+
+  <script src="app.js"></script>
+</body>
+</html>

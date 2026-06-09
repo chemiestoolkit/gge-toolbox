@@ -55,6 +55,15 @@ window.TOOLS = [
 
   // ---- Simulators --------------------------------------------------------
   {
+    slug: "gacha-sim",
+    cat: "simulators",
+    name: "Gacha Spin Simulator",
+    desc: "Real drop rates for every gacha & loot box — then spin as much as you like.",
+    icon: "🎰",
+    status: "live",
+    tags: ["gacha", "spin", "loot box", "tombola", "odds", "drop rate", "rng"],
+  },
+  {
     slug: "battle-simulator",
     cat: "simulators",
     name: "Battle Simulator",
