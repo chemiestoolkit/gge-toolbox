@@ -67,6 +67,8 @@ def main():
         ("defRangeBonus", "def", "+{v}% ranged defence strength"),
         ("offMeleeBonus", "def", "+{v}% melee strength"),
         ("offRangeBonus", "def", "+{v}% ranged strength"),
+        ("defMeleeBonus", "atk", "-{v}% defender melee strength"),
+        ("defRangeBonus", "atk", "-{v}% defender ranged strength"),
         ("fameBonus",      "*",  "+{v}% glory points"),
         ("pointBonus",     "*",  "+{v}% event points"),
         ("ragePointBonus", "*",  "+{v}% rage points"),
@@ -74,6 +76,53 @@ def main():
         ("samuraiTokenBooster", "*", "+{v}% Samurai tokens"),
         ("pearlBooster",   "*",  "+{v}% pearls"),
     ]
+
+    # Combo/Elite/raid-boss tools encode their punch as "effectID&value,…" pairs
+    # pointing into the global `effects` table; templates keyed by effect name.
+    EFFECT_LINES = {
+        "additionalWaves":               "+{v} attack wave(s)",
+        "attackBonus":                   "+{v}% attack unit strength",
+        "AttackBoostYard":               "+{v}% courtyard attack strength",
+        "bonusWallCapacity":             "+{v}% wall unit limit",
+        "bonusDefencePower":             "+{v}% defence unit strength",
+        "bonusYardDefensePower":         "+{v}% courtyard defence strength",
+        "killDefendingMeleeTroopsYard":  "kills {v} melee defenders in the courtyard",
+        "killDefendingRangedTroopsYard": "kills {v} ranged defenders in the courtyard",
+        "killDefendingAnyTroopsYard":    "kills {v} defenders in the courtyard",
+        "killAttackingMeleeTroopsYard":  "kills {v} melee attackers in the courtyard",
+        "killAttackingRangedTroopsYard": "kills {v} ranged attackers in the courtyard",
+        "killAttackingAnyTroopsYard":    "kills {v} attackers in the courtyard",
+        "meleeDefenseMalus":             "-{v}% defender melee strength",
+        "rangeDefenseMalus":             "-{v}% defender ranged strength",
+        "infectionRateBaseMalus":        "-{v}% zombie infection rate",
+        "reserveUnitKill":               "kills {v} units from the enemy reserve",
+        "reserveUnitKillLegendaryDragon": "kills {v} units from the enemy reserve",
+        "raidBossWallRegenerationDelayLeft":  "+{v}s left flank wall regeneration cooldown",
+        "raidBossWallRegenerationDelayFront": "+{v}s front wall regeneration cooldown",
+        "raidBossWallRegenerationDelayRight": "+{v}s right flank wall regeneration cooldown",
+        "raidBossWallRegenerationDelayAll":   "+{v}s wall regeneration cooldown on all flanks",
+        "raidBossWallRegenerationDelayLeftLegendaryDragon":  "+{v}s left flank wall regeneration cooldown",
+        "raidBossWallRegenerationDelayFrontLegendaryDragon": "+{v}s front wall regeneration cooldown",
+        "raidBossWallRegenerationDelayRightLegendaryDragon": "+{v}s right flank wall regeneration cooldown",
+        "raidBossWallRegenerationDelayAllLegendaryDragon":   "+{v}s wall regeneration cooldown on all flanks",
+    }
+    effect_names = {str(e.get("effectID")): e.get("name", "") for e in d.get("effects", [])}
+
+    def effect_ref_lines(u):
+        lines = []
+        for part in str(u.get("effects") or "").split(","):
+            if "&" not in part:
+                continue
+            eid, _, raw = part.partition("&")
+            v = num(raw)
+            v = int(v) if v == int(v) else v
+            ename = effect_names.get(eid.strip(), "")
+            tpl = EFFECT_LINES.get(ename)
+            if tpl:
+                lines.append(tpl.format(v=v))
+            elif ename:
+                lines.append(f"{ename}: {v}")
+        return lines
 
     for u in d["units"]:
         name = name_of(u)
@@ -89,12 +138,14 @@ def main():
                 v = num(u.get(field))
                 if v:
                     lines.append(tpl.format(v=int(v) if v == int(v) else v))
+            lines += effect_ref_lines(u)
             tools.append({
                 "id":    u["wodID"],
                 "name":  name,
                 "kind":  "Tool",
                 "side":  "Attack" if side == "atk" else "Defence",
                 "cat":   u.get("toolCategory", ""),
+                "lvl":   int(num(u.get("level"))),
                 "speed": int(num(u.get("speed"))),
                 "might": int(num(u.get("mightValue"))),
                 "effects": lines,

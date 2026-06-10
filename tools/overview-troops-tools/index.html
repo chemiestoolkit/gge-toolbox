@@ -109,7 +109,7 @@
             { key: "speed", label: "Speed", num: true },
           ],
           card: {
-            title: (r) => r.name,
+            title: (r) => r.name + (r.lvl ? " · L" + r.lvl : ""),
             img: (r) => r.img || null,
             corner: (r) => r.side,
             badge: (r) => r.cat,
