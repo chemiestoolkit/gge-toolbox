@@ -65,3 +65,11 @@
   display: flex; flex-wrap: wrap; gap: 10px; margin-top: 32px; padding-top: 20px;
   border-top: 1px solid var(--border);
 }
+
+/* ---- Guide screenshots ---- */
+.guide-fig { margin: 14px 0 18px; }
+.guide-fig img {
+  max-width: 100%; border-radius: var(--radius-sm);
+  border: 1px solid var(--border); box-shadow: 0 4px 18px rgba(0,0,0,.35);
+}
+.guide-fig figcaption { margin-top: 6px; font-size: .78rem; color: var(--text-faint); }
