@@ -10,12 +10,14 @@ dll = open(dll_path, encoding="utf-8", errors="ignore").read()
 
 # Map equipmentID -> render path. Standard pieces use Item_Unique_<id>; the
 # Hero-slot commander pieces use Hero_Unique_<id> (same equipmentID, different
-# asset prefix) — index both so Hero-slot items get their art too.
+# asset prefix). Hero art lives under either Equipment/Uniques/ (newer sets like
+# Dragon) OR Equipment/Heroes/ (older sets like Victorious) — index all so every
+# Hero-slot item gets its art.
 idx = {}
 for p in re.findall(r"itemassets/Equipment/Uniques/Item_Unique_\d+/Item_Unique_\d+--\d+", dll):
     eid = re.search(r"Item_Unique_(\d+)--", p).group(1)
     idx.setdefault(eid, p)
-for p in re.findall(r"itemassets/Equipment/Uniques/Hero_Unique_\d+/Hero_Unique_\d+--\d+", dll):
+for p in re.findall(r"itemassets/Equipment/(?:Uniques|Heroes)/Hero_Unique_\d+/Hero_Unique_\d+--\d+", dll):
     eid = re.search(r"Hero_Unique_(\d+)--", p).group(1)
     idx.setdefault(eid, p)
 
