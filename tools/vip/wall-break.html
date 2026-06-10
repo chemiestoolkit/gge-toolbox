@@ -23,63 +23,62 @@
     .wb-field select { min-width: 130px; max-width: 230px; }
     .wb-field input:focus, .wb-field select:focus { outline: none; border-color: var(--gold); }
 
-    /* ---- in-game battle-setup styling ---- */
+    /* commander */
     .wb-setup { display: grid; grid-template-columns: auto 1fr; gap: 16px; align-items: stretch; }
     @media (max-width: 620px) { .wb-setup { grid-template-columns: 1fr; } }
     .wb-portrait { width: 120px; display:flex; flex-direction:column; gap:8px; align-items:center; }
-    .wb-portrait .frame {
-      width: 110px; height: 110px; border-radius: 12px; overflow: hidden;
-      border: 2px solid var(--gold-dim); background: var(--bg-elev-2);
-      display:flex; align-items:center; justify-content:center;
-    }
+    .wb-portrait .frame { width: 110px; height: 110px; border-radius: 12px; overflow: hidden; border: 2px solid var(--gold-dim); background: var(--bg-elev-2); display:flex; align-items:center; justify-content:center; }
     .wb-portrait .frame img { width: 100%; height: 100%; object-fit: cover; }
     .wb-portrait .frame.empty::after { content: "⚔️"; font-size: 2.4rem; opacity: .4; }
     .wb-portrait select { width: 110px; padding: 6px 8px; font-size:.82rem; background: var(--bg-elev-2); border:1px solid var(--border); border-radius: var(--radius-sm); color: var(--text); }
-
     .wb-abilities { display:flex; flex-wrap:wrap; gap:5px; margin: 2px 0 12px; }
     .wb-ab { font-size:.68rem; padding:2px 8px; border-radius:99px; background: var(--bg-elev-2); border:1px solid var(--border); color: var(--text-dim); cursor: default; }
     .wb-ab.kill { border-color: rgba(248,81,73,.45); color: var(--text); }
     .wb-ab.def { border-color: rgba(227,179,65,.40); }
     .wb-ab.atk { border-color: rgba(63,185,80,.40); }
 
-    /* segment selector as wall buttons */
-    .wb-segs { display:flex; gap:8px; margin-bottom:12px; }
-    .wb-seg {
-      flex:1; text-align:center; padding:10px 6px; cursor:pointer;
-      background: var(--bg-elev-2); border:1px solid var(--border); border-radius: var(--radius-sm);
-      color: var(--text-dim); font-size:.78rem; transition: .12s;
-    }
-    .wb-seg .ic { font-size:1.2rem; display:block; margin-bottom:2px; }
-    .wb-seg.active { border-color: var(--gold); color: var(--text); background: var(--bg-elev); box-shadow: inset 0 0 0 1px var(--gold-dim); }
-
-    /* troop slot with art */
+    /* art slot (units + tools) */
     .wb-slot { display:flex; align-items:center; gap:8px; }
     .wb-slot .art { width:40px; height:40px; border-radius:8px; overflow:hidden; border:1px solid var(--border); background: var(--bg-elev-2); flex:none; display:flex; align-items:center;justify-content:center; }
     .wb-slot .art img { width:100%; height:100%; object-fit: cover; }
     .wb-slot .art.empty::after { content:"—"; color: var(--text-faint); }
+    .wb-slot .art.gate { border-color: rgba(227,179,65,.5); }
+    .wb-slot .art.wall { border-color: rgba(120,170,255,.5); }
 
-    .wb-boss-fx { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 4px; }
     .wb-chip { font-size: .72rem; padding: 3px 9px; border-radius: 99px; background: var(--bg-elev-2); border: 1px solid var(--border); color: var(--text-dim); }
     .wb-chip b { color: var(--text); }
     .wb-chip.bad { border-color: rgba(248,81,73,.4); }
     .wb-chip.prot { border-color: rgba(227,179,65,.4); }
+    .wb-boss-fx { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 4px; }
+    .wb-sub { font-size:.72rem; color: var(--text-faint); margin:-2px 0 10px; line-height:1.5; }
 
-    .wb-verdict { display: flex; align-items: center; gap: 14px; flex-wrap: wrap; margin-bottom: 12px; }
-    .wb-verdict .big { font-size: 1.5rem; font-weight: 800; font-family: var(--font-display); }
-    .wb-verdict.ok .big { color: var(--good); }
-    .wb-verdict.no .big { color: var(--bad); }
-    .wb-stats { display: grid; grid-template-columns: repeat(auto-fit, minmax(130px, 1fr)); gap: 8px; margin-bottom: 12px; }
-    .wb-stat { background: var(--bg-elev-2); border: 1px solid var(--border); border-radius: var(--radius-sm); padding: 9px 12px; }
-    .wb-stat .v { font-size: 1.05rem; font-weight: 800; color: var(--gold); font-variant-numeric: tabular-nums; }
-    .wb-stat .k { font-size: .68rem; color: var(--text-dim); margin-top: 1px; }
-    table.wb-waves { width: 100%; border-collapse: collapse; font-size: .8rem; }
-    .wb-waves th { text-align: right; font-size: .64rem; text-transform: uppercase; color: var(--text-faint); padding: 5px 8px; border-bottom: 1px solid var(--border); }
+    /* totals + 3-segment results */
+    .wb-totals { display:flex; flex-wrap:wrap; gap:8px; margin-bottom:14px; }
+    .wb-tot { background: var(--bg-elev-2); border:1px solid var(--border); border-radius: var(--radius-sm); padding:9px 14px; flex:1; min-width:130px; }
+    .wb-tot .v { font-size:1.15rem; font-weight:800; color: var(--gold); font-variant-numeric: tabular-nums; }
+    .wb-tot .k { font-size:.68rem; color: var(--text-dim); }
+    .wb-segs3 { display:grid; grid-template-columns: repeat(3, 1fr); gap:12px; }
+    @media (max-width: 900px) { .wb-segs3 { grid-template-columns: 1fr; } }
+    .wb-seg-card { background: var(--bg-elev); border:1px solid var(--border); border-radius: var(--radius); padding:14px 15px; }
+    .wb-seg-card.breach { border-color: rgba(63,185,80,.55); }
+    .wb-seg-card.hold { border-color: rgba(248,81,73,.45); }
+    .wb-seg-head { display:flex; align-items:baseline; justify-content:space-between; gap:8px; margin-bottom:4px; }
+    .wb-seg-head .nm { font-family: var(--font-display); font-size:1.02rem; font-weight:700; }
+    .wb-seg-head .verdict { font-size:.82rem; font-weight:800; }
+    .wb-seg-card.breach .verdict { color: var(--good); }
+    .wb-seg-card.hold .verdict { color: var(--bad); }
+    .wb-garr { font-size:.7rem; color: var(--text-faint); margin-bottom:10px; }
+    .wb-mini { display:grid; grid-template-columns: 1fr 1fr; gap:6px; margin-bottom:10px; }
+    .wb-mini .b { background: var(--bg-elev-2); border:1px solid var(--border-soft); border-radius: var(--radius-sm); padding:6px 9px; }
+    .wb-mini .v { font-size:.92rem; font-weight:700; color: var(--gold); font-variant-numeric: tabular-nums; }
+    .wb-mini .k { font-size:.62rem; color: var(--text-dim); }
+    table.wb-waves { width: 100%; border-collapse: collapse; font-size: .72rem; }
+    .wb-waves th { text-align: right; font-size: .58rem; text-transform: uppercase; color: var(--text-faint); padding: 3px 5px; border-bottom: 1px solid var(--border); }
     .wb-waves th:first-child { text-align: left; }
-    .wb-waves td { padding: 5px 8px; border-bottom: 1px solid var(--border-soft); color: var(--text-dim); text-align: right; font-variant-numeric: tabular-nums; }
+    .wb-waves td { padding: 3px 5px; border-bottom: 1px solid var(--border-soft); color: var(--text-dim); text-align: right; font-variant-numeric: tabular-nums; }
     .wb-waves td:first-child { text-align: left; color: var(--text); }
     .wb-waves tr.dummy td:first-child { color: var(--text-faint); }
-    .wb-note { font-size: .76rem; color: var(--text-faint); margin-top: 12px; line-height: 1.5; }
-    .wb-sub { font-size:.72rem; color: var(--text-faint); margin:-4px 0 10px; }
+    .wb-note { font-size: .76rem; color: var(--text-faint); margin-top: 14px; line-height: 1.5; }
   </style>
 </head>
 <body>
@@ -93,12 +92,13 @@
     <div class="tool-head">
       <a class="back" href="./index.html">← VIP Corner</a>
       <h1>🧱 Rift Wall-Break Simulator</h1>
-      <p>Set up the attack like the in-game battle screen — pick your commander, choose
-         a wall segment, stack your waves (including <b>dummy waves</b> that fire your
-         general's per-wave kill abilities cheaply) and see whether it breaks, with
-         projected losses and activity points. Uses the community-verified combat curve
-         (<b>losses = (weaker/stronger)^1.5</b>) with the boss's real per-stage garrison
-         and effects. <b>In calibration:</b> send Maxy battle reports to tighten it.</p>
+      <p>Set up the attack like the in-game battle screen — pick your commander, slot your
+         rams and ladders, stack your waves (including <b>dummy waves</b> that fire your
+         general's per-wave kill abilities cheaply) and see all three segments resolve at
+         once: <b>left flank, front gate and right flank</b>. Uses the community-verified
+         combat curve (<b>losses = (weaker/stronger)^1.5</b>) with each boss's real
+         per-stage garrison and effects. <b>In calibration:</b> send Maxy battle reports
+         to tighten it.</p>
     </div>
 
     <section class="panel">
@@ -126,10 +126,10 @@
               <label class="wb-field"><span>Defender strength −%</span><input type="number" id="genDefRed" min="0" max="100" value="0" /></label>
               <label class="wb-field"><span>Kill % of defenders / wave</span><input type="number" id="genKill" min="0" max="100" step="0.5" value="0" /></label>
             </div>
-            <div class="wb-sub">These are the magnitudes your general + skills + equipment actually
-              provide (they scale with level/stars, so the game doesn't expose one fixed number).
-              The kill-% knob is what dummy waves exploit — abilities like Toril's <b>Tailwhip</b>
-              fire every wave regardless of how few troops you send.</div>
+            <div class="wb-sub">Magnitudes your general + skills + equipment actually provide (they scale
+              with level/stars, so the game doesn't expose one fixed number). The kill-% knob is what
+              dummy waves exploit — abilities like Toril's <b>Tailwhip</b> fire every wave regardless of
+              how few troops you send.</div>
           </div>
         </div>
       </div>
@@ -143,18 +143,12 @@
             <label class="wb-field"><span>Level</span><select id="level"></select></label>
             <label class="wb-field"><span>Health stage</span><select id="stage"></select></label>
           </div>
-          <div class="wb-segs" id="segs">
-            <div class="wb-seg" data-seg="left"><span class="ic">🧱</span>Left flank</div>
-            <div class="wb-seg active" data-seg="front"><span class="ic">🚪</span>Front (gate)</div>
-            <div class="wb-seg" data-seg="right"><span class="ic">🧱</span>Right flank</div>
-          </div>
-          <div id="garrison" class="wb-boss-fx"></div>
-          <div id="bossfx" class="wb-boss-fx" style="margin-top:8px"></div>
+          <div id="bossfx" class="wb-boss-fx"></div>
         </div>
 
         <!-- ===== Your assault ===== -->
         <div class="wb-card">
-          <h2 class="wb-h">⚔️ Your assault <span style="font-weight:400;color:var(--text-faint);text-transform:none;letter-spacing:0">(per real wave)</span></h2>
+          <h2 class="wb-h">⚔️ Your assault <span style="font-weight:400;color:var(--text-faint);text-transform:none;letter-spacing:0">(per wave, per segment)</span></h2>
           <div class="wb-row" style="align-items:flex-end">
             <div class="wb-slot"><div class="art empty" id="mArt"></div>
               <label class="wb-field"><span>Melee unit</span><select id="mUnit"></select></label></div>
@@ -167,38 +161,46 @@
             <label class="wb-field"><span>Count</span><input type="number" id="rCount" min="0" value="500" /></label>
             <label class="wb-field"><span>Bonus %</span><input type="number" id="rBonus" min="0" value="0" /></label>
           </div>
+
+          <!-- siege tool slots -->
+          <div class="wb-row" style="align-items:flex-end; border-top:1px solid var(--border-soft); padding-top:10px">
+            <div class="wb-slot"><div class="art gate empty" id="gateArt"></div>
+              <label class="wb-field"><span>Gate tool <small>(front)</small></span><select id="gateTool"></select></label></div>
+            <div class="wb-slot"><div class="art wall empty" id="wallArt"></div>
+              <label class="wb-field"><span>Wall tool <small>(flanks)</small></span><select id="wallTool"></select></label></div>
+            <label class="wb-field"><span>Extra gear reduction %</span><input type="number" id="gearRed" min="0" value="0" /></label>
+          </div>
+
           <div class="wb-row">
             <label class="wb-field"><span>Real waves</span><input type="number" id="waves" min="0" max="20" value="4" /></label>
             <label class="wb-field"><span>Dummy waves</span><input type="number" id="dummyWaves" min="0" max="40" value="0" /></label>
             <label class="wb-field"><span>Dummy size</span><input type="number" id="dummySize" min="1" value="10" /></label>
-          </div>
-          <div class="wb-row">
-            <label class="wb-field"><span>Wall/gate reduction % <small>(gear + tools)</small></span><input type="number" id="tools" class="wide" min="0" value="0" /></label>
-            <label class="wb-field"><span>Front/flank strength % <small>(your gear)</small></span><input type="number" id="posBonus" class="wide" min="0" value="0" /></label>
+            <label class="wb-field"><span>Front/flank strength % <small>(gear)</small></span><input type="number" id="posBonus" class="wide" min="0" value="0" /></label>
           </div>
         </div>
       </div>
 
       <div class="wb-card" style="margin-top:14px">
-        <h2 class="wb-h">📊 Result</h2>
-        <div id="result"></div>
+        <h2 class="wb-h">📊 Result — all three segments</h2>
+        <div class="wb-totals" id="totals"></div>
+        <div class="wb-segs3" id="segResults"></div>
         <div class="wb-note">
           <b style="color:var(--good)">✓ Validated</b> against real Level 11 Fungal stage-1 and
-          stage-2 clears: the garrison, boss effects (+10,000% wall/gate, +10,100% front/flank,
-          +350% courtyard) and courtyard health all match the game exactly. Calibration finding —
-          a <b>heavily-tooled top hit reduces the boss protection to ~900% net</b> (not zero),
-          which is what makes it a multi-wave grind.<br><br>
-          <b>Commander:</b> attack +% boosts your wave strength; defender −% weakens the garrison's
-          combat strength; kill % removes a flat slice of defenders <i>every wave</i> (Tailwhip-style).
-          <b>Dummy waves</b> run first with a token force — they take almost no losses but still fire
-          the kill %, softening the wall before your real waves land.<br><br>
+          stage-2 clears: garrisons, boss effects (+10,000% wall/gate, +10,100% front/flank,
+          +350% courtyard) and courtyard health all match the game. Calibration finding —
+          a <b>heavily-tooled top hit reduces boss protection to ~900% net</b> (not zero),
+          hence the multi-wave grind.<br><br>
+          <b>Tools:</b> the gate tool (ram) feeds the <i>front</i> reduction, the wall tool (ladder)
+          feeds <i>both flanks</i>; extra gear reduction adds on top. <b>Commander:</b> attack +%
+          boosts wave strength, defender −% weakens the garrison, kill % removes a flat slice every
+          wave. <b>Dummy waves</b> run first with a token force — near-zero losses but they still fire
+          the kill %. Counts are <i>per segment</i> (the army you commit to each lane).<br><br>
           Model: attacker strength = count × unit attack × (1 + bonuses − boss malus);
           defender strength = garrison × defence stat × (1 + boss front/flank strength)
-          × (1 − commander defender reduction) ÷ (1 + your front/flank gear)
-          × (1 + max(0, wall/gate protection − your reduction)); each lane (melee vs ranged)
-          resolves separately by attacker share; losses follow (weaker/stronger)<sup>1.5</sup>;
-          waves hit the surviving garrison sequentially. Walls don't drain boss health — a breach
-          opens the courtyard window. Points = kill share × wall point factor.
+          × (1 − commander reduction) ÷ (1 + your front/flank gear)
+          × (1 + max(0, protection − tool − gear reduction)); melee/ranged lanes resolve by
+          attacker share; losses follow (weaker/stronger)<sup>1.5</sup>; waves hit the surviving
+          garrison sequentially. A breach opens the courtyard window. Points = kill share × wall point factor.
         </div>
       </div>
     </section>
@@ -212,8 +214,7 @@
       ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]));
     const num = (v) => Math.round(v).toLocaleString();
 
-    let BOSSES = [], TROOPS = [], GENERALS = [], MELEE = [], RANGED = [];
-    let segValue = "front";
+    let BOSSES = [], TROOPS = [], GENERALS = [], MELEE = [], RANGED = [], GATE = [], WALL = [];
 
     const boss = () => BOSSES[+$("boss").value];
     const level = () => boss().levels[+$("level").value];
@@ -225,28 +226,32 @@
     }
     function fillStages() {
       $("stage").innerHTML = level().stages.map((s, i) => `<option value="${i}">${s.health}% HP</option>`).join("");
-      renderTarget();
+      renderBossFx();
     }
 
-    function renderTarget() {
-      const st = stage(), seg = segValue;
-      const units = st[seg] || [];
-      $("garrison").innerHTML = "<span class='wb-chip'>Garrison:</span>" + units.map((u) =>
-        `<span class="wb-chip"><b>${num(u.count)}</b>× ${esc(u.name)} <span style="color:var(--text-faint)">(def ⚔${u.meleeDef}/🏹${u.rangeDef})</span></span>`).join("");
-      const c = st.combat || {};
-      const prot = seg === "front" ? (c.gateProt || 0) : (c.wallProt || 0);
-      const str = seg === "front" ? (c.frontStr || 0) : (c.flankStr || 0);
+    function renderBossFx() {
+      const c = stage().combat || {};
       const chips = [
-        `<span class="wb-chip prot">${seg === "front" ? "Gate" : "Wall"} protection <b>+${num(prot)}%</b></span>`,
-        `<span class="wb-chip prot">Defender strength <b>+${num(str)}%</b></span>`,
+        `<span class="wb-chip prot">Gate protection <b>+${num(c.gateProt || 0)}%</b></span>`,
+        `<span class="wb-chip prot">Wall protection <b>+${num(c.wallProt || 0)}%</b></span>`,
+        `<span class="wb-chip prot">Front strength <b>+${num(c.frontStr || 0)}%</b></span>`,
+        `<span class="wb-chip prot">Flank strength <b>+${num(c.flankStr || 0)}%</b></span>`,
       ];
-      if (c.atkRangedMalus) chips.push(`<span class="wb-chip bad">Your ranged attack <b>${num(c.atkRangedMalus)}%</b></span>`);
-      if (c.atkMeleeMalus) chips.push(`<span class="wb-chip bad">Your melee attack <b>${num(c.atkMeleeMalus)}%</b></span>`);
+      if (c.atkRangedMalus) chips.push(`<span class="wb-chip bad">Your ranged <b>${num(c.atkRangedMalus)}%</b></span>`);
+      if (c.atkMeleeMalus) chips.push(`<span class="wb-chip bad">Your melee <b>${num(c.atkMeleeMalus)}%</b></span>`);
       $("bossfx").innerHTML = chips.join("");
       simulate();
     }
 
-    /* ---- troop slots ---- */
+    /* ---- art slots ---- */
+    function paintSlot(id, t, cls) {
+      const el = $(id);
+      const base = "art" + (cls ? " " + cls : "");
+      if (!t || !t.img) { el.className = base + " empty"; el.innerHTML = ""; return; }
+      el.className = base;
+      el.innerHTML = `<img src="${esc(t.img)}" alt="" onerror="this.parentNode.className='${base} empty';this.remove()">`;
+    }
+
     function fillTroops() {
       MELEE = TROOPS.filter((t) => t.meleeAtk > 0).sort((a, b) => b.meleeAtk - a.meleeAtk).slice(0, 40);
       RANGED = TROOPS.filter((t) => t.rangeAtk > 0).sort((a, b) => b.rangeAtk - a.rangeAtk).slice(0, 40);
@@ -254,13 +259,15 @@
       $("rUnit").innerHTML = RANGED.map((t, i) => `<option value="${i}">${esc(t.name)} (🏹${t.rangeAtk})</option>`).join("");
       paintSlot("mArt", MELEE[0]); paintSlot("rArt", RANGED[0]);
     }
-    function paintSlot(id, t) {
-      const el = $(id);
-      if (!t || !t.img) { el.className = "art empty"; el.innerHTML = ""; return; }
-      el.className = "art";
-      el.innerHTML = `<img src="${esc(t.img)}" alt="" onerror="this.parentNode.className='art empty';this.remove()">`;
-    }
 
+    /* parse a tool's wall/gate reduction from its effect strings */
+    function toolReduction(t) {
+      for (const e of t.effects || []) {
+        const m = /-(\d+(?:\.\d+)?)%\s*(wall|gate)\s*protection/i.exec(e);
+        if (m) return { pct: +m[1], type: m[2].toLowerCase() };
+      }
+      return null;
+    }
     /* ---- commander ---- */
     const ABKIND = (desc) => {
       const d = (desc || "").toLowerCase();
@@ -270,8 +277,7 @@
       return "";
     };
     function renderGeneral() {
-      const gi = +$("gen").value;
-      const g = GENERALS[gi];
+      const g = GENERALS[+$("gen").value];
       const frame = $("genFrame");
       if (!g) {
         frame.className = "frame empty"; frame.innerHTML = "";
@@ -280,58 +286,61 @@
       }
       frame.className = "frame";
       frame.innerHTML = `<img src="${esc(g.img)}" alt="${esc(g.name)}" onerror="this.parentNode.className='frame empty';this.remove()">`;
-      $("genAbilities").innerHTML = (g.attack || []).map((a) => {
-        const k = ABKIND(a.desc);
-        return `<span class="wb-ab ${k}" title="${esc(a.desc)}">${esc(a.name)}</span>`;
-      }).join("");
+      $("genAbilities").innerHTML = (g.attack || []).map((a) =>
+        `<span class="wb-ab ${ABKIND(a.desc)}" title="${esc(a.desc)}">${esc(a.name)}</span>`).join("");
       simulate();
     }
 
-    function simulate() {
-      if (!BOSSES.length) return;
-      const st = stage(), seg = segValue, c = st.combat || {};
-      const lvl = level();
-
-      let defenders = (st[seg] || []).map((u) => ({ ...u }));
-      const startTotal = defenders.reduce((a, u) => a + u.count, 0);
-      if (!startTotal) { $("result").innerHTML = "<p class='muted'>No garrison on this segment.</p>"; return; }
-
-      const prot = Math.max(0, (seg === "front" ? (c.gateProt || 0) : (c.wallProt || 0)) - (+$("tools").value || 0));
-      const protMult = 1 + prot / 100;
+    /* ---- shared inputs ---- */
+    function readInputs() {
+      const c = stage().combat || {};
       const genDefRed = Math.min(100, Math.max(0, +$("genDefRed").value || 0)) / 100;
       const genAtk = (+$("genAtk").value || 0) / 100;
       const genKill = Math.min(100, Math.max(0, +$("genKill").value || 0)) / 100;
-      const defStrMult = (1 + ((seg === "front" ? (c.frontStr || 0) : (c.flankStr || 0)) / 100)) * (1 - genDefRed)
-                       / (1 + (+$("posBonus").value || 0) / 100);
-
       const mAtkStat = (MELEE[+$("mUnit").value] || {}).meleeAtk || 0;
       const rAtkStat = (RANGED[+$("rUnit").value] || {}).rangeAtk || 0;
       const mCount0 = +$("mCount").value || 0, rCount0 = +$("rCount").value || 0;
       const mMult = (1 + (+$("mBonus").value || 0) / 100 + genAtk) * (1 + (c.atkMeleeMalus || 0) / 100);
       const rMult = (1 + (+$("rBonus").value || 0) / 100 + genAtk) * (1 + (c.atkRangedMalus || 0) / 100);
-
       const realN = Math.max(0, Math.min(20, +$("waves").value || 0));
       const dummyN = Math.max(0, Math.min(40, +$("dummyWaves").value || 0));
       const dummySize = Math.max(1, +$("dummySize").value || 1);
+      const posBonus = (+$("posBonus").value || 0) / 100;
+      const gearRed = +$("gearRed").value || 0;
+      const gatePct = (GATE[+$("gateTool").value] || {}).pct || 0;
+      const wallPct = (WALL[+$("wallTool").value] || {}).pct || 0;
+      return { c, genDefRed, genKill, mAtkStat, rAtkStat, mCount0, rCount0, mMult, rMult,
+               realN, dummyN, dummySize, posBonus, gearRed, gatePct, wallPct };
+    }
 
-      // wave plan: dummy waves first, then real waves
+    /* ---- one segment ---- */
+    function computeSegment(seg, IN) {
+      const st = stage(), c = IN.c, lvl = level();
+      let defenders = (st[seg] || []).map((u) => ({ ...u }));
+      const startTotal = defenders.reduce((a, u) => a + u.count, 0);
+      const isFront = seg === "front";
+      const baseProt = isFront ? (c.gateProt || 0) : (c.wallProt || 0);
+      const toolPct = isFront ? IN.gatePct : IN.wallPct;
+      const protLeft = Math.max(0, baseProt - toolPct - IN.gearRed);
+      if (!startTotal) return { seg, empty: true, protLeft };
+
+      const protMult = 1 + protLeft / 100;
+      const defStrMult = (1 + ((isFront ? (c.frontStr || 0) : (c.flankStr || 0)) / 100)) * (1 - IN.genDefRed)
+                       / (1 + IN.posBonus);
+
       const plan = [];
-      for (let i = 0; i < dummyN; i++) plan.push({ dummy: true });
-      for (let i = 0; i < realN; i++) plan.push({ dummy: false });
-      if (!plan.length) { $("result").innerHTML = "<p class='muted'>Add at least one wave.</p>"; return; }
+      for (let i = 0; i < IN.dummyN; i++) plan.push({ dummy: true });
+      for (let i = 0; i < IN.realN; i++) plan.push({ dummy: false });
 
       const killDefenders = (n) => {
-        let remaining = Math.min(n, defenders.reduce((a, u) => a + u.count, 0));
         const tot = defenders.reduce((a, u) => a + u.count, 0) || 1;
-        const snapshot = remaining;
-        for (const u of defenders) {
-          const k = Math.min(u.count, Math.round(snapshot * (u.count / tot)));
-          u.count -= k; remaining -= k;
-        }
+        let remaining = Math.min(n, tot);
+        const snap = remaining;
+        for (const u of defenders) { const k = Math.min(u.count, Math.round(snap * (u.count / tot))); u.count -= k; remaining -= k; }
         for (const u of defenders) { if (remaining <= 0) break; const k = Math.min(u.count, remaining); u.count -= k; remaining -= k; }
       };
 
-      let totalAtkLossM = 0, totalAtkLossR = 0, breachedAt = 0, waveNo = 0;
+      let lossM = 0, lossR = 0, breachedAt = 0, waveNo = 0;
       const waveRows = [];
 
       for (const wv of plan) {
@@ -339,32 +348,27 @@
         let defCount = defenders.reduce((a, u) => a + u.count, 0);
         if (defCount <= 0) break;
 
-        // 1) commander per-wave kill ability (fires every wave, dummy or real)
         let abilityKills = 0;
-        if (genKill > 0) { abilityKills = Math.min(defCount, Math.round(defCount * genKill)); killDefenders(abilityKills); }
+        if (IN.genKill > 0) { abilityKills = Math.min(defCount, Math.round(defCount * IN.genKill)); killDefenders(abilityKills); }
         defCount = defenders.reduce((a, u) => a + u.count, 0);
-        let lossM = 0, lossR = 0, combatKills = 0;
+        let wLossM = 0, wLossR = 0, combatKills = 0;
 
         if (defCount > 0) {
-          // 2) wave combat
-          const mC = wv.dummy ? dummySize : mCount0;
-          const rC = wv.dummy ? 0 : rCount0;
-          const atkM = mC * mAtkStat * mMult;
-          const atkR = rC * rAtkStat * rMult;
+          const mC = wv.dummy ? IN.dummySize : IN.mCount0;
+          const rC = wv.dummy ? 0 : IN.rCount0;
+          const atkM = mC * IN.mAtkStat * IN.mMult;
+          const atkR = rC * IN.rAtkStat * IN.rMult;
           const atkTotal = atkM + atkR;
-
           if (atkTotal > 0) {
             const defVsM = defenders.reduce((a, u) => a + u.count * u.meleeDef, 0) * defStrMult * protMult;
             const defVsR = defenders.reduce((a, u) => a + u.count * u.rangeDef, 0) * defStrMult * protMult;
-            const shareM = atkM / atkTotal, shareR = 1 - shareM;
+            const shareM = atkM / atkTotal;
             const scaledDefM = atkM > 0 ? defVsM * (atkR > 0 ? shareM : 1) : 0;
-            const scaledDefR = atkR > 0 ? defVsR * (atkM > 0 ? shareR : 1) : 0;
-
-            const lossRatioM = atkM > 0 ? (atkM > scaledDefM ? Math.pow(scaledDefM / atkM, 1.5) : 1) : 0;
-            const lossRatioR = atkR > 0 ? (atkR > scaledDefR ? Math.pow(scaledDefR / atkR, 1.5) : 1) : 0;
-            lossM = Math.min(Math.ceil(mC * lossRatioM), mC);
-            lossR = Math.min(Math.ceil(rC * lossRatioR), rC);
-
+            const scaledDefR = atkR > 0 ? defVsR * (atkM > 0 ? (1 - shareM) : 1) : 0;
+            const lrM = atkM > 0 ? (atkM > scaledDefM ? Math.pow(scaledDefM / atkM, 1.5) : 1) : 0;
+            const lrR = atkR > 0 ? (atkR > scaledDefR ? Math.pow(scaledDefR / atkR, 1.5) : 1) : 0;
+            wLossM = Math.min(Math.ceil(mC * lrM), mC);
+            wLossR = Math.min(Math.ceil(rC * lrR), rC);
             const defForRatio = scaledDefM + scaledDefR;
             const killRatio = defForRatio <= 0 ? 1 : (atkTotal < defForRatio ? Math.pow(atkTotal / defForRatio, 1.5) : 1);
             combatKills = Math.min(Math.ceil(defCount * killRatio), defCount);
@@ -372,57 +376,77 @@
           }
         }
 
-        totalAtkLossM += lossM; totalAtkLossR += lossR;
+        lossM += wLossM; lossR += wLossR;
         const defLeft = defenders.reduce((a, u) => a + u.count, 0);
-        waveRows.push({ w: waveNo, dummy: wv.dummy, kills: abilityKills + combatKills, abilityKills, defLeft, lossM, lossR });
+        waveRows.push({ w: waveNo, dummy: wv.dummy, kills: abilityKills + combatKills, abilityKills, defLeft, lossM: wLossM, lossR: wLossR });
         if (defLeft <= 0 && !breachedAt) breachedAt = waveNo;
         if (defLeft <= 0) break;
       }
 
       const defLeft = defenders.reduce((a, u) => a + u.count, 0);
       const killedTotal = startTotal - defLeft;
-      const killShare = killedTotal / startTotal;
-      const points = killShare * (lvl.wallPointFactor || 0);
-      const breached = defLeft <= 0;
-      const totalLosses = totalAtkLossM + totalAtkLossR;
+      const points = (killedTotal / startTotal) * (lvl.wallPointFactor || 0);
+      return { seg, empty: false, breached: defLeft <= 0, breachedAt, startTotal, killedTotal,
+               lossM, lossR, points, protLeft, waveRows, plan: plan.length,
+               garrison: (st[seg] || []) };
+    }
 
-      $("result").innerHTML =
-        `<div class="wb-verdict ${breached ? "ok" : "no"}">
-           <span class="big">${breached ? "💥 BREACHED" : "🧱 Holds"}</span>
-           <span style="color:var(--text-dim)">${breached
-             ? "Segment broken on wave " + breachedAt + " of " + plan.length + " (" + dummyN + " dummy + " + realN + " real)."
-             : num(defLeft) + " of " + num(startTotal) + " defenders still standing after " + plan.length + " wave" + (plan.length > 1 ? "s" : "") + "."}</span>
-         </div>
-         <div class="wb-stats">
-           <div class="wb-stat"><div class="v">${num(killedTotal)} <span style="color:var(--text-dim);font-size:.75rem">/ ${num(startTotal)}</span></div><div class="k">Defenders killed</div></div>
-           <div class="wb-stat"><div class="v">${num(totalLosses)}</div><div class="k">Your total losses</div></div>
-           <div class="wb-stat"><div class="v">${num(totalAtkLossM)} / ${num(totalAtkLossR)}</div><div class="k">Melee / ranged lost</div></div>
-           <div class="wb-stat"><div class="v">+${num(points)}</div><div class="k">Activity points (wall ×${num(lvl.wallPointFactor || 0)})</div></div>
-           <div class="wb-stat"><div class="v">${num(Math.max(0, (seg === "front" ? (c.gateProt || 0) : (c.wallProt || 0)) - (+$("tools").value || 0)))}%</div><div class="k">Protection left after tools</div></div>
-         </div>
-         <table class="wb-waves"><thead><tr><th>Wave</th><th>Kills (ability)</th><th>Defenders left</th><th>Melee lost</th><th>Ranged lost</th></tr></thead><tbody>` +
-        waveRows.map((r) =>
-          `<tr class="${r.dummy ? "dummy" : ""}"><td>${r.dummy ? "Dummy " : "Wave "}${r.w}</td>` +
-          `<td>${num(r.kills)} <span style="color:var(--text-faint)">(${num(r.abilityKills)})</span></td>` +
-          `<td>${num(r.defLeft)}</td><td>${num(r.lossM)}</td><td>${num(r.lossR)}</td></tr>`).join("") +
-        "</tbody></table>";
+    const SEG_LABEL = { left: "🧱 Left flank", front: "🚪 Front (gate)", right: "🧱 Right flank" };
+
+    function segCard(r, IN) {
+      if (r.empty) {
+        return `<div class="wb-seg-card"><div class="wb-seg-head"><span class="nm">${SEG_LABEL[r.seg]}</span></div>
+                <div class="wb-garr">No garrison on this segment. Protection left ${num(r.protLeft)}%.</div></div>`;
+      }
+      const garr = r.garrison.map((u) => num(u.count) + "× " + esc(u.name)).join(" · ");
+      const rows = r.waveRows.map((w) =>
+        `<tr class="${w.dummy ? "dummy" : ""}"><td>${w.dummy ? "D" : "W"}${w.w}</td>` +
+        `<td>${num(w.kills)} <span style="color:var(--text-faint)">(${num(w.abilityKills)})</span></td>` +
+        `<td>${num(w.defLeft)}</td><td>${num(w.lossM + w.lossR)}</td></tr>`).join("");
+      return `<div class="wb-seg-card ${r.breached ? "breach" : "hold"}">
+        <div class="wb-seg-head"><span class="nm">${SEG_LABEL[r.seg]}</span>
+          <span class="verdict">${r.breached ? "💥 BREACHED" : "🧱 Holds"}</span></div>
+        <div class="wb-garr">${garr}${r.breached ? " — broke on wave " + r.breachedAt + "/" + r.plan : ""}</div>
+        <div class="wb-mini">
+          <div class="b"><div class="v">${num(r.killedTotal)}<span style="color:var(--text-dim);font-size:.7rem">/${num(r.startTotal)}</span></div><div class="k">Defenders killed</div></div>
+          <div class="b"><div class="v">${num(r.lossM + r.lossR)}</div><div class="k">Your losses</div></div>
+          <div class="b"><div class="v">+${num(r.points)}</div><div class="k">Activity points</div></div>
+          <div class="b"><div class="v">${num(r.protLeft)}%</div><div class="k">Protection left</div></div>
+        </div>
+        <table class="wb-waves"><thead><tr><th>Wave</th><th>Kills (abil)</th><th>Def left</th><th>Lost</th></tr></thead>
+          <tbody>${rows}</tbody></table>
+      </div>`;
+    }
+
+    function simulate() {
+      if (!BOSSES.length) return;
+      const IN = readInputs();
+      const results = ["left", "front", "right"].map((s) => computeSegment(s, IN));
+      const active = results.filter((r) => !r.empty);
+      const totPoints = active.reduce((a, r) => a + r.points, 0);
+      const totLoss = active.reduce((a, r) => a + r.lossM + r.lossR, 0);
+      const totKilled = active.reduce((a, r) => a + r.killedTotal, 0);
+      const breached = active.filter((r) => r.breached).length;
+
+      $("totals").innerHTML =
+        `<div class="wb-tot"><div class="v">${breached} / ${active.length}</div><div class="k">Segments breached</div></div>
+         <div class="wb-tot"><div class="v">${num(totKilled)}</div><div class="k">Total defenders killed</div></div>
+         <div class="wb-tot"><div class="v">${num(totLoss)}</div><div class="k">Total troop losses</div></div>
+         <div class="wb-tot"><div class="v">+${num(totPoints)}</div><div class="k">Total activity points</div></div>`;
+      $("segResults").innerHTML = results.map((r) => segCard(r, IN)).join("");
     }
 
     /* wiring */
-    $("segs").addEventListener("click", (e) => {
-      const seg = e.target.closest(".wb-seg"); if (!seg) return;
-      segValue = seg.dataset.seg;
-      [...$("segs").children].forEach((x) => x.classList.toggle("active", x === seg));
-      renderTarget();
-    });
     $("mUnit").addEventListener("change", () => { paintSlot("mArt", MELEE[+$("mUnit").value]); simulate(); });
     $("rUnit").addEventListener("change", () => { paintSlot("rArt", RANGED[+$("rUnit").value]); simulate(); });
-    ["mCount", "rCount", "mBonus", "rBonus", "waves", "dummyWaves", "dummySize", "tools", "posBonus",
-     "genAtk", "genDefRed", "genKill"].forEach((id) => $(id).addEventListener("input", simulate));
+    $("gateTool").addEventListener("change", () => { paintSlot("gateArt", GATE[+$("gateTool").value], "gate"); simulate(); });
+    $("wallTool").addEventListener("change", () => { paintSlot("wallArt", WALL[+$("wallTool").value], "wall"); simulate(); });
+    ["mCount", "rCount", "mBonus", "rBonus", "waves", "dummyWaves", "dummySize", "posBonus",
+     "gearRed", "genAtk", "genDefRed", "genKill"].forEach((id) => $(id).addEventListener("input", simulate));
     $("gen").addEventListener("change", renderGeneral);
     $("boss").addEventListener("change", fillTargets);
     $("level").addEventListener("change", fillStages);
-    $("stage").addEventListener("change", renderTarget);
+    $("stage").addEventListener("change", renderBossFx);
 
     Promise.all([
       fetch("../overview-rift/data/rift-bosses.json").then((r) => r.json()),
@@ -432,13 +456,29 @@
       BOSSES = rb.bosses;
       TROOPS = tt.troops;
       GENERALS = (gn.generals || []).filter((g) => (g.attack || []).length);
+
+      // siege tools: parse wall/gate reduction, strongest first
+      const allTools = (tt.tools || []).map((t) => ({ ...t, red: toolReduction(t) })).filter((t) => t.red);
+      GATE = allTools.filter((t) => t.red.type === "gate").map((t) => ({ name: t.name, img: t.img, pct: t.red.pct }))
+               .sort((a, b) => b.pct - a.pct);
+      WALL = allTools.filter((t) => t.red.type === "wall").map((t) => ({ name: t.name, img: t.img, pct: t.red.pct }))
+               .sort((a, b) => b.pct - a.pct);
+      // dedupe by name+pct
+      const dedupe = (arr) => { const seen = new Set(); return arr.filter((t) => { const k = t.name + t.pct; if (seen.has(k)) return false; seen.add(k); return true; }); };
+      GATE = dedupe(GATE); WALL = dedupe(WALL);
+
       $("boss").innerHTML = BOSSES.map((b, i) => `<option value="${i}">${esc(b.name)}</option>`).join("");
       $("gen").innerHTML = `<option value="-1">No general</option>` +
         GENERALS.map((g, i) => `<option value="${i}">${esc(g.name)}</option>`).join("");
+      $("gateTool").innerHTML = `<option value="-1">None</option>` +
+        GATE.map((t, i) => `<option value="${i}">${esc(t.name)} (−${t.pct}%)</option>`).join("");
+      $("wallTool").innerHTML = `<option value="-1">None</option>` +
+        WALL.map((t, i) => `<option value="${i}">${esc(t.name)} (−${t.pct}%)</option>`).join("");
+
       fillTroops();
       fillTargets();
     }).catch((e) => {
-      $("result").innerHTML = "<p class='muted'>Could not load data: " + esc(e.message) + "</p>";
+      $("segResults").innerHTML = "<p class='muted'>Could not load data: " + esc(e.message) + "</p>";
     });
   </script>
 </body>
