@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Loot Boxes Overview — Maxy's Empire Toolkit</title>
+  <meta name="description" content="Every Goodgame Empire mystery & loot box with its full contents and real drop chances." />
+  <link rel="stylesheet" href="../../assets/css/theme.css" />
+  <style>
+    .box-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 10px; margin-bottom: 20px; }
+    .box-tile {
+      display: flex; flex-direction: column; align-items: center; gap: 6px; text-align: center;
+      padding: 12px 8px 10px; border-radius: var(--radius-sm); cursor: pointer; font: inherit;
+      background: var(--bg-elev-2); border: 1px solid var(--border); color: var(--text-dim);
+      transition: .12s;
+    }
+    .box-tile:hover { border-color: var(--gold-dim); color: var(--text); }
+    .box-tile.active { border-color: var(--gold); color: var(--text); background: rgba(227,179,65,.07); }
+    .box-tile img { width: 52px; height: 52px; object-fit: contain; }
+    .box-tile-name { font-size: .74rem; font-weight: 600; line-height: 1.25; }
+
+    .drops-head { display: flex; align-items: baseline; gap: 10px; flex-wrap: wrap; margin: 0 0 12px; }
+    .drops-head h2 { margin: 0; font-size: 1.05rem; }
+    .drops-head .muted { font-size: .8rem; }
+    table.drops { width: 100%; border-collapse: collapse; font-size: .85rem; }
+    .drops th {
+      text-align: left; font-size: .68rem; text-transform: uppercase; letter-spacing: .06em;
+      color: var(--text-faint); padding: 6px 10px; border-bottom: 1px solid var(--border);
+    }
+    .drops td { padding: 7px 10px; border-bottom: 1px solid var(--border); color: var(--text-dim); }
+    .drops td.nm { color: var(--text); }
+    .drops td.pc { font-variant-numeric: tabular-nums; text-align: right; color: var(--gold); font-weight: 600; }
+    .drops tr.r4 td.nm { color: var(--gold); }
+    .drops tr.r3 td.nm { color: #c39bff; }
+    .drops tr.r2 td.nm { color: #79c0ff; }
+    .rarity-dot { display: inline-block; width: 8px; height: 8px; border-radius: 50%; margin-right: 7px; vertical-align: middle; }
+    .r1 .rarity-dot { background: #9aa7b4; } .r2 .rarity-dot { background: #79c0ff; }
+    .r3 .rarity-dot { background: #c39bff; } .r4 .rarity-dot { background: var(--gold); }
+  </style>
+</head>
+<body>
+  <header class="topbar">
+    <div class="wrap">
+      <a class="brand" href="../../"><span class="crest">🛡️</span> Maxy's Empire <b>Toolkit</b></a>
+    </div>
+  </header>
+
+  <main class="wrap">
+    <div class="tool-head">
+      <a class="back" href="../../">← All tools</a>
+      <h1>📦 Loot Boxes</h1>
+      <p>Every mystery and loot box with its full reward pool and <b>real drop
+         chances</b> (share ÷ pool total, straight from the game data). Pick a box
+         to see what's inside.</p>
+    </div>
+
+    <section class="panel" id="root">
+      <p class="muted">Loading loot box data…</p>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <div class="wrap"><p>Drop tables extracted from the community game-data cache. Box art from the Goodgame asset CDN.</p></div>
+  </footer>
+
+  <script>
+    const esc = (s) => String(s == null ? "" : s).replace(/[&<>"]/g, (c) =>
+      ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]));
+    let BOXES = [], cur = 0;
+
+    function pct(shares, total) {
+      const p = (shares / total) * 100;
+      return p >= 10 ? p.toFixed(1) + "%" : p >= 1 ? p.toFixed(2) + "%" : p.toFixed(3) + "%";
+    }
+
+    function render() {
+      const root = document.getElementById("root");
+      root.innerHTML = "";
+
+      const grid = document.createElement("div");
+      grid.className = "box-grid";
+      BOXES.forEach((b, i) => {
+        const t = document.createElement("button");
+        t.className = "box-tile" + (i === cur ? " active" : "");
+        t.innerHTML =
+          (b.img ? '<img src="' + esc(b.img) + '" alt="" loading="lazy" onerror="this.remove()">' : "📦") +
+          '<span class="box-tile-name">' + esc(b.name) + "</span>";
+        t.addEventListener("click", () => { cur = i; render(); });
+        grid.appendChild(t);
+      });
+      root.appendChild(grid);
+
+      const b = BOXES[cur];
+      const head = document.createElement("div");
+      head.className = "drops-head";
+      head.innerHTML = "<h2>" + esc(b.name) + "</h2>" +
+        '<span class="muted">' + b.entries.length + " possible rewards · " +
+        (b.draws > 1 ? b.draws + " draws per box" : "1 draw per box") + "</span>";
+      root.appendChild(head);
+
+      const tbl = document.createElement("table");
+      tbl.className = "drops";
+      tbl.innerHTML = "<thead><tr><th>Reward</th><th>Type</th><th>Amount</th><th style='text-align:right'>Chance</th></tr></thead>";
+      const tb = document.createElement("tbody");
+      b.entries.forEach((e) => {
+        const tr = document.createElement("tr");
+        tr.className = "r" + (e.rarity || 1);
+        tr.innerHTML =
+          '<td class="nm"><span class="rarity-dot"></span>' + esc(e.name) + "</td>" +
+          "<td>" + esc(e.type) + "</td>" +
+          "<td>" + (e.amount != null ? Number(e.amount).toLocaleString() : "—") + "</td>" +
+          '<td class="pc">' + pct(e.shares, b.total) + "</td>";
+        tb.appendChild(tr);
+      });
+      tbl.appendChild(tb);
+      root.appendChild(tbl);
+    }
+
+    fetch("./data/loot-boxes.json")
+      .then((r) => r.json())
+      .then((d) => { BOXES = d.boxes; render(); })
+      .catch((e) => {
+        document.getElementById("root").innerHTML = '<p class="muted">Could not load loot box data.</p>';
+        console.error(e);
+      });
+  </script>
+</body>
+</html>

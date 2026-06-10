@@ -195,10 +195,10 @@ window.TOOLS = [
     slug: "overview-loot-box",
     cat: "overviews",
     name: "Loot Boxes",
-    desc: "Loot box contents and drop chances.",
+    desc: "All 46 mystery & loot boxes with full contents and real drop chances.",
     icon: "📦",
-    status: "soon",
-    tags: ["loot box", "mystery box", "drops"],
+    status: "live",
+    tags: ["loot box", "mystery box", "drops", "chances", "rift box", "odds"],
   },
   {
     slug: "overview-rift",
