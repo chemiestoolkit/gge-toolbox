@@ -51,17 +51,19 @@
     { id: "rangeAtk",  label: "Range attack",      weight: 10, test: (n) => n.includes("offensiverangedbonus") },
     { id: "meleeAtk",  label: "Melee attack",      weight: 10, test: (n) => n.includes("offensivemeleebonus") },
     { id: "courtyard", label: "Courtyard attack",  weight: 10, test: (n) => n.includes("offensiveyardstr") },
-    /* Extra waves multiply the whole attack — one wave is worth a lot. */
-    { id: "waves",     label: "Extra waves",       weight: 800, test: (n) => n.includes("additionalwaves") },
-    /* Reserve kills damage the boss's health pool directly. */
-    { id: "reserveKill", label: "Reserve kills",   weight: 2,  test: (n) => n.startsWith("reserveunitkill") },
+    /* Extra waves multiply the whole attack — but per-wave value is small next
+       to a +%-stat, so scale modestly. */
+    { id: "waves",     label: "Extra waves",       weight: 120, test: (n) => n.includes("additionalwaves") },
     { id: "limit",     label: "Flank/front limit", weight: 6,  test: (n) => n.includes("attackunitamount") },
     { id: "frontFlankStr", label: "Flank/front str", weight: 3, test: (n) => /offensivefrontstr|offensiveflankstr/.test(n) },
     { id: "breach",    label: "Wall-break delay",  weight: 4,  test: (n) => n.includes("wallregenerationdelay") },
     { id: "protect",   label: "Wall/gate protection", weight: 1, test: (n) => /arewallprotection|aregateprotection/.test(n) },
-    { id: "minor",     label: "Speed / misc",      weight: 0.5, test: (n) => /speedbonus|returntravelboost|infectionrate/.test(n) },
+    { id: "minor",     label: "Speed / misc",      weight: 0.5, test: (n) => /speedbonus|returntravelboost/.test(n) },
+    /* Boss-specific gimmicks (reserve kills, zombie-infection protection) only
+       matter on one boss — weight LAST so they never drive the build. */
+    { id: "bossSpec",  label: "Boss-specific",     weight: 0.0005, test: (n) => n.startsWith("reserveunitkill") || n.includes("infectionrate") },
   ];
-  const ECON_WEIGHT = 0.05; // anything uncategorised
+  const ECON_WEIGHT = 0.02; // anything uncategorised — below boss-specific only barely
 
   /* Optimisation goals — multipliers applied ON TOP of the base weights, so
      you can tell the optimizer what this commander is FOR. */
@@ -69,13 +71,13 @@
     balanced:  { label: "⚖️ Balanced",        mult: {} },
     ranged:    { label: "🏹 Ranged focus",    mult: { rangeAtk: 3, meleeAtk: 0.3 } },
     melee:     { label: "⚔️ Melee focus",     mult: { meleeAtk: 3, rangeAtk: 0.3 } },
-    courtyard: { label: "🏯 Courtyard clear", mult: { courtyard: 3, waves: 1.5, reserveKill: 1.5 } },
-    wallbreak: { label: "🧱 Wall breaker",    mult: { breach: 6, limit: 1.5, frontFlankStr: 1.5, courtyard: 0.3, reserveKill: 0.3 } },
+    courtyard: { label: "🏯 Courtyard clear", mult: { courtyard: 3, waves: 1.5 } },
+    wallbreak: { label: "🧱 Wall breaker",    mult: { breach: 6, limit: 1.5, frontFlankStr: 1.5, courtyard: 0.3 } },
   };
   let curPreset = "balanced";
 
   const CAT_EMOJI = {
-    rangeAtk: "🏹", meleeAtk: "⚔️", courtyard: "🏯", waves: "🌊", reserveKill: "💀",
+    rangeAtk: "🏹", meleeAtk: "⚔️", courtyard: "🏯", waves: "🌊", bossSpec: "💀",
     limit: "👥", frontFlankStr: "💪", breach: "⏱️", protect: "🛡️", minor: "🐎",
   };
 
@@ -452,7 +454,7 @@
       if (!cat || !e.value) continue;
       const emoji = CAT_EMOJI[cat.id] || "✨";
       const v = cat.id === "waves" ? "+" + e.value
-        : cat.id === "reserveKill" ? "💀" + Number(e.value).toLocaleString()
+        : cat.id === "bossSpec" ? "💀" + Number(e.value).toLocaleString()
         : "+" + e.value + (cat.id === "breach" ? "s" : "%");
       chips.push('<span class="stat-chip" title="' + esc(e.label) + '">' + emoji + " " + v + "</span>");
     }
@@ -692,10 +694,10 @@
       { id: "meleeAtk",      label: "Melee attack",         unit: "%" },
       { id: "courtyard",     label: "Courtyard attack",     unit: "%" },
       { id: "waves",         label: "Extra waves",          unit: "" },
-      { id: "reserveKill",   label: "Reserve kills",        unit: "" },
       { id: "limit",         label: "Flank/front limit",    unit: "%" },
       { id: "frontFlankStr", label: "Flank/front strength", unit: "%" },
       { id: "breach",        label: "Wall-break delay",     unit: "s" },
+      { id: "bossSpec",      label: "Reserve kills",        unit: "" },
     ];
     const shown = totalRows.filter((r) => (totals[r.id] || 0) > 0);
     if (shown.length) {

@@ -12,7 +12,7 @@ window.TOOLS = [
   {
     slug: "guide-rift-raid",
     img: "assets/img/event-icons/riftraid.webp",
-    cat: "guides",
+    cat: "featured",
     name: "Rift Raid Basics",
     desc: "How the Rift Raid alliance event works: boss health, reserves, wall breaching and activity points.",
     icon: "🌀",

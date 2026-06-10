@@ -83,9 +83,8 @@ a:hover { text-decoration: underline; }
 .topbar .spacer { flex: 1; }
 .topbar .nav-link { color: var(--text-dim); font-size: .92rem; font-weight: 600; }
 .topbar .nav-link:hover { color: var(--text); text-decoration: none; }
-.nav-discord { display: inline-flex; align-items: center; gap: 6px; cursor: default; }
-.nav-discord .social-ico { width: 17px; height: 17px; color: #7289da; }
-.nav-discord b { color: var(--text); font-weight: 700; }
+.nav-vip { color: var(--gold) !important; font-weight: 700; }
+.nav-vip:hover { color: var(--text) !important; }
 
 /* ---- Hero (in-game dragon banner) ----------------------------------------- */
 .hero {

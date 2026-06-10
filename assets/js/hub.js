@@ -3,6 +3,7 @@
 (function () {
   const CATS = [
     { id: "all", label: "All" },
+    { id: "featured", label: "Featured" },
     { id: "guides", label: "Guides" },
     { id: "calculators", label: "Calculators" },
     { id: "simulators", label: "Simulators" },
@@ -11,6 +12,7 @@
     { id: "vip", label: "VIP 🔒" },
   ];
   const CAT_LABEL = {
+    featured: "⭐ Featured",
     guides: "Guides",
     calculators: "Calculators",
     simulators: "Simulators",
@@ -79,7 +81,7 @@
       return;
     }
     // Group by category, preserving registry order
-    const order = ["guides", "calculators", "simulators", "rankings", "overviews", "vip"];
+    const order = ["featured", "guides", "calculators", "simulators", "rankings", "overviews", "vip"];
     order.forEach((cat) => {
       const items = visible.filter((t) => t.cat === cat);
       if (!items.length) return;
