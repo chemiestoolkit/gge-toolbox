@@ -53,6 +53,17 @@ window.TOOLS = [
     tags: ["guide", "pvp", "attack", "scout", "waves", "tools", "commander", "raid"],
   },
   {
+    slug: "guide-beyond-the-horizon",
+    img: "assets/img/event-icons/beyondthehorizon.webp",
+    cat: "guides",
+    name: "Beyond the Horizon",
+    desc: "The temp-server event: Horizon alliances, city states, cap slowdown hits and what your BTH materials buy.",
+    icon: "🌅",
+    status: "live",
+    url: "tools/guides/beyond-the-horizon.html",
+    tags: ["guide", "bth", "beyond the horizon", "event", "temp server", "influence", "capital", "city state", "materials", "build items"],
+  },
+  {
     slug: "guide-recruitment",
     img: "assets/img/tool-art/troops.webp",
     cat: "guides",
