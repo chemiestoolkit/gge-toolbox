@@ -510,3 +510,6 @@ table.ov .muted { color: var(--text-faint); }
     padding-top: 8px; border-top: 1px solid var(--border-soft); }
 .ov-card .effects .eff { font-size: .78rem; color: var(--text-dim); line-height: 1.3; }
 .ov-card .effects .eff::before { content: "▸ "; color: var(--gold-dim); }
+
+/* Atlas-cropped sprite thumbnails (overview cards) */
+.ov-card .thumb .sprite { display: block; background-repeat: no-repeat; }

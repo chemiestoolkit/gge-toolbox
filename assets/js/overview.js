@@ -166,9 +166,21 @@ function cardOverview(opts) {
     grid.innerHTML = list.map((row) => {
       const url = card.img(row);
       const corner = card.corner ? card.corner(row) : null;
-      const thumb = url
-        ? '<img loading="lazy" src="' + esc(url) + '" alt="" onerror="this.parentNode.innerHTML=\'<span class=&quot;ph&quot;>' + (card.placeholder || "🎴") + '</span>\'">'
-        : '<span class="ph">' + (card.placeholder || "🎴") + "</span>";
+      let thumb;
+      if (url && row.frame && row.sheet) {
+        // Texture-atlas asset: crop to the real icon's frame rect.
+        const f = row.frame, sh = row.sheet;
+        const s = 140 / Math.max(f[2], f[3]);
+        thumb =
+          '<span class="sprite" style="width:' + (f[2] * s).toFixed(1) + "px;height:" + (f[3] * s).toFixed(1) + "px;" +
+          "background-image:url('" + esc(url) + "');" +
+          "background-size:" + (sh[0] * s).toFixed(1) + "px " + (sh[1] * s).toFixed(1) + "px;" +
+          "background-position:-" + (f[0] * s).toFixed(1) + "px -" + (f[1] * s).toFixed(1) + 'px;"></span>';
+      } else if (url) {
+        thumb = '<img loading="lazy" src="' + esc(url) + '" alt="" onerror="this.parentNode.innerHTML=\'<span class=&quot;ph&quot;>' + (card.placeholder || "🎴") + '</span>\'">';
+      } else {
+        thumb = '<span class="ph">' + (card.placeholder || "🎴") + "</span>";
+      }
       const stats = (card.stats || []).map((s) => {
         const v = s.fmt ? s.fmt(row[s.key], row) : esc(row[s.key]);
         return '<div class="stat"><span class="k">' + esc(s.label) + '</span><span class="v">' + v + "</span></div>";

@@ -259,6 +259,37 @@
     return i;
   }
 
+  /* Newer assets are texture atlases — obj.frame [x,y,w,h] + obj.sheet [W,H]
+     point at the real icon inside the sheet. Render those as a cropped sprite;
+     single-frame assets render as a plain <img>. */
+  function spriteEl(obj, size, phHtml) {
+    if (!obj.img) {
+      const ph = document.createElement("div");
+      ph.className = "item-thumb-ph";
+      ph.innerHTML = phHtml;
+      return ph;
+    }
+    if (obj.frame && obj.sheet) {
+      const [x, y, w, h] = obj.frame;
+      const [W, H] = obj.sheet;
+      const s = size / Math.max(w, h);
+      const el = document.createElement("span");
+      el.className = "sprite-crop";
+      el.style.cssText =
+        "display:inline-block;width:" + (w * s).toFixed(1) + "px;height:" + (h * s).toFixed(1) + "px;" +
+        "background-image:url('" + obj.img + "');" +
+        "background-size:" + (W * s).toFixed(1) + "px " + (H * s).toFixed(1) + "px;" +
+        "background-position:-" + (x * s).toFixed(1) + "px -" + (y * s).toFixed(1) + "px;" +
+        "background-repeat:no-repeat;";
+      return el;
+    }
+    const i = document.createElement("img");
+    i.src = obj.img;
+    i.alt = obj.name || "";
+    i.onerror = function () { this.outerHTML = '<div class="item-thumb-ph">' + phHtml + "</div>"; };
+    return i;
+  }
+
   /* ---- Render ---- */
   function renderAll() {
     const root = document.getElementById("root");
@@ -380,16 +411,7 @@
     /* Thumbnail */
     const thumbWrap = document.createElement("div");
     thumbWrap.className = "item-thumb-wrap";
-    if (item.img) {
-      const img = document.createElement("img");
-      img.src = item.img; img.alt = name; img.className = "item-thumb";
-      img.onerror = function () {
-        this.parentNode.innerHTML = `<div class="item-thumb-ph">${isGem ? "💎" : esc(SLOT_EMOJI[item.slot] || "?")}</div>`;
-      };
-      thumbWrap.appendChild(img);
-    } else {
-      thumbWrap.innerHTML = `<div class="item-thumb-ph">${isGem ? "💎" : esc(SLOT_EMOJI[item.slot] || "?")}</div>`;
-    }
+    thumbWrap.appendChild(spriteEl(item, 36, isGem ? "💎" : esc(SLOT_EMOJI[item.slot] || "?")));
     row.appendChild(thumbWrap);
 
     /* Info */
@@ -615,17 +637,9 @@
       for (const item of set.items) {
         const row = document.createElement("div");
         row.className = "ref-item-row";
-        if (item.img) {
-          const img = document.createElement("img");
-          img.src = item.img; img.alt = item.name;
-          img.onerror = function () { this.outerHTML = `<div class="ref-item-ph">${SLOT_EMOJI[item.slot] || "?"}</div>`; };
-          row.appendChild(img);
-        } else {
-          const ph = document.createElement("div");
-          ph.className = "ref-item-ph";
-          ph.textContent = SLOT_EMOJI[item.slot] || "?";
-          row.appendChild(ph);
-        }
+        const itemThumb = spriteEl(item, 28, SLOT_EMOJI[item.slot] || "?");
+        if (itemThumb.classList.contains("item-thumb-ph")) itemThumb.className = "ref-item-ph";
+        row.appendChild(itemThumb);
         const info = document.createElement("div");
         info.className = "ref-item-info";
         info.innerHTML = `<div class="slot-tag">${esc(item.slot)}</div><div class="name">${esc(item.name)}</div>`;
@@ -637,15 +651,10 @@
       for (const gem of set.gems) {
         const row = document.createElement("div");
         row.className = "ref-item-row";
-        if (gem.img) {
-          const img = document.createElement("img");
-          img.src = gem.img; img.alt = gem.name;
-          img.onerror = function () { this.outerHTML = `<div class="ref-item-ph">💎</div>`; };
-          row.appendChild(img);
-        } else {
-          const ph = document.createElement("div");
-          ph.className = "ref-item-ph"; ph.textContent = "💎";
-          row.appendChild(ph);
+        {
+          const gemThumb = spriteEl(gem, 28, "💎");
+          if (gemThumb.classList.contains("item-thumb-ph")) gemThumb.className = "ref-item-ph";
+          row.appendChild(gemThumb);
         }
         const info = document.createElement("div");
         info.className = "ref-item-info";

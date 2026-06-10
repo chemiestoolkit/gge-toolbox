@@ -29,5 +29,39 @@ for it in data["items"]:
         it["img"] = ASSET_ROOT + p + ".webp"
         hit += 1
     it.pop("reuseId", None)
+
+# Newer assets are texture atlases (empty BMP_0 frame + named real-icon frame).
+# Fetch each image's .json sidecar and bake the icon's frame rect + sheet size
+# so the UI can render a cropped sprite instead of the whole sheet.
+import urllib.request, concurrent.futures
+
+def fetch_atlas(url_webp):
+    try:
+        with urllib.request.urlopen(url_webp[:-5] + ".json", timeout=15) as r:
+            a = json.loads(r.read().decode("utf-8"))
+        anims = a.get("animations", {})
+        named = [k for k in anims if k != "BMP_0"]
+        if not named:
+            return None
+        f = a["frames"][anims[named[0]]["frames"][0]]
+        size = a.get("size", {})
+        return ([f[0], f[1], f[2], f[3]], [size.get("w", 0), size.get("h", 0)])
+    except Exception:
+        return None
+
+urls = sorted({it["img"] for it in data["items"] if it.get("img")})
+print(f"  fetching {len(urls)} sprite atlases…")
+frames = {}
+with concurrent.futures.ThreadPoolExecutor(max_workers=16) as ex:
+    for url, res in zip(urls, ex.map(fetch_atlas, urls)):
+        if res:
+            frames[url] = res
+framed = 0
+for it in data["items"]:
+    res = frames.get(it.get("img"))
+    if res:
+        it["frame"], it["sheet"] = res
+        framed += 1
+
 json.dump(data, open(data_path, "w"), separators=(",", ":"))
-print(f"  images: {hit}/{len(data['items'])} equipment")
+print(f"  images: {hit}/{len(data['items'])} equipment, {framed} atlas-cropped")

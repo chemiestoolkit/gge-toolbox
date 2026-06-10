@@ -268,10 +268,53 @@ def main():
             "gems":    gems_out,
         })
 
+    # Newer assets are texture ATLASES: frame 0 ("BMP_0") is an empty
+    # placeholder and the real icon is a named frame at an offset. The CDN
+    # serves a .json sidecar with the frame rects — bake the icon rect + sheet
+    # size into the data so the UI can render a cropped sprite.
+    attach_frames(sets_out)
+
     out = {"generated": __import__("datetime").date.today().isoformat(), "sets": sets_out}
     with open(OUT, "w") as f:
         json.dump(out, f, separators=(",",":"))
     print(f"Wrote rift.json — {len(sets_out)} sets.", file=sys.stderr)
+
+
+def fetch_atlas(url_webp):
+    """Return (frame [x,y,w,h], sheet [W,H]) for the real icon, or None."""
+    try:
+        with urllib.request.urlopen(url_webp[:-5] + ".json", timeout=15) as r:
+            a = json.loads(r.read().decode("utf-8"))
+        anims = a.get("animations", {})
+        named = [k for k in anims if k != "BMP_0"]
+        if not named:
+            return None  # single-frame asset; whole image is the icon
+        idx = anims[named[0]]["frames"][0]
+        f = a["frames"][idx]
+        size = a.get("size", {})
+        return ([f[0], f[1], f[2], f[3]], [size.get("w", 0), size.get("h", 0)])
+    except Exception:
+        return None
+
+
+def attach_frames(sets_out):
+    import concurrent.futures
+    urls = set()
+    for s in sets_out:
+        for o in s["items"] + s["gems"]:
+            if o.get("img"):
+                urls.add(o["img"])
+    print(f"  Fetching {len(urls)} sprite atlases…", file=sys.stderr)
+    frames = {}
+    with concurrent.futures.ThreadPoolExecutor(max_workers=12) as ex:
+        for url, res in zip(urls, ex.map(fetch_atlas, urls)):
+            if res:
+                frames[url] = res
+    for s in sets_out:
+        for o in s["items"] + s["gems"]:
+            res = frames.get(o.get("img"))
+            if res:
+                o["frame"], o["sheet"] = res
 
 if __name__ == "__main__":
     main()
