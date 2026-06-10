@@ -32,6 +32,17 @@ window.TOOLS = [
     tags: ["guide", "food", "production", "farms", "consumption", "economy", "deco cap", "storehouse"],
   },
   {
+    slug: "guide-mead-production",
+    img: "assets/img/tool-art/mead.webp",
+    cat: "featured",
+    name: "Increasing Mead Production",
+    desc: "Push net mead in the Everwinter Glacier: taverns, deco bonuses, build items, storage and cutting consumption.",
+    icon: "🍺",
+    status: "live",
+    url: "tools/guides/mead-production.html",
+    tags: ["guide", "mead", "production", "tavern", "everwinter", "glacier", "ice", "consumption", "economy"],
+  },
+  {
     slug: "guide-pvp",
     img: "assets/img/tool-art/troops.webp",
     cat: "featured",
