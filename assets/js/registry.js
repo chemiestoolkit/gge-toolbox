@@ -338,8 +338,20 @@ window.TOOLS = [
     tags: ["event", "rewards", "milestones", "points", "rift raid", "nomad", "samurai"],
   },
 
+  // ---- Rankings & stats --------------------------------------------------
+  {
+    slug: "rankings",
+    img: "assets/img/tool-art/rankings.webp",
+    cat: "rankings",
+    name: "Player & Alliance Rankings",
+    desc: "Server might, glory, loot and honour boards for every player and alliance, sortable per server.",
+    icon: "📊",
+    status: "live",
+    url: "tools/rankings/",
+    tags: ["rankings", "leaderboard", "might", "glory", "loot", "honour", "alliance", "player", "server"],
+  },
+
   // ---- Chemie's VIP Corner (access-gated) --------------------------------
-  // (Rankings live inside the VIP corner — no public rankings entry.)
   {
     slug: "vip",
     cat: "vip",

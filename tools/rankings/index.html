@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Player &amp; Alliance Rankings — Maxy's Empire Toolkit</title>
+  <meta name="description" content="Goodgame Empire player and alliance rankings — might, glory, loot and honour, per server." />
+  <link rel="stylesheet" href="../../assets/css/theme.css?v=15" />
+  <link rel="icon" type="image/png" href="../../assets/img/favicon.png" />
+  <style>
+    .rk-bar { display: flex; flex-wrap: wrap; gap: 10px; align-items: center; margin: 16px 0 10px; }
+    .rk-bar select, .rk-bar input {
+      padding: 8px 12px; font: inherit; background: var(--bg-elev); border: 1px solid var(--border);
+      border-radius: var(--radius-sm); color: var(--text); outline: none;
+    }
+    .rk-bar select:focus, .rk-bar input:focus { border-color: var(--gold); }
+    .rk-btn {
+      padding: 8px 16px; font: inherit; font-weight: 600; cursor: pointer; border-radius: var(--radius-sm);
+      background: var(--gold); color: #1a1206; border: 1px solid var(--gold);
+    }
+    .rk-btn.ghost { background: var(--bg-elev); color: var(--text-dim); border-color: var(--border); }
+    .rk-btn.ghost:hover { color: var(--text); border-color: var(--gold-dim); }
+    table.rk { width: 100%; border-collapse: collapse; font-size: .9rem; }
+    table.rk th { text-align: left; padding: 9px 11px; font-size: .68rem; text-transform: uppercase; letter-spacing: .06em;
+      color: var(--gold-dim); border-bottom: 1px solid var(--border); white-space: nowrap; }
+    table.rk th.sortable { cursor: pointer; }
+    table.rk th.sortable:hover { color: var(--gold); }
+    table.rk th.r, table.rk td.r { text-align: right; font-variant-numeric: tabular-nums; }
+    table.rk td { padding: 8px 11px; border-bottom: 1px solid var(--border-soft); color: var(--text-dim); }
+    table.rk td.nm { color: var(--text); font-weight: 600; }
+    table.rk td.stale { color: var(--bad); }
+    table.rk tbody tr:hover td { background: rgba(217,178,90,.04); }
+    .rk-status { color: var(--text-dim); font-size: .85rem; margin: 8px 0; }
+    .rk-status.err { color: var(--bad); }
+    .rk-pager { display: flex; align-items: center; gap: 12px; margin-top: 12px; font-size: .85rem; color: var(--text-dim); }
+    .rk-note { font-size: .8rem; color: var(--text-faint); margin-top: 14px; line-height: 1.5;
+      border-left: 3px solid var(--gold-dim); padding: 8px 14px; background: rgba(217,178,90,.05); border-radius: var(--radius-sm); }
+  </style>
+</head>
+<body>
+  <header class="topbar">
+    <div class="wrap">
+      <a class="brand" href="../../"><span class="crest">🛡️</span> Maxy's Empire <b>Toolkit</b></a>
+    </div>
+  </header>
+
+  <main class="wrap">
+    <div class="tool-head">
+      <a class="back" href="../../">← All tools</a>
+      <h1>📊 Player &amp; Alliance Rankings</h1>
+      <p>Server rankings for might, glory, loot and honour. Pick a server, switch
+         between players and alliances, and click a column to sort.</p>
+    </div>
+
+    <section class="panel">
+      <div class="rk-bar">
+        <select id="server" title="Server"></select>
+        <button class="rk-btn" id="tab-players">Players</button>
+        <button class="rk-btn ghost" id="tab-alliances">Alliances</button>
+        <input id="f-alliance" placeholder="Filter: alliance name" />
+        <input id="f-minlevel" placeholder="Min level" style="width:100px" type="number" />
+        <button class="rk-btn ghost" id="apply">Apply</button>
+      </div>
+
+      <div class="rk-status" id="status"></div>
+      <div style="overflow-x:auto"><table class="rk" id="tbl"></table></div>
+      <div class="rk-pager">
+        <button class="rk-btn ghost" id="prev">← Prev</button>
+        <span id="pageinfo"></span>
+        <button class="rk-btn ghost" id="next">Next →</button>
+      </div>
+
+      <div class="rk-note">
+        <b>About the data:</b> values come from the <a href="https://gge-tracker.com" target="_blank" rel="noopener">gge-tracker.com</a>
+        public API, which refreshes per its own crawl — the <b>Updated</b> column shows each row's age.
+        Very high-might accounts can lag behind their live in-game value; for a single player's current
+        figures, a direct profile lookup is more reliable.
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <div class="wrap"><p>Rankings data: gge-tracker.com public API. A community project — see <a href="../../CREDITS.md">credits</a>.</p></div>
+  </footer>
+
+  <script src="app.js"></script>
+</body>
+</html>

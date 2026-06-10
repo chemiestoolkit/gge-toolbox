@@ -11,6 +11,7 @@
     { id: "calculators", label: "Calculators",    icon: "🧮", href: "browse.html?cat=calculators" },
     { id: "simulators",  label: "Simulators",     icon: "⚔️", href: "browse.html?cat=simulators" },
     { id: "overviews",   label: "Overviews",      icon: "👁️", href: "browse.html?cat=overviews" },
+    { id: "rankings",    label: "Rankings",       icon: "📊", href: "browse.html?cat=rankings" },
     { id: "vip",         label: "VIP Corner",     icon: "🔒", href: "tools/vip/" },
   ];
   const CAT_LABEL = {
@@ -19,9 +20,10 @@
     calculators: "🧮 Calculators",
     simulators: "⚔️ Simulators",
     overviews: "👁️ Overviews",
+    rankings: "📊 Rankings & Stats",
     vip: "🔒 Chemie's VIP Corner",
   };
-  const ORDER = ["featured", "guides", "calculators", "simulators", "overviews", "vip"];
+  const ORDER = ["featured", "guides", "calculators", "simulators", "overviews", "rankings", "vip"];
 
   const page = document.body.dataset.page || "home";
   const params = new URLSearchParams(location.search);
