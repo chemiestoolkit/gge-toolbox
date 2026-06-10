@@ -5,12 +5,7 @@
 (function () {
   "use strict";
 
-  // ---- Gate: sub-pages bounce to the lock screen if not unlocked ----
-  if (localStorage.getItem("vip_unlocked_v1") !== "1") {
-    location.replace("./index.html");
-    return;
-  }
-
+  // Access control is handled by the page encryption (AES gate) — no JS gate here.
   const API = "https://api.gge-tracker.com/api/v1/";
   const SERVERS = ["AU1","INT1","INT2","INT3","DE1","FR1","GB1","US1","BR1","ES1","ES2","IT1","TR1","NL1","HU1","HU2","PL1","PT1","CZ1","SK1","SKN1","RU1","RO1","BG1","GR1","JP1","IN1","CN1","SA1","AE1","EG1","ARAB1","ASIA","HANT1","WORLD1","WORLD2","GLOBAL"];
 

@@ -73,7 +73,10 @@ rewards_by = {}
 for rw in items.get("donationRewards", []):
     rewards_by.setdefault((str(rw["rewardSetID"]), str(rw["donationTypeID"])), []).append(rw)
 
-types = {str(t["donationTypeID"]): title(t.get("name")) for t in items.get("donationTypes", [])}
+# "mason" is a defunct donation track that never shipped in-game — drop it.
+types = {str(t["donationTypeID"]): title(t.get("name"))
+         for t in items.get("donationTypes", [])
+         if str(t.get("name", "")).lower() != "mason"}
 
 def set_label(reward_set_id):
     # Derive a "Mon 'YY" hint from the reward comments when present.
