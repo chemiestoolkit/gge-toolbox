@@ -46,9 +46,7 @@ jobs:
           if [[ -n "$(git status --porcelain)" ]]; then
             git add -A
             ts="$(date -u +'%Y-%m-%d %H:%M UTC')"
-            git commit -m "chore(data): auto-refresh game data ($ts)
-
-Triggered by: ${{ github.event_name }}"
+            git commit -m "chore(data): auto-refresh game data ($ts)" -m "Triggered by: ${{ github.event_name }}"
             git push
             echo "Committed refreshed data."
           else

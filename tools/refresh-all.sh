@@ -11,6 +11,10 @@ builds=(
   "overview-equipment/data/build.sh"
   "overview-decorations/data/build.sh"
   "overview-rift/data/build.sh"
+  "overview-troops-tools/data/build.sh"
+  "overview-generals/data/build.sh"
+  "overview-loot-box/data/build.sh"
+  "overview-event-rewards/data/build.sh"
   "rift-optimizer/data/build.sh"
   "gacha-sim/data/build.sh"
 )
