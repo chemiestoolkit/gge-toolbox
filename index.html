@@ -5,9 +5,9 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Maxy's Empire Toolkit — Goodgame Empire tools & simulators</title>
   <meta name="description" content="A single hub of calculators and simulators for Goodgame Empire and Empire: Four Kingdoms." />
-  <link rel="stylesheet" href="assets/css/theme.css?v=12" />
+  <link rel="stylesheet" href="assets/css/theme.css?v=13" />
 </head>
-<body>
+<body class="dash">
   <header class="topbar">
     <div class="wrap">
       <a class="brand" href="./"><span class="crest">🛡️</span> Maxy's Empire <b>Toolkit</b></a>
@@ -17,11 +17,21 @@
     </div>
   </header>
 
-  <main class="wrap">
+  <div class="app-shell">
+    <aside class="sidebar">
+      <div class="side-head">
+        <h2>Imperial Archives</h2>
+        <p>Strategy Toolkit</p>
+      </div>
+      <nav class="side-nav" id="side-nav"><!-- rendered by hub.js --></nav>
+    </aside>
+
+    <main class="dash-main">
     <section class="hero">
       <h1>Maxy's Empire <b>Toolkit</b></h1>
       <p>One hub for Goodgame Empire &amp; Empire: Four Kingdoms — calculators and
          simulators, all in a single consistent interface.</p>
+      <button class="hero-cta" id="hero-cta">Access Archives</button>
     </section>
 
     <!-- ── Home feed: Maxy's Notes + What's New (fixed scroll) ── -->
@@ -78,10 +88,9 @@
         <input id="search" type="search" placeholder="Search tools…" autocomplete="off" />
       </label>
     </div>
-    <div class="chips" id="chips"></div>
-
     <div id="grid-host"></div>
-  </main>
+    </main>
+  </div>
 
   <footer class="footer">
     <div class="wrap">

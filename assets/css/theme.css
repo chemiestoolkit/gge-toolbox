@@ -2,7 +2,7 @@
    Maxy's Empire Toolkit — shared theme
    Used by the hub and every tool page so the whole site feels like one app.
    =========================================================================== */
-@import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700;800&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700;800&family=EB+Garamond:wght@400;500;600;700;800&display=swap');
 
 :root {
     --bg:          #0e1116;
@@ -537,3 +537,119 @@ table.ov .muted { color: var(--text-faint); }
 
 /* Atlas-cropped sprite thumbnails (overview cards) */
 .ov-card .thumb .sprite { display: block; background-repeat: no-repeat; }
+
+/* ===========================================================================
+   Dashboard v2 — "Ebon Sovereignty" shell (scoped to body.dash; the hub only)
+   Sidebar archive nav + engraved EB-Garamond headings + gold-hairline cards.
+   Tool pages are untouched until they're ported individually.
+   =========================================================================== */
+body.dash { --font-display: "EB Garamond", "Palatino", "Times New Roman", serif; }
+body.dash .topbar .wrap { max-width: 1320px; }
+
+.app-shell {
+    display: grid;
+    grid-template-columns: 248px minmax(0, 1fr);
+    gap: 0 30px;
+    max-width: 1320px;
+    margin: 0 auto;
+    padding: 0 20px;
+    align-items: start;
+}
+@media (max-width: 900px) { .app-shell { grid-template-columns: 1fr; gap: 0; padding: 0; } }
+
+/* ---- Sidebar archive nav ---- */
+.sidebar {
+    position: sticky;
+    top: 60px;
+    align-self: start;
+    max-height: calc(100vh - 60px);
+    padding: 28px 0 24px;
+    border-right: 1px solid var(--border-soft);
+    overflow-y: auto;
+}
+.side-head { padding: 0 22px 4px; }
+.side-head h2 {
+    margin: 0;
+    font-family: var(--font-display);
+    font-weight: 700;
+    font-size: 1.2rem;
+    color: var(--gold);
+    letter-spacing: .01em;
+}
+.side-head p {
+    margin: 3px 0 0;
+    font-size: .64rem;
+    letter-spacing: .14em;
+    text-transform: uppercase;
+    color: var(--text-faint);
+}
+.side-nav { display: flex; flex-direction: column; margin-top: 16px; }
+.side-link {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 11px 22px;
+    color: var(--text-dim);
+    font-size: .84rem;
+    font-weight: 600;
+    letter-spacing: .03em;
+    cursor: pointer;
+    user-select: none;
+    border-left: 3px solid transparent;
+    transition: .14s;
+}
+.side-link .si { width: 20px; text-align: center; font-size: 1rem; flex-shrink: 0; }
+.side-link:hover { background: var(--bg-elev-2); color: var(--text); }
+.side-link.active {
+    color: var(--gold);
+    border-left-color: var(--gold);
+    background: linear-gradient(90deg, rgba(227, 179, 65, .10), transparent);
+}
+
+@media (max-width: 900px) {
+    .sidebar {
+        position: static; max-height: none; padding: 8px 0;
+        border-right: none; border-bottom: 1px solid var(--border-soft);
+    }
+    .side-head { display: none; }
+    .side-nav { flex-direction: row; overflow-x: auto; gap: 4px; padding: 0 12px; margin-top: 0; }
+    .side-nav::-webkit-scrollbar { height: 0; }
+    .side-link {
+        border-left: none; border-bottom: 3px solid transparent;
+        padding: 9px 13px; white-space: nowrap; border-radius: 0;
+    }
+    .side-link.active { border-left: none; border-bottom-color: var(--gold); background: none; }
+}
+
+/* ---- Dashboard main column tweaks ---- */
+.dash-main { min-width: 0; padding-bottom: 8px; }
+.dash .hero { margin-top: 22px; }
+.dash .hero-cta {
+    display: inline-flex;
+    margin-top: 22px;
+    padding: 11px 26px;
+    background: var(--gold);
+    color: #1a1206;
+    border: none;
+    border-radius: var(--radius-sm);
+    font: inherit;
+    font-weight: 700;
+    font-size: .82rem;
+    letter-spacing: .1em;
+    text-transform: uppercase;
+    cursor: pointer;
+    transition: .15s;
+}
+.dash .hero-cta:hover { filter: brightness(1.1); box-shadow: 0 0 14px rgba(227, 179, 65, .35); }
+
+/* gold-hairline + candle-lit glow on the home feed cards */
+.dash .home-card { border-color: rgba(227, 179, 65, .15); transition: .15s; }
+.dash .home-news-row .home-card { cursor: default; }
+.dash .home-news-row .home-card:hover {
+    border-color: rgba(227, 179, 65, .55);
+    box-shadow: 0 0 14px rgba(227, 179, 65, .12);
+}
+.dash .home-card-head {
+    display: flex; align-items: center; gap: 7px;
+    letter-spacing: .18em;
+}

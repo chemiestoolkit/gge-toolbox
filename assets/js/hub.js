@@ -9,7 +9,7 @@
     { id: "simulators", label: "Simulators" },
     { id: "rankings", label: "Rankings" },
     { id: "overviews", label: "Overviews" },
-    { id: "vip", label: "VIP 🔒" },
+    { id: "vip", label: "VIP" },
   ];
   const CAT_LABEL = {
     featured: "⭐ Feature Guides",
@@ -20,27 +20,42 @@
     overviews: "Overviews",
     vip: "Chemie's VIP Corner 🔒",
   };
+  // Sidebar archive-nav icons, keyed by category id
+  const CAT_ICON = {
+    all: "🗂️",
+    featured: "⭐",
+    guides: "📖",
+    calculators: "🧮",
+    simulators: "⚔️",
+    rankings: "🏆",
+    overviews: "👁️",
+    vip: "🔒",
+  };
 
   let activeCat = "all";
   let query = "";
 
-  const chipsEl = document.getElementById("chips");
+  const navEl = document.getElementById("side-nav");
   const gridHost = document.getElementById("grid-host");
   const searchEl = document.getElementById("search");
 
-  // Build filter chips
+  // Build the sidebar archive nav (drives category filtering)
   CATS.forEach((c) => {
     const el = document.createElement("div");
-    el.className = "chip" + (c.id === "all" ? " active" : "");
-    el.textContent = c.label;
+    el.className = "side-link" + (c.id === "all" ? " active" : "");
     el.dataset.cat = c.id;
+    el.innerHTML = '<span class="si">' + (CAT_ICON[c.id] || "•") + "</span><span>" + c.label + "</span>";
     el.onclick = () => {
       activeCat = c.id;
-      [...chipsEl.children].forEach((x) => x.classList.toggle("active", x.dataset.cat === c.id));
+      [...navEl.children].forEach((x) => x.classList.toggle("active", x.dataset.cat === c.id));
       render();
     };
-    chipsEl.appendChild(el);
+    navEl.appendChild(el);
   });
+
+  // Hero "Access Archives" → jump to the tool grid
+  const heroCta = document.getElementById("hero-cta");
+  if (heroCta) heroCta.onclick = () => gridHost.scrollIntoView({ behavior: "smooth", block: "start" });
 
   searchEl.addEventListener("input", () => {
     query = searchEl.value.trim().toLowerCase();
