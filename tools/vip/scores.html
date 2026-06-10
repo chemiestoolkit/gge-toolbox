@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Score Tools — Chemie's VIP Corner</title>
+  <meta name="robots" content="noindex" />
+  <link rel="stylesheet" href="../../assets/css/theme.css" />
+  <link rel="stylesheet" href="./vip.css" />
+  <style>
+    .spark { width: 100%; height: 120px; margin: 6px 0 16px; }
+    .spark polyline { fill: none; stroke: var(--gold); stroke-width: 2; }
+    .spark-label { font-size: .72rem; color: var(--text-faint); text-transform: uppercase; letter-spacing: .05em; }
+  </style>
+</head>
+<body>
+  <header class="topbar">
+    <div class="wrap">
+      <a class="brand" href="../../"><span class="crest">🛡️</span> Maxy's Empire <b>Toolkit</b></a>
+    </div>
+  </header>
+
+  <main class="wrap">
+    <div class="tool-head">
+      <a class="back" href="./index.html">← VIP Corner</a>
+      <h1>🎯 Score Tools</h1>
+      <p>Event score history per player (rank + points across every tracked event run),
+         might/loot trend lines, and the server-wide event participation list.</p>
+    </div>
+
+    <section class="panel">
+      <div class="vip-nav">
+        <a href="./rankings.html">Rankings</a>
+        <a href="./fortress.html">Fortress Tracker</a>
+        <a href="./search.html">Search &amp; Analyse</a>
+        <a href="./scores.html" class="active">Score Tools</a>
+      </div>
+
+      <div class="vip-toolbar" id="toolbar">
+        <select class="vip-server-pick" id="mode">
+          <option value="events">Player event scores</option>
+          <option value="trends">Player trends</option>
+          <option value="server">Server events</option>
+        </select>
+        <input class="vip-input" id="q" placeholder="Player name…" />
+        <button class="vip-btn" id="go">Load</button>
+      </div>
+
+      <div class="vip-status" id="status"></div>
+      <div id="out"></div>
+
+      <p class="vip-credit">Data: <a href="https://gge-tracker.com" target="_blank" rel="noopener">gge-tracker.com</a> public API.</p>
+    </section>
+  </main>
+
+  <script src="./vip-shared.js"></script>
+  <script>
+    const { api, esc, num, ago, mountServerPicker } = window.VIP;
+    mountServerPicker(document.getElementById("toolbar"));
+
+    const out = document.getElementById("out");
+    const status = document.getElementById("status");
+    const modeSel = document.getElementById("mode");
+    const q = document.getElementById("q");
+
+    function table(headers, rowsHtml) {
+      return '<div style="overflow-x:auto"><table class="vip-table"><thead><tr>' +
+        headers.map((h) => "<th>" + h + "</th>").join("") + "</tr></thead><tbody>" +
+        rowsHtml + "</tbody></table></div>";
+    }
+
+    function sparkline(label, series) {
+      if (!series || series.length < 2) return "";
+      const vals = series.map((p) => Number(p.point));
+      const min = Math.min(...vals), max = Math.max(...vals);
+      const W = 600, H = 110, pad = 5;
+      const pts = vals.map((v, i) => {
+        const x = pad + (i / (vals.length - 1)) * (W - 2 * pad);
+        const y = max === min ? H / 2 : pad + (1 - (v - min) / (max - min)) * (H - 2 * pad);
+        return x.toFixed(1) + "," + y.toFixed(1);
+      }).join(" ");
+      return '<div class="spark-label">' + esc(label) + " — " + num(min) + " → " + num(max) + "</div>" +
+        '<svg class="spark" viewBox="0 0 ' + W + " " + H + '" preserveAspectRatio="none"><polyline points="' + pts + '"/></svg>';
+    }
+
+    async function playerId(name) {
+      const p = await api("players/" + encodeURIComponent(name));
+      return { id: p.player_id, p };
+    }
+
+    async function run() {
+      const m = modeSel.value;
+      const name = q.value.trim();
+      out.innerHTML = "";
+      status.textContent = "Loading…"; status.className = "vip-status";
+      try {
+        if (m === "events") {
+          if (!name) { status.textContent = "Enter a player name."; return; }
+          const { id, p } = await playerId(name);
+          const d = await api("events/player/" + id);
+          const evs = d.events || [];
+          out.innerHTML = "<h3>" + esc(p.player_name) + " — event history</h3>" +
+            table(["Event", "Run #", "Rank", "Points", "When"],
+              evs.map((e) =>
+                '<tr><td class="nm">' + esc(e.type) + '</td><td class="r">' + esc(e.event_num) + "</td>" +
+                '<td class="r">#' + num(e.rank) + '</td><td class="r">' + num(e.point) + "</td>" +
+                "<td>" + ago(e.collect_date) + "</td></tr>").join(""));
+          status.textContent = evs.length + " tracked event entries.";
+        } else if (m === "trends") {
+          if (!name) { status.textContent = "Enter a player name."; return; }
+          const { id, p } = await playerId(name);
+          const d = await api("statistics/player/" + id);
+          const pts = d.points || {};
+          let html = "<h3>" + esc(p.player_name) + " — trends</h3>";
+          const SERIES = [
+            ["Might", pts.player_might_history], ["Loot", pts.player_loot_history],
+            ["Honor", pts.player_honor_history], ["Fame", pts.player_fame_history],
+          ];
+          let drew = 0;
+          for (const [label, s] of SERIES) {
+            if (s && s.length > 1) { html += sparkline(label, s); drew++; }
+          }
+          // fall back: draw whatever history arrays exist
+          if (!drew) {
+            for (const [k, s] of Object.entries(pts)) {
+              if (Array.isArray(s) && s.length > 1) { html += sparkline(k.replace(/player_|_history/g, ""), s); drew++; }
+            }
+          }
+          out.innerHTML = html || "<p class='muted'>No trend data.</p>";
+          status.textContent = drew + " series.";
+        } else {
+          const d = await api("events/list");
+          const evs = d.events || [];
+          out.innerHTML = table(["Event type", "Run #", "Players", "Collected"],
+            evs.map((e) =>
+              '<tr><td class="nm">' + esc(e.type) + '</td><td class="r">' + esc(e.event_num) + "</td>" +
+              '<td class="r">' + num(e.player_count) + "</td><td>" + ago(e.collect_date) + "</td></tr>").join(""));
+          status.textContent = evs.length + " tracked event runs on this server.";
+        }
+      } catch (e) {
+        status.textContent = "Error: " + e.message; status.className = "vip-status vip-error";
+      }
+    }
+
+    document.getElementById("go").addEventListener("click", run);
+    q.addEventListener("keydown", (e) => { if (e.key === "Enter") run(); });
+    modeSel.addEventListener("change", () => { if (modeSel.value === "server") run(); });
+  </script>
+</body>
+</html>

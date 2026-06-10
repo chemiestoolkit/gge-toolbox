@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Fortress Tracker — Chemie's VIP Corner</title>
+  <meta name="robots" content="noindex" />
+  <link rel="stylesheet" href="../../assets/css/theme.css" />
+  <link rel="stylesheet" href="./vip.css" />
+</head>
+<body>
+  <header class="topbar">
+    <div class="wrap">
+      <a class="brand" href="../../"><span class="crest">🛡️</span> Maxy's Empire <b>Toolkit</b></a>
+    </div>
+  </header>
+
+  <main class="wrap">
+    <div class="tool-head">
+      <a class="back" href="./index.html">← VIP Corner</a>
+      <h1>🏰 Fortress Tracker</h1>
+      <p>Player fortresses (dungeons) on the map: position, owner, attack count and
+         exactly when each one comes off cooldown. Sort by availability and plan hits.</p>
+    </div>
+
+    <section class="panel">
+      <div class="vip-nav">
+        <a href="./rankings.html">Rankings</a>
+        <a href="./fortress.html" class="active">Fortress Tracker</a>
+        <a href="./search.html">Search &amp; Analyse</a>
+        <a href="./scores.html">Score Tools</a>
+      </div>
+
+      <div class="vip-toolbar" id="toolbar">
+        <select class="vip-server-pick" id="f-kid">
+          <option value="">All kingdoms</option>
+          <option value="0">Green (Great Empire)</option>
+          <option value="2">Sands (Burning)</option>
+          <option value="1">Ice (Everwinter)</option>
+          <option value="3">Fire (Peaks)</option>
+        </select>
+        <select class="vip-server-pick" id="f-cd">
+          <option value="">Any cooldown</option>
+          <option value="true">Attackable now</option>
+          <option value="false">On cooldown</option>
+        </select>
+        <input class="vip-input" id="f-near" placeholder="Near player (name)…" />
+        <input class="vip-input" id="f-owner" placeholder="Owner name…" style="min-width:130px" />
+        <button class="vip-btn" id="apply">Search</button>
+      </div>
+
+      <div class="vip-status" id="status"></div>
+      <div style="overflow-x:auto"><table class="vip-table" id="tbl"></table></div>
+      <div class="vip-pager">
+        <button class="vip-btn ghost" id="prev">← Prev</button>
+        <span id="pageinfo"></span>
+        <button class="vip-btn ghost" id="next">Next →</button>
+      </div>
+
+      <p class="vip-credit">Data: <a href="https://gge-tracker.com" target="_blank" rel="noopener">gge-tracker.com</a> public API.</p>
+    </section>
+  </main>
+
+  <script src="./vip-shared.js"></script>
+  <script>
+    const { api, esc, num, ago, dur, mountServerPicker } = window.VIP;
+    mountServerPicker(document.getElementById("toolbar"));
+
+    const KID_NAMES = { 0: "Green", 1: "Ice", 2: "Sands", 3: "Fire" };
+    let page = 1, hasMore = true;
+
+    async function load() {
+      const status = document.getElementById("status");
+      status.textContent = "Loading…"; status.className = "vip-status";
+      try {
+        const params = { page, size: 25 };
+        const kid = document.getElementById("f-kid").value;
+        const cd  = document.getElementById("f-cd").value;
+        const near = document.getElementById("f-near").value.trim();
+        const owner = document.getElementById("f-owner").value.trim();
+        if (kid !== "") params.filterByKid = kid;
+        if (cd !== "") params.filterByAttackCooldown = cd;
+        if (near) params.nearPlayerName = near;
+        if (owner) params.filterByPlayerName = owner;
+
+        const d = await api("dungeons", params);
+        const rows = d.dungeons || [];
+        hasMore = rows.length >= 25;
+        status.textContent = rows.length + " fortresses on this page";
+        render(rows);
+        document.getElementById("pageinfo").textContent = "Page " + page;
+      } catch (e) {
+        status.textContent = "Error: " + e.message; status.className = "vip-status vip-error";
+      }
+    }
+
+    function render(rows) {
+      const tbl = document.getElementById("tbl");
+      tbl.innerHTML = `<thead><tr>
+        <th>Owner</th><th>Lvl</th><th>Might</th><th>Kingdom</th><th>Position</th>
+        <th>Attacks</th><th>Available</th><th>Last attacked</th>${rows[0] && rows[0].distance != null ? "<th>Distance</th>" : ""}
+      </tr></thead>`;
+      const tb = document.createElement("tbody");
+      rows.forEach((r) => {
+        const availIn = r.effective_cooldown_until
+          ? Math.max(0, Math.round((new Date(r.effective_cooldown_until) - Date.now()) / 1000))
+          : 0;
+        const tr = document.createElement("tr");
+        tr.innerHTML =
+          '<td class="nm">' + esc(r.player_name) + "</td>" +
+          '<td class="r">' + esc(r.player_level) + (r.player_legendary_level ? "/" + esc(r.player_legendary_level) : "") + "</td>" +
+          '<td class="r">' + num(r.player_might) + "</td>" +
+          "<td>" + (KID_NAMES[r.kid] || r.kid) + "</td>" +
+          '<td class="r">' + r.position_x + ":" + r.position_y + "</td>" +
+          '<td class="r">' + num(r.total_attack_count) + "</td>" +
+          "<td>" + (availIn === 0 ? "✅ now" : "⏳ " + dur(availIn)) + "</td>" +
+          "<td>" + ago(r.last_attack) + "</td>" +
+          (r.distance != null ? '<td class="r">' + num(r.distance) + "</td>" : "");
+        tb.appendChild(tr);
+      });
+      tbl.appendChild(tb);
+    }
+
+    document.getElementById("apply").addEventListener("click", () => { page = 1; load(); });
+    document.getElementById("prev").addEventListener("click", () => { if (page > 1) { page--; load(); } });
+    document.getElementById("next").addEventListener("click", () => { if (hasMore) { page++; load(); } });
+    load();
+  </script>
+</body>
+</html>

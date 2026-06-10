@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Search &amp; Analyse — Chemie's VIP Corner</title>
+  <meta name="robots" content="noindex" />
+  <link rel="stylesheet" href="../../assets/css/theme.css" />
+  <link rel="stylesheet" href="./vip.css" />
+</head>
+<body>
+  <header class="topbar">
+    <div class="wrap">
+      <a class="brand" href="../../"><span class="crest">🛡️</span> Maxy's Empire <b>Toolkit</b></a>
+    </div>
+  </header>
+
+  <main class="wrap">
+    <div class="tool-head">
+      <a class="back" href="./index.html">← VIP Corner</a>
+      <h1>🔎 Search &amp; Analyse</h1>
+      <p>Four lookup tools: player profile &amp; history, alliance profile, castle
+         scout (defence levels per castle), and live server movements &amp; renames.</p>
+    </div>
+
+    <section class="panel">
+      <div class="vip-nav">
+        <a href="./rankings.html">Rankings</a>
+        <a href="./fortress.html">Fortress Tracker</a>
+        <a href="./search.html" class="active">Search &amp; Analyse</a>
+        <a href="./scores.html">Score Tools</a>
+      </div>
+
+      <div class="vip-toolbar" id="toolbar">
+        <select class="vip-server-pick" id="mode">
+          <option value="player">Player profile</option>
+          <option value="alliance">Alliance profile</option>
+          <option value="castles">Castle scout</option>
+          <option value="movements">Movements</option>
+          <option value="renames">Renames</option>
+        </select>
+        <input class="vip-input" id="q" placeholder="Player name…" />
+        <button class="vip-btn" id="go">Search</button>
+      </div>
+
+      <div class="vip-status" id="status"></div>
+      <div id="out"></div>
+
+      <p class="vip-credit">Data: <a href="https://gge-tracker.com" target="_blank" rel="noopener">gge-tracker.com</a> public API.</p>
+    </section>
+  </main>
+
+  <script src="./vip-shared.js"></script>
+  <script>
+    const { api, esc, num, ago, mountServerPicker } = window.VIP;
+    mountServerPicker(document.getElementById("toolbar"));
+
+    const out = document.getElementById("out");
+    const status = document.getElementById("status");
+    const modeSel = document.getElementById("mode");
+    const q = document.getElementById("q");
+
+    const CASTLE_TYPES = { 1: "Main castle", 4: "Outpost", 22: "Capital", 23: "Metro", 26: "Kingdom castle", 3: "Royal tower" };
+
+    modeSel.addEventListener("change", () => {
+      const m = modeSel.value;
+      q.placeholder = m === "alliance" ? "Alliance name…" : m === "movements" || m === "renames" ? "Optional: filter name…" : "Player name…";
+      q.style.display = "";
+      if (m === "movements" || m === "renames") run();
+    });
+
+    function kv(pairs) {
+      return '<div class="vip-kv">' + pairs.map(([k, v]) =>
+        '<div class="cell"><div class="k">' + k + '</div><div class="v">' + v + "</div></div>").join("") + "</div>";
+    }
+    function table(headers, rowsHtml) {
+      return '<div style="overflow-x:auto"><table class="vip-table"><thead><tr>' +
+        headers.map((h) => "<th>" + h + "</th>").join("") + "</tr></thead><tbody>" +
+        rowsHtml + "</tbody></table></div>";
+    }
+
+    async function run() {
+      const m = modeSel.value;
+      const name = q.value.trim();
+      out.innerHTML = "";
+      status.textContent = "Loading…"; status.className = "vip-status";
+      try {
+        if (m === "player") {
+          if (!name) { status.textContent = "Enter a player name."; return; }
+          const p = await api("players/" + encodeURIComponent(name));
+          out.innerHTML =
+            "<h3>" + esc(p.player_name) + (p.alliance_name ? ' <span style="color:var(--text-dim)">[' + esc(p.alliance_name) + "]</span>" : "") + "</h3>" +
+            kv([
+              ["Level", esc(p.level) + (p.legendary_level ? " / " + esc(p.legendary_level) : "")],
+              ["Might", num(p.might_current)], ["Might (best)", num(p.might_all_time)],
+              ["Loot", num(p.loot_current)], ["Loot (all time)", num(p.loot_all_time)],
+              ["Honor", num(p.honor)], ["Fame", num(p.current_fame)], ["Best fame", num(p.highest_fame)],
+              ["Updated", ago(p.updated_at)],
+            ]) +
+            (p.alliance_history && p.alliance_history.length
+              ? "<h4>Alliance history</h4>" + table(["Alliance", "Joined"],
+                  p.alliance_history.map((h) =>
+                    '<tr><td class="nm">' + esc(h.alliance_name || h.name || "?") + "</td><td>" +
+                    ago(h.created_at || h.date) + "</td></tr>").join(""))
+              : "");
+          status.textContent = "";
+        } else if (m === "alliance") {
+          if (!name) { status.textContent = "Enter an alliance name."; return; }
+          const a = await api("alliances/name/" + encodeURIComponent(name));
+          out.innerHTML = "<h3>" + esc(a.alliance_name) + "</h3>" +
+            kv([
+              ["Members", num(a.player_count)],
+              ["Might", num(a.might_current)], ["Might (best)", num(a.might_all_time)],
+              ["Loot", num(a.loot_current)], ["Loot (all time)", num(a.loot_all_time)],
+              ["Fame", num(a.current_fame)], ["Best fame", num(a.highest_fame)],
+            ]);
+          status.textContent = "";
+        } else if (m === "castles") {
+          if (!name) { status.textContent = "Enter a player name."; return; }
+          const list = await api("castle/search/" + encodeURIComponent(name));
+          if (!Array.isArray(list) || !list.length) { status.textContent = "No castles tracked for this player."; return; }
+          out.innerHTML = table(
+            ["Castle", "Type", "Kingdom", "Position", "Keep", "Wall", "Gate", "Towers", "Moat"],
+            list.map((c) =>
+              '<tr><td class="nm">' + esc(c.name) + "</td>" +
+              "<td>" + (CASTLE_TYPES[c.type] || "Type " + c.type) + "</td>" +
+              "<td>" + ["Green","Ice","Sands","Fire"][c.kingdomId] + "</td>" +
+              '<td class="r">' + c.positionX + ":" + c.positionY + "</td>" +
+              '<td class="r">' + esc(c.keepLevel) + '</td><td class="r">' + esc(c.wallLevel) + "</td>" +
+              '<td class="r">' + esc(c.gateLevel) + '</td><td class="r">' + esc(c.towerLevel) + "</td>" +
+              '<td class="r">' + esc(c.moatLevel) + "</td></tr>").join(""));
+          status.textContent = list.length + " castles — defence levels straight from the last scan.";
+        } else if (m === "movements") {
+          const params = { page: 1 };
+          if (name) { params.search = name; params.searchType = "player"; }
+          const d = await api("server/movements", params);
+          out.innerHTML = table(
+            ["When", "Player", "Alliance", "Might", "Move", "From", "To"],
+            (d.movements || []).map((r) =>
+              "<tr><td>" + ago(r.created_at) + '</td><td class="nm">' + esc(r.player_name) + "</td>" +
+              "<td>" + esc(r.alliance_name ?? "—") + '</td><td class="r">' + num(r.player_might) + "</td>" +
+              "<td>" + esc(r.movement_type) + " (type " + esc(r.castle_type) + ")</td>" +
+              '<td class="r">' + (r.position_x_old != null ? r.position_x_old + ":" + r.position_y_old : "—") + "</td>" +
+              '<td class="r">' + (r.position_x_new != null ? r.position_x_new + ":" + r.position_y_new : "—") + "</td></tr>").join(""));
+          status.textContent = "Latest castle movements (placements, relocations, removals).";
+        } else if (m === "renames") {
+          const d = await api("server/renames", { page: 1 });
+          let rows = d.renames || [];
+          if (name) rows = rows.filter((r) =>
+            (r.old_player_name + r.new_player_name).toLowerCase().includes(name.toLowerCase()));
+          out.innerHTML = table(
+            ["When", "Old name", "New name", "Alliance", "Might"],
+            rows.map((r) =>
+              "<tr><td>" + ago(r.date) + "</td><td>" + esc(r.old_player_name) + '</td><td class="nm">' +
+              esc(r.new_player_name) + "</td><td>" + esc(r.alliance_name ?? "—") + '</td><td class="r">' +
+              num(r.player_might) + "</td></tr>").join(""));
+          status.textContent = "Recent player renames — catch name-changers.";
+        }
+      } catch (e) {
+        status.textContent = "Error: " + e.message; status.className = "vip-status vip-error";
+      }
+    }
+
+    document.getElementById("go").addEventListener("click", run);
+    q.addEventListener("keydown", (e) => { if (e.key === "Enter") run(); });
+  </script>
+</body>
+</html>
