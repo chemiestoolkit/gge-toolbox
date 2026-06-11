@@ -3,8 +3,8 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Player &amp; Alliance Rankings — Maxy's Empire Toolkit</title>
-  <meta name="description" content="Goodgame Empire player and alliance rankings — might, glory, loot and honour, per server." />
+  <title>Storm Islands Rankings — Maxy's Empire Toolkit</title>
+  <meta name="description" content="Goodgame Empire Storm Islands leaderboard — cargo points and the full aquamarine breakdown per player, per server." />
   <link rel="stylesheet" href="../../assets/css/theme.css?v=15" />
   <link rel="icon" type="image/png" href="../../assets/img/favicon.png" />
   <style>
@@ -23,15 +23,10 @@
     table.rk { width: 100%; border-collapse: collapse; font-size: .9rem; }
     table.rk th { text-align: left; padding: 9px 11px; font-size: .68rem; text-transform: uppercase; letter-spacing: .06em;
       color: var(--gold-dim); border-bottom: 1px solid var(--border); white-space: nowrap; }
-    table.rk th.sortable { cursor: pointer; }
-    table.rk th.sortable:hover { color: var(--gold); }
     table.rk th.r, table.rk td.r { text-align: right; font-variant-numeric: tabular-nums; }
     table.rk td { padding: 8px 11px; border-bottom: 1px solid var(--border-soft); color: var(--text-dim); }
     table.rk td.nm { color: var(--text); font-weight: 600; }
-    table.rk td.stale { color: var(--bad); }
     table.rk tbody tr:hover td { background: rgba(217,178,90,.04); }
-    table.rk tbody tr.hit td { background: rgba(217,178,90,.14); }
-    table.rk tbody tr.hit td.nm { color: var(--gold); }
     .rk-status { color: var(--text-dim); font-size: .85rem; margin: 8px 0; }
     .rk-status.err { color: var(--bad); }
     .rk-pager { display: flex; align-items: center; gap: 12px; margin-top: 12px; font-size: .85rem; color: var(--text-dim); }
@@ -49,19 +44,18 @@
   <main class="wrap">
     <div class="tool-head">
       <a class="back" href="../../">← All tools</a>
-      <h1>📊 Player &amp; Alliance Rankings</h1>
-      <p>The game's own live highscore lists — might, honour, legendary level and
-         achievement points — per server. Pick a category and page through, or
-         type a name to jump straight to that entry's rank.</p>
+      <h1>🌊 Storm Islands Rankings</h1>
+      <p>The Storm Islands leaderboard — cargo points (the score) plus the full aquamarine
+         breakdown: total collected, resource isles, storm forts, PvP and spend. Pick a server
+         and page through, or search a player.</p>
     </div>
 
     <section class="panel">
       <div class="rk-bar">
         <select id="server" title="Server"></select>
-        <select id="cat" title="Leaderboard"></select>
-        <select id="bracket" title="Level bracket"></select>
-        <input id="q" placeholder="Jump to name…" style="min-width:160px" />
+        <input id="q" placeholder="Search player…" style="min-width:160px" />
         <button class="rk-btn" id="go">Find</button>
+        <button class="rk-btn ghost" id="clear">Clear</button>
       </div>
 
       <div class="rk-status" id="status"></div>
@@ -73,17 +67,16 @@
       </div>
 
       <div class="rk-note">
-        <b>About the data:</b> these are the <b>real in-game highscore lists</b>, read live from the
-        Goodgame Empire servers via <a href="https://github.com/danadum/empire-api" target="_blank" rel="noopener">danadum's empire-api</a>
-        — the same source as the VIP Live Event Rankings. They match the game exactly (AU1 might is
-        topped by Hards161 at ~495M), so they don't suffer the gaps third-party crawl indexes have.
-        Might lists are split by <b>level bracket</b>; <b>Level 70</b> holds the big accounts.
+        <b>About the data:</b> Storm Islands scores and the aquamarine breakdown come from
+        <a href="https://gge-tracker.com" target="_blank" rel="noopener">gge-tracker.com</a>'s last
+        snapshot (shown in the status line) — the live game protocol doesn't expose the per-source
+        breakdown. Sorted by cargo points.
       </div>
     </section>
   </main>
 
   <footer class="footer">
-    <div class="wrap"><p>Rankings data: danadum's empire-api (live game highscore lists). A community project — see <a href="../../CREDITS.md">credits</a>.</p></div>
+    <div class="wrap"><p>Storm Islands data: gge-tracker.com public API. A community project — see <a href="../../CREDITS.md">credits</a>.</p></div>
   </footer>
 
   <script src="app.js"></script>

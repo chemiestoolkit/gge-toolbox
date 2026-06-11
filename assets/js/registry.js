@@ -405,6 +405,17 @@ window.TOOLS = [
     url: "tools/rankings/",
     tags: ["rankings", "leaderboard", "might", "glory", "loot", "honour", "alliance", "player", "server"],
   },
+  {
+    slug: "storm-islands",
+    img: "assets/img/tool-art/rankings.webp",
+    cat: "rankings",
+    name: "Storm Islands Rankings",
+    desc: "The Storm Islands leaderboard — cargo points plus the full aquamarine breakdown per player, per server, from gge-tracker's snapshot.",
+    icon: "🌊",
+    status: "live",
+    url: "tools/storm-islands/",
+    tags: ["storm islands", "rankings", "leaderboard", "cargo", "aquamarine", "stormy isles", "server", "gge-tracker"],
+  },
 
   // ---- Chemie's VIP Corner (access-gated) --------------------------------
   {
