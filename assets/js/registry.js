@@ -440,15 +440,15 @@ window.TOOLS = [
     tags: ["name change", "rename", "player", "alliance", "tracker", "server", "gge-tracker"],
   },
 
-  // ---- Chemie's VIP Corner (access-gated) --------------------------------
+  // ---- Chemies Leaders Corner (access-gated) -----------------------------
   {
     slug: "vip",
     cat: "vip",
-    name: "Chemie's VIP Corner",
+    name: "Chemies Leaders Corner",
     desc: "Chemies Leaders Only.",
     icon: "🔒",
     status: "live",
     url: "tools/vip/",
-    tags: ["vip", "chemie", "members", "search", "analyse", "score", "rankings", "wall break", "rift leaders"],
+    tags: ["leaders", "leaders corner", "vip", "chemie", "members", "search", "analyse", "score", "rankings", "wall break", "rift leaders"],
   },
 ];

@@ -12,7 +12,7 @@
     { id: "overviews",   label: "Overviews",      icon: "👁️", href: "browse.html?cat=overviews" },
     { id: "rankings",    label: "Rankings",       icon: "📊", href: "browse.html?cat=rankings" },
     { id: "misc",        label: "Misc Tools",     icon: "🧰", href: "browse.html?cat=misc" },
-    { id: "vip",         label: "VIP Corner",     icon: "🔒", href: "tools/vip/" },
+    { id: "vip",         label: "Leaders Corner", icon: "🔒", href: "tools/vip/" },
   ];
   const CAT_LABEL = {
     featured: "⭐ Feature Guides",
@@ -22,7 +22,7 @@
     overviews: "👁️ Overviews",
     rankings: "📊 Rankings & Stats",
     misc: "🧰 Misc Tools",
-    vip: "🔒 Chemie's VIP Corner",
+    vip: "🔒 Chemies Leaders Corner",
   };
   const ORDER = ["featured", "guides", "calculators", "simulators", "overviews", "rankings", "misc", "vip"];
 

@@ -3,6 +3,11 @@
   "maxyNotes": [
     {
       "date": "Jun 2026",
+      "title": "Released to the alliance",
+      "body": "Released to the alliance and metal visitors who are still over, any questions let me know. Rift wall break calculator is my current focus so there is no more guessing, will expand on it down the line so it can also calculate your losses in the cy. Currently just in the leaders corner tools."
+    },
+    {
+      "date": "Jun 2026",
       "title": "Planned",
       "body": "Planned — Boss specific guides + tool usage, PvP attacking guide + tooling, in-depth Defence guide. Locked-off section for leaders only at the moment, contains a few tools I don't want leaked at this time — so PM me for a code and I might say yes."
     },
@@ -13,6 +18,21 @@
     }
   ],
   "changelog": [
+    {
+      "date": "Jun 2026",
+      "title": "Rift Wall-Break Simulator — calibrated",
+      "body": "The wall-break sim is now tuned against two full Level 11 boss reports — breach waves land exactly and losses within a few percent. Kills now accelerate as a wall thins, the front takes both rams and ladders, gear reduction splits into gate and wall, and unit stats read straight off the Troops overview by level. No more guessing."
+    },
+    {
+      "date": "Jun 2026",
+      "title": "Misc Tools — Fortress & Name Changes now public",
+      "body": "Fortress Tracker (live cooldowns, last attacker, your personal 72h timer) and Name Changes (catch the renamers) moved out of the gated area into a new Misc Tools section — open to everyone."
+    },
+    {
+      "date": "Jun 2026",
+      "title": "Leaders Corner",
+      "body": "Chemie's VIP Corner is now the Leaders Corner — same gated tools (live rankings, search & analyse, OR/BTH, rift leaders, wall-break sim, account registry), members only."
+    },
     {
       "date": "Jun 2026",
       "title": "References & community sheets",
@@ -40,8 +60,8 @@
     },
     {
       "date": "Jun 2026",
-      "title": "Chemie's VIP Corner",
-      "body": "New access-gated members area for advanced tools (fortress tracker, search & analyse, score tools, live rankings). Enter the code to unlock."
+      "title": "Leaders Corner launched",
+      "body": "New access-gated members area for advanced tools (search & analyse, score tools, live rankings). Enter the code to unlock."
     },
     {
       "date": "Jun 2026",
