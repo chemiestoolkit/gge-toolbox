@@ -421,7 +421,7 @@ window.TOOLS = [
   },
   {
     slug: "fortress-tracker",
-    cat: "rankings",
+    cat: "misc",
     name: "Fortress Tracker",
     desc: "Every NPC fortress on the map — Barbarian, Desert and Dragon forts — with live cooldown timers, last attacker, near-player search and your personal 72h re-hit timer.",
     icon: "🏰",
@@ -431,7 +431,7 @@ window.TOOLS = [
   },
   {
     slug: "name-changes",
-    cat: "rankings",
+    cat: "misc",
     name: "Name Changes",
     desc: "Catch the renamers — every recent player and alliance name change on the server, old name → new name with might and alliance so you can still ID who's who.",
     icon: "✏️",

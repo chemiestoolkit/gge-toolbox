@@ -11,6 +11,7 @@
     { id: "simulators",  label: "Simulators",     icon: "⚔️", href: "browse.html?cat=simulators" },
     { id: "overviews",   label: "Overviews",      icon: "👁️", href: "browse.html?cat=overviews" },
     { id: "rankings",    label: "Rankings",       icon: "📊", href: "browse.html?cat=rankings" },
+    { id: "misc",        label: "Misc Tools",     icon: "🧰", href: "browse.html?cat=misc" },
     { id: "vip",         label: "VIP Corner",     icon: "🔒", href: "tools/vip/" },
   ];
   const CAT_LABEL = {
@@ -20,9 +21,10 @@
     simulators: "⚔️ Simulators",
     overviews: "👁️ Overviews",
     rankings: "📊 Rankings & Stats",
+    misc: "🧰 Misc Tools",
     vip: "🔒 Chemie's VIP Corner",
   };
-  const ORDER = ["featured", "guides", "calculators", "simulators", "overviews", "rankings", "vip"];
+  const ORDER = ["featured", "guides", "calculators", "simulators", "overviews", "rankings", "misc", "vip"];
 
   // Curated strip shown on the home page (by slug, in this order).
   const POPULAR = [
