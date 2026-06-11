@@ -407,7 +407,7 @@ window.TOOLS = [
   },
   {
     slug: "storm-islands",
-    img: "assets/img/tool-art/rankings.webp",
+    img: "assets/img/tool-art/storm-islands.webp",
     cat: "rankings",
     name: "Storm Islands Rankings",
     desc: "The Storm Islands leaderboard — cargo points plus the full aquamarine breakdown per player, per server, from gge-tracker's snapshot.",
