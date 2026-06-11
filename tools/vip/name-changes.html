@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="robots" content="noindex" />
+  <title>Chemie's VIP Corner — Locked</title>
+  <link rel="stylesheet" href="../../assets/css/theme.css?v=15" />
+  <link rel="stylesheet" href="./vip.css" />
+  <style>
+    .lock-wrap { max-width: 460px; margin: 12vh auto 0; text-align: center; padding: 0 20px; }
+    .lock-crest { font-size: 3rem; filter: drop-shadow(0 2px 6px rgba(0,0,0,.5)); }
+    .lock-wrap h1 { font-family: var(--font-display); color: var(--gold); margin: 14px 0 6px; font-size: 1.7rem; }
+    .lock-wrap p { color: var(--text-dim); margin: 0 0 22px; }
+    .lock-form { display: flex; gap: 10px; }
+    .lock-form input {
+      flex: 1; padding: 12px 14px; font: inherit; font-size: 1rem;
+      background: var(--bg-elev); border: 1px solid var(--border);
+      border-radius: var(--radius-sm); color: var(--text); outline: none;
+    }
+    .lock-form input:focus { border-color: var(--gold); box-shadow: 0 0 12px rgba(217,178,90,.2); }
+    .lock-form button {
+      padding: 12px 22px; font: inherit; font-weight: 700; cursor: pointer;
+      background: var(--gold); color: #1a1206; border: none; border-radius: var(--radius-sm);
+      letter-spacing: .04em; transition: .15s;
+    }
+    .lock-form button:hover { filter: brightness(1.1); }
+    .lock-form button:disabled { opacity: .55; cursor: default; }
+    .lock-err { color: var(--bad); font-size: .9rem; min-height: 1.2em; margin-top: 12px; }
+    .lock-note { color: var(--text-faint); font-size: .78rem; margin-top: 18px; line-height: 1.5; }
+  </style>
+  <link rel="icon" type="image/png" href="../../assets/img/favicon.png" />
+</head>
+<body>
+  <header class="topbar">
+    <div class="wrap">
+      <a class="brand" href="../../"><span class="crest">🛡️</span> Maxy's Empire <b>Toolkit</b></a>
+    </div>
+  </header>
+
+  <main>
+    <div class="lock-wrap" id="lock-ui" hidden>
+      <div class="lock-crest">🔐</div>
+      <h1>Chemie's VIP Corner</h1>
+      <p>Members only. Enter your access code to unlock.</p>
+      <form class="lock-form" id="lock-form">
+        <input type="password" id="lock-code" placeholder="Access code" autocomplete="off"
+               autocapitalize="characters" spellcheck="false" autofocus />
+        <button type="submit" id="lock-btn">Unlock</button>
+      </form>
+      <div class="lock-err" id="lock-err"></div>
+      <p class="lock-note">These pages are AES-256 encrypted — the code is required to read them,
+         and it isn't stored on the server. Ask Chemie for access; please don't share the code.</p>
+    </div>
+  </main>
+
+  <script>
+    const SALT = "SabBlkNGrfPUtxEegnl7lA==", ITER = 600000, PAYLOAD = "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", SKEY = "vip_k";
+    const b64dec = (s) => Uint8Array.from(atob(s), (c) => c.charCodeAt(0));
+    const b64enc = (u) => btoa(String.fromCharCode(...u));
+
+    async function deriveKey(pass) {
+      const km = await crypto.subtle.importKey("raw", new TextEncoder().encode(pass), "PBKDF2", false, ["deriveKey"]);
+      return crypto.subtle.deriveKey(
+        { name: "PBKDF2", salt: b64dec(SALT), iterations: ITER, hash: "SHA-256" },
+        km, { name: "AES-GCM", length: 256 }, true, ["decrypt"]);
+    }
+    async function decryptWith(key) {
+      const data = b64dec(PAYLOAD), iv = data.slice(0, 12), ct = data.slice(12);
+      const pt = await crypto.subtle.decrypt({ name: "AES-GCM", iv }, key, ct);
+      return new TextDecoder().decode(pt);
+    }
+    function render(html) { document.open(); document.write(html); document.close(); }
+
+    async function unlock(pass) {
+      const key = await deriveKey(pass);
+      let html;
+      try { html = await decryptWith(key); } catch (e) { return false; }
+      const raw = await crypto.subtle.exportKey("raw", key);
+      try { sessionStorage.setItem(SKEY, b64enc(new Uint8Array(raw))); } catch (e) {}
+      render(html);
+      return true;
+    }
+
+    async function runGate() {
+      // Already unlocked this session on another VIP page? Reuse the key silently.
+      const stored = sessionStorage.getItem(SKEY);
+      if (stored) {
+        try {
+          const key = await crypto.subtle.importKey("raw", b64dec(stored), { name: "AES-GCM" }, true, ["decrypt"]);
+          render(await decryptWith(key));
+          return;
+        } catch (e) { sessionStorage.removeItem(SKEY); }
+      }
+      const ui = document.getElementById("lock-ui");
+      ui.hidden = false;
+      const form = document.getElementById("lock-form"),
+            input = document.getElementById("lock-code"),
+            err = document.getElementById("lock-err"),
+            btn = document.getElementById("lock-btn");
+      form.addEventListener("submit", async (e) => {
+        e.preventDefault();
+        const code = (input.value || "").trim();
+        if (!code) return;
+        err.textContent = ""; btn.disabled = true; btn.textContent = "Unlocking…";
+        const ok = await unlock(code);
+        if (!ok) {
+          btn.disabled = false; btn.textContent = "Unlock";
+          err.textContent = "Wrong code — ask Chemie for access.";
+          input.select();
+        }
+      });
+    }
+    // Run after full load so document.open()/write() cleanly replaces the page
+    // (during initial parse, document.write would append instead of replace).
+    if (document.readyState === "complete") runGate();
+    else window.addEventListener("load", runGate);
+  </script>
+</body>
+</html>

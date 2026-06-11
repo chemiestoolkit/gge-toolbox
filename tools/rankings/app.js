@@ -8,6 +8,29 @@
 
   const API = "https://empire-api.fly.dev";
 
+  // Storm Islands scores come from gge-tracker's snapshot DB (a different API,
+  // keyed by its own server codes via the `gge-server` header) — the live game
+  // highscore lists don't expose the aquamarine breakdown. Data: gge-tracker.com
+  const GGT_API = "https://api.gge-tracker.com/api/v1/";
+  const ZONE_TO_GGT = {
+    "EmpireEx_22": "AU1", "EmpireEx": "INT1", "EmpireEx_7": "INT2", "EmpireEx_43": "INT3",
+    "EmpireEx_46": "WORLD1", "EmpireEx_49": "WORLD2", "EmpireEx_2": "DE1", "EmpireEx_3": "FR1",
+    "EmpireEx_19": "GB1", "EmpireEx_21": "US1", "EmpireEx_20": "BR1", "EmpireEx_8": "ES1",
+    "EmpireEx_38": "ES2", "EmpireEx_9": "IT1", "EmpireEx_10": "TR1", "EmpireEx_11": "NL1",
+    "EmpireEx_12": "HU1", "EmpireEx_17": "HU2", "EmpireEx_5": "PL1", "EmpireEx_6": "PT1",
+    "EmpireEx_4": "CZ1", "EmpireEx_18": "SK1", "EmpireEx_13": "SKN1", "EmpireEx_14": "RU1",
+    "EmpireEx_15": "RO1", "EmpireEx_16": "BG1", "EmpireEx_28": "GR1", "EmpireEx_24": "JP1",
+    "EmpireEx_26": "IN1", "EmpireEx_27": "CN1", "EmpireEx_32": "SA1", "EmpireEx_33": "AE1",
+    "EmpireEx_34": "EG1", "EmpireEx_35": "ARAB1", "EmpireEx_36": "ASIA", "EmpireEx_37": "HANT1",
+  };
+  // Storm Islands metric ids -> column label (the "aquamarine" sub-scores).
+  const STORM_COLS = [
+    { m: "100", label: "Cargo pts" }, { m: "15", label: "Aqua total" },
+    { m: "16", label: "Res. isles" }, { m: "17", label: "Storm forts" },
+    { m: "18", label: "PvP won" },    { m: "19", label: "Spent" },
+    { m: "20", label: "PvP lost" },
+  ];
+
   // Zone code -> friendly name (danadum server ids).
   const SERVERS = {
     "EmpireEx_22": "Australia (AU1)", "EmpireEx": "International 1", "EmpireEx_7": "International 2",
@@ -40,6 +63,7 @@
     { key: "achiev",    label: "Player · Achievement", lt: 1,  kind: "player",   brackets: true,  score: "Points" },
     { key: "amight",    label: "Alliance · Might",     lt: 11, kind: "alliance", brackets: false, lid: 1, score: "Might" },
     { key: "ahonor",    label: "Alliance · Honour",    lt: 10, kind: "alliance", brackets: false, lid: 1, score: "Honour" },
+    { key: "storm",     label: "🌊 Storm Islands",      storm: true, kind: "player", brackets: false, score: "Cargo pts" },
   ];
 
   const $ = (id) => document.getElementById(id);
@@ -69,7 +93,7 @@
     throw new Error("No leaderboard returned — this list may be empty for this server/bracket.");
   }
 
-  let page = 1, maxRank = 1, mode = "rank", searchName = "";
+  let page = 1, maxRank = 1, mode = "rank", searchName = "", stormPages = 1;
 
   async function load() {
     const status = $("status");
@@ -77,6 +101,7 @@
     status.textContent = "Loading…"; status.className = "rk-status";
     // bracket picker visibility
     $("bracket").style.display = c.brackets ? "" : "none";
+    if (c.storm) return loadStorm(c);
     try {
       let content, sv;
       if (mode === "name" && searchName) {
@@ -140,6 +165,60 @@
     tbl.appendChild(tb);
   }
 
+  // ---- Storm Islands (gge-tracker snapshot) ----
+  async function loadStorm(c) {
+    const status = $("status");
+    const ggt = ZONE_TO_GGT[server()];
+    if (!ggt) {
+      status.textContent = "Storm Islands isn't tracked for " + SERVERS[server()] + ".";
+      status.className = "rk-status err"; $("tbl").innerHTML = ""; $("pageinfo").textContent = "";
+      return;
+    }
+    const qs = "page=" + page + "&order_by=100&order_dir=desc" +
+      (mode === "name" && searchName ? "&player_name=" + encodeURIComponent(searchName) : "");
+    try {
+      const r = await fetch(GGT_API + "stormy-isles?" + qs, { headers: { "gge-server": ggt } });
+      if (!r.ok) throw new Error("HTTP " + r.status);
+      const d = await r.json();
+      const rows = d.players || [];
+      const pg = d.pagination || {};
+      stormPages = pg.total_pages || 1;
+      maxRank = stormPages * 10;                 // lets the generic Next button page through
+      renderStorm(rows);
+      $("pageinfo").textContent = rows.length
+        ? "Page " + (pg.current_page || page) + " / " + stormPages
+        : "";
+      status.textContent = "🌊 Storm Islands — " + SERVERS[server()] +
+        " · " + num(pg.total_items_count || rows.length) + " ranked" +
+        (d.snapshot_date ? " · snapshot " + d.snapshot_date : "");
+    } catch (e) {
+      status.textContent = "Could not load Storm Islands scores — " + e.message;
+      status.className = "rk-status err"; $("tbl").innerHTML = ""; $("pageinfo").textContent = "";
+    }
+  }
+
+  function renderStorm(rows) {
+    const tbl = $("tbl");
+    tbl.innerHTML = "<thead><tr>" +
+      '<th class="r">#</th><th>Player</th><th>Level</th><th>Alliance</th>' +
+      STORM_COLS.map((c) => '<th class="r">' + c.label + "</th>").join("") +
+      "</tr></thead>";
+    const tb = document.createElement("tbody");
+    rows.forEach((p) => {
+      const m = p.metrics || {};
+      const lvl = p.legendary_level ? esc(p.level) + " / " + esc(p.legendary_level) : esc(p.level);
+      const tr = document.createElement("tr");
+      tr.innerHTML =
+        '<td class="r">' + num(p.rank) + '</td>' +
+        '<td class="nm">' + esc(p.player_name || "?") + "</td>" +
+        "<td>" + lvl + "</td>" +
+        "<td>" + esc(p.alliance_name || "—") + "</td>" +
+        STORM_COLS.map((c) => '<td class="r">' + num(m[c.m]) + "</td>").join("");
+      tb.appendChild(tr);
+    });
+    tbl.appendChild(tb);
+  }
+
   // ---- wiring ----
   const srv = $("server");
   Object.entries(SERVERS).forEach(([z, n]) => {
@@ -158,8 +237,9 @@
 
   function doSearch() {
     const v = $("q").value.trim();
-    if (!v) { mode = "rank"; searchName = ""; page = 1; }
+    if (!v) { mode = "rank"; searchName = ""; }
     else { mode = "name"; searchName = v; }
+    page = 1;
     load();
   }
   $("go").addEventListener("click", doSearch);
