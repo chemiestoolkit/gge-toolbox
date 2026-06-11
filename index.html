@@ -7,6 +7,34 @@
   <meta name="description" content="A single hub of calculators and simulators for Goodgame Empire and Empire: Four Kingdoms." />
   <link rel="stylesheet" href="assets/css/theme.css?v=15" />
   <link rel="icon" type="image/png" href="assets/img/favicon.png" />
+  <style>
+    /* Events card — Plan ↔ Calendar switch (home page only) */
+    .ev-head-row { display: flex; align-items: center; justify-content: space-between; gap: 8px; }
+    .ev-switch { display: inline-flex; gap: 2px; background: var(--bg-elev-2); border: 1px solid var(--border); border-radius: 99px; padding: 2px; }
+    .ev-sw { font: inherit; font-size: .66rem; padding: 3px 10px; border-radius: 99px; border: 0; background: transparent; color: var(--text-dim); cursor: pointer; }
+    .ev-sw.on { background: var(--gold); color: #1a1206; font-weight: 700; }
+    #events-grid[hidden], #events-cal[hidden] { display: none !important; }
+
+    /* calendar grid */
+    .evc-grid { display: grid; grid-template-columns: repeat(7, 1fr); gap: 3px; margin-top: 4px; }
+    .evc-dow { font-size: .58rem; text-transform: uppercase; letter-spacing: .04em; color: var(--text-faint); text-align: center; padding: 2px 0; }
+    .evc-day { min-height: 56px; background: var(--bg-elev-2); border: 1px solid var(--border-soft); border-radius: 6px; padding: 3px 4px; display: flex; flex-direction: column; gap: 2px; }
+    .evc-day.blank { background: transparent; border-color: transparent; }
+    .evc-day.today { border-color: var(--gold); box-shadow: 0 0 0 1px var(--gold); }
+    .evc-num { font-size: .6rem; color: var(--text-dim); font-weight: 700; }
+    .evc-day.today .evc-num { color: var(--gold); }
+    .evc-bar { display: block; height: 4px; border-radius: 2px; opacity: .9; transition: opacity .12s; }
+    .evc-bar.dim { opacity: .12; }
+    .evc-bar.hot { opacity: 1; }
+    .evc-more { font-size: .54rem; color: var(--text-faint); font-style: normal; line-height: 1; }
+
+    /* key (legend) — click an event to highlight its days */
+    .evc-keys { display: flex; flex-wrap: wrap; gap: 5px; margin-top: 10px; }
+    .evc-key { display: inline-flex; align-items: center; gap: 5px; font: inherit; font-size: .64rem; padding: 3px 9px; border-radius: 99px; background: var(--bg-elev-2); border: 1px solid var(--border); color: var(--text-dim); cursor: pointer; }
+    .evc-key i { width: 9px; height: 9px; border-radius: 3px; display: inline-block; }
+    .evc-key.sel { border-color: var(--gold); color: var(--text); background: rgba(217,178,90,.1); }
+    .evc-hint { font-size: .62rem; color: var(--text-faint); margin-top: 6px; }
+  </style>
 </head>
 <body class="dash" data-page="home">
   <header class="topbar">
@@ -60,8 +88,15 @@
       </div>
 
       <div class="home-card">
-        <div class="home-card-head" id="events-head">📅 Upcoming Events</div>
+        <div class="home-card-head ev-head-row">
+          <span id="events-head">📅 Upcoming Events</span>
+          <span class="ev-switch" id="ev-switch">
+            <button class="ev-sw on" data-view="plan" type="button">Plan</button>
+            <button class="ev-sw" data-view="cal" type="button">Calendar</button>
+          </span>
+        </div>
         <div class="events-grid" id="events-grid"><!-- rendered from assets/data/site-feed.json --></div>
+        <div class="events-cal" id="events-cal" hidden><!-- calendar view, rendered from the same data --></div>
         <a class="news-all" href="https://communityhub.goodgamestudios.com/newshube4k/" target="_blank" rel="noopener">Full schedule on GGS Hub →</a>
       </div>
 
