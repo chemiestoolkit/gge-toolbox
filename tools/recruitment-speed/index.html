@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Recruitment Speed Caps — Maxy's Empire Toolkit</title>
+  <meta name="description" content="Stack your recruitment-speed and recruitment-cost decorations against the game's caps (4500% speed, 20% cost) — see when you've capped and stop wasting decos." />
+  <link rel="stylesheet" href="../../assets/css/theme.css?v=15" />
+  <link rel="icon" type="image/png" href="../../assets/img/favicon.png" />
+  <style>
+    .rs-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 12px; margin: 4px 0 18px; }
+    .rs-stat { background: var(--bg-elev); border: 1px solid var(--border); border-radius: var(--radius); padding: 13px 15px; }
+    .rs-stat.capped { border-color: var(--gold-dim); }
+    .rs-stat .l { font-size: .72rem; color: var(--text-faint, #8a8372); text-transform: uppercase; letter-spacing: .05em; margin-bottom: 4px; }
+    .rs-stat .v { font-size: 1.5rem; font-weight: 700; color: var(--text); line-height: 1.1; font-variant-numeric: tabular-nums; }
+    .rs-stat .sub { font-size: .74rem; color: var(--text-dim); margin-top: 3px; }
+    .rs-over { color: var(--bad); } .rs-room { color: var(--good); }
+    .rs-bar { height: 5px; border-radius: 3px; background: rgba(255,255,255,.08); overflow: hidden; margin-top: 8px; }
+    .rs-bar > i { display: block; height: 100%; background: linear-gradient(90deg, var(--gold-dim), var(--gold)); }
+    .rs-bar.over > i { background: linear-gradient(90deg, #d9883a, var(--bad)); }
+    h2.rs-h { font-size: 1.05rem; color: var(--gold); margin: 0 0 12px; font-family: var(--font-display); }
+    .rs-search { width: 100%; max-width: 320px; padding: 9px 12px; font: inherit; background: var(--bg-elev); border: 1px solid var(--border); border-radius: var(--radius-sm); color: var(--text); margin-bottom: 12px; }
+    .rs-search:focus { outline: none; border-color: var(--gold); }
+    table.rs { width: 100%; border-collapse: collapse; font-size: .86rem; }
+    table.rs th { text-align: right; padding: 7px 9px; font-size: .66rem; text-transform: uppercase; letter-spacing: .05em; color: var(--gold-dim); border-bottom: 1px solid var(--border); white-space: nowrap; }
+    table.rs th.l { text-align: left; }
+    table.rs td { padding: 6px 9px; border-bottom: 1px solid var(--border-soft); color: var(--text-dim); text-align: right; font-variant-numeric: tabular-nums; }
+    table.rs td.nm { text-align: left; color: var(--text); }
+    table.rs tr.on td { background: rgba(217,178,90,.06); }
+    .rs-qty { display: inline-flex; align-items: center; gap: 6px; }
+    .rs-qty button { width: 24px; height: 24px; border-radius: 5px; border: 1px solid var(--border); background: var(--bg-elev); color: var(--text); cursor: pointer; font-size: 1rem; line-height: 1; }
+    .rs-qty button:hover { border-color: var(--gold); color: var(--gold); }
+    .rs-qty input { width: 42px; text-align: center; padding: 4px; font: inherit; background: var(--bg-elev); border: 1px solid var(--border); border-radius: var(--radius-sm); color: var(--text); }
+    .rs-reset { padding: 6px 14px; font: inherit; font-size: .8rem; cursor: pointer; border-radius: var(--radius-sm); background: var(--bg-elev); color: var(--text-dim); border: 1px solid var(--border); }
+    .rs-reset:hover { color: var(--text); border-color: var(--gold-dim); }
+    .rs-note { font-size: .8rem; color: var(--text-faint, #8a8372); margin-top: 16px; line-height: 1.5; border-left: 3px solid var(--gold-dim); padding: 8px 14px; background: rgba(217,178,90,.05); border-radius: var(--radius-sm); }
+  </style>
+</head>
+<body>
+  <header class="topbar">
+    <div class="wrap">
+      <a class="brand" href="../../"><span class="crest">🛡️</span> Maxy's Empire <b>Toolkit</b></a>
+    </div>
+  </header>
+
+  <main class="wrap">
+    <div class="tool-head">
+      <a class="back" href="../../">← All tools</a>
+      <h1>⚒️ Recruitment Speed Caps</h1>
+      <p>Stack your recruitment-speed decorations and see how close you are to the
+         game's <b>+4500%</b> recruitment-speed cap and <b>+20%</b> recruitment-cost cap —
+         so you know exactly when you've capped and every extra deco is wasted.</p>
+    </div>
+
+    <section class="panel">
+      <div class="rs-grid" id="summary"></div>
+      <button class="rs-reset" id="reset">Reset everything</button>
+    </section>
+
+    <section class="panel">
+      <h2 class="rs-h">Recruitment decorations</h2>
+      <input class="rs-search" id="search" placeholder="Search decorations…" />
+      <div style="overflow-x:auto"><table class="rs" id="tbl"></table></div>
+    </section>
+
+    <div class="rs-note">
+      <b>How the caps work:</b> decoration recruitment-speed bonuses are capped at <b>+4500%</b>
+      and recruitment-cost reduction at <b>+20%</b> across all your decos combined — anything past a
+      cap is wasted. The strongest Exalted decos alone can nearly cap speed, so you rarely need many.
+      Caps and deco values come straight from the game data. Buildings, research and feast add recruitment
+      speed separately from this deco cap — see the <a href="../guides/recruitment.html">Maximise Recruitment</a> guide.
+    </div>
+  </main>
+
+  <footer class="footer">
+    <div class="wrap"><p>Deco values & caps from Goodgame Studios' game data. One row per recruitment decoration.</p></div>
+  </footer>
+
+  <script>
+  (function () {
+    "use strict";
+    var $ = function (id) { return document.getElementById(id); };
+    var esc = function (s) { return String(s == null ? "" : s).replace(/[&<>"]/g, function (c) { return ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" })[c]; }); };
+    var num = function (v) { return (v || 0).toLocaleString(); };
+    var CAP_SPEED = 4500, CAP_COST = 20;
+    var KEY = "recruitSpeed.v1";
+    var DECOS = [], qty = {};
+    try { qty = JSON.parse(localStorage.getItem(KEY)) || {}; } catch (e) { qty = {}; }
+
+    function valOf(it, kw) {
+      var e = (it.effects || []).filter(function (x) { return (x.label || "").toLowerCase().indexOf(kw) >= 0; })[0];
+      return e ? (e.v || 0) : 0;
+    }
+
+    function totals() {
+      var sp = 0, co = 0;
+      DECOS.forEach(function (it) { var q = qty[it.id] || 0; sp += q * it.speed; co += q * it.cost; });
+      return { sp: sp, co: co };
+    }
+
+    function statCard(label, val, cap, unit) {
+      var pct = Math.min(100, 100 * val / cap), over = val > cap;
+      var room = cap - val;
+      return '<div class="rs-stat' + (val >= cap ? " capped" : "") + '">' +
+        '<div class="l">' + label + '</div>' +
+        '<div class="v">+' + num(val) + unit + '</div>' +
+        '<div class="sub">cap +' + num(cap) + unit + ' · ' +
+          (over ? '<span class="rs-over">' + num(val - cap) + unit + ' wasted</span>'
+                : '<span class="rs-room">' + num(room) + unit + ' to cap</span>') + '</div>' +
+        '<div class="rs-bar' + (over ? " over" : "") + '"><i style="width:' + pct.toFixed(1) + '%"></i></div>' +
+        '</div>';
+    }
+
+    function renderSummary() {
+      var t = totals();
+      $("summary").innerHTML =
+        statCard("Recruitment speed", t.sp, CAP_SPEED, "%") +
+        statCard("Recruitment cost reduction", t.co, CAP_COST, "%");
+    }
+
+    function renderTable(filter) {
+      var f = (filter || "").toLowerCase();
+      var list = DECOS.filter(function (it) { return !f || it.name.toLowerCase().indexOf(f) >= 0; });
+      var head = '<thead><tr><th class="l">Decoration</th><th>Speed</th><th>Cost −</th><th>Owned</th></tr></thead>';
+      var body = list.map(function (it) {
+        var q = qty[it.id] || 0;
+        return '<tr class="' + (q ? "on" : "") + '" data-id="' + it.id + '">' +
+          '<td class="nm">' + esc(it.name) + '</td>' +
+          '<td>+' + num(it.speed) + '%</td>' +
+          '<td>' + (it.cost ? "+" + num(it.cost) + "%" : "—") + '</td>' +
+          '<td><span class="rs-qty">' +
+            '<button class="rs-dn">−</button>' +
+            '<input type="number" min="0" class="rs-in" value="' + q + '" />' +
+            '<button class="rs-up">＋</button>' +
+          '</span></td></tr>';
+      }).join("");
+      $("tbl").innerHTML = head + "<tbody>" + body + "</tbody>";
+    }
+
+    function render(filter) { renderTable(filter); renderSummary(); }
+    function save() { localStorage.setItem(KEY, JSON.stringify(qty)); }
+
+    $("tbl").addEventListener("click", function (e) {
+      var row = e.target.closest("[data-id]"); if (!row) return;
+      var id = row.dataset.id;
+      if (e.target.classList.contains("rs-up")) qty[id] = (qty[id] || 0) + 1;
+      else if (e.target.classList.contains("rs-dn")) qty[id] = Math.max(0, (qty[id] || 0) - 1);
+      else return;
+      if (!qty[id]) delete qty[id];
+      save(); render($("search").value);
+    });
+    $("tbl").addEventListener("input", function (e) {
+      if (!e.target.classList.contains("rs-in")) return;
+      var id = e.target.closest("[data-id]").dataset.id, v = Math.max(0, parseInt(e.target.value, 10) || 0);
+      if (v) qty[id] = v; else delete qty[id];
+      save(); renderSummary();
+      e.target.closest("tr").classList.toggle("on", !!v);
+    });
+    $("search").addEventListener("input", function () { renderTable(this.value); });
+    $("reset").addEventListener("click", function () { qty = {}; save(); render($("search").value); });
+
+    fetch("../overview-decorations/data/decorations.json")
+      .then(function (r) { return r.json(); })
+      .then(function (d) {
+        DECOS = (d.items || [])
+          .map(function (it) { return { id: it.id || it.name, name: it.name, speed: valOf(it, "recruitment speed"), cost: valOf(it, "recruitment coin") }; })
+          .filter(function (it) { return it.speed > 0 || it.cost > 0; })
+          .sort(function (a, b) { return b.speed - a.speed; });
+        render("");
+      })
+      .catch(function (e) { $("tbl").innerHTML = '<p class="muted">Could not load decoration data.</p>'; console.error(e); });
+  })();
+  </script>
+</body>
+</html>

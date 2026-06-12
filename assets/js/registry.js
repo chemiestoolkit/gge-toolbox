@@ -198,6 +198,17 @@ window.TOOLS = [
 
   // ---- Calculators -------------------------------------------------------
   {
+    slug: "recruitment-speed",
+    img: "assets/img/tool-art/troops.webp",
+    cat: "calculators",
+    name: "Recruitment Speed Caps",
+    desc: "Stack your recruitment decorations against the game's +4500% speed and +20% cost caps — see when you've capped and stop wasting decos.",
+    icon: "⚒️",
+    status: "live",
+    url: "tools/recruitment-speed/",
+    tags: ["recruitment", "recruit", "speed", "decorations", "deco", "cap", "troops", "cost", "drill"],
+  },
+  {
     slug: "hol-planner",
     img: "assets/img/tool-art/layout.webp",
     cat: "calculators",
