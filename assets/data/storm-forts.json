@@ -1,114 +1,135 @@
 {
  "server": "AU1",
- "scannedAt": "2026-06-12T05:15:54Z",
+ "scannedAt": "2026-06-12T05:32:19Z",
  "sample": false,
  "respawnHours": 10.0,
  "forts": [
   {
    "level": 80,
-   "x": 605,
-   "y": 672,
-   "aqua": 0,
-   "rawLevel": 14,
-   "refillAt": "2026-06-12T15:15:54Z"
-  },
-  {
-   "level": 80,
    "x": 609,
    "y": 636,
-   "aqua": 1630,
-   "rawLevel": 14
+   "aqua": 639,
+   "rawLevel": 14,
+   "hits": 0,
+   "hitsLeft": 10
   },
   {
    "level": 80,
    "x": 609,
    "y": 675,
-   "aqua": 9162,
-   "rawLevel": 14
+   "aqua": 8173,
+   "rawLevel": 14,
+   "hits": 0,
+   "hitsLeft": 10
   },
   {
    "level": 80,
    "x": 615,
    "y": 599,
-   "aqua": 33186,
-   "rawLevel": 14
+   "aqua": 32193,
+   "rawLevel": 14,
+   "hits": 0,
+   "hitsLeft": 10
   },
   {
    "level": 80,
    "x": 619,
    "y": 653,
-   "aqua": 4509,
-   "rawLevel": 14
+   "aqua": 3519,
+   "rawLevel": 14,
+   "hits": 0,
+   "hitsLeft": 10
   },
   {
    "level": 80,
    "x": 625,
    "y": 616,
-   "aqua": 170,
-   "rawLevel": 14
+   "aqua": 0,
+   "rawLevel": 14,
+   "hits": 1,
+   "hitsLeft": 9,
+   "refillAt": "2026-06-12T15:32:19Z"
   },
   {
    "level": 80,
    "x": 627,
    "y": 668,
-   "aqua": 27025,
-   "rawLevel": 14
+   "aqua": 26033,
+   "rawLevel": 14,
+   "hits": 0,
+   "hitsLeft": 10
   },
   {
    "level": 80,
    "x": 635,
    "y": 615,
-   "aqua": 16612,
-   "rawLevel": 14
+   "aqua": 15620,
+   "rawLevel": 14,
+   "hits": 0,
+   "hitsLeft": 10
   },
   {
    "level": 80,
    "x": 636,
    "y": 667,
-   "aqua": 4223,
-   "rawLevel": 14
+   "aqua": 3233,
+   "rawLevel": 14,
+   "hits": 0,
+   "hitsLeft": 10
   },
   {
    "level": 80,
    "x": 643,
    "y": 638,
-   "aqua": 35999,
-   "rawLevel": 14
+   "aqua": 35008,
+   "rawLevel": 14,
+   "hits": 0,
+   "hitsLeft": 10
   },
   {
    "level": 80,
    "x": 646,
    "y": 603,
-   "aqua": 19353,
-   "rawLevel": 14
+   "aqua": 18358,
+   "rawLevel": 14,
+   "hits": 0,
+   "hitsLeft": 10
   },
   {
    "level": 80,
    "x": 663,
    "y": 644,
-   "aqua": 33044,
-   "rawLevel": 14
+   "aqua": 32050,
+   "rawLevel": 14,
+   "hits": 0,
+   "hitsLeft": 10
   },
   {
    "level": 80,
    "x": 663,
    "y": 683,
-   "aqua": 9101,
-   "rawLevel": 14
+   "aqua": 8109,
+   "rawLevel": 14,
+   "hits": 0,
+   "hitsLeft": 10
   },
   {
    "level": 80,
    "x": 683,
    "y": 672,
-   "aqua": 26394,
-   "rawLevel": 14
+   "aqua": 25404,
+   "rawLevel": 14,
+   "hits": 0,
+   "hitsLeft": 10
   },
   {
    "level": 70,
    "x": 600,
    "y": 633,
-   "aqua": 27913,
-   "rawLevel": 13
+   "aqua": 26922,
+   "rawLevel": 13,
+   "hits": 0,
+   "hitsLeft": 10
   },
   {
    "level": 70,
@@ -116,113 +137,144 @@
    "y": 653,
    "aqua": 0,
    "rawLevel": 13,
+   "hits": 7,
+   "hitsLeft": 3,
    "refillAt": "2026-06-12T15:15:54Z"
   },
   {
    "level": 70,
    "x": 600,
    "y": 664,
-   "aqua": 7189,
-   "rawLevel": 13
+   "aqua": 6199,
+   "rawLevel": 13,
+   "hits": 0,
+   "hitsLeft": 10
   },
   {
    "level": 70,
    "x": 601,
    "y": 604,
-   "aqua": 14263,
-   "rawLevel": 13
+   "aqua": 13268,
+   "rawLevel": 13,
+   "hits": 0,
+   "hitsLeft": 10
   },
   {
    "level": 70,
    "x": 612,
    "y": 641,
-   "aqua": 14852,
-   "rawLevel": 13
+   "aqua": 13861,
+   "rawLevel": 13,
+   "hits": 0,
+   "hitsLeft": 10
   },
   {
    "level": 70,
    "x": 616,
    "y": 656,
-   "aqua": 12773,
-   "rawLevel": 13
+   "aqua": 11779,
+   "rawLevel": 13,
+   "hits": 0,
+   "hitsLeft": 10
   },
   {
    "level": 70,
    "x": 617,
    "y": 631,
-   "aqua": 9833,
-   "rawLevel": 13
+   "aqua": 8839,
+   "rawLevel": 13,
+   "hits": 0,
+   "hitsLeft": 10
   },
   {
    "level": 70,
    "x": 621,
    "y": 636,
-   "aqua": 35129,
-   "rawLevel": 13
+   "aqua": 34138,
+   "rawLevel": 13,
+   "hits": 0,
+   "hitsLeft": 10
   },
   {
    "level": 70,
    "x": 622,
    "y": 647,
-   "aqua": 5464,
-   "rawLevel": 13
+   "aqua": 4474,
+   "rawLevel": 13,
+   "hits": 0,
+   "hitsLeft": 10
   },
   {
    "level": 70,
    "x": 624,
    "y": 683,
-   "aqua": 12368,
-   "rawLevel": 13
+   "aqua": 11376,
+   "rawLevel": 13,
+   "hits": 0,
+   "hitsLeft": 10
   },
   {
    "level": 70,
    "x": 625,
    "y": 635,
-   "aqua": 35475,
-   "rawLevel": 13
+   "aqua": 34484,
+   "rawLevel": 13,
+   "hits": 0,
+   "hitsLeft": 10
   },
   {
    "level": 70,
    "x": 631,
    "y": 665,
-   "aqua": 17848,
-   "rawLevel": 13
+   "aqua": 16858,
+   "rawLevel": 13,
+   "hits": 0,
+   "hitsLeft": 10
   },
   {
    "level": 70,
    "x": 639,
    "y": 633,
-   "aqua": 32545,
-   "rawLevel": 13
+   "aqua": 31554,
+   "rawLevel": 13,
+   "hits": 0,
+   "hitsLeft": 10
   },
   {
    "level": 70,
    "x": 639,
    "y": 653,
-   "aqua": 19701,
-   "rawLevel": 13
+   "aqua": 18711,
+   "rawLevel": 13,
+   "hits": 0,
+   "hitsLeft": 10
   },
   {
    "level": 70,
    "x": 640,
    "y": 604,
-   "aqua": 14612,
-   "rawLevel": 13
+   "aqua": 13617,
+   "rawLevel": 13,
+   "hits": 0,
+   "hitsLeft": 10
   },
   {
    "level": 70,
    "x": 640,
    "y": 657,
-   "aqua": 0,
+   "aqua": 35258,
    "rawLevel": 13,
-   "refillAt": "2026-06-12T15:15:54Z"
+   "hits": 0,
+   "hitsLeft": 10
   },
   {
    "level": 70,
    "x": 640,
    "y": 682,
-   "aqua": 13906,
-   "rawLevel": 13
+   "aqua": 12914,
+   "rawLevel": 13,
+   "hits": 0,
+   "hitsLeft": 10
   },
   {
    "level": 70,
@@ -230,99 +282,117 @@
    "y": 622,
    "aqua": 0,
    "rawLevel": 13,
+   "hits": 4,
+   "hitsLeft": 6,
    "refillAt": "2026-06-12T15:15:54Z"
   },
   {
    "level": 70,
    "x": 646,
    "y": 681,
-   "aqua": 16520,
-   "rawLevel": 13
-  },
-  {
-   "level": 70,
-   "x": 651,
-   "y": 622,
-   "aqua": 0,
+   "aqua": 15528,
    "rawLevel": 13,
-   "refillAt": "2026-06-12T15:15:54Z"
+   "hits": 0,
+   "hitsLeft": 10
   },
   {
    "level": 70,
    "x": 653,
    "y": 646,
-   "aqua": 21015,
-   "rawLevel": 13
+   "aqua": 20024,
+   "rawLevel": 13,
+   "hits": 0,
+   "hitsLeft": 10
   },
   {
    "level": 70,
    "x": 660,
    "y": 675,
-   "aqua": 20768,
-   "rawLevel": 13
+   "aqua": 19779,
+   "rawLevel": 13,
+   "hits": 0,
+   "hitsLeft": 10
   },
   {
    "level": 70,
    "x": 662,
    "y": 667,
-   "aqua": 1827,
-   "rawLevel": 13
+   "aqua": 837,
+   "rawLevel": 13,
+   "hits": 0,
+   "hitsLeft": 10
   },
   {
    "level": 70,
    "x": 664,
    "y": 655,
-   "aqua": 3616,
-   "rawLevel": 13
+   "aqua": 2622,
+   "rawLevel": 13,
+   "hits": 0,
+   "hitsLeft": 10
   },
   {
    "level": 70,
    "x": 664,
    "y": 661,
-   "aqua": 9527,
-   "rawLevel": 13
+   "aqua": 8537,
+   "rawLevel": 13,
+   "hits": 0,
+   "hitsLeft": 10
   },
   {
    "level": 70,
    "x": 666,
    "y": 629,
-   "aqua": 11008,
-   "rawLevel": 13
+   "aqua": 10014,
+   "rawLevel": 13,
+   "hits": 0,
+   "hitsLeft": 10
   },
   {
    "level": 70,
    "x": 673,
    "y": 685,
-   "aqua": 6478,
-   "rawLevel": 13
+   "aqua": 5490,
+   "rawLevel": 13,
+   "hits": 0,
+   "hitsLeft": 10
   },
   {
    "level": 70,
    "x": 674,
    "y": 615,
-   "aqua": 35700,
-   "rawLevel": 13
+   "aqua": 34708,
+   "rawLevel": 13,
+   "hits": 0,
+   "hitsLeft": 10
   },
   {
    "level": 70,
    "x": 678,
    "y": 664,
-   "aqua": 25131,
-   "rawLevel": 13
+   "aqua": 24141,
+   "rawLevel": 13,
+   "hits": 0,
+   "hitsLeft": 10
   },
   {
    "level": 60,
    "x": 600,
    "y": 672,
-   "aqua": 33741,
-   "rawLevel": 12
+   "aqua": 32752,
+   "rawLevel": 12,
+   "hits": 0,
+   "hitsLeft": 10
   },
   {
    "level": 60,
    "x": 604,
    "y": 599,
-   "aqua": 26695,
-   "rawLevel": 12
+   "aqua": 25702,
+   "rawLevel": 12,
+   "hits": 0,
+   "hitsLeft": 10
   },
   {
    "level": 60,
@@ -330,14 +400,18 @@
    "y": 622,
    "aqua": 0,
    "rawLevel": 12,
+   "hits": 5,
+   "hitsLeft": 5,
    "refillAt": "2026-06-12T15:15:54Z"
   },
   {
    "level": 60,
    "x": 605,
    "y": 633,
-   "aqua": 27884,
-   "rawLevel": 12
+   "aqua": 26893,
+   "rawLevel": 12,
+   "hits": 0,
+   "hitsLeft": 10
   },
   {
    "level": 60,
@@ -345,14 +419,18 @@
    "y": 681,
    "aqua": 0,
    "rawLevel": 12,
+   "hits": 7,
+   "hitsLeft": 3,
    "refillAt": "2026-06-12T15:15:54Z"
   },
   {
    "level": 60,
    "x": 612,
    "y": 628,
-   "aqua": 34619,
-   "rawLevel": 12
+   "aqua": 33628,
+   "rawLevel": 12,
+   "hits": 0,
+   "hitsLeft": 10
   },
   {
    "level": 60,
@@ -360,14 +438,18 @@
    "y": 600,
    "aqua": 0,
    "rawLevel": 12,
+   "hits": 8,
+   "hitsLeft": 2,
    "refillAt": "2026-06-12T15:15:54Z"
   },
   {
    "level": 60,
    "x": 624,
    "y": 605,
-   "aqua": 28477,
-   "rawLevel": 12
+   "aqua": 27481,
+   "rawLevel": 12,
+   "hits": 0,
+   "hitsLeft": 10
   },
   {
    "level": 60,
@@ -375,21 +457,27 @@
    "y": 688,
    "aqua": 0,
    "rawLevel": 12,
+   "hits": 9,
+   "hitsLeft": 1,
    "refillAt": "2026-06-12T15:15:54Z"
   },
   {
    "level": 60,
    "x": 639,
    "y": 664,
-   "aqua": 8746,
-   "rawLevel": 12
+   "aqua": 7756,
+   "rawLevel": 12,
+   "hits": 0,
+   "hitsLeft": 10
   },
   {
    "level": 60,
    "x": 644,
    "y": 650,
-   "aqua": 35237,
-   "rawLevel": 12
+   "aqua": 34246,
+   "rawLevel": 12,
+   "hits": 0,
+   "hitsLeft": 10
   },
   {
    "level": 60,
@@ -397,70 +485,108 @@
    "y": 677,
    "aqua": 0,
    "rawLevel": 12,
+   "hits": 1,
+   "hitsLeft": 9,
    "refillAt": "2026-06-12T15:15:54Z"
+  },
+  {
+   "level": 60,
+   "x": 656,
+   "y": 670,
+   "aqua": 35239,
+   "rawLevel": 12,
+   "hits": 0,
+   "hitsLeft": 10
+  },
+  {
+   "level": 60,
+   "x": 658,
+   "y": 624,
+   "aqua": 35919,
+   "rawLevel": 12,
+   "hits": 0,
+   "hitsLeft": 10
   },
   {
    "level": 60,
    "x": 658,
    "y": 653,
-   "aqua": 30585,
-   "rawLevel": 12
+   "aqua": 29594,
+   "rawLevel": 12,
+   "hits": 0,
+   "hitsLeft": 10
   },
   {
    "level": 60,
    "x": 660,
    "y": 636,
-   "aqua": 19046,
-   "rawLevel": 12
+   "aqua": 18055,
+   "rawLevel": 12,
+   "hits": 0,
+   "hitsLeft": 10
   },
   {
    "level": 60,
    "x": 660,
    "y": 660,
-   "aqua": 1882,
-   "rawLevel": 12
+   "aqua": 892,
+   "rawLevel": 12,
+   "hits": 0,
+   "hitsLeft": 10
   },
   {
    "level": 60,
    "x": 671,
    "y": 678,
-   "aqua": 18995,
-   "rawLevel": 12
+   "aqua": 18005,
+   "rawLevel": 12,
+   "hits": 0,
+   "hitsLeft": 10
   },
   {
    "level": 60,
    "x": 674,
    "y": 654,
-   "aqua": 19656,
-   "rawLevel": 12
+   "aqua": 18666,
+   "rawLevel": 12,
+   "hits": 0,
+   "hitsLeft": 10
   },
   {
    "level": 60,
    "x": 678,
    "y": 625,
-   "aqua": 3980,
-   "rawLevel": 12
+   "aqua": 2988,
+   "rawLevel": 12,
+   "hits": 0,
+   "hitsLeft": 10
   },
   {
    "level": 60,
    "x": 679,
    "y": 604,
-   "aqua": 11136,
-   "rawLevel": 12
+   "aqua": 10140,
+   "rawLevel": 12,
+   "hits": 0,
+   "hitsLeft": 10
   },
   {
    "level": 60,
    "x": 679,
    "y": 643,
-   "aqua": 28935,
-   "rawLevel": 12
+   "aqua": 27941,
+   "rawLevel": 12,
+   "hits": 0,
+   "hitsLeft": 10
   },
   {
    "level": 60,
    "x": 683,
    "y": 650,
-   "aqua": 25963,
-   "rawLevel": 12
+   "aqua": 24973,
+   "rawLevel": 12,
+   "hits": 0,
+   "hitsLeft": 10
   },
   {
    "level": 60,
@@ -468,14 +594,18 @@
    "y": 609,
    "aqua": 0,
    "rawLevel": 12,
+   "hits": 9,
+   "hitsLeft": 1,
    "refillAt": "2026-06-12T15:15:54Z"
   },
   {
    "level": 50,
    "x": 599,
    "y": 648,
-   "aqua": 28721,
-   "rawLevel": 11
+   "aqua": 27731,
+   "rawLevel": 11,
+   "hits": 0,
+   "hitsLeft": 10
   },
   {
    "level": 50,
@@ -483,6 +613,8 @@
    "y": 618,
    "aqua": 0,
    "rawLevel": 11,
+   "hits": 8,
+   "hitsLeft": 2,
    "refillAt": "2026-06-12T15:15:54Z"
   },
   {
@@ -491,14 +623,19 @@
    "y": 650,
    "aqua": 0,
    "rawLevel": 11,
+   "hits": 8,
+   "hitsLeft": 2,
    "refillAt": "2026-06-12T15:15:54Z"
   },
   {
    "level": 50,
    "x": 605,
    "y": 661,
-   "aqua": 83,
-   "rawLevel": 11
+   "aqua": 0,
+   "rawLevel": 11,
+   "hits": 0,
+   "hitsLeft": 10,
+   "refillAt": "2026-06-12T15:32:19Z"
   },
   {
    "level": 50,
@@ -506,6 +643,8 @@
    "y": 642,
    "aqua": 0,
    "rawLevel": 11,
+   "hits": 8,
+   "hitsLeft": 2,
    "refillAt": "2026-06-12T15:15:54Z"
   },
   {
@@ -514,14 +653,18 @@
    "y": 616,
    "aqua": 0,
    "rawLevel": 11,
+   "hits": 4,
+   "hitsLeft": 6,
    "refillAt": "2026-06-12T15:15:54Z"
   },
   {
    "level": 50,
    "x": 608,
    "y": 655,
-   "aqua": 7119,
-   "rawLevel": 11
+   "aqua": 6126,
+   "rawLevel": 11,
+   "hits": 0,
+   "hitsLeft": 10
   },
   {
    "level": 50,
@@ -529,14 +672,18 @@
    "y": 664,
    "aqua": 0,
    "rawLevel": 11,
+   "hits": 9,
+   "hitsLeft": 1,
    "refillAt": "2026-06-12T15:15:54Z"
   },
   {
    "level": 50,
    "x": 612,
    "y": 602,
-   "aqua": 11731,
-   "rawLevel": 11
+   "aqua": 10738,
+   "rawLevel": 11,
+   "hits": 0,
+   "hitsLeft": 10
   },
   {
    "level": 50,
@@ -544,6 +691,8 @@
    "y": 667,
    "aqua": 0,
    "rawLevel": 11,
+   "hits": 8,
+   "hitsLeft": 2,
    "refillAt": "2026-06-12T15:15:54Z"
   },
   {
@@ -552,14 +701,18 @@
    "y": 685,
    "aqua": 0,
    "rawLevel": 11,
+   "hits": 4,
+   "hitsLeft": 6,
    "refillAt": "2026-06-12T15:15:54Z"
   },
   {
    "level": 50,
    "x": 615,
    "y": 677,
-   "aqua": 18300,
-   "rawLevel": 11
+   "aqua": 17311,
+   "rawLevel": 11,
+   "hits": 0,
+   "hitsLeft": 10
   },
   {
    "level": 50,
@@ -567,14 +720,18 @@
    "y": 624,
    "aqua": 0,
    "rawLevel": 11,
+   "hits": 6,
+   "hitsLeft": 4,
    "refillAt": "2026-06-12T15:15:54Z"
   },
   {
    "level": 50,
    "x": 621,
    "y": 675,
-   "aqua": 16170,
-   "rawLevel": 11
+   "aqua": 15181,
+   "rawLevel": 11,
+   "hits": 0,
+   "hitsLeft": 10
   },
   {
    "level": 50,
@@ -582,21 +739,27 @@
    "y": 608,
    "aqua": 0,
    "rawLevel": 11,
+   "hits": 2,
+   "hitsLeft": 8,
    "refillAt": "2026-06-12T15:15:54Z"
   },
   {
    "level": 50,
    "x": 622,
    "y": 639,
-   "aqua": 17834,
-   "rawLevel": 11
+   "aqua": 16843,
+   "rawLevel": 11,
+   "hits": 0,
+   "hitsLeft": 10
   },
   {
    "level": 50,
    "x": 623,
    "y": 628,
-   "aqua": 34849,
-   "rawLevel": 11
+   "aqua": 33857,
+   "rawLevel": 11,
+   "hits": 0,
+   "hitsLeft": 10
   },
   {
    "level": 50,
@@ -604,6 +767,8 @@
    "y": 622,
    "aqua": 0,
    "rawLevel": 11,
+   "hits": 7,
+   "hitsLeft": 3,
    "refillAt": "2026-06-12T15:15:54Z"
   },
   {
@@ -612,6 +777,8 @@
    "y": 655,
    "aqua": 0,
    "rawLevel": 11,
+   "hits": 7,
+   "hitsLeft": 3,
    "refillAt": "2026-06-12T15:15:54Z"
   },
   {
@@ -620,6 +787,8 @@
    "y": 603,
    "aqua": 0,
    "rawLevel": 11,
+   "hits": 2,
+   "hitsLeft": 8,
    "refillAt": "2026-06-12T15:15:54Z"
   },
   {
@@ -628,6 +797,8 @@
    "y": 659,
    "aqua": 0,
    "rawLevel": 11,
+   "hits": 2,
+   "hitsLeft": 8,
    "refillAt": "2026-06-12T15:15:54Z"
   },
   {
@@ -636,6 +807,8 @@
    "y": 600,
    "aqua": 0,
    "rawLevel": 11,
+   "hits": 4,
+   "hitsLeft": 6,
    "refillAt": "2026-06-12T15:15:54Z"
   },
   {
@@ -644,6 +817,8 @@
    "y": 639,
    "aqua": 0,
    "rawLevel": 11,
+   "hits": 7,
+   "hitsLeft": 3,
    "refillAt": "2026-06-12T15:15:54Z"
   },
   {
@@ -652,6 +827,8 @@
    "y": 678,
    "aqua": 0,
    "rawLevel": 11,
+   "hits": 9,
+   "hitsLeft": 1,
    "refillAt": "2026-06-12T15:15:54Z"
   },
   {
@@ -660,35 +837,45 @@
    "y": 633,
    "aqua": 0,
    "rawLevel": 11,
+   "hits": 6,
+   "hitsLeft": 4,
    "refillAt": "2026-06-12T15:15:54Z"
   },
   {
    "level": 50,
    "x": 639,
    "y": 614,
-   "aqua": 16031,
-   "rawLevel": 11
+   "aqua": 15039,
+   "rawLevel": 11,
+   "hits": 0,
+   "hitsLeft": 10
   },
   {
    "level": 50,
    "x": 639,
    "y": 625,
-   "aqua": 17017,
-   "rawLevel": 11
+   "aqua": 16025,
+   "rawLevel": 11,
+   "hits": 0,
+   "hitsLeft": 10
   },
   {
    "level": 50,
    "x": 644,
    "y": 611,
-   "aqua": 28172,
-   "rawLevel": 11
+   "aqua": 27180,
+   "rawLevel": 11,
+   "hits": 0,
+   "hitsLeft": 10
   },
   {
    "level": 50,
    "x": 646,
    "y": 642,
-   "aqua": 16921,
-   "rawLevel": 11
+   "aqua": 15927,
+   "rawLevel": 11,
+   "hits": 0,
+   "hitsLeft": 10
   },
   {
    "level": 50,
@@ -696,6 +883,8 @@
    "y": 616,
    "aqua": 0,
    "rawLevel": 11,
+   "hits": 5,
+   "hitsLeft": 5,
    "refillAt": "2026-06-12T15:15:54Z"
   },
   {
@@ -704,6 +893,8 @@
    "y": 625,
    "aqua": 0,
    "rawLevel": 11,
+   "hits": 6,
+   "hitsLeft": 4,
    "refillAt": "2026-06-12T15:15:54Z"
   },
   {
@@ -712,6 +903,8 @@
    "y": 636,
    "aqua": 0,
    "rawLevel": 11,
+   "hits": 6,
+   "hitsLeft": 4,
    "refillAt": "2026-06-12T15:15:54Z"
   },
   {
@@ -720,6 +913,8 @@
    "y": 680,
    "aqua": 0,
    "rawLevel": 11,
+   "hits": 8,
+   "hitsLeft": 2,
    "refillAt": "2026-06-12T15:15:54Z"
   },
   {
@@ -728,14 +923,18 @@
    "y": 607,
    "aqua": 0,
    "rawLevel": 11,
+   "hits": 2,
+   "hitsLeft": 8,
    "refillAt": "2026-06-12T15:15:54Z"
   },
   {
    "level": 50,
    "x": 654,
    "y": 638,
-   "aqua": 4017,
-   "rawLevel": 11
+   "aqua": 3026,
+   "rawLevel": 11,
+   "hits": 0,
+   "hitsLeft": 10
   },
   {
    "level": 50,
@@ -743,6 +942,8 @@
    "y": 617,
    "aqua": 0,
    "rawLevel": 11,
+   "hits": 5,
+   "hitsLeft": 5,
    "refillAt": "2026-06-12T15:15:54Z"
   },
   {
@@ -751,6 +952,8 @@
    "y": 614,
    "aqua": 0,
    "rawLevel": 11,
+   "hits": 7,
+   "hitsLeft": 3,
    "refillAt": "2026-06-12T15:15:54Z"
   },
   {
@@ -759,14 +962,18 @@
    "y": 628,
    "aqua": 0,
    "rawLevel": 11,
+   "hits": 8,
+   "hitsLeft": 2,
    "refillAt": "2026-06-12T15:15:54Z"
   },
   {
    "level": 50,
    "x": 663,
    "y": 605,
-   "aqua": 17698,
-   "rawLevel": 11
+   "aqua": 16702,
+   "rawLevel": 11,
+   "hits": 0,
+   "hitsLeft": 10
   },
   {
    "level": 50,
@@ -774,14 +981,18 @@
    "y": 612,
    "aqua": 0,
    "rawLevel": 11,
+   "hits": 5,
+   "hitsLeft": 5,
    "refillAt": "2026-06-12T15:15:54Z"
   },
   {
    "level": 50,
    "x": 668,
    "y": 620,
-   "aqua": 14349,
-   "rawLevel": 11
+   "aqua": 13357,
+   "rawLevel": 11,
+   "hits": 0,
+   "hitsLeft": 10
   },
   {
    "level": 50,
@@ -789,6 +1000,8 @@
    "y": 665,
    "aqua": 0,
    "rawLevel": 11,
+   "hits": 8,
+   "hitsLeft": 2,
    "refillAt": "2026-06-12T15:15:54Z"
   },
   {
@@ -797,6 +1010,8 @@
    "y": 600,
    "aqua": 0,
    "rawLevel": 11,
+   "hits": 4,
+   "hitsLeft": 6,
    "refillAt": "2026-06-12T15:15:54Z"
   },
   {
@@ -805,35 +1020,45 @@
    "y": 639,
    "aqua": 0,
    "rawLevel": 11,
+   "hits": 8,
+   "hitsLeft": 2,
    "refillAt": "2026-06-12T15:15:54Z"
   },
   {
    "level": 50,
    "x": 673,
    "y": 633,
-   "aqua": 8218,
-   "rawLevel": 11
+   "aqua": 7227,
+   "rawLevel": 11,
+   "hits": 0,
+   "hitsLeft": 10
   },
   {
    "level": 50,
    "x": 678,
    "y": 672,
-   "aqua": 2624,
-   "rawLevel": 11
+   "aqua": 1634,
+   "rawLevel": 11,
+   "hits": 0,
+   "hitsLeft": 10
   },
   {
    "level": 50,
    "x": 682,
    "y": 599,
-   "aqua": 14149,
-   "rawLevel": 11
+   "aqua": 13155,
+   "rawLevel": 11,
+   "hits": 0,
+   "hitsLeft": 10
   },
   {
    "level": 50,
    "x": 687,
    "y": 648,
-   "aqua": 17057,
-   "rawLevel": 11
+   "aqua": 16067,
+   "rawLevel": 11,
+   "hits": 0,
+   "hitsLeft": 10
   },
   {
    "level": 40,
@@ -841,6 +1066,8 @@
    "y": 609,
    "aqua": 0,
    "rawLevel": 10,
+   "hits": 4,
+   "hitsLeft": 6,
    "refillAt": "2026-06-12T15:15:54Z"
   },
   {
@@ -849,6 +1076,8 @@
    "y": 687,
    "aqua": 0,
    "rawLevel": 10,
+   "hits": 6,
+   "hitsLeft": 4,
    "refillAt": "2026-06-12T15:15:54Z"
   },
   {
@@ -857,6 +1086,8 @@
    "y": 657,
    "aqua": 0,
    "rawLevel": 10,
+   "hits": 5,
+   "hitsLeft": 5,
    "refillAt": "2026-06-12T15:15:54Z"
   },
   {
@@ -865,6 +1096,8 @@
    "y": 638,
    "aqua": 0,
    "rawLevel": 10,
+   "hits": 4,
+   "hitsLeft": 6,
    "refillAt": "2026-06-12T15:15:54Z"
   },
   {
@@ -873,6 +1106,8 @@
    "y": 622,
    "aqua": 0,
    "rawLevel": 10,
+   "hits": 3,
+   "hitsLeft": 7,
    "refillAt": "2026-06-12T15:15:54Z"
   },
   {
@@ -881,14 +1116,18 @@
    "y": 661,
    "aqua": 0,
    "rawLevel": 10,
+   "hits": 4,
+   "hitsLeft": 6,
    "refillAt": "2026-06-12T15:15:54Z"
   },
   {
    "level": 40,
    "x": 612,
    "y": 680,
-   "aqua": 6166,
-   "rawLevel": 10
+   "aqua": 5177,
+   "rawLevel": 10,
+   "hits": 0,
+   "hitsLeft": 10
   },
   {
    "level": 40,
@@ -896,6 +1135,8 @@
    "y": 612,
    "aqua": 0,
    "rawLevel": 10,
+   "hits": 4,
+   "hitsLeft": 6,
    "refillAt": "2026-06-12T15:15:54Z"
   },
   {
@@ -904,6 +1145,8 @@
    "y": 651,
    "aqua": 0,
    "rawLevel": 10,
+   "hits": 3,
+   "hitsLeft": 7,
    "refillAt": "2026-06-12T15:15:54Z"
   },
   {
@@ -912,6 +1155,8 @@
    "y": 607,
    "aqua": 0,
    "rawLevel": 10,
+   "hits": 4,
+   "hitsLeft": 6,
    "refillAt": "2026-06-12T15:15:54Z"
   },
   {
@@ -920,14 +1165,18 @@
    "y": 670,
    "aqua": 0,
    "rawLevel": 10,
+   "hits": 2,
+   "hitsLeft": 8,
    "refillAt": "2026-06-12T15:15:54Z"
   },
   {
    "level": 40,
    "x": 623,
    "y": 667,
-   "aqua": 28880,
-   "rawLevel": 10
+   "aqua": 27890,
+   "rawLevel": 10,
+   "hits": 0,
+   "hitsLeft": 10
   },
   {
    "level": 40,
@@ -935,6 +1184,8 @@
    "y": 644,
    "aqua": 0,
    "rawLevel": 10,
+   "hits": 4,
+   "hitsLeft": 6,
    "refillAt": "2026-06-12T15:15:54Z"
   },
   {
@@ -943,6 +1194,8 @@
    "y": 661,
    "aqua": 0,
    "rawLevel": 10,
+   "hits": 2,
+   "hitsLeft": 8,
    "refillAt": "2026-06-12T15:15:54Z"
   },
   {
@@ -951,14 +1204,18 @@
    "y": 610,
    "aqua": 0,
    "rawLevel": 10,
+   "hits": 4,
+   "hitsLeft": 6,
    "refillAt": "2026-06-12T15:15:54Z"
   },
   {
    "level": 40,
    "x": 627,
    "y": 649,
-   "aqua": 17496,
-   "rawLevel": 10
+   "aqua": 16506,
+   "rawLevel": 10,
+   "hits": 0,
+   "hitsLeft": 10
   },
   {
    "level": 40,
@@ -966,6 +1223,8 @@
    "y": 612,
    "aqua": 0,
    "rawLevel": 10,
+   "hits": 3,
+   "hitsLeft": 7,
    "refillAt": "2026-06-12T15:15:54Z"
   },
   {
@@ -974,21 +1233,27 @@
    "y": 651,
    "aqua": 0,
    "rawLevel": 10,
+   "hits": 4,
+   "hitsLeft": 6,
    "refillAt": "2026-06-12T15:15:54Z"
   },
   {
    "level": 40,
    "x": 629,
    "y": 681,
-   "aqua": 15307,
-   "rawLevel": 10
+   "aqua": 14315,
+   "rawLevel": 10,
+   "hits": 0,
+   "hitsLeft": 10
   },
   {
    "level": 40,
    "x": 631,
    "y": 626,
-   "aqua": 31918,
-   "rawLevel": 10
+   "aqua": 30926,
+   "rawLevel": 10,
+   "hits": 0,
+   "hitsLeft": 10
   },
   {
    "level": 40,
@@ -996,6 +1261,8 @@
    "y": 672,
    "aqua": 0,
    "rawLevel": 10,
+   "hits": 6,
+   "hitsLeft": 4,
    "refillAt": "2026-06-12T15:15:54Z"
   },
   {
@@ -1004,6 +1271,8 @@
    "y": 609,
    "aqua": 0,
    "rawLevel": 10,
+   "hits": 2,
+   "hitsLeft": 8,
    "refillAt": "2026-06-12T15:15:54Z"
   },
   {
@@ -1012,6 +1281,8 @@
    "y": 648,
    "aqua": 0,
    "rawLevel": 10,
+   "hits": 8,
+   "hitsLeft": 2,
    "refillAt": "2026-06-12T15:15:54Z"
   },
   {
@@ -1020,6 +1291,8 @@
    "y": 618,
    "aqua": 0,
    "rawLevel": 10,
+   "hits": 9,
+   "hitsLeft": 1,
    "refillAt": "2026-06-12T15:15:54Z"
   },
   {
@@ -1028,6 +1301,8 @@
    "y": 599,
    "aqua": 0,
    "rawLevel": 10,
+   "hits": 3,
+   "hitsLeft": 7,
    "refillAt": "2026-06-12T15:15:54Z"
   },
   {
@@ -1036,14 +1311,18 @@
    "y": 633,
    "aqua": 0,
    "rawLevel": 10,
+   "hits": 4,
+   "hitsLeft": 6,
    "refillAt": "2026-06-12T15:15:54Z"
   },
   {
    "level": 40,
    "x": 644,
    "y": 661,
-   "aqua": 7400,
-   "rawLevel": 10
+   "aqua": 6410,
+   "rawLevel": 10,
+   "hits": 0,
+   "hitsLeft": 10
   },
   {
    "level": 40,
@@ -1051,6 +1330,8 @@
    "y": 672,
    "aqua": 0,
    "rawLevel": 10,
+   "hits": 3,
+   "hitsLeft": 7,
    "refillAt": "2026-06-12T15:15:54Z"
   },
   {
@@ -1059,6 +1340,8 @@
    "y": 655,
    "aqua": 0,
    "rawLevel": 10,
+   "hits": 8,
+   "hitsLeft": 2,
    "refillAt": "2026-06-12T15:15:54Z"
   },
   {
@@ -1067,6 +1350,8 @@
    "y": 664,
    "aqua": 0,
    "rawLevel": 10,
+   "hits": 4,
+   "hitsLeft": 6,
    "refillAt": "2026-06-12T15:15:54Z"
   },
   {
@@ -1075,6 +1360,8 @@
    "y": 675,
    "aqua": 0,
    "rawLevel": 10,
+   "hits": 6,
+   "hitsLeft": 4,
    "refillAt": "2026-06-12T15:15:54Z"
   },
   {
@@ -1083,14 +1370,18 @@
    "y": 687,
    "aqua": 0,
    "rawLevel": 10,
+   "hits": 3,
+   "hitsLeft": 7,
    "refillAt": "2026-06-12T15:15:54Z"
   },
   {
    "level": 40,
    "x": 651,
    "y": 641,
-   "aqua": 13518,
-   "rawLevel": 10
+   "aqua": 12527,
+   "rawLevel": 10,
+   "hits": 0,
+   "hitsLeft": 10
   },
   {
    "level": 40,
@@ -1098,14 +1389,18 @@
    "y": 685,
    "aqua": 0,
    "rawLevel": 10,
+   "hits": 3,
+   "hitsLeft": 7,
    "refillAt": "2026-06-12T15:15:54Z"
   },
   {
    "level": 40,
    "x": 655,
    "y": 656,
-   "aqua": 25641,
-   "rawLevel": 10
+   "aqua": 24647,
+   "rawLevel": 10,
+   "hits": 0,
+   "hitsLeft": 10
   },
   {
    "level": 40,
@@ -1113,6 +1408,8 @@
    "y": 621,
    "aqua": 0,
    "rawLevel": 10,
+   "hits": 2,
+   "hitsLeft": 8,
    "refillAt": "2026-06-12T15:15:54Z"
   },
   {
@@ -1121,6 +1418,8 @@
    "y": 600,
    "aqua": 0,
    "rawLevel": 10,
+   "hits": 2,
+   "hitsLeft": 8,
    "refillAt": "2026-06-12T15:15:54Z"
   },
   {
@@ -1129,6 +1428,8 @@
    "y": 608,
    "aqua": 0,
    "rawLevel": 10,
+   "hits": 4,
+   "hitsLeft": 6,
    "refillAt": "2026-06-12T15:15:54Z"
   },
   {
@@ -1137,6 +1438,8 @@
    "y": 639,
    "aqua": 0,
    "rawLevel": 10,
+   "hits": 3,
+   "hitsLeft": 7,
    "refillAt": "2026-06-12T15:15:54Z"
   },
   {
@@ -1145,6 +1448,8 @@
    "y": 616,
    "aqua": 0,
    "rawLevel": 10,
+   "hits": 5,
+   "hitsLeft": 5,
    "refillAt": "2026-06-12T15:15:54Z"
   },
   {
@@ -1153,6 +1458,8 @@
    "y": 649,
    "aqua": 0,
    "rawLevel": 10,
+   "hits": 5,
+   "hitsLeft": 5,
    "refillAt": "2026-06-12T15:15:54Z"
   },
   {
@@ -1161,14 +1468,18 @@
    "y": 603,
    "aqua": 0,
    "rawLevel": 10,
+   "hits": 9,
+   "hitsLeft": 1,
    "refillAt": "2026-06-12T15:15:54Z"
   },
   {
    "level": 40,
    "x": 668,
    "y": 651,
-   "aqua": 19021,
-   "rawLevel": 10
+   "aqua": 18030,
+   "rawLevel": 10,
+   "hits": 0,
+   "hitsLeft": 10
   },
   {
    "level": 40,
@@ -1176,21 +1487,27 @@
    "y": 681,
    "aqua": 0,
    "rawLevel": 10,
+   "hits": 9,
+   "hitsLeft": 1,
    "refillAt": "2026-06-12T15:15:54Z"
   },
   {
    "level": 40,
    "x": 675,
    "y": 667,
-   "aqua": 25060,
-   "rawLevel": 10
+   "aqua": 24070,
+   "rawLevel": 10,
+   "hits": 0,
+   "hitsLeft": 10
   },
   {
    "level": 40,
    "x": 677,
    "y": 648,
-   "aqua": 16117,
-   "rawLevel": 10
+   "aqua": 15127,
+   "rawLevel": 10,
+   "hits": 0,
+   "hitsLeft": 10
   },
   {
    "level": 40,
@@ -1198,21 +1515,27 @@
    "y": 677,
    "aqua": 0,
    "rawLevel": 10,
+   "hits": 3,
+   "hitsLeft": 7,
    "refillAt": "2026-06-12T15:15:54Z"
   },
   {
    "level": 40,
    "x": 685,
    "y": 642,
-   "aqua": 7358,
-   "rawLevel": 10
+   "aqua": 6365,
+   "rawLevel": 10,
+   "hits": 0,
+   "hitsLeft": 10
   },
   {
    "level": 40,
    "x": 686,
    "y": 616,
-   "aqua": 16338,
-   "rawLevel": 10
+   "aqua": 15343,
+   "rawLevel": 10,
+   "hits": 0,
+   "hitsLeft": 10
   },
   {
    "level": 40,
@@ -1220,6 +1543,8 @@
    "y": 655,
    "aqua": 0,
    "rawLevel": 10,
+   "hits": 9,
+   "hitsLeft": 1,
    "refillAt": "2026-06-12T15:15:54Z"
   },
   {
@@ -1228,6 +1553,8 @@
    "y": 636,
    "aqua": 0,
    "rawLevel": 10,
+   "hits": 2,
+   "hitsLeft": 8,
    "refillAt": "2026-06-12T15:15:54Z"
   },
   {
@@ -1236,6 +1563,8 @@
    "y": 687,
    "aqua": 0,
    "rawLevel": 10,
+   "hits": 2,
+   "hitsLeft": 8,
    "refillAt": "2026-06-12T15:15:54Z"
   }
  ]
