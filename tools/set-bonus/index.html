@@ -14,7 +14,8 @@
     .sb-top input, .sb-top select { padding: 9px 11px; font: inherit; background: var(--bg-elev);
       border: 1px solid var(--border); border-radius: var(--radius-sm, 8px); color: var(--text); }
     .sb-top input:focus, .sb-top select:focus { outline: none; border-color: var(--gold); }
-    #sb-set { min-width: 260px; }
+    #sb-set { min-width: min(260px, 100%); max-width: 100%; }
+    .sb-field { min-width: 0; max-width: 100%; }
     #sb-search { min-width: 180px; }
     .sb-wearer { font-size: .8rem; color: var(--text-dim); }
 
