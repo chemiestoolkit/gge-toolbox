@@ -198,6 +198,17 @@ window.TOOLS = [
 
   // ---- Calculators -------------------------------------------------------
   {
+    slug: "hol-planner",
+    img: "assets/img/tool-art/layout.webp",
+    cat: "calculators",
+    name: "Hall of Legends Planner",
+    desc: "Allocate legendary skill points across the Offense and Defense trees and see the exact point cost and total bonuses of your build. Plan is saved on your device.",
+    icon: "🏛️",
+    status: "live",
+    url: "tools/hol-planner/",
+    tags: ["hall of legends", "hol", "legendary", "skills", "skill points", "offense", "defense", "planner", "build", "trees"],
+  },
+  {
     slug: "set-bonus",
     img: "assets/img/tool-art/equipment.webp",
     cat: "calculators",

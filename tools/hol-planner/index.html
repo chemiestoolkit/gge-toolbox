@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Hall of Legends Planner — Maxy's Empire Toolkit</title>
+  <meta name="description" content="Plan your Goodgame Empire Hall of Legends build — allocate legendary skill points across the Offense and Defense trees and see the exact point cost and total bonuses." />
+  <link rel="stylesheet" href="../../assets/css/theme.css" />
+  <link rel="icon" type="image/png" href="../../assets/img/favicon.png" />
+  <style>
+    .hol-controls { display: flex; flex-wrap: wrap; gap: 12px; align-items: flex-end; }
+    .hol-field { display: flex; flex-direction: column; gap: 4px; }
+    .hol-field label { font-size: .78rem; color: var(--text-dim); }
+    .hol-controls input { width: 120px; padding: 9px 11px; font: inherit; background: var(--bg-elev);
+      border: 1px solid var(--border); border-radius: var(--radius-sm, 8px); color: var(--text); }
+    .hol-controls input:focus { outline: none; border-color: var(--gold); }
+    .hol-btn { padding: 9px 14px; font: inherit; cursor: pointer; border-radius: var(--radius-sm, 8px);
+      border: 1px solid var(--border); background: var(--bg-elev); color: var(--text-dim); }
+    .hol-btn:hover { border-color: var(--gold); color: var(--gold); }
+
+    .hol-summary { position: sticky; top: 0; z-index: 5; margin: 14px 0; padding: 12px 16px;
+      border: 1px solid var(--gold-dim); border-radius: var(--radius); background: rgba(20,21,26,.96);
+      backdrop-filter: blur(4px); display: flex; flex-wrap: wrap; gap: 16px 24px; align-items: baseline; }
+    .hol-summary .big { font-size: 1.4rem; font-weight: 700; color: var(--gold-bright); font-variant-numeric: tabular-nums; }
+    .hol-summary .lbl { font-size: .78rem; color: var(--text-dim); display: block; }
+    .hol-summary .over { color: var(--bad); }
+    .hol-summary .rem-ok { color: var(--good); }
+
+    .hol-trees { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+    @media (max-width: 760px) { .hol-trees { grid-template-columns: 1fr; } }
+    .hol-tree h2 { font-size: 1.1rem; margin: 0 0 4px; }
+    .hol-tree .tt { font-size: .8rem; color: var(--text-dim); margin-bottom: 10px; }
+    .hol-tier { margin-bottom: 14px; }
+    .hol-tier > h3 { font-size: .76rem; text-transform: uppercase; letter-spacing: .06em;
+      color: var(--gold); margin: 0 0 6px; border-bottom: 1px solid var(--border); padding-bottom: 4px; }
+    .hol-node { display: grid; grid-template-columns: 1fr auto; gap: 6px 10px; align-items: center;
+      padding: 7px 2px; }
+    .hol-node + .hol-node { border-top: 1px solid rgba(255,255,255,.04); }
+    .hol-nm { font-size: .92rem; }
+    .hol-val { font-size: .8rem; color: var(--gold-bright); min-height: 1em; }
+    .hol-val.zero { color: var(--text-faint, #8a8372); }
+    .hol-step { display: flex; align-items: center; gap: 7px; }
+    .hol-step button { width: 28px; height: 28px; border-radius: 7px; border: 1px solid var(--border);
+      background: var(--bg-elev); color: var(--text); cursor: pointer; font-size: 1.05rem; line-height: 1; }
+    .hol-step button:hover:not(:disabled) { border-color: var(--gold); color: var(--gold); }
+    .hol-step button:disabled { opacity: .35; cursor: default; }
+    .hol-lv { min-width: 3.4ch; text-align: center; font-variant-numeric: tabular-nums; font-size: .9rem; }
+    .hol-cost { font-size: .72rem; color: var(--text-faint, #8a8372); }
+  </style>
+</head>
+<body>
+  <header class="topbar">
+    <div class="wrap">
+      <a class="brand" href="../../"><span class="crest">🛡️</span> Maxy's Empire <b>Toolkit</b></a>
+    </div>
+  </header>
+
+  <main class="wrap">
+    <div class="tool-head">
+      <a class="back" href="../../">← All tools</a>
+      <h1>🏛️ Hall of Legends Planner</h1>
+      <p>Allocate your legendary skill points across the Offense and Defense
+         trees and see the exact point cost and total bonuses of your build.
+         Your plan is saved on this device. <span style="color:var(--text-dim)">In-game, tiers unlock in order as you spend — the planner shows each tier's spend so you can check the path.</span></p>
+    </div>
+
+    <section class="panel">
+      <div class="hol-controls">
+        <div class="hol-field">
+          <label for="hol-avail">Skill points you have (optional)</label>
+          <input type="number" id="hol-avail" min="0" placeholder="e.g. 300" />
+        </div>
+        <button class="hol-btn" id="hol-reset">Clear build</button>
+        <button class="hol-btn" id="hol-max">Max everything</button>
+      </div>
+    </section>
+
+    <div class="hol-summary" id="hol-summary"></div>
+    <div class="hol-trees" id="hol-trees"></div>
+  </main>
+
+  <footer class="footer">
+    <div class="wrap"><p>Skill costs and bonus values extracted direct from Goodgame Studios' game data. Tier-unlock thresholds aren't published in the data, so the planner totals the cost and bonuses of any allocation — apply tiers in order in-game.</p></div>
+  </footer>
+
+  <script>
+  (function () {
+    "use strict";
+    var $ = function (id) { return document.getElementById(id); };
+    var esc = function (s) { return String(s == null ? "" : s).replace(/[&<>"]/g, function (c) { return ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" })[c]; }); };
+    var KEY = "holPlanner.v1", AVKEY = "holPlanner.avail";
+    var DATA = null, alloc = {};
+    try { alloc = JSON.parse(localStorage.getItem(KEY)) || {}; } catch (e) { alloc = {}; }
+
+    function nodeById(id) {
+      for (var ti = 0; ti < DATA.trees.length; ti++)
+        for (var t = 0; t < DATA.trees[ti].tiers.length; t++)
+          for (var n = 0; n < DATA.trees[ti].tiers[t].nodes.length; n++)
+            if (DATA.trees[ti].tiers[t].nodes[n].id === id) return DATA.trees[ti].tiers[t].nodes[n];
+      return null;
+    }
+    function lvlData(node, lvl) { return lvl > 0 ? node.levels[lvl - 1] : { cost: 0, val: 0 }; }
+    function save() { localStorage.setItem(KEY, JSON.stringify(alloc)); }
+
+    function treeSpend(tree) {
+      var s = 0;
+      tree.tiers.forEach(function (ti) { ti.nodes.forEach(function (n) { s += lvlData(n, alloc[n.id] || 0).cost; }); });
+      return s;
+    }
+
+    function renderSummary() {
+      var parts = [], grand = 0;
+      DATA.trees.forEach(function (tr) { var sp = treeSpend(tr); grand += sp;
+        parts.push('<div><span class="lbl">' + esc(tr.name) + '</span><span class="big">' + sp + '</span> pts</div>');
+      });
+      var avail = +$("hol-avail").value || 0;
+      var remHtml = "";
+      if (avail > 0) {
+        var rem = avail - grand;
+        remHtml = '<div><span class="lbl">Remaining</span><span class="big ' + (rem < 0 ? "over" : "rem-ok") + '">' + rem + '</span></div>';
+      }
+      $("hol-summary").innerHTML =
+        '<div><span class="lbl">Total spent</span><span class="big">' + grand + '</span> / ' + DATA.totalMax + ' max</div>' +
+        parts.join("") + remHtml;
+    }
+
+    function renderTrees() {
+      $("hol-trees").innerHTML = DATA.trees.map(function (tr) {
+        var tiers = tr.tiers.map(function (ti) {
+          var nodes = ti.nodes.map(function (n) {
+            var lv = alloc[n.id] || 0, ld = lvlData(n, lv);
+            var valTxt = lv > 0 ? ("+" + ld.val + (n.pct ? "%" : "") + " · " + n.name) : n.name;
+            return '<div class="hol-node" data-id="' + n.id + '">' +
+              '<div><div class="hol-nm">' + esc(n.name) + '</div>' +
+                   '<div class="hol-val' + (lv ? "" : " zero") + '">' + (lv ? "+" + ld.val + (n.pct ? "%" : "") + " · " + ld.cost + " pts" : "—") + '</div></div>' +
+              '<div class="hol-step">' +
+                '<button class="hol-dn" ' + (lv <= 0 ? "disabled" : "") + '>−</button>' +
+                '<span class="hol-lv">' + lv + '/' + n.maxLevel + '</span>' +
+                '<button class="hol-up" ' + (lv >= n.maxLevel ? "disabled" : "") + '>＋</button>' +
+              '</div></div>';
+          }).join("");
+          return '<div class="hol-tier"><h3>Tier ' + ti.tier + '</h3>' + nodes + '</div>';
+        }).join("");
+        return '<div class="hol-tree panel"><h2>' + (tr.id === "0" ? "⚔️ " : "🛡️ ") + esc(tr.name) + '</h2>' +
+          '<div class="tt">' + esc(tr.name) + ' tree · ' + tr.maxPoints + ' points to max</div>' + tiers + '</div>';
+      }).join("");
+    }
+
+    function render() { renderTrees(); renderSummary(); }
+
+    $("hol-trees").addEventListener("click", function (e) {
+      var row = e.target.closest(".hol-node"); if (!row) return;
+      var id = row.dataset.id, n = nodeById(id), lv = alloc[id] || 0;
+      if (e.target.classList.contains("hol-up") && lv < n.maxLevel) alloc[id] = lv + 1;
+      else if (e.target.classList.contains("hol-dn") && lv > 0) alloc[id] = lv - 1;
+      else return;
+      if (!alloc[id]) delete alloc[id];
+      save(); render();
+    });
+    $("hol-reset").addEventListener("click", function () { alloc = {}; save(); render(); });
+    $("hol-max").addEventListener("click", function () {
+      DATA.trees.forEach(function (tr) { tr.tiers.forEach(function (ti) { ti.nodes.forEach(function (n) { alloc[n.id] = n.maxLevel; }); }); });
+      save(); render();
+    });
+    $("hol-avail").addEventListener("input", function () { localStorage.setItem(AVKEY, this.value); renderSummary(); });
+
+    fetch("./data/hol.json")
+      .then(function (r) { return r.json(); })
+      .then(function (d) {
+        DATA = d;
+        DATA.totalMax = d.trees.reduce(function (a, t) { return a + t.maxPoints; }, 0);
+        $("hol-avail").value = localStorage.getItem(AVKEY) || "";
+        render();
+      })
+      .catch(function (e) { $("hol-trees").innerHTML = '<p class="muted">Could not load Hall of Legends data.</p>'; console.error(e); });
+  })();
+  </script>
+</body>
+</html>

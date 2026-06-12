@@ -19,6 +19,7 @@ builds=(
   "overview-construction-items/data/build.sh"
   "overview-buildings/data/build.sh"
   "set-bonus/data/build.sh"
+  "hol-planner/data/build.sh"
   "rift-optimizer/data/build.sh"
   "gacha-sim/data/build.sh"
 )
