@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Building Upgrade Cost & Time — Maxy's Empire Toolkit</title>
+  <meta name="description" content="Work out the total resources, tokens, build time and XP to upgrade any Goodgame Empire building across a level range, with your construction-speed boost applied." />
+  <link rel="stylesheet" href="../../assets/css/theme.css?v=15" />
+  <link rel="icon" type="image/png" href="../../assets/img/favicon.png" />
+  <style>
+    .uc-controls { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 12px; align-items: end; }
+    .uc-field { display: flex; flex-direction: column; gap: 4px; }
+    .uc-field label { font-size: .78rem; color: var(--text-dim); }
+    .uc-field select, .uc-field input { width: 100%; padding: 9px 11px; font: inherit; background: var(--bg-elev);
+      border: 1px solid var(--border); border-radius: var(--radius-sm, 8px); color: var(--text); }
+    .uc-field select:focus, .uc-field input:focus { outline: none; border-color: var(--gold); }
+
+    .uc-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(170px, 1fr)); gap: 12px; margin: 16px 0; }
+    .uc-stat { background: var(--bg-elev); border: 1px solid var(--border); border-radius: var(--radius); padding: 13px 15px; }
+    .uc-stat.big { border-color: var(--gold-dim); }
+    .uc-stat .l { font-size: .72rem; color: var(--text-faint, #8a8372); text-transform: uppercase; letter-spacing: .05em; margin-bottom: 4px; }
+    .uc-stat .v { font-size: 1.45rem; font-weight: 700; color: var(--text); line-height: 1.1; font-variant-numeric: tabular-nums; }
+    .uc-stat .v.gold { color: var(--gold-bright); }
+    .uc-stat .sub { font-size: .73rem; color: var(--text-dim); margin-top: 3px; }
+
+    h2.uc-h { font-size: 1.02rem; color: var(--gold); margin: 0 0 10px; font-family: var(--font-display); }
+    table.uc { width: 100%; border-collapse: collapse; font-size: .85rem; }
+    table.uc th { text-align: right; padding: 7px 9px; font-size: .66rem; text-transform: uppercase; letter-spacing: .05em; color: var(--gold-dim); border-bottom: 1px solid var(--border); white-space: nowrap; }
+    table.uc th.l { text-align: left; }
+    table.uc td { padding: 6px 9px; border-bottom: 1px solid var(--border-soft); color: var(--text-dim); text-align: right; font-variant-numeric: tabular-nums; }
+    table.uc td.nm { text-align: left; color: var(--text); }
+    .uc-toggle { margin-top: 14px; font-size: .82rem; color: var(--text-dim); cursor: pointer; background: none; border: none; }
+    .uc-toggle:hover { color: var(--gold); }
+  </style>
+</head>
+<body>
+  <header class="topbar">
+    <div class="wrap">
+      <a class="brand" href="../../"><span class="crest">🛡️</span> Maxy's Empire <b>Toolkit</b></a>
+    </div>
+  </header>
+
+  <main class="wrap">
+    <div class="tool-head">
+      <a class="back" href="../../">← All tools</a>
+      <h1>🧮 Building Upgrade Cost &amp; Time</h1>
+      <p>Pick a building and a level range to see the total resources, tokens,
+         build time and XP it takes — with your construction-speed boost applied
+         to the time.</p>
+    </div>
+
+    <section class="panel">
+      <div class="uc-controls">
+        <div class="uc-field" style="grid-column: span 2">
+          <label for="uc-search">Building</label>
+          <input type="search" id="uc-search" placeholder="Filter buildings…" autocomplete="off" />
+        </div>
+        <div class="uc-field" style="grid-column: span 2">
+          <label for="uc-bld">&nbsp;</label>
+          <select id="uc-bld"></select>
+        </div>
+        <div class="uc-field">
+          <label for="uc-from">From level</label>
+          <select id="uc-from"></select>
+        </div>
+        <div class="uc-field">
+          <label for="uc-to">To level</label>
+          <select id="uc-to"></select>
+        </div>
+        <div class="uc-field">
+          <label for="uc-boost">Construction speed +%</label>
+          <input type="number" id="uc-boost" min="0" value="0" />
+        </div>
+      </div>
+    </section>
+
+    <div class="uc-grid" id="uc-summary"></div>
+
+    <section class="panel">
+      <button class="uc-toggle" id="uc-toggle">▸ Per-level breakdown</button>
+      <div id="uc-detail" hidden style="overflow-x:auto;margin-top:10px"></div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <div class="wrap"><p>Costs, build times and XP extracted direct from Goodgame Studios' game data. Build time shown is base ÷ (1 + your speed boost). Higher levels often cost tokens (construction / upgrade) instead of wood &amp; stone.</p></div>
+  </footer>
+
+  <script>
+  (function () {
+    "use strict";
+    var $ = function (id) { return document.getElementById(id); };
+    var esc = function (s) { return String(s == null ? "" : s).replace(/[&<>"]/g, function (c) { return ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" })[c]; }); };
+    var num = function (v) { return (v || 0).toLocaleString(); };
+    var ITEMS = [], current = null;
+
+    function fmtTime(sec) {
+      sec = Math.round(sec);
+      var d = Math.floor(sec / 86400); sec -= d * 86400;
+      var h = Math.floor(sec / 3600); sec -= h * 3600;
+      var m = Math.floor(sec / 60), s = sec - m * 60;
+      var out = [];
+      if (d) out.push(d + "d"); if (h) out.push(h + "h");
+      if (m && !d) out.push(m + "m"); if (s && !d && !h) out.push(s + "s");
+      return out.join(" ") || "0s";
+    }
+
+    function fillLevels() {
+      var lv = current.levels.map(function (l) { return l.lvl; });
+      var from = $("uc-from"), to = $("uc-to");
+      from.innerHTML = '<option value="0">Not built (0)</option>' +
+        lv.slice(0, -1).map(function (l) { return '<option value="' + l + '">' + l + '</option>'; }).join("");
+      to.innerHTML = lv.map(function (l) { return '<option value="' + l + '">' + l + '</option>'; }).join("");
+      from.value = "0";
+      to.value = lv[lv.length - 1];
+    }
+
+    function selectBuilding(name) {
+      current = ITEMS.filter(function (x) { return x.name === name; })[0];
+      if (!current) return;
+      $("uc-bld").value = name;
+      fillLevels();
+      compute();
+    }
+
+    function compute() {
+      if (!current) return;
+      var from = +$("uc-from").value, to = +$("uc-to").value;
+      if (to <= from) { $("uc-summary").innerHTML = '<div class="uc-stat"><div class="sub">Pick a "to" level above the "from" level.</div></div>'; $("uc-detail").innerHTML = ""; return; }
+      var boost = Math.max(0, +$("uc-boost").value || 0);
+      var inRange = current.levels.filter(function (l) { return l.lvl > from && l.lvl <= to; });
+      var cost = {}, sec = 0, xp = 0;
+      inRange.forEach(function (l) {
+        sec += l.sec; xp += l.xp;
+        Object.keys(l.cost).forEach(function (k) { cost[k] = (cost[k] || 0) + l.cost[k]; });
+      });
+      var realSec = sec / (1 + boost / 100);
+
+      var cards = '<div class="uc-stat big"><div class="l">Build time</div><div class="v gold">' + fmtTime(realSec) + '</div>' +
+        '<div class="sub">' + inRange.length + ' level' + (inRange.length === 1 ? "" : "s") + (boost ? " · base " + fmtTime(sec) : "") + '</div></div>';
+      Object.keys(cost).forEach(function (k) {
+        cards += '<div class="uc-stat"><div class="l">' + esc(k) + '</div><div class="v">' + num(cost[k]) + '</div></div>';
+      });
+      cards += '<div class="uc-stat"><div class="l">XP gained</div><div class="v">' + num(xp) + '</div></div>';
+      $("uc-summary").innerHTML = cards;
+
+      // per-level table
+      var resKeys = Object.keys(cost);
+      var head = '<thead><tr><th class="l">Level</th>' + resKeys.map(function (k) { return '<th>' + esc(k) + '</th>'; }).join("") + '<th>Time</th></tr></thead>';
+      var body = inRange.map(function (l) {
+        return '<tr><td class="nm">→ L' + l.lvl + '</td>' +
+          resKeys.map(function (k) { return '<td>' + (l.cost[k] ? num(l.cost[k]) : "—") + '</td>'; }).join("") +
+          '<td>' + fmtTime(l.sec / (1 + boost / 100)) + '</td></tr>';
+      }).join("");
+      $("uc-detail").innerHTML = '<table class="uc">' + head + '<tbody>' + body + '</tbody></table>';
+    }
+
+    function fillBuildings(filter) {
+      var f = (filter || "").toLowerCase();
+      var list = ITEMS.filter(function (x) { return !f || x.name.toLowerCase().indexOf(f) >= 0; });
+      $("uc-bld").innerHTML = list.map(function (x) { return '<option value="' + esc(x.name) + '">' + esc(x.name) + " (max L" + x.maxLevel + ")</option>"; }).join("");
+      if (list[0]) selectBuilding(list[0].name);
+    }
+
+    $("uc-bld").addEventListener("change", function () { selectBuilding(this.value); });
+    $("uc-search").addEventListener("input", function () { fillBuildings(this.value); });
+    ["uc-from", "uc-to", "uc-boost"].forEach(function (id) { $(id).addEventListener("input", compute); });
+    $("uc-toggle").addEventListener("click", function () {
+      var d = $("uc-detail"); d.hidden = !d.hidden;
+      this.textContent = (d.hidden ? "▸" : "▾") + " Per-level breakdown";
+    });
+
+    fetch("./data/upgrade-cost.json")
+      .then(function (r) { return r.json(); })
+      .then(function (d) { ITEMS = d.items || []; fillBuildings(""); })
+      .catch(function (e) { $("uc-summary").innerHTML = '<p class="muted">Could not load building data.</p>'; console.error(e); });
+  })();
+  </script>
+</body>
+</html>

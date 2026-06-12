@@ -198,6 +198,17 @@ window.TOOLS = [
 
   // ---- Calculators -------------------------------------------------------
   {
+    slug: "upgrade-cost",
+    img: "assets/img/tool-art/reinforced-vault.webp",
+    cat: "calculators",
+    name: "Building Upgrade Cost & Time",
+    desc: "Total resources, tokens, build time and XP to upgrade any building across a level range — with your construction-speed boost applied.",
+    icon: "🧮",
+    status: "live",
+    url: "tools/upgrade-cost/",
+    tags: ["building", "upgrade", "cost", "time", "resources", "wood", "stone", "tokens", "construction", "speed", "xp"],
+  },
+  {
     slug: "recruitment-speed",
     img: "assets/img/tool-art/troops.webp",
     cat: "calculators",

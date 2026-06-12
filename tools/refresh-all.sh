@@ -18,6 +18,7 @@ builds=(
   "overview-event-rewards/data/build.sh"
   "overview-construction-items/data/build.sh"
   "overview-buildings/data/build.sh"
+  "upgrade-cost/data/build.sh"
   "set-bonus/data/build.sh"
   "hol-planner/data/build.sh"
   "rift-optimizer/data/build.sh"
