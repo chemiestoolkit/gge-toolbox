@@ -399,6 +399,16 @@ window.TOOLS = [
     tags: ["outer realms", "beyond the horizon", "or", "bth", "results", "rankings", "event", "gge-tracker"],
   },
   {
+    slug: "timer-board",
+    cat: "misc",
+    name: "Timer Board",
+    desc: "Track every build, research, recruitment and travel timer in one place — live countdowns, the exact finish time and a browser alert when each is ready. Saved on your device.",
+    icon: "⏱️",
+    status: "live",
+    url: "tools/timer-board/",
+    tags: ["timer", "timers", "countdown", "build", "research", "recruit", "travel", "reminder", "alert", "planner"],
+  },
+  {
     slug: "fortress-tracker",
     cat: "misc",
     name: "Fortress Tracker",

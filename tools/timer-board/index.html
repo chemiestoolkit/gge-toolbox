@@ -1,0 +1,288 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Timer Board — Maxy's Empire Toolkit</title>
+  <meta name="description" content="Track your Goodgame Empire build, research, recruitment and travel timers in one place — with live countdowns, ready-at times and browser alerts." />
+  <link rel="stylesheet" href="../../assets/css/theme.css" />
+  <link rel="icon" type="image/png" href="../../assets/img/favicon.png" />
+  <style>
+    .tb-add { display: grid; gap: 12px; }
+    .tb-row { display: flex; flex-wrap: wrap; gap: 10px; align-items: flex-end; }
+    .tb-field { display: flex; flex-direction: column; gap: 4px; }
+    .tb-field label { font-size: .78rem; color: var(--text-dim); }
+    .tb-add input[type=text], .tb-add input[type=number] {
+      padding: 9px 11px; font: inherit; background: var(--bg-elev);
+      border: 1px solid var(--border); border-radius: var(--radius-sm, 8px); color: var(--text);
+    }
+    .tb-add input:focus { outline: none; border-color: var(--gold); }
+    .tb-add input[type=number] { width: 74px; }
+    #tb-label { min-width: 220px; flex: 1; }
+    .tb-cats { display: flex; flex-wrap: wrap; gap: 6px; }
+    .tb-cat { padding: 6px 11px; border: 1px solid var(--border); border-radius: 999px;
+      background: var(--bg-elev); color: var(--text-dim); cursor: pointer; font-size: .88rem; }
+    .tb-cat.on { border-color: var(--gold); color: var(--gold-bright); background: rgba(217,178,90,.08); }
+    .tb-btn { padding: 9px 16px; font: inherit; font-weight: 600; cursor: pointer;
+      border-radius: var(--radius-sm, 8px); border: 1px solid var(--gold-dim);
+      background: rgba(217,178,90,.12); color: var(--gold-bright); }
+    .tb-btn:hover { background: rgba(217,178,90,.2); border-color: var(--gold); }
+    .tb-btn.ghost { border-color: var(--border); background: var(--bg-elev); color: var(--text-dim); font-weight: 400; }
+    .tb-btn.ghost:hover { border-color: var(--gold); color: var(--gold); }
+    .tb-quick { display: flex; flex-wrap: wrap; gap: 6px; align-items: center; }
+    .tb-quick span { font-size: .78rem; color: var(--text-faint, #8a8372); }
+    .tb-chip { padding: 4px 9px; border: 1px solid var(--border); border-radius: 999px;
+      background: var(--bg-elev); color: var(--text-dim); cursor: pointer; font-size: .8rem; }
+    .tb-chip:hover { border-color: var(--gold); color: var(--gold); }
+
+    .tb-bar { display: flex; justify-content: space-between; align-items: center; gap: 12px; margin: 18px 0 10px; flex-wrap: wrap; }
+    .tb-bar h2 { margin: 0; font-size: 1.05rem; }
+    .tb-list { display: grid; gap: 10px; }
+    .tb-item { display: grid; grid-template-columns: auto 1fr auto; gap: 12px; align-items: center;
+      padding: 12px 14px; border: 1px solid var(--border); border-radius: var(--radius);
+      background: var(--bg-elev); }
+    .tb-item.done { border-color: var(--good); background: rgba(63,185,80,.08); }
+    .tb-ico { font-size: 1.5rem; width: 34px; text-align: center; }
+    .tb-main { min-width: 0; }
+    .tb-title { font-weight: 600; }
+    .tb-sub { font-size: .82rem; color: var(--text-dim); margin-top: 2px; }
+    .tb-count { font-variant-numeric: tabular-nums; font-size: 1.35rem; font-weight: 700; color: var(--gold-bright); }
+    .tb-item.done .tb-count { color: var(--good); font-size: 1.1rem; }
+    .tb-prog { height: 5px; border-radius: 999px; background: rgba(255,255,255,.07); overflow: hidden; margin-top: 8px; }
+    .tb-prog > i { display: block; height: 100%; background: linear-gradient(90deg, var(--gold-dim), var(--gold-bright)); }
+    .tb-item.done .tb-prog > i { background: var(--good); }
+    .tb-actions { display: flex; gap: 6px; }
+    .tb-x { width: 30px; height: 30px; border-radius: 7px; border: 1px solid var(--border);
+      background: transparent; color: var(--text-dim); cursor: pointer; font-size: 1rem; line-height: 1; }
+    .tb-x:hover { border-color: var(--gold); color: var(--gold); }
+    .tb-empty { color: var(--text-dim); padding: 18px; text-align: center; }
+    .tb-note { font-size: .82rem; color: var(--text-faint, #8a8372); }
+    .tb-warn { color: var(--gold); }
+  </style>
+</head>
+<body>
+  <header class="topbar">
+    <div class="wrap">
+      <a class="brand" href="../../"><span class="crest">🛡️</span> Maxy's Empire <b>Toolkit</b></a>
+    </div>
+  </header>
+
+  <main class="wrap">
+    <div class="tool-head">
+      <a class="back" href="../../">← All tools</a>
+      <h1>⏱️ Timer Board</h1>
+      <p>Track every build, research, recruitment and travel timer in one place.
+         Live countdowns, the exact wall-clock time each finishes, and a browser
+         alert when it's ready. Everything is stored on this device only.</p>
+    </div>
+
+    <section class="panel">
+      <div class="tb-add">
+        <div class="tb-row">
+          <div class="tb-field" style="flex:1">
+            <label for="tb-label">What's cooking?</label>
+            <input type="text" id="tb-label" placeholder="e.g. Keep → L8, Three-Field Crops research…" />
+          </div>
+        </div>
+        <div class="tb-cats" id="tb-cats"></div>
+        <div class="tb-row">
+          <div class="tb-field"><label>Days</label><input type="number" id="tb-d" min="0" value="0" /></div>
+          <div class="tb-field"><label>Hours</label><input type="number" id="tb-h" min="0" value="0" /></div>
+          <div class="tb-field"><label>Minutes</label><input type="number" id="tb-m" min="0" value="0" /></div>
+          <button class="tb-btn" id="tb-go">＋ Add timer</button>
+        </div>
+        <div class="tb-quick">
+          <span>Quick add:</span>
+          <button class="tb-chip" data-min="5">5m</button>
+          <button class="tb-chip" data-min="30">30m</button>
+          <button class="tb-chip" data-min="60">1h</button>
+          <button class="tb-chip" data-min="180">3h</button>
+          <button class="tb-chip" data-min="480">8h</button>
+          <button class="tb-chip" data-min="1440">1d</button>
+        </div>
+        <div class="tb-note" id="tb-perm"></div>
+      </div>
+    </section>
+
+    <div class="tb-bar">
+      <h2 id="tb-head">Your timers</h2>
+      <button class="tb-btn ghost" id="tb-clear" hidden>Clear finished</button>
+    </div>
+    <div class="tb-list" id="tb-list"></div>
+  </main>
+
+  <footer class="footer">
+    <div class="wrap"><p>Timers are saved in your browser's local storage on this device — they survive a refresh but aren't synced anywhere. Close-tab countdowns keep running off the saved finish time.</p></div>
+  </footer>
+
+  <script>
+  (function () {
+    "use strict";
+    var KEY = "timerBoard.v1";
+    var CATS = [
+      { id: "build", label: "Build", ico: "🏗️" },
+      { id: "research", label: "Research", ico: "📜" },
+      { id: "recruit", label: "Recruit", ico: "⚔️" },
+      { id: "travel", label: "Travel", ico: "🐎" },
+      { id: "event", label: "Event", ico: "📅" },
+      { id: "other", label: "Other", ico: "⏳" },
+    ];
+    var cat = "build";
+    var timers = load();
+
+    var $ = function (id) { return document.getElementById(id); };
+    function load() { try { return JSON.parse(localStorage.getItem(KEY)) || []; } catch (e) { return []; } }
+    function save() { localStorage.setItem(KEY, JSON.stringify(timers)); }
+    function esc(s) { return String(s == null ? "" : s).replace(/[&<>"]/g, function (c) { return ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" })[c]; }); }
+    function catOf(id) { for (var i = 0; i < CATS.length; i++) if (CATS[i].id === id) return CATS[i]; return CATS[5]; }
+
+    // ---- category chips ----
+    $("tb-cats").innerHTML = CATS.map(function (c) {
+      return '<button class="tb-cat' + (c.id === cat ? " on" : "") + '" data-cat="' + c.id + '">' + c.ico + " " + c.label + "</button>";
+    }).join("");
+    $("tb-cats").addEventListener("click", function (e) {
+      var b = e.target.closest(".tb-cat"); if (!b) return;
+      cat = b.dataset.cat;
+      [].forEach.call($("tb-cats").children, function (x) { x.classList.toggle("on", x.dataset.cat === cat); });
+    });
+
+    // ---- notifications ----
+    function refreshPerm() {
+      var el = $("tb-perm");
+      if (!("Notification" in window)) { el.textContent = ""; return; }
+      if (Notification.permission === "granted") { el.innerHTML = "🔔 Browser alerts are on."; }
+      else if (Notification.permission === "denied") { el.innerHTML = '<span class="tb-warn">🔕 Browser alerts are blocked in your browser settings.</span>'; }
+      else { el.innerHTML = '<a href="#" id="tb-ask" class="tb-warn">🔔 Enable browser alerts</a> so finished timers ping you even on another tab.'; }
+    }
+    document.addEventListener("click", function (e) {
+      if (e.target.id === "tb-ask") { e.preventDefault(); Notification.requestPermission().then(refreshPerm); }
+    });
+
+    function beep() {
+      try {
+        var ac = new (window.AudioContext || window.webkitAudioContext)();
+        var o = ac.createOscillator(), g = ac.createGain();
+        o.connect(g); g.connect(ac.destination);
+        o.type = "sine"; o.frequency.value = 880;
+        g.gain.setValueAtTime(0.0001, ac.currentTime);
+        g.gain.exponentialRampToValueAtTime(0.25, ac.currentTime + 0.02);
+        g.gain.exponentialRampToValueAtTime(0.0001, ac.currentTime + 0.6);
+        o.start(); o.stop(ac.currentTime + 0.62);
+      } catch (e) {}
+    }
+    function notify(t) {
+      beep();
+      if ("Notification" in window && Notification.permission === "granted") {
+        try { new Notification("⏱️ " + catOf(t.cat).label + " ready", { body: t.label || "Your timer is done.", tag: t.id }); } catch (e) {}
+      }
+    }
+
+    // ---- add ----
+    function addFromInputs() {
+      var d = +$("tb-d").value || 0, h = +$("tb-h").value || 0, m = +$("tb-m").value || 0;
+      var secs = d * 86400 + h * 3600 + m * 60;
+      if (secs <= 0) { $("tb-d").focus(); return; }
+      addTimer(secs);
+      $("tb-d").value = $("tb-h").value = $("tb-m").value = 0;
+      $("tb-label").value = "";
+    }
+    function addTimer(secs) {
+      var now = Date.now();
+      timers.push({
+        id: "t" + now + Math.random().toString(36).slice(2, 6),
+        label: $("tb-label").value.trim(),
+        cat: cat, durSec: secs, endTs: now + secs * 1000, notified: false,
+      });
+      save(); render();
+    }
+    $("tb-go").addEventListener("click", addFromInputs);
+    $("tb-label").addEventListener("keydown", function (e) { if (e.key === "Enter") addFromInputs(); });
+    document.querySelector(".tb-quick").addEventListener("click", function (e) {
+      var c = e.target.closest(".tb-chip"); if (!c) return;
+      addTimer((+c.dataset.min) * 60);
+    });
+
+    $("tb-clear").addEventListener("click", function () {
+      timers = timers.filter(function (t) { return t.endTs > Date.now(); });
+      save(); render();
+    });
+    $("tb-list").addEventListener("click", function (e) {
+      var item = e.target.closest("[data-id]"); if (!item) return;
+      var id = item.dataset.id, t = timers.filter(function (x) { return x.id === id; })[0];
+      if (e.target.closest(".tb-del")) { timers = timers.filter(function (x) { return x.id !== id; }); save(); render(); }
+      else if (e.target.closest(".tb-restart") && t) { t.endTs = Date.now() + t.durSec * 1000; t.notified = false; save(); render(); }
+    });
+
+    // ---- render ----
+    function fmtDur(sec) {
+      sec = Math.max(0, Math.round(sec));
+      var d = Math.floor(sec / 86400); sec -= d * 86400;
+      var h = Math.floor(sec / 3600); sec -= h * 3600;
+      var m = Math.floor(sec / 60); var s = sec - m * 60;
+      var p = function (n) { return (n < 10 ? "0" : "") + n; };
+      if (d) return d + "d " + p(h) + ":" + p(m) + ":" + p(s);
+      return p(h) + ":" + p(m) + ":" + p(s);
+    }
+    function fmtClock(ts) {
+      var dt = new Date(ts), now = new Date();
+      var t = dt.toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" });
+      var sameDay = dt.toDateString() === now.toDateString();
+      if (sameDay) return "today " + t;
+      var tmr = new Date(now.getTime() + 86400000);
+      if (dt.toDateString() === tmr.toDateString()) return "tomorrow " + t;
+      return dt.toLocaleDateString([], { weekday: "short", day: "numeric", month: "short" }) + " " + t;
+    }
+
+    function render() {
+      var list = $("tb-list");
+      timers.sort(function (a, b) { return a.endTs - b.endTs; });
+      if (!timers.length) {
+        list.innerHTML = '<div class="tb-empty">No timers yet. Add one above — or tap a quick-add chip.</div>';
+        $("tb-head").textContent = "Your timers";
+        $("tb-clear").hidden = true;
+        return;
+      }
+      var now = Date.now(), anyDone = false, running = 0;
+      list.innerHTML = timers.map(function (t) {
+        var remMs = t.endTs - now, done = remMs <= 0;
+        if (done) anyDone = true; else running++;
+        var c = catOf(t.cat);
+        var pct = Math.max(0, Math.min(100, 100 * (1 - remMs / (t.durSec * 1000))));
+        var sub = done ? ("Finished " + fmtClock(t.endTs)) : ("Ready " + fmtClock(t.endTs));
+        return '<div class="tb-item' + (done ? " done" : "") + '" data-id="' + t.id + '">' +
+          '<div class="tb-ico">' + c.ico + "</div>" +
+          '<div class="tb-main">' +
+            '<div class="tb-title">' + (esc(t.label) || c.label) + "</div>" +
+            '<div class="tb-sub">' + esc(sub) + "</div>" +
+            '<div class="tb-prog"><i style="width:' + pct.toFixed(1) + '%"></i></div>' +
+          "</div>" +
+          '<div style="text-align:right">' +
+            '<div class="tb-count">' + (done ? "✅ Ready" : fmtDur(remMs / 1000)) + "</div>" +
+            '<div class="tb-actions" style="justify-content:flex-end;margin-top:6px">' +
+              '<button class="tb-x tb-restart" title="Restart">↻</button>' +
+              '<button class="tb-x tb-del" title="Remove">✕</button>' +
+            "</div>" +
+          "</div>" +
+        "</div>";
+      }).join("");
+      $("tb-head").textContent = running ? (running + (running === 1 ? " timer running" : " timers running")) : "All done";
+      $("tb-clear").hidden = !anyDone;
+    }
+
+    // ---- tick: update counts + fire completion alerts ----
+    function tick() {
+      var now = Date.now(), changed = false;
+      timers.forEach(function (t) {
+        if (!t.notified && t.endTs <= now) { t.notified = true; changed = true; notify(t); }
+      });
+      if (changed) save();
+      // cheap per-second update of just the count cells when nothing structural changed
+      render();
+    }
+    refreshPerm();
+    render();
+    setInterval(tick, 1000);
+  })();
+  </script>
+</body>
+</html>
