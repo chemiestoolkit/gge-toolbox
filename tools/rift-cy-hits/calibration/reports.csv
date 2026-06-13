@@ -18,3 +18,6 @@ r7,victory,37474,15598,41.6,"5598+31876",Ashira,18050000,218,0,5,"FUNGAL L11; CY
 r8,glorious_victory,42185,10921,25.9,"4889+37296",Lord Horatio,18080000,230,30,5,"FUNGAL L11; CY count 900000 (100k dormant)"
 r9,victory,31631,15034,47.5,"31631",Ashira,18140000,245,0,0,"FUNGAL L11; CY count 1000000 (200k dormant); NO combat tools at all"
 r10,glorious_victory,67689,312,0.46,"67689",Toril-no-abilities,0,862,0,5,"ASHEN TYRANT (date 08/05): CY 265000 = 250k dormant eggs + 15,027 real dragon units @ +950%; implies dragon real-unit base def ~298 (vs spore ~56)"
+# --- Batch 3: 2x Tiramisu vs FUNGAL L10 (CY 700,000 @ +120% — exact game-data match) ---
+r11,glorious_victory,43109,3571,8.3,"5489+37620",Toril-no-GS,0,247,0,5,"FUNGAL L10 (28/02 archive); killed 900k (200k dormant); model pred +7%"
+r12,defeat_probe,32,32,100.0,"32",Toril-no-abilities,0,205,0,0,"FUNGAL L10 PARTIAL CLEAR: 32 units killed 34 real spores of 689,326 remaining (+100k dormants via flintlock tool) — pins the KILL curve: kills=(atk/def)^~1.5-1.7 of real CY"

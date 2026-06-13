@@ -274,6 +274,17 @@ window.TOOLS = [
     tags: ["rift", "equipment", "optimizer", "gear", "set bonuses", "commander"],
   },
   {
+    slug: "rift-cy-hits",
+    img: "assets/img/event-icons/riftraid.webp",
+    cat: "calculators",
+    name: "Rift Courtyard Calculator",
+    desc: "Will your courtyard hit clear the rift boss's CY — and what will it cost? Losses, min troops and per-level verdicts, calibrated on real battle reports. In calibration.",
+    icon: "🌀",
+    status: "live",
+    url: "tools/rift-cy-hits/",
+    tags: ["rift", "courtyard", "cy", "boss", "losses", "hits", "giant slayer", "fungal", "mycelial", "ashen", "calculator", "calibrated"],
+  },
+  {
     slug: "wall-break",
     cat: "calculators",
     name: "Rift Wall-Break Simulator",
