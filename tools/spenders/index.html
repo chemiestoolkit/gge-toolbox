@@ -68,10 +68,27 @@
 
     <section class="panel">
       <h2 class="sp-h">🏆 Best rubies for your dollar</h2>
-      <p class="sp-sub">Every way to buy rubies on AU1, ranked. AUD prices captured from the AU1 shop, June 2026.</p>
-      <label class="sp-toggle"><input type="checkbox" id="doubler" checked> 2× Payment Doubler active (doubles straight ruby packs — it was running when these prices were captured)</label>
+      <p class="sp-sub">Every way to buy rubies on AU1, ranked. AUD prices captured from the AU1 shop, June 2026.
+        The two boosts below only hit the <b>straight ruby packs</b> (not Ruby Rush or the daily chain), and they
+        <b>don't stack</b> — you get whichever is better, so Prime Time always wins when it's up.</p>
+      <label class="sp-toggle"><input type="checkbox" id="doubler" checked> 2× Payment Doubler (doubles straight ruby packs — was running when these prices were captured)</label>
+      <label class="sp-toggle"><input type="checkbox" id="prime"> +300% Prime Time offer active (×4 rubies on straight packs — beats the doubler)</label>
       <div style="overflow-x:auto"><table class="sp" id="valueTbl"></table></div>
       <div class="sp-note" id="valueNote"></div>
+    </section>
+
+    <section class="panel">
+      <h2 class="sp-h">🎁 Item value finder — most for your tokens</h2>
+      <p class="sp-sub">Chasing something specific? Pick it and see which in-game shop packages give the most of it
+        per token spent — across the event vendors (Nomad, Samurai, seasonal LTPE shops) and the Hall of Legends
+        shops (sceats, construction & upgrade tokens). Grouped by the currency you pay in, cheapest-per-unit first.</p>
+      <div class="sp-field"><label for="itemPick">What are you after?</label><select id="itemPick"></select></div>
+      <div class="sp-count" id="ivCount"></div>
+      <div id="ivList"></div>
+      <div class="sp-note"><b>Reading it:</b> you can only compare <em>within</em> a currency (50 Khan Tablets ≠ 50 Sceats),
+        so each currency is ranked separately — lower “each” cost is better. This ranks by <em>quantity</em>; for troops,
+        tools and gems the individual power still varies, so treat it as “most units per token”, not “strongest”.
+        <b>Imperial ducats</b> aren't sold in any package — they're earned through the Hall of Legends — so they're not listed.</div>
     </section>
 
     <section class="panel">
@@ -131,20 +148,29 @@
     "use strict";
     var $ = function (id) { return document.getElementById(id); };
     var fmt = function (n) { return Number(n).toLocaleString("en-AU"); };
-    var AU, OFFERS;
+    var AU, OFFERS, PKG;
 
     Promise.all([
       fetch("./data/au-prices.json").then(function (r) { return r.json(); }),
-      fetch("./data/offers.json").then(function (r) { return r.json(); })
-    ]).then(function (res) { AU = res[0]; OFFERS = res[1]; init(); });
+      fetch("./data/offers.json").then(function (r) { return r.json(); }),
+      fetch("./data/packages.json").then(function (r) { return r.json(); })
+    ]).then(function (res) { AU = res[0]; OFFERS = res[1]; PKG = res[2]; init(); });
 
     /* ---- value board -------------------------------------------------- */
-    function valueRows(doubler) {
-      var rows = [];
+    // The doubler (×2) and Prime Time (+300% = ×4) only hit straight ruby packs,
+    // and they DON'T stack — you take whichever single boost is better.
+    function packMult(doubler, prime) {
+      var m = 1;
+      if (doubler) m = Math.max(m, 2);
+      if (prime) m = Math.max(m, 4);
+      return m;
+    }
+    function valueRows(doubler, prime) {
+      var rows = [], mult = packMult(doubler, prime);
+      var tag = mult === 4 ? " (+300%)" : mult === 2 ? " (×2)" : "";
       AU.rubyPacks.forEach(function (p) {
-        var r = p.rubies * (doubler ? 2 : 1);
-        rows.push({ name: fmt(p.rubies) + " ruby pack" + (doubler ? " (×2)" : ""), kind: "Ruby pack",
-                    rubies: r, aud: p.aud, extra: p.extras ? "+ resources" : "" });
+        rows.push({ name: fmt(p.rubies) + " ruby pack" + tag, kind: "Ruby pack",
+                    rubies: p.rubies * mult, aud: p.aud, extra: p.extras ? "+ resources" : "" });
       });
       AU.dailyBundles.days.forEach(function (d) {
         rows.push({ name: "Daily bundle — day " + d.day + " (+" + d.bonusPct + "%)", kind: "Daily chain",
@@ -159,7 +185,8 @@
     }
 
     function renderValue() {
-      var rows = valueRows($("doubler").checked);
+      var doubler = $("doubler").checked, prime = $("prime").checked;
+      var rows = valueRows(doubler, prime);
       var best = rows[0].rate;
       var html = "<thead><tr><th class='l'>Source</th><th>Type</th><th>Rubies</th><th>AUD</th><th>Rubies / A$</th><th>vs best</th></tr></thead><tbody>";
       rows.forEach(function (r, i) {
@@ -170,11 +197,52 @@
           "</td><td class='" + (pct >= 60 ? "sp-good" : pct < 30 ? "sp-bad" : "") + "'>" + pct + "%</td></tr>";
       });
       $("valueTbl").innerHTML = html + "</tbody>";
-      var d7 = AU.dailyBundles.days[6], packBest = valueRows(false)[0];
+      var d7 = AU.dailyBundles.days[6];
+      var primeBest = valueRows(false, true).filter(function (r) { return r.kind === "Ruby pack"; })[0];
       $("valueNote").innerHTML = "<b>Read it like this:</b> the daily chain crushes everything — day 7 pays <b>" +
         fmt(Math.round(d7.rubies / d7.aud)) + " rubies/A$</b>, several times any straight pack. Ruby Rush bundles look big " +
-        "but you're paying for the boosters and skips, not the rubies. If you only buy occasionally: wait for a " +
-        "<b>2× Payment Doubler</b>, then buy the largest pack you're comfortable with — bigger packs pay more per dollar.";
+        "but you're paying for the boosters and skips, not the rubies. <b>For straight packs, a +300% Prime Time offer is the " +
+        "one to wait for</b> — at ×4 it lifts the best pack to <b>" + fmt(Math.round(primeBest.rate)) + " rubies/A$</b>, double what the " +
+        "2× doubler gives. Prime Time and the doubler don't stack, so if Prime Time is up, ignore the doubler and buy the largest pack you're comfortable with.";
+    }
+
+    /* ---- item value finder --------------------------------------------- */
+    function fillItemPicker() {
+      var pref = ["Troops", "Tools", "Equipment", "Gems", "Decorations", "Construction items",
+                  "Construction tokens", "Upgrade tokens", "Sceats", "Event / gacha currency"];
+      var rest = PKG.buckets.filter(function (b) { return pref.indexOf(b) < 0; });
+      var order = pref.filter(function (b) { return PKG.buckets.indexOf(b) >= 0; }).concat(rest);
+      $("itemPick").innerHTML = order.map(function (b) { return "<option>" + b + "</option>"; }).join("");
+    }
+
+    function renderItemFinder() {
+      var b = $("itemPick").value, byCur = {};
+      PKG.packages.forEach(function (p) {
+        p.rw.forEach(function (w) {
+          if (w.b !== b || !w.qty || !p.cost) return;
+          (byCur[p.cur] = byCur[p.cur] || []).push({ qty: w.qty, name: w.name, cost: p.cost, shop: p.shop,
+            each: p.cost / w.qty, lvl: p.lvlMin, ll: p.llMin });
+        });
+      });
+      var curs = Object.keys(byCur);
+      // order currencies by their single best (cheapest-per-unit) deal
+      curs.forEach(function (c) { byCur[c].sort(function (a, b2) { return a.each - b2.each; }); });
+      curs.sort(function (a, b2) { return byCur[a][0].each - byCur[b2][0].each; });
+      var total = curs.reduce(function (n, c) { return n + byCur[c].length; }, 0);
+      $("ivCount").textContent = total + " packages give " + b.toLowerCase() + ", across " + curs.length + " currencies.";
+      $("ivList").innerHTML = curs.map(function (c) {
+        var rows = byCur[c].slice(0, 8).map(function (r) {
+          var per = r.each >= 1 ? fmt(Math.round(r.each)) : r.each.toFixed(2);
+          return "<tr><td class='nm'>" + fmt(r.qty) + "× " + r.name +
+            (r.shop ? " <span style='color:var(--text-faint)'>" + r.shop + "</span>" : "") +
+            "</td><td>" + fmt(r.cost) + "</td><td class='sp-rate'>" + per + "</td></tr>";
+        }).join("");
+        return "<div style='margin:0 0 16px'><div style='color:var(--gold);font-weight:600;font-size:.92rem;margin-bottom:4px'>" +
+          c + "</div><div style='overflow-x:auto'><table class='sp'><thead><tr><th class='l'>Package</th><th>Cost (" +
+          c + ")</th><th>Each</th></tr></thead><tbody>" + rows + "</tbody></table>" +
+          (byCur[c].length > 8 ? "<div class='sp-count' style='margin-top:4px'>+" + (byCur[c].length - 8) + " more in " + c + "</div>" : "") +
+          "</div></div>";
+      }).join("");
     }
 
     /* ---- daily chain --------------------------------------------------- */
@@ -266,8 +334,11 @@
     }
 
     function init() {
-      renderValue(); renderDaily(); renderLadder(); renderProfile(); renderExplorer();
+      fillItemPicker();
+      renderValue(); renderItemFinder(); renderDaily(); renderLadder(); renderProfile(); renderExplorer();
       $("doubler").addEventListener("change", renderValue);
+      $("prime").addEventListener("change", renderValue);
+      $("itemPick").addEventListener("change", renderItemFinder);
       ["pLevel", "pLapsed"].forEach(function (id) { $(id).addEventListener("input", renderProfile); });
       $("pPay").addEventListener("change", renderProfile);
       $("search").addEventListener("input", function () { exShown = 25; renderExplorer(); });

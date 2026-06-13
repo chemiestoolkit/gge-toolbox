@@ -76,3 +76,100 @@ out={'generated':src,'tokenLegend':LEGEND,'offers':offers,'primeDays':prime,'sho
 os.makedirs(os.path.join(HERE,'data'),exist_ok=True)
 json.dump(out,open(os.path.join(HERE,'data','offers.json'),'w'),separators=(',',':'))
 print('offers.json:',len(offers),'offers,',len(prime),'primeDays,',len(carts),'carts')
+
+# ---- packages.json : the in-game token shops (item-value finder) -----------
+# Each shoppable package, decoded to what you get + what you pay (which currency).
+CUR = {  # cost field -> friendly currency name
+ 'costKhanTablet':'Khan Tablets','costKhanMedal':'Khan Medals','costSamuraiToken':'Samurai Tokens',
+ 'costSamuraiMedal':'Samurai Medals','costGoldToken':'Gold Tokens','costSilverToken':'Silver Tokens',
+ 'costSceatToken':'Sceats','costPearlRelic':'Pearl Relics','costSkullRelic':'Skull Relics',
+ 'costGreenSkullRelic':'Green Skull Relics','costRiftCoin':'Rift Coins','costLegendaryRiftCoin':'Legendary Rift Coins',
+ 'costRiftShard':'Rift Shards','costOfferingShard':'Offering Shards','costWishingWellCoin':'Wishing Well Coins',
+ 'costSilverRune':'Silver Runes','costGoldRune':'Gold Runes','costFusionCurrency':'Fusion Currency','costDecoDust':'Deco Dust',
+ 'costAnniversaryToken':'Anniversary Tokens','costXmasLTPEToken':'Xmas Event Tokens','costSpringLTPEToken':'Spring Event Tokens',
+ 'costLotusFlowerLTPEToken':'Lotus Event Tokens','costNewKingLTPEToken':'New King Event Tokens',
+ 'costOctoberfestLTPEToken':'Oktoberfest Event Tokens','costHalloweenLTPEToken':'Halloween Event Tokens',
+ 'costIceLTPEToken':'Ice Event Tokens','costStPatrickLTPEToken':'St Patrick Event Tokens','costMayaLTPEToken':'Maya Event Tokens',
+ 'costPiratesLTPEToken':'Pirates Event Tokens','costDragonriderLTPEToken':'Dragonrider Event Tokens',
+ 'cost1MinSkip':'Minute Skips',
+}
+PPRICE = {'packagePriceC2':'Rubies','packagePriceC1':'Coins','packagePriceAquamarine':'Aquamarine'}
+
+def cost_of(r):
+    for k in r:
+        if k.startswith('cost') and str(r.get(k)) not in ('','0','None'):
+            return (CUR.get(k, k[4:]), int(float(r[k])))
+    for k in PPRICE:
+        if str(r.get(k,'')) not in ('','0'): return (PPRICE[k], int(float(r[k])))
+    return (None, None)
+
+import re as _re
+def iv(x, d=1):
+    m=_re.match(r'-?\d+', str(x)); return int(m.group()) if m else d
+
+unit_is_tool = {str(u.get('wodID','')) for u in items.get('tools',[])}
+def pkg_rewards(r):
+    out=[]
+    pt=r.get('packageType')
+    if r.get('unitID') and r.get('unitAmount'):
+        wid=str(r['unitID'])
+        bucket = 'Tools' if (pt=='tool' or wid in unit_is_tool) else 'Troops'
+        out.append({'b':bucket,'name':units.get(wid,'unit '+wid),'qty':iv(r['unitAmount'])})
+    if r.get('equipmentIDs'):
+        n=len(str(r['equipmentIDs']).split(',')); out.append({'b':'Equipment','name':(r.get('comment1') or 'Equipment'),'qty':iv(r.get('equipmentAmount',n),n)})
+    if r.get('relicEquipments'):
+        out.append({'b':'Equipment','name':(r.get('comment1') or 'Relic equipment'),'qty':len(str(r['relicEquipments']).split(','))})
+    if r.get('constructionItemID') and r.get('constructionItemAmount'):
+        cid=str(r['constructionItemID']); out.append({'b':'Construction items','name':cis.get(cid,r.get('comment1') or ('CI '+cid)),'qty':iv(r['constructionItemAmount'])})
+    if r.get('buildingID') and r.get('buildingAmount'):
+        bid=str(r['buildingID']); bucket='Decorations' if pt=='deco' else 'Buildings'
+        out.append({'b':bucket,'name':blds.get(bid,r.get('comment1') or ('building '+bid)),'qty':iv(r['buildingAmount'])})
+    if r.get('gemIDs') or r.get('specialGemOfLevelID'):
+        out.append({'b':'Gems','name':(r.get('comment1') or 'Gem'),'qty':iv(r.get('gemAmount',1))})
+    if r.get('lootBox'): out.append({'b':'Loot boxes','name':(r.get('comment1') or 'Loot box'),'qty':iv(r.get('lootBox',1))})
+    if r.get('rewardBags'): out.append({'b':'Reward bags','name':(r.get('comment1') or 'Reward bag'),'qty':iv(r.get('rewardBags',1))})
+    addmap=[('addSceatToken','Sceats','Sceats'),('addLegendaryMaterial','Upgrade tokens','Upgrade tokens'),
+            ('addLegendaryToken','Construction tokens','Construction tokens'),
+            ('addSaleDaysLuckyWheelTicket','Event / gacha currency','Sale lucky-wheel tickets'),
+            ('addLuckyWheelTicket','Event / gacha currency','Lucky-wheel tickets'),
+            ('addPegasusTicket','Travel tickets','Pegasus tickets'),('vipPoints','VIP','VIP points'),
+            ('vipTime','VIP','VIP time'),('amountXP','XP','XP'),('addImperialPatronageCharter','Misc','Imperial Patronage Charter'),
+            ('addDecoDust','Misc','Deco Dust'),('addFusionCurrency','Misc','Fusion currency'),('addResourceVillageToken','Misc','Resource Village token')]
+    for f,bucket,nm in addmap:
+        if str(r.get(f,'')) not in ('','0'): out.append({'b':bucket,'name':nm,'qty':iv(r[f])})
+    for f in r:
+        if f.endswith('Token') and f.startswith('add') and f not in ('addLegendaryToken',):
+            v=r.get(f)
+            if str(v) not in ('','0') and 'LTPE' not in f and f not in ('addSceatToken',):
+                out.append({'b':'Event / gacha currency','name':f[3:].replace('Token',' token'),'qty':iv(v)})
+        if f.startswith('addShard'):
+            if str(r.get(f)) not in ('','0'): out.append({'b':'Hero shards','name':f[8:]+' shard','qty':iv(r[f])})
+        if f.startswith('add') and 'HourSkip' in f or f.endswith('MinSkip') and f.startswith('add'):
+            if str(r.get(f)) not in ('','0'): out.append({'b':'Time skips','name':f[3:],'qty':iv(r[f])})
+    res=0
+    for f in ('amountWood','amountStone','amountFood','amountCoal','amountOil','amountGlass','amountIron','amountHoney','amountMead','amountBeef','hiddenFood','hiddenMead','hiddenBeef','amountC1'):
+        if str(r.get(f,'')) not in ('','0'): res+=iv(r[f])
+    if res: out.append({'b':'Resources','name':'Resources','qty':res})
+    return out
+
+def clean(r):
+    c2=(r.get('comment2') or '');
+    return not ('CUT' in c2 or 'delete' in c2.lower() or str(r.get('hideInShop',''))=='1')
+
+PKG=[]
+for r in items['packages']:
+    if not clean(r): continue
+    cur,cost=cost_of(r)
+    if not cur or not cost: continue
+    rw=pkg_rewards(r)
+    if not rw: continue
+    rec={'id':r['packageID'],'shop':(r.get('comment2') or '').strip()[:48],'cur':cur,'cost':cost,'rw':rw}
+    for k_src,k_dst in [('minLevel','lvlMin'),('maxLevel','lvlMax'),('minLegendLevel','llMin'),('maxLegendLevel','llMax')]:
+        v=r.get(k_src)
+        if v not in (None,''): rec[k_dst]=int(float(v))
+    PKG.append(rec)
+
+buckets=sorted({w['b'] for p in PKG for w in p['rw']})
+pkgout={'generated':src,'buckets':buckets,'packages':PKG}
+json.dump(pkgout,open(os.path.join(HERE,'data','packages.json'),'w'),separators=(',',':'))
+print('packages.json:',len(PKG),'shoppable packages, buckets:',buckets)
