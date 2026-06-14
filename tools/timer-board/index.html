@@ -146,9 +146,9 @@
             <input type="url" id="tb-webhook" placeholder="https://discord.com/api/webhooks/…" autocomplete="off" spellcheck="false" />
           </div>
           <div class="tb-field">
-            <label for="tb-mention">@mention on each ping — Discord user ID for <b>frenchmandarin</b></label>
+            <label for="tb-mention">@mention on each ping — Discord user ID (optional)</label>
             <input type="text" id="tb-mention" placeholder="e.g. 123456789012345678" inputmode="numeric" autocomplete="off" spellcheck="false" />
-            <span class="tb-mini">A webhook can only ping a numeric <b>user ID</b>, not a username — a plain “@frenchmandarin” won't notify. In Discord: Settings → Advanced → <b>Developer Mode</b> on, then right-click frenchmandarin → <b>Copy User ID</b> and paste it here. Leave blank for no @mention.</span>
+            <span class="tb-mini">A webhook can only ping a numeric <b>user ID</b>, not a username. In Discord: Settings → Advanced → <b>Developer Mode</b> on, then right-click the user → <b>Copy User ID</b> and paste it here. Leave blank for no @mention.</span>
           </div>
           <div class="tb-disc-row">
             <button class="tb-btn sm" id="tb-test">Send test ping</button>
@@ -203,7 +203,7 @@
     function load() { try { return JSON.parse(localStorage.getItem(KEY)) || []; } catch (e) { return []; } }
     function save() { localStorage.setItem(KEY, JSON.stringify(timers)); }
     function loadSettings() {
-      var d = { webhook: "", mention: "705008611125886979", perPerson: {}, announceAdd: false, pingDone: true };
+      var d = { webhook: "", mention: "", perPerson: {}, announceAdd: false, pingDone: true };
       try { return Object.assign(d, JSON.parse(localStorage.getItem(SKEY)) || {}); } catch (e) { return d; }
     }
     function saveSettings() { localStorage.setItem(SKEY, JSON.stringify(settings)); }
