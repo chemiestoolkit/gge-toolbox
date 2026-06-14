@@ -29,13 +29,13 @@
   // Curated strip shown on the home page (by slug, in this order).
   const POPULAR = [
     "guide-rift-raid",          // Rift Raid Basics
+    "rift-cy-hits",             // Rift Courtyard Calculator
+    "wall-break",               // Rift Wall-Break Simulator
     "rift-optimizer",           // Rift Commander Maker
     "guide-commander-building", // Commander Building Guide
     "gacha-sim",                // Gacha Spin Simulator
     "guide-fungal-rift",        // Fungal Rift guide
-    "guide-mead-production",    // Mead Optimisation
     "storm-islands",            // Storm Islands Rankings
-    "overview-generals",        // Generals overview
   ];
 
   const page = document.body.dataset.page || "home";
@@ -131,17 +131,24 @@
       gridHost.innerHTML = '<div class="empty">No tools match “' + query + "”.</div>";
       return;
     }
-    ORDER.forEach((c) => {
-      const items = visible.filter((t) => t.cat === c);
-      if (!items.length) return;
+    const section = (labelText, items) => {
       const label = document.createElement("div");
       label.className = "section-label";
-      label.textContent = CAT_LABEL[c] || c;
+      label.textContent = labelText;
       const grid = document.createElement("div");
       grid.className = "grid";
       items.forEach((t) => grid.appendChild(cardFor(t)));
       gridHost.appendChild(label);
       gridHost.appendChild(grid);
+    };
+    ORDER.forEach((c) => {
+      const items = visible.filter((t) => t.cat === c);
+      if (!items.length) return;
+      const feat = items.filter((t) => t.feature);
+      const rest = items.filter((t) => !t.feature);
+      const plain = (CAT_LABEL[c] || c).replace(/^[^ ]+ /, "");
+      if (feat.length) section("⭐ Feature " + plain, feat);
+      if (rest.length) section(CAT_LABEL[c] || c, rest);
     });
     if (page === "home") {
       const cta = document.createElement("a");

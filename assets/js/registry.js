@@ -289,6 +289,7 @@ window.TOOLS = [
     slug: "rift-optimizer",
     img: "assets/img/event-icons/riftraid.webp",
     cat: "calculators",
+    feature: true,
     name: "Rift Commander Maker",
     desc: "Mark the Rift equipment you own and get the optimal gear combo for maximum set bonuses.",
     icon: "🌀",
@@ -299,6 +300,7 @@ window.TOOLS = [
     slug: "rift-cy-hits",
     img: "assets/img/event-icons/riftraid.webp",
     cat: "calculators",
+    feature: true,
     name: "Rift Courtyard Calculator",
     desc: "Will your courtyard hit clear the rift boss's CY — and what will it cost? Losses, min troops and per-level verdicts, calibrated on real battle reports. In calibration.",
     icon: "🌀",
@@ -309,6 +311,7 @@ window.TOOLS = [
   {
     slug: "wall-break",
     cat: "calculators",
+    feature: true,
     name: "Rift Wall-Break Simulator",
     desc: "Set up a rift attack — commander, abilities, per-lane troops and tools — and see whether each wall segment breaks, with projected losses and points. In calibration.",
     icon: "🧱",

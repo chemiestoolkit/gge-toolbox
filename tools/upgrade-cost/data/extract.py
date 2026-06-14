@@ -80,7 +80,16 @@ def main():
             "levels": levels,
         })
 
-    items.sort(key=lambda x: x["name"])
+    # Float the main castle buildings to the top (in this order), then the rest A→Z.
+    CASTLE_ORDER = [
+        "The Keep", "Storehouse", "Granary", "Barracks", "Dwelling", "Tavern",
+        "Stronghold", "Reinforced Vault", "Guardhouse", "Watchtower", "Castle wall",
+        "Gate", "Defense workshop", "Hideout", "Farmhouse", "Woodcutter",
+        "Stone quarry", "Iron mine", "Marketplace", "Forge", "Military academy",
+        "Research tower", "Master builder",
+    ]
+    rank = {n: i for i, n in enumerate(CASTLE_ORDER)}
+    items.sort(key=lambda x: (rank.get(x["name"], len(CASTLE_ORDER)), x["name"].lower()))
     json.dump({"items": items, "count": len(items)}, open(OUT, "w"), ensure_ascii=False)
     print(f"Wrote upgrade-cost.json — {len(items)} buildings with per-level cost/time.")
 
