@@ -31,7 +31,11 @@
     .iv-cur-head .ct { margin-left: auto; font-size: .72rem; color: var(--text-faint, #8a8372); }
     .iv-deal { padding: 7px 0; border-bottom: 1px solid rgba(255,255,255,.04); }
     .iv-deal:last-child { border-bottom: 0; }
-    .iv-deal .row1 { display: flex; align-items: baseline; gap: 8px; }
+    .iv-deal .row1 { display: flex; align-items: center; gap: 8px; }
+    .iv-ico { width: 30px; height: 30px; flex: 0 0 30px; border-radius: 6px; background: rgba(255,255,255,.04);
+      border: 1px solid var(--border-soft, rgba(217,178,90,.1)); display: flex; align-items: center; justify-content: center;
+      font-size: 1.05rem; overflow: hidden; }
+    .iv-ico img { width: 100%; height: 100%; object-fit: contain; }
     .iv-deal .qty { color: var(--text); font-weight: 600; font-variant-numeric: tabular-nums; white-space: nowrap; }
     .iv-deal .nm { color: var(--text); }
     .iv-deal .stat { font-size: .72rem; padding: 1px 7px; border-radius: 99px; background: rgba(217,178,90,.1);
@@ -125,7 +129,7 @@
       PKG.packages.forEach(function (p) {
         p.rw.forEach(function (w) {
           if (w.b !== b || !w.qty || !p.cost) return;
-          (byCur[p.cur] = byCur[p.cur] || []).push({ qty: w.qty, name: w.name, stat: w.stat, shop: p.shop,
+          (byCur[p.cur] = byCur[p.cur] || []).push({ qty: w.qty, name: w.name, stat: w.stat, img: w.img, shop: p.shop,
             cost: p.cost, each: p.cost / w.qty });
         });
       });
@@ -139,9 +143,14 @@
         var list = byCur[c], bestEach = list[0].each;
         var show = ivExpanded[c] ? list.length : Math.min(list.length, IV_TOP);
         var fmtEach = function (e) { return e >= 100 ? fmt(Math.round(e)) : e >= 1 ? e.toFixed(1) : e.toFixed(2); };
+        var bIcon = BUCKET_ICON[b] || "📦";
         var deals = list.slice(0, show).map(function (r) {
           var w = Math.max(4, Math.round(bestEach / r.each * 100));
-          return "<div class='iv-deal'><div class='row1'><span class='qty'>" + fmt(r.qty) + "×</span><span class='nm'>" +
+          var ico = r.img
+            ? "<span class='iv-ico'><img src='" + r.img + "' alt='' loading='lazy' " +
+              "onerror=\"this.parentNode.textContent='" + bIcon + "'\"></span>"
+            : "<span class='iv-ico'>" + bIcon + "</span>";
+          return "<div class='iv-deal'><div class='row1'>" + ico + "<span class='qty'>" + fmt(r.qty) + "×</span><span class='nm'>" +
             r.name + "</span>" + (r.stat ? "<span class='stat'>" + r.stat + "</span>" : "") +
             "<span class='each'><b>" + fmtEach(r.each) + "</b> each</span></div>" +
             (r.shop ? "<div class='shop'>" + r.shop + " · " + fmt(r.cost) + " " + c + "</div>" : "") +

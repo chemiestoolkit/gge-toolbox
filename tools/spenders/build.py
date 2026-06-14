@@ -9,6 +9,7 @@ HERE=os.path.dirname(os.path.abspath(__file__))
 ROOT=os.path.join(HERE,'..','..')
 items=json.load(open(os.path.join(ROOT,'tools/_srcdata/cache/items_latest.json')))
 lang=json.load(open(os.path.join(ROOT,'tools/_srcdata/cache/en.json')))
+langL={k.lower():v for k,v in lang.items() if isinstance(v,str)}  # lowercased keys = game-correct lookups
 
 import re as _re
 def pretty(s):
@@ -35,6 +36,13 @@ OV_TOOL ={str(x['id']):x for x in _tt.get('tools',[])}
 OV_EQUIP={str(x['id']):x for x in _load('tools/overview-equipment/data/equipment.json').get('items',[])}
 _rawunit={str(u.get('wodID','')):u for u in items.get('units',[])}
 
+# Small icon URLs (Goodgame CDN) reused from the overview datasets that already carry them.
+UNIT_IMG={}
+UNIT_IMG.update({wid:o.get('img') for wid,o in OV_TROOP.items() if o.get('img')})
+UNIT_IMG.update({wid:o.get('img') for wid,o in OV_TOOL.items() if o.get('img')})
+EQ_IMG={k:v.get('img') for k,v in OV_EQUIP.items() if v.get('img')}
+DECO_IMG={d['name']:d.get('img') for d in _load('tools/overview-decorations/data/decorations.json').get('items',[]) if d.get('img')}
+
 def unit_info(wid):
     """Return (name, kind 'Troops'|'Tools', role, statText). Prefer the overview data."""
     wid=str(wid)
@@ -54,11 +62,39 @@ def unit_info(wid):
         return (nm, 'Troops', role, stat)
     return ('unit '+wid, 'Troops', '', '')
 
+# Construction-item names via the proper ci_<slot>_<rawname> lang keys (the slot type alone is wrong).
+_bld_by_id={str(b.get('wodID','')):b for b in items.get('buildings',[])}
+def ci_realname(c):
+    rn=(c.get('name') or '').lower()
+    for k in ('ci_appearance_'+rn,'ci_primary_'+rn,'ci_secondary_'+rn,
+              'ci_appearance_'+rn+'_premium','ci_primary_'+rn+'_premium','ci_secondary_'+rn+'_premium','ci_'+rn):
+        if k in langL: return langL[k]
+    return None
+def deco_info(bid):
+    """Decoration display name + icon from its buildingID, via deco_<type>_name (matches the deco overview)."""
+    typ=(_bld_by_id.get(str(bid),{}).get('type') or '').lower()
+    nm=langL.get('deco_'+typ+'_name')
+    return (nm, DECO_IMG.get(nm) if nm else None)
+# Gem names from level + first effect (gem_effect_name_<effect>), not dev labels.
+_EFFNM={e['effectID']:e.get('name','') for e in items.get('effects',[])}
+_gem_by_id={str(g.get('gemID','')):g for g in items.get('gems',[])}
+def gem_name(gid):
+    g=_gem_by_id.get(str(gid))
+    if not g: return None
+    lvl=str(g.get('gemLevelID') or '')
+    pre=('Lvl '+lvl+' ') if lvl and lvl!='0' else ''
+    eff0=(g.get('effects') or '').split(',')[0].split('&')[0]
+    base=langL.get('gem_effect_name_'+(_EFFNM.get(eff0) or '').lower())
+    if base:
+        base=_re.sub(r'\s*:?\s*\{0\}.*$','',base).strip()
+        return (pre+base).strip()
+    return ('Level '+lvl+' gem') if lvl and lvl!='0' else 'Gem'   # never the package label
+
 # units dict keeps the old shape (wodID->name) for the ruby-offer decoder
 units={wid:unit_info(wid)[0] for wid in _rawunit}
 for wid,o in OV_TROOP.items(): units[wid]=o['name']
 for wid,o in OV_TOOL.items(): units[wid]=o['name']
-cis={str(c.get('constructionItemID','')): (langname(c.get('type')) or pretty(c.get('comment1')) or pretty(c.get('name')) or ('CI '+str(c.get('constructionItemID','')))) for c in items.get('constructionItems',[])}
+cis={str(c.get('constructionItemID','')): (ci_realname(c) or pretty(c.get('comment1')) or pretty(c.get('name')) or ('CI '+str(c.get('constructionItemID','')))) for c in items.get('constructionItems',[])}
 blds={str(b.get('wodID','')): (langname(b.get('type')) or pretty(b.get('comment1')) or pretty(b.get('type')) or ('building '+str(b.get('wodID','')))) for b in items.get('buildings',[])}
 def curdisp(name):
     """Proper in-game currency name from lang (currency_name_*), trying casing variants."""
@@ -110,6 +146,7 @@ def pkg_rewards(r):
         e={'b':bucket,'name':nm,'qty':iv(r['unitAmount'])}
         if stat: e['stat']=stat
         if role: e['role']=role
+        if UNIT_IMG.get(str(r['unitID'])): e['img']=UNIT_IMG[str(r['unitID'])]
         out.append(e)
     if r.get('equipmentIDs'):
         ids=[i for i in str(r['equipmentIDs']).split(',') if i]
@@ -117,16 +154,26 @@ def pkg_rewards(r):
         if not nm or len(ids)>1:
             c1=pretty(r.get('comment1'))
             nm=(c1 if c1 and not JUNK.search(c1) else None) or (str(len(ids))+'-piece equipment set' if len(ids)>1 else 'Equipment')
-        out.append({'b':'Equipment','name':nm,'qty':iv(r.get('equipmentAmount',len(ids)),len(ids))})
+        e={'b':'Equipment','name':nm,'qty':iv(r.get('equipmentAmount',len(ids)),len(ids))}
+        if len(ids)==1 and EQ_IMG.get(ids[0]): e['img']=EQ_IMG[ids[0]]
+        out.append(e)
     if r.get('relicEquipments'):
         out.append({'b':'Equipment','name':pretty(r.get('comment1')) or 'Relic equipment','qty':len(str(r['relicEquipments']).split(','))})
     if r.get('constructionItemID') and r.get('constructionItemAmount'):
         cid=str(r['constructionItemID']); out.append({'b':'Construction items','name':cis.get(cid) or pretty(r.get('comment1')) or ('CI '+cid),'qty':iv(r['constructionItemAmount'])})
     if r.get('buildingID') and r.get('buildingAmount'):
-        bid=str(r['buildingID']); bucket='Decorations' if pt=='deco' else 'Buildings'
-        out.append({'b':bucket,'name':pretty(r.get('comment1')) or blds.get(bid) or ('building '+bid),'qty':iv(r['buildingAmount'])})
+        bid=str(r['buildingID'])
+        if pt=='deco':
+            dn,di=deco_info(bid)
+            e={'b':'Decorations','name':dn or pretty(r.get('comment1')) or blds.get(bid) or ('deco '+bid),'qty':iv(r['buildingAmount'])}
+            if di: e['img']=di
+        else:
+            e={'b':'Buildings','name':pretty(r.get('comment1')) or blds.get(bid) or ('building '+bid),'qty':iv(r['buildingAmount'])}
+        out.append(e)
     if r.get('gemIDs') or r.get('specialGemOfLevelID'):
-        lvl=r.get('specialGemOfLevelID'); gnm=('Level '+str(lvl)+' gem') if lvl else (pretty(r.get('comment1')) or 'Gem')
+        lvl=r.get('specialGemOfLevelID')
+        gids=[i for i in str(r.get('gemIDs','')).split(',') if i]
+        gnm=('Level '+str(lvl)+' gem') if lvl else ((gem_name(gids[0]) if gids else None) or 'Gem')
         out.append({'b':'Gems','name':gnm,'qty':iv(r.get('gemAmount',1))})
     if r.get('lootBox'): out.append({'b':'Loot boxes','name':(r.get('comment1') or 'Loot box'),'qty':iv(r.get('lootBox',1))})
     if r.get('rewardBags'): out.append({'b':'Reward bags','name':(r.get('comment1') or 'Reward bag'),'qty':iv(r.get('rewardBags',1))})
@@ -203,6 +250,21 @@ TOK={'C2':('Rubies','Rubies'),'C1':('Resources','Coins'),'F':('Resources','Food'
  'REPB':('Boosters','Reputation booster'),'GPB':('Boosters','Gallantry booster'),'STB':('Boosters','Samurai booster'),
  'LTB':('Boosters','LTPE booster'),'ACB':('Boosters','Alliance coin booster'),'MS':('Time skips','Minute skips')}
 
+def unit_power(wid):
+    """A single 'how strong is this unit' number for weighting (might, else max atk/def, else effect % for tools)."""
+    wid=str(wid)
+    o=OV_TROOP.get(wid)
+    if o:
+        return max(int(o.get('atk',0) or 0), int(o.get('def',0) or 0)) or int(o.get('might',0) or 0) or 1
+    t=OV_TOOL.get(wid)
+    if t:
+        pcts=[abs(int(m)) for m in _re.findall(r'-?(\d+)%', ' '.join(t.get('effects',[]) or []))]
+        return (max(pcts) if pcts else 0) or (int(t.get('lvl',0) or 0)*3) or 5
+    u=_rawunit.get(wid)
+    if u:
+        return max(int(u.get('meleeAttack',0) or 0), int(u.get('meleeDefence',0) or 0), int(u.get('rangeDefence',0) or 0)) or 1
+    return 1
+
 def decode_offer(s):
     try: data=json.loads(s.replace('*','"'))
     except Exception: return None
@@ -214,6 +276,7 @@ def decode_offer(s):
         if tok=='U' and isinstance(val,list):
             nm,bk,role,stat=unit_info(val[0]); e={'b':bk,'name':nm,'qty':iv(val[1] if len(val)>1 else 1)}
             if stat: e['stat']=stat
+            if bk in ('Troops','Tools'): e['pw']=unit_power(val[0])
         elif tok=='CI' and isinstance(val,list):
             e={'b':'Construction items','name':cis.get(str(val[0]),'CI '+str(val[0])),'qty':iv(val[1] if len(val)>1 else 1)}
         elif tok=='D':
@@ -237,7 +300,24 @@ for r in items['paymentrewards']:
     seen[sig]=1
     SALES.append({'id':int(r['paymentrewardID']),'c2':c2,'bonus':int(r.get('shownOfferBonus',0) or 0),'items':its})
 sale_buckets=sorted({i['b'] for s in SALES for i in s['items']})
-salesout={'generated':src,'buckets':sale_buckets,'auLadder':[[p['rubies'],p['aud']] for p in json.load(open(os.path.join(ROOT,'tools/spenders/data/au-prices.json')))['rubyPacks']],'sales':SALES}
+# per-category "raw value" of an offer = sum(qty*power) for troops/tools, else sum(qty).
+# store a per-category 90th-percentile norm so the UI's category weights are comparable.
+def offer_cat_raw(s):
+    d={}
+    for i in s['items']:
+        v=i['qty']*i['pw'] if 'pw' in i else i['qty']
+        d[i['b']]=d.get(i['b'],0)+v
+    return d
+catvals={b:[] for b in sale_buckets}
+for s in SALES:
+    for b,v in offer_cat_raw(s).items():
+        if v>0: catvals[b].append(v)
+def pct90(xs):
+    xs=sorted(xs);
+    return xs[int(len(xs)*0.9)] if xs else 1
+catNorm={b:pct90(catvals[b]) for b in sale_buckets}
+salesout={'generated':src,'buckets':sale_buckets,'catNorm':catNorm,
+          'auLadder':[[p['rubies'],p['aud']] for p in json.load(open(os.path.join(ROOT,'tools/spenders/data/au-prices.json')))['rubyPacks']],'sales':SALES}
 json.dump(salesout,open(os.path.join(HERE,'data','sales.json'),'w'),separators=(',',':'))
-print('sales.json:',len(SALES),'distinct money offers (from',len(items['paymentrewards']),'), buckets:',sale_buckets)
+print('sales.json:',len(SALES),'offers; catNorm:',{k:round(v) for k,v in catNorm.items()})
 print('packages.json:',len(PKG),'shoppable packages, buckets:',buckets)
