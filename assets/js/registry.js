@@ -291,7 +291,7 @@ window.TOOLS = [
     cat: "calculators",
     feature: true,
     name: "Rift Commander Maker",
-    desc: "Mark the Rift equipment you own and get the optimal gear combo for maximum set bonuses.",
+    desc: "Mark the Rift equipment you own and get the optimal gear combo for maximum set bonuses. In calibration.",
     icon: "🌀",
     status: "live",
     tags: ["rift", "equipment", "optimizer", "gear", "set bonuses", "commander"],
