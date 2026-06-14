@@ -72,6 +72,13 @@
     .ss-wrow .wv { width: 26px; text-align: right; color: var(--gold-bright, var(--gold)); font-variant-numeric: tabular-nums; }
     .ss-more { padding: 7px 16px; font: inherit; font-size: .8rem; cursor: pointer; border-radius: var(--radius-sm); background: var(--bg-elev); color: var(--text-dim); border: 1px solid var(--border); margin-top: 12px; }
     .ss-more:hover { color: var(--text); border-color: var(--gold-dim); }
+    /* grouped facet picker */
+    .ss-groups { display: grid; gap: 9px; margin: 4px 0 14px; }
+    .ss-grp-h { display: block; font-size: .66rem; text-transform: uppercase; letter-spacing: .06em; color: var(--gold-dim); margin: 0 0 5px; }
+    .ss-grp-chips { display: flex; flex-wrap: wrap; gap: 6px; }
+    .ss-target .muted { color: var(--text-faint, #8a8372); font-weight: 400; }
+    .ss-toggle { display: inline-flex; align-items: center; gap: 7px; font-size: .8rem; color: var(--text-dim); cursor: pointer; user-select: none; }
+    .ss-toggle input { accent-color: var(--gold); width: 15px; height: 15px; }
   </style>
 </head>
 <body>
@@ -91,27 +98,30 @@
     </div>
 
     <section class="panel">
-      <h2 class="sp-h">💰 Money → rubies (straight packs)</h2>
-      <p class="sp-sub">The pure ruby packs only — what each dollar actually buys in rubies, ranked. AUD prices captured
-        from the AU1 shop, June 2026. The two boosts below only hit these straight packs, and they
-        <b>don't stack</b> — you get whichever is better, so Prime Time always wins when it's up.</p>
+      <h2 class="sp-h">🏆 Best value for money — every way to buy rubies</h2>
+      <p class="sp-sub">Straight ruby packs are the <em>worst</em> rubies-per-dollar in the shop, so don't just grab the
+        biggest pack. This ranks <b>every</b> route together — packs, Ruby Rush bundles and the 7-day daily chain — by
+        <b>rubies per A$</b>, so you buy what actually pays. AUD prices captured from the AU1 shop, June 2026. The two
+        boosts below only hit straight ruby packs and <b>don't stack</b> — you get whichever is better, so Prime Time wins when it's up.</p>
       <label class="sp-toggle"><input type="checkbox" id="doubler" checked> 2× Payment Doubler (doubles straight ruby packs — was running when these prices were captured)</label>
       <label class="sp-toggle"><input type="checkbox" id="prime"> +300% Prime Time offer active (×4 rubies on straight packs — beats the doubler)</label>
-      <div style="overflow-x:auto"><table class="sp" id="packsTbl"></table></div>
-      <div class="sp-note" id="packsNote"></div>
+      <div style="overflow-x:auto"><table class="sp" id="valueTbl"></table></div>
+      <div class="sp-note" id="valueNote"></div>
     </section>
 
     <section class="panel">
       <h2 class="sp-h">🔎 Sale value search — money → anything</h2>
-      <p class="sp-sub">Compare every real-money sale by what you get <b>per dollar</b>. Pick what you're after,
-        set a budget if you like, and it ranks the offers. This is the full sale <em>catalogue</em> (Super Sale,
-        Benefit, Event, Prime bundles) — which ones are live in your shop right now is decided per player, so
-        treat it as “when I see this offer, here's its value”.</p>
-      <div class="ss-pick" id="ss-pick"></div>
+      <p class="sp-sub">Pick exactly what you're chasing — <b>attack</b> vs <b>defence</b> troops, siege tools, time skips,
+        Sceat, construction / upgrade tokens, gacha tickets, offerings — and it ranks every real-money sale by how much
+        of <em>that</em> you get <b>per dollar</b>. This is the full sale <em>catalogue</em> (Super Sale, Benefit, Event,
+        Prime bundles); which offers are live in your shop is decided per player, so read it as “when I see this offer,
+        here's its value”. <b>Retired seasons are hidden by default</b> so you mostly see current-meta bundles.</p>
+      <div class="ss-groups" id="ss-pick"></div>
       <div class="ss-controls">
         <div class="ss-field"><label for="ss-budget">Budget (A$, optional)</label><input type="number" id="ss-budget" min="0" placeholder="any" /></div>
         <div class="ss-field"><label for="ss-search">Search contents</label><input type="text" id="ss-search" placeholder="e.g. Demon slayer, Affluence, sceat" /></div>
         <div class="ss-field"><label>Sort</label><div class="ss-sort" id="ss-sort"><button data-s="value" class="on">Best value</button><button data-s="new">Newest era</button></div></div>
+        <div class="ss-field"><label>Relevance</label><label class="ss-toggle"><input type="checkbox" id="ss-recent" checked> Hide retired seasons</label></div>
       </div>
       <details class="ss-weights" id="ss-weights">
         <summary>⚖️ Value weights — tune what matters <span class="hint">(drives the 🏆 Overall ranking; troops &amp; tools are already weighted by combat power)</span></summary>
@@ -121,23 +131,16 @@
       <div class="sp-count" id="ss-count"></div>
       <div class="ss-list" id="ss-list"></div>
       <button class="ss-more" id="ss-more" style="display:none">Show more</button>
-      <div class="sp-note"><b>Value model:</b> troops &amp; tools are scored by <b>combat power</b> (qty × atk/def), so a pile of weak
-        units no longer beats a smaller strong pack. Other categories score by quantity. The <b>⚖️ weights</b> above let you say what
-        <em>you</em> care about (e.g. crank Resources for mead, drop mid-troops) — that drives the <b>🏆 Overall</b> ranking. There's no
-        in-game data for cross-category worth, so this is your call, not a guess. <b>Prices:</b> exact where the offer's tier matches a known AU pack ($8.99 / $17.99 / $34.99 …),
-        <em>estimated</em> (marked ≈) for the cheaper bundle tiers. <b>Value</b> is how much of your chosen reward you get per A$;
-        the <em>+%</em> badge is the game's own value rating. <b>“Newest era”</b> sorts by the game's internal offer ID — a rough
-        recency proxy that pushes current-meta bundles (Affluence, Offerings, Sasaki) up and retired seasonal ones down. The static
-        data holds the offer <em>definitions</em>, not your live daily rotation or the very newest amounts, so search by what you
-        actually see in-game (now that names match — “Affluence tickets”, “Offering to Beatrice”, etc.).</div>
-    </section>
-
-    <section class="panel">
-      <h2 class="sp-h">🏆 Best rubies for your dollar (everything)</h2>
-      <p class="sp-sub">Every way to buy rubies on AU1 ranked together — straight packs, Ruby Rush bundles and the
-        7-day daily chain — so you can see where the packs sit against the bundles.</p>
-      <div style="overflow-x:auto"><table class="sp" id="valueTbl"></table></div>
-      <div class="sp-note" id="valueNote"></div>
+      <div class="sp-note"><b>Value model:</b> <b>Attack</b> / <b>Defence</b> troops and <b>siege tools</b> are scored by <b>combat power</b>
+        (qty × atk/def) — a pile of weak units no longer beats a smaller strong pack, and attack vs defence are split so an attack
+        account isn't told a wall-of-defence bundle is great. <b>Time skips</b> are pooled into total hours; everything else scores by
+        quantity. Banners, event-point items and token chests are pulled <em>out</em> of the troop count into their own
+        🚩/🗡️/👑 buckets so they don't inflate troop value. The <b>⚖️ weights</b> let you say what <em>you</em> care about (crank
+        Resources for mead, zero-out defence) — that drives the <b>🏆 Overall</b> ranking; there's no in-game number for cross-category
+        worth, so it's your call, not a guess. <b>Relevance:</b> “Hide retired seasons” drops the legacy catalogue (pre-modern offer
+        engine) so you mostly see current bundles; <b>“Newest era”</b> sort orders by internal offer ID. <b>Prices:</b> exact where the
+        tier matches a known AU pack ($8.99 / $17.99 / $34.99 …), <em>estimated</em> (≈) for the cheaper tiers. The static data holds offer
+        <em>definitions</em>, not your live daily rotation, so search by what you actually see in-game.</div>
     </section>
 
     <section class="panel">
@@ -171,6 +174,8 @@
     "use strict";
     var $ = function (id) { return document.getElementById(id); };
     var fmt = function (n) { return Number(n).toLocaleString("en-AU"); };
+    // per-A$ readout: keep precision when you get less than a whole unit per dollar
+    var per = function (n) { return n >= 100 ? fmt(Math.round(n)) : n >= 10 ? n.toFixed(1) : n.toFixed(2); };
     var AU, SALES;
 
     Promise.all([
@@ -205,28 +210,6 @@
       return rows;
     }
 
-    function renderPacks() {
-      var doubler = $("doubler").checked, prime = $("prime").checked, mult = packMult(doubler, prime);
-      var tag = mult === 4 ? " (+300%)" : mult === 2 ? " (×2)" : "";
-      var rows = AU.rubyPacks.map(function (p) {
-        return { rubies: p.rubies * mult, aud: p.aud, extra: p.extras ? "+ resources" : "", rate: p.rubies * mult / p.aud, base: p.rubies };
-      }).sort(function (a, b) { return b.rate - a.rate; });
-      var best = rows[0].rate;
-      var html = "<thead><tr><th class='l'>Pack</th><th>AUD</th><th>Rubies</th><th>Rubies / A$</th><th>vs best</th></tr></thead><tbody>";
-      rows.forEach(function (r, i) {
-        var pct = Math.round(r.rate / best * 100);
-        html += "<tr" + (i === 0 ? " class='best'" : "") + "><td class='nm'>" + fmt(r.base) + " ruby pack" + tag +
-          (r.extra ? " <span style='color:var(--text-faint)'>" + r.extra + "</span>" : "") +
-          "</td><td>A$" + r.aud.toFixed(2) + "</td><td>" + fmt(r.rubies) + "</td><td class='sp-rate'>" + fmt(Math.round(r.rate)) +
-          "</td><td class='" + (pct >= 80 ? "sp-good" : pct < 50 ? "sp-bad" : "") + "'>" + pct + "%</td></tr>";
-      });
-      $("packsTbl").innerHTML = html + "</tbody>";
-      var big = rows[0];
-      $("packsNote").innerHTML = "<b>Pure rubies per dollar:</b> the bigger the pack, the better the rate — the top one here pays <b>" +
-        fmt(Math.round(big.rate)) + " rubies/A$</b>" + (mult > 1 ? " with the " + (mult === 4 ? "+300% Prime Time" : "2× doubler") + " applied" : "") +
-        ". A +300% Prime Time offer beats the 2× doubler, so wait for it if you can. (Ruby Rush and the daily chain are in the ranking below.)";
-    }
-
     function renderValue() {
       var doubler = $("doubler").checked, prime = $("prime").checked;
       var rows = valueRows(doubler, prime);
@@ -259,13 +242,13 @@
       $("dailyTbl").innerHTML = html + "</tbody>";
     }
 
-    function renderAll() { renderPacks(); renderValue(); }
+    function renderAll() { renderValue(); }
 
     /* ---- sale value search --------------------------------------------- */
     var BUCKET_ICON = { "Rubies": "🔴", "Troops": "⚔️", "Tools": "🪜", "Equipment": "🛡️", "Gems": "💎",
       "Currencies": "🪙", "Boosters": "⚡", "Resources": "🌾", "VIP": "👑", "XP": "✨", "Time skips": "⏱️", "Misc": "📦" };
-    var ssTarget = "Overall value", ssShown = 30, ssSort = "value";
-    var auLadder, weights = {}; // weights: per-category multiplier for the Overall ranking (default 1)
+    var ssTarget = "overall", ssShown = 30, ssSort = "value";
+    var auLadder, weights = {}; // weights: per-facet multiplier for the Overall ranking (default 1)
 
     function audFor(c2) { // -> [aud, exact]
       for (var i = 0; i < auLadder.length; i++) if (auLadder[i][0] === c2) return [auLadder[i][1], true];
@@ -279,23 +262,106 @@
       return [c2 * hi[1] / hi[0], false];
     }
     function fillSalePicker() {
-      var pref = ["Overall value", "Rubies", "Troops", "Tools", "Equipment", "Gems", "Currencies", "Boosters", "Resources", "VIP"];
-      var rest = SALES.buckets.filter(function (b) { return pref.indexOf(b) < 0; });
-      var order = ["Overall value"].concat(pref.slice(1).filter(function (b) { return SALES.buckets.indexOf(b) >= 0; })).concat(rest);
-      $("ss-pick").innerHTML = order.map(function (b) {
-        var ic = b === "Overall value" ? "🏆" : (BUCKET_ICON[b] || "📦");
-        return "<span class='ss-chip" + (b === ssTarget ? " on" : "") + "' data-b=\"" + b + "\"><span>" + ic + "</span>" + b + "</span>";
+      $("ss-pick").innerHTML = FGROUPS.map(function (grp) {
+        var chips = grp.ks.filter(function (k) { return k === "overall" || FACET_HAS[k]; }).map(function (k) {
+          var f = FACET[k];
+          return "<span class='ss-chip" + (k === ssTarget ? " on" : "") + "' data-b=\"" + k + "\"><span>" + f.ic + "</span>" + f.label + "</span>";
+        });
+        if (!chips.length) return "";
+        return "<div class='ss-grp'><span class='ss-grp-h'>" + grp.g + "</span><div class='ss-grp-chips'>" + chips.join("") + "</div></div>";
       }).join("");
     }
-    // Troops/Tools are weighted by combat power (qty × atk/def); everything else by quantity.
-    function isPow(b) { return b === "Troops" || b === "Tools"; }
-    function bucketRaw(s, b) {
-      var v = 0; for (var i = 0; i < s.items.length; i++) { var it = s.items[i]; if (it.b === b) v += (isPow(b) && it.pw ? it.qty * it.pw : it.qty); } return v;
+    // ---- refined facets: re-classify every reward from name + combat stat ----
+    var SKIP_MIN = { "Skip 30 minutes": 30, "Skip 1 hour": 60, "Skip 5 hours": 300, "Skip 24 hours": 1440 };
+    var RECENT_ID = 500000; // modern offer-engine cutoff; below this = retired legacy seasons
+    function classify(it) {
+      var n = (it.name || "").toLowerCase(), b = it.b, st = (it.stat || "").toLowerCase();
+      if (b === "Resources")  return /coin/.test(n) ? "coins" : "resources";
+      if (b === "Rubies")     return "rubies";
+      if (b === "Gems")       return "gems";
+      if (b === "Equipment")  return "equip";
+      if (b === "Boosters")   return "boosters";
+      if (b === "VIP")        return "vip";
+      if (b === "XP")         return "xp";
+      if (b === "Tools")      return "tools";
+      if (b === "Currencies") {
+        if (SKIP_MIN[it.name] != null)    return "skips";
+        if (/construction token/.test(n)) return "construct";
+        if (/upgrade token/.test(n))      return "upgrade";
+        if (/sceat/.test(n))              return "sceat";
+        if (/offering to/.test(n))        return "offerings";
+        return "gacha"; // tickets, affluence, lucky pennies, fast-travel feathers
+      }
+      if (b === "Troops") {
+        if (/atk/.test(st))               return "atk";
+        if (/def/.test(st))               return "deftroops";
+        if (/samurai token/.test(n))      return "samurai";
+        if (/royal token/.test(n))        return "royal";
+        return "points"; // banners, LTPE, Berimond treasures, war horns, etc.
+      }
+      return "misc";
     }
-    function bucketCount(s, b) { var q = 0; for (var i = 0; i < s.items.length; i++) if (s.items[i].b === b) q += s.items[i].qty; return q; }
-    function overallScore(s) { // your weights × each category's value, normalised so weights are comparable
-      var raw = {}; s.items.forEach(function (it) { raw[it.b] = (raw[it.b] || 0) + (isPow(it.b) && it.pw ? it.qty * it.pw : it.qty); });
-      var sum = 0; for (var b in raw) { var w = weights[b] == null ? 1 : weights[b]; sum += w * (raw[b] / (SALES.catNorm[b] || 1)); }
+    var FACET = {
+      overall:   { ic: "🏆", label: "Overall value" },
+      atk:       { ic: "⚔️", label: "Attack troops", pow: true },
+      deftroops: { ic: "🛡️", label: "Defence troops", pow: true },
+      tools:     { ic: "🏰", label: "Siege tools", pow: true },
+      equip:     { ic: "🎖️", label: "Hero equipment" },
+      rubies:    { ic: "🔴", label: "Rubies" },
+      gems:      { ic: "💎", label: "Gems" },
+      gacha:     { ic: "🎰", label: "Gacha tickets" },
+      sceat:     { ic: "📜", label: "Sceat" },
+      samurai:   { ic: "🗡️", label: "Samurai tokens" },
+      royal:     { ic: "👑", label: "Royal tokens" },
+      offerings: { ic: "🙏", label: "Offerings" },
+      construct: { ic: "🏗️", label: "Construction tokens" },
+      upgrade:   { ic: "⬆️", label: "Upgrade tokens" },
+      skips:     { ic: "⏱️", label: "Time skips", mins: true },
+      resources: { ic: "🌾", label: "Resources" },
+      coins:     { ic: "🪙", label: "Coins" },
+      boosters:  { ic: "⚡", label: "Boosters" },
+      vip:       { ic: "👑", label: "VIP" },
+      points:    { ic: "🚩", label: "Event point items" },
+      xp:        { ic: "✨", label: "XP" },
+      misc:      { ic: "📦", label: "Misc" }
+    };
+    var FGROUPS = [
+      { g: "Find the best…",            ks: ["overall"] },
+      { g: "⚔️ Military & gear",        ks: ["atk", "deftroops", "tools", "equip", "gems"] },
+      { g: "💠 Premium currency",       ks: ["rubies"] },
+      { g: "🎟️ Event & gacha tokens",  ks: ["gacha", "sceat", "samurai", "royal", "offerings"] },
+      { g: "🏗️ Build & speed",         ks: ["construct", "upgrade", "skips"] },
+      { g: "🌾 Economy",                ks: ["resources", "coins", "boosters", "vip"] },
+      { g: "🎁 Other",                  ks: ["points", "xp", "misc"] }
+    ];
+    function itemRaw(it, k) { // one reward line's contribution to facet k
+      if (FACET[k].pow)  return it.qty * (it.pw || 1);
+      if (FACET[k].mins) return it.qty * (SKIP_MIN[it.name] || 0);
+      return it.qty;
+    }
+    var catNorm = {}, FACET_HAS = {};
+    function prep() { // attach per-facet aggregates to each sale + compute 90th-pct norms
+      var pools = {};
+      SALES.sales.forEach(function (s) {
+        var f = {};
+        s.items.forEach(function (it) {
+          var k = it._k || (it._k = classify(it));
+          var e = f[k] || (f[k] = { qty: 0, raw: 0 });
+          e.qty += it.qty; e.raw += itemRaw(it, k);
+        });
+        s._f = f;
+        for (var k in f) { (pools[k] || (pools[k] = [])).push(f[k].raw); FACET_HAS[k] = true; }
+      });
+      for (var k2 in pools) {
+        pools[k2].sort(function (a, b) { return a - b; });
+        catNorm[k2] = pools[k2][Math.floor(pools[k2].length * 0.9)] || 1;
+      }
+    }
+    function facetRaw(s, k) { return s._f[k] ? s._f[k].raw : 0; }
+    function facetQty(s, k) { return s._f[k] ? s._f[k].qty : 0; }
+    function overallScore(s) { // your weights × each facet's value, normalised so weights compare
+      var sum = 0;
+      for (var k in s._f) { var w = weights[k] == null ? 1 : weights[k]; sum += w * (s._f[k].raw / (catNorm[k] || 1)); }
       return sum;
     }
     function itemEmoji(i) {
@@ -319,34 +385,39 @@
       return rows.join("");
     }
     function renderSales() {
-      var b = ssTarget, overall = b === "Overall value";
+      var k = ssTarget, overall = k === "overall", F = FACET[k];
       var budget = parseFloat($("ss-budget").value) || 0;
       var q = $("ss-search").value.trim().toLowerCase();
-      var rows = [];
-      var pow = !overall && isPow(b);
+      var hideOld = $("ss-recent").checked;
+      var rows = [], hidden = 0;
       SALES.sales.forEach(function (s) {
+        if (hideOld && s.id < RECENT_ID) { hidden++; return; }
         var pa = audFor(s.c2), aud = pa[0];
         if (budget && aud > budget + 0.005) return;
         if (q && !s.items.some(function (i) { return i.name.toLowerCase().indexOf(q) >= 0; })) return;
-        var raw = overall ? 0 : bucketRaw(s, b);
+        var raw = overall ? 0 : facetRaw(s, k);
         if (!overall && !raw) return;
         var score = overall ? overallScore(s) / aud : raw / aud;
-        rows.push({ s: s, aud: aud, est: !pa[1], raw: raw, count: overall ? 0 : bucketCount(s, b), score: score });
+        rows.push({ s: s, aud: aud, est: !pa[1], raw: raw, qty: overall ? 0 : facetQty(s, k), score: score });
       });
       if (ssSort === "new") rows.sort(function (a, b2) { return b2.s.id - a.s.id || b2.score - a.score; });
       else rows.sort(function (a, b2) { return b2.score - a.score; });
       var best = rows.reduce(function (m, r) { return Math.max(m, r.score); }, 1e-9);
-      var how = ssSort === "new" ? "newest era first" : (overall ? "your value weights" : (pow ? "most combat power per A$" : "most per A$"));
+      var how = ssSort === "new" ? "newest era first" : (overall ? "your value weights" : (F.pow ? "most combat power per A$" : F.mins ? "most skip-time per A$" : "most per A$"));
       $("ss-count").textContent = rows.length + " sale" + (rows.length === 1 ? "" : "s") +
-        (overall ? "" : " containing " + (BUCKET_ICON[b] || "") + " " + b.toLowerCase()) +
-        " — sorted by " + how + (budget ? " · under A$" + budget : "") + (q ? " · matching “" + q + "”" : "");
+        (overall ? "" : " with " + F.ic + " " + F.label.toLowerCase()) +
+        " — sorted by " + how + (budget ? " · under A$" + budget : "") + (q ? " · matching “" + q + "”" : "") +
+        (hideOld && hidden ? " · " + fmt(hidden) + " retired hidden" : "");
       $("ss-list").innerHTML = rows.slice(0, ssShown).map(function (r, i) {
         var bar = Math.max(4, Math.round(r.score / best * 100));
         var valTxt = overall ? "<b>+" + r.s.bonus + "%</b> game value"
-          : pow ? "<b>" + fmt(Math.round(r.score)) + "</b> power / A$"
-          : "<b>" + fmt(Math.round(r.score)) + "</b> per A$";
-        var targetLine = overall ? "" : "<div class='ss-target'>" + (BUCKET_ICON[b] || "") + " " + fmt(r.count) + " " + b.toLowerCase() +
-          (pow ? " <span style='color:var(--text-faint);font-weight:400'>· " + fmt(r.raw) + " power</span>" : "") + "</div>";
+          : F.pow ? "<b>" + fmt(Math.round(r.score)) + "</b> power / A$"
+          : F.mins ? "<b>" + (r.score / 60).toFixed(1) + "</b> skip-hrs / A$"
+          : "<b>" + per(r.score) + "</b> / A$";
+        var targetLine = overall ? ""
+          : F.pow ? "<div class='ss-target'>" + F.ic + " " + fmt(r.qty) + " " + F.label.toLowerCase() + " <span class='muted'>· " + fmt(r.raw) + " power</span></div>"
+          : F.mins ? "<div class='ss-target'>" + F.ic + " " + (r.raw / 60).toFixed(1) + " hours of skips <span class='muted'>· " + fmt(r.qty) + " items</span></div>"
+          : "<div class='ss-target'>" + F.ic + " " + fmt(r.qty) + " " + F.label.toLowerCase() + "</div>";
         return "<div class='ss-card" + (i === 0 ? " top" : "") + "'><div class='ss-head'>" +
           "<span class='ss-aud'>A$" + r.aud.toFixed(2) + (r.est ? " <span class='est'>≈</span>" : "") + "</span>" +
           (r.s.bonus ? "<span class='ss-bonus'>+" + r.s.bonus + "%</span>" : "") +
@@ -358,19 +429,24 @@
     }
 
     function renderWeights() {
-      var order = ["Resources", "Troops", "Tools", "Rubies", "Equipment", "Gems", "Currencies", "Boosters", "VIP", "XP"];
-      var bs = order.filter(function (b) { return SALES.buckets.indexOf(b) >= 0; });
-      $("ss-weights-body").innerHTML = bs.map(function (b) {
-        var w = weights[b] == null ? 1 : weights[b];
-        return "<div class='ss-wrow'><label>" + (BUCKET_ICON[b] || "📦") + " " + b + "</label>" +
-          "<input type='range' min='0' max='3' step='0.5' value='" + w + "' data-b=\"" + b + "\">" +
-          "<span class='wv' data-wv=\"" + b + "\">" + w.toFixed(1) + "</span></div>";
-      }).join("");
+      var html = "";
+      FGROUPS.forEach(function (grp) {
+        grp.ks.forEach(function (k) {
+          if (k === "overall" || !FACET_HAS[k]) return;
+          var w = weights[k] == null ? 1 : weights[k], F = FACET[k];
+          html += "<div class='ss-wrow'><label>" + F.ic + " " + F.label + "</label>" +
+            "<input type='range' min='0' max='3' step='0.5' value='" + w + "' data-b=\"" + k + "\">" +
+            "<span class='wv' data-wv=\"" + k + "\">" + w.toFixed(1) + "</span></div>";
+        });
+      });
+      $("ss-weights-body").innerHTML = html;
     }
     function init() {
       auLadder = SALES.auLadder.slice().sort(function (a, b) { return a[0] - b[0]; });
+      prep();
       renderWeights();
       renderAll(); renderDaily(); fillSalePicker(); renderSales();
+      $("ss-recent").addEventListener("change", function () { ssShown = 30; renderSales(); });
       $("doubler").addEventListener("change", renderAll);
       $("prime").addEventListener("change", renderAll);
       $("ss-pick").addEventListener("click", function (e) {
