@@ -49,7 +49,14 @@
     .ss-target { font-weight: 600; color: var(--text); margin: 7px 0 5px; }
     .ss-bar { height: 4px; border-radius: 3px; background: rgba(255,255,255,.06); overflow: hidden; margin-bottom: 8px; }
     .ss-bar > i { display: block; height: 100%; background: linear-gradient(90deg, var(--gold-dim), var(--gold)); }
-    .ss-contents { font-size: .78rem; color: var(--text-dim); line-height: 1.55; }
+    .ss-contents { font-size: .8rem; color: var(--text-dim); display: grid; gap: 3px; }
+    .ss-contents .ss-row { display: flex; gap: 7px; align-items: baseline; }
+    .ss-contents .q { color: var(--text); font-weight: 600; font-variant-numeric: tabular-nums; min-width: 52px; text-align: right; white-space: nowrap; }
+    .ss-contents .st { font-size: .68rem; color: var(--gold-dim); }
+    .ss-contents .more { color: var(--text-faint, #8a8372); font-style: italic; }
+    .ss-sort { display: inline-flex; gap: 4px; }
+    .ss-sort button { padding: 8px 12px; font: inherit; font-size: .82rem; cursor: pointer; background: var(--bg-elev); border: 1px solid var(--border); color: var(--text-dim); border-radius: var(--radius-sm); }
+    .ss-sort button.on { border-color: var(--gold); color: var(--gold-bright, var(--gold)); background: rgba(217,178,90,.1); }
     .ss-more { padding: 7px 16px; font: inherit; font-size: .8rem; cursor: pointer; border-radius: var(--radius-sm); background: var(--bg-elev); color: var(--text-dim); border: 1px solid var(--border); margin-top: 12px; }
     .ss-more:hover { color: var(--text); border-color: var(--gold-dim); }
   </style>
@@ -90,14 +97,18 @@
       <div class="ss-pick" id="ss-pick"></div>
       <div class="ss-controls">
         <div class="ss-field"><label for="ss-budget">Budget (A$, optional)</label><input type="number" id="ss-budget" min="0" placeholder="any" /></div>
-        <div class="ss-field"><label for="ss-search">Search contents</label><input type="text" id="ss-search" placeholder="e.g. Demon slayer, sceat, gem" /></div>
+        <div class="ss-field"><label for="ss-search">Search contents</label><input type="text" id="ss-search" placeholder="e.g. Demon slayer, Affluence, sceat" /></div>
+        <div class="ss-field"><label>Sort</label><div class="ss-sort" id="ss-sort"><button data-s="value" class="on">Best value</button><button data-s="new">Newest era</button></div></div>
       </div>
       <div class="sp-count" id="ss-count"></div>
       <div class="ss-list" id="ss-list"></div>
       <button class="ss-more" id="ss-more" style="display:none">Show more</button>
       <div class="sp-note"><b>Prices:</b> exact where the offer's tier matches a known AU pack ($8.99 / $17.99 / $34.99 …),
         <em>estimated</em> (marked ≈) for the cheaper bundle tiers. <b>Value</b> is how much of your chosen reward you get per A$;
-        the <em>+%</em> badge is the game's own value rating. Bundles with huge bonuses are usually the lapsed-spender offers — real, but only if the game serves them to you.</div>
+        the <em>+%</em> badge is the game's own value rating. <b>“Newest era”</b> sorts by the game's internal offer ID — a rough
+        recency proxy that pushes current-meta bundles (Affluence, Offerings, Sasaki) up and retired seasonal ones down. The static
+        data holds the offer <em>definitions</em>, not your live daily rotation or the very newest amounts, so search by what you
+        actually see in-game (now that names match — “Affluence tickets”, “Offering to Beatrice”, etc.).</div>
     </section>
 
     <section class="panel">
@@ -232,7 +243,7 @@
     /* ---- sale value search --------------------------------------------- */
     var BUCKET_ICON = { "Rubies": "🔴", "Troops": "⚔️", "Tools": "🪜", "Equipment": "🛡️", "Gems": "💎",
       "Currencies": "🪙", "Boosters": "⚡", "Resources": "🌾", "VIP": "👑", "XP": "✨", "Time skips": "⏱️", "Misc": "📦" };
-    var ssTarget = "Overall value", ssShown = 30;
+    var ssTarget = "Overall value", ssShown = 30, ssSort = "value";
     var auLadder; // sorted [[rubies, aud], ...]
 
     function audFor(c2) { // -> [aud, exact]
@@ -256,10 +267,13 @@
       }).join("");
     }
     function targetQty(s, b) { var q = 0; for (var i = 0; i < s.items.length; i++) if (s.items[i].b === b) q += s.items[i].qty; return q; }
-    function contentsText(s, max) {
-      var parts = s.items.map(function (i) { return fmt(i.qty) + "× " + i.name + (i.stat ? " (" + i.stat + ")" : ""); });
-      if (parts.length > max) return parts.slice(0, max).join(" · ") + " · +" + (parts.length - max) + " more";
-      return parts.join(" · ");
+    function contentsList(s, max) {
+      var rows = s.items.slice(0, max).map(function (i) {
+        return "<div class='ss-row'><span class='q'>" + fmt(i.qty) + "×</span><span>" + i.name +
+          (i.stat ? " <span class='st'>" + i.stat + "</span>" : "") + "</span></div>";
+      });
+      if (s.items.length > max) rows.push("<div class='ss-row more'>+ " + (s.items.length - max) + " more item" + (s.items.length - max === 1 ? "" : "s") + "</div>");
+      return rows.join("");
     }
     function renderSales() {
       var b = ssTarget, overall = b === "Overall value";
@@ -274,11 +288,13 @@
         if (!overall && !tq) return;
         rows.push({ s: s, aud: aud, est: !pa[1], tq: tq, score: overall ? s.bonus : tq / aud });
       });
-      rows.sort(function (a, b2) { return b2.score - a.score; });
-      var best = rows.length ? rows[0].score : 1;
+      if (ssSort === "new") rows.sort(function (a, b2) { return b2.s.id - a.s.id || b2.score - a.score; });
+      else rows.sort(function (a, b2) { return b2.score - a.score; });
+      var best = rows.reduce(function (m, r) { return Math.max(m, r.score); }, 1);
+      var how = ssSort === "new" ? "newest era first" : (overall ? "the game's value badge" : "most per A$");
       $("ss-count").textContent = rows.length + " sale" + (rows.length === 1 ? "" : "s") +
-        (overall ? " — ranked by the game's value badge" : " contain " + (BUCKET_ICON[b] || "") + " " + b.toLowerCase() + " — ranked by most per A$") +
-        (budget ? " under A$" + budget : "") + (q ? " matching “" + q + "”" : "");
+        (overall ? "" : " containing " + (BUCKET_ICON[b] || "") + " " + b.toLowerCase()) +
+        " — sorted by " + how + (budget ? " · under A$" + budget : "") + (q ? " · matching “" + q + "”" : "");
       $("ss-list").innerHTML = rows.slice(0, ssShown).map(function (r, i) {
         var bar = Math.max(4, Math.round(r.score / best * 100));
         var valTxt = overall ? "<b>+" + r.s.bonus + "%</b> value" : "<b>" + fmt(Math.round(r.score)) + "</b> per A$";
@@ -288,7 +304,7 @@
           "<span class='ss-val'>" + valTxt + "</span></div>" +
           (overall ? "" : "<div class='ss-target'>" + (BUCKET_ICON[b] || "") + " " + fmt(r.tq) + " " + b.toLowerCase() + "</div>") +
           "<div class='ss-bar'><i style='width:" + bar + "%'></i></div>" +
-          "<div class='ss-contents'>" + contentsText(r.s, 7) + "</div></div>";
+          "<div class='ss-contents'>" + contentsList(r.s, 7) + "</div></div>";
       }).join("");
       $("ss-more").style.display = rows.length > ssShown ? "" : "none";
     }
@@ -306,6 +322,12 @@
       });
       $("ss-budget").addEventListener("input", function () { ssShown = 30; renderSales(); });
       $("ss-search").addEventListener("input", function () { ssShown = 30; renderSales(); });
+      $("ss-sort").addEventListener("click", function (e) {
+        var btn = e.target.closest("button"); if (!btn) return;
+        ssSort = btn.dataset.s; ssShown = 30;
+        [].forEach.call($("ss-sort").children, function (n) { n.classList.toggle("on", n.dataset.s === ssSort); });
+        renderSales();
+      });
       $("ss-more").addEventListener("click", function () { ssShown += 40; renderSales(); });
     }
   })();

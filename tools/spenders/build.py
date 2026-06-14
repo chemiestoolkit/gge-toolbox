@@ -60,7 +60,14 @@ for wid,o in OV_TROOP.items(): units[wid]=o['name']
 for wid,o in OV_TOOL.items(): units[wid]=o['name']
 cis={str(c.get('constructionItemID','')): (langname(c.get('type')) or pretty(c.get('comment1')) or pretty(c.get('name')) or ('CI '+str(c.get('constructionItemID','')))) for c in items.get('constructionItems',[])}
 blds={str(b.get('wodID','')): (langname(b.get('type')) or pretty(b.get('comment1')) or pretty(b.get('type')) or ('building '+str(b.get('wodID','')))) for b in items.get('buildings',[])}
-curname={c['JSONKey']:c['Name'] for c in items['currencies'] if c.get('JSONKey')}
+def curdisp(name):
+    """Proper in-game currency name from lang (currency_name_*), trying casing variants."""
+    if not name: return name
+    for cand in (name, name[0].lower()+name[1:], name[0].upper()+name[1:]):
+        v=lang.get('currency_name_'+cand)
+        if v: return v
+    return pretty(name)
+curname={c['JSONKey']:curdisp(c['Name']) for c in items['currencies'] if c.get('JSONKey')}
 EQ_NAME={k:v.get('name') for k,v in OV_EQUIP.items()}
 
 src=open(os.path.join(ROOT,'tools/_srcdata/cache/SOURCES.txt')).readline().strip('# \n')
@@ -125,8 +132,8 @@ def pkg_rewards(r):
     if r.get('rewardBags'): out.append({'b':'Reward bags','name':(r.get('comment1') or 'Reward bag'),'qty':iv(r.get('rewardBags',1))})
     addmap=[('addSceatToken','Sceats','Sceats'),('addLegendaryMaterial','Upgrade tokens','Upgrade tokens'),
             ('addLegendaryToken','Construction tokens','Construction tokens'),
-            ('addSaleDaysLuckyWheelTicket','Event / gacha currency','Sale lucky-wheel tickets'),
-            ('addLuckyWheelTicket','Event / gacha currency','Lucky-wheel tickets'),
+            ('addSaleDaysLuckyWheelTicket','Event / gacha currency','Affluence tickets'),
+            ('addLuckyWheelTicket','Event / gacha currency','Lucky wheel tickets'),
             ('addPegasusTicket','Travel tickets','Pegasus tickets'),('vipPoints','VIP','VIP points'),
             ('vipTime','VIP','VIP time'),('amountXP','XP','XP'),('addImperialPatronageCharter','Misc','Imperial Patronage Charter'),
             ('addDecoDust','Misc','Deco Dust'),('addFusionCurrency','Misc','Fusion currency'),('addResourceVillageToken','Misc','Resource Village token')]
@@ -136,7 +143,7 @@ def pkg_rewards(r):
         if f.endswith('Token') and f.startswith('add') and f not in ('addLegendaryToken',):
             v=r.get(f)
             if str(v) not in ('','0') and 'LTPE' not in f and f not in ('addSceatToken',):
-                out.append({'b':'Event / gacha currency','name':pretty(f[3:-5])+' token','qty':iv(v)})
+                out.append({'b':'Event / gacha currency','name':curdisp(f[3:]),'qty':iv(v)})
         if f.startswith('addShard'):
             if str(r.get(f)) not in ('','0'): out.append({'b':'Hero shards','name':pretty(f[8:])+' shard','qty':iv(r[f])})
         if f.startswith('add') and ('HourSkip' in f or 'MinSkip' in f):
@@ -178,7 +185,6 @@ json.dump(pkgout,open(os.path.join(OUTDIR,'packages.json'),'w'),separators=(',',
 # ---- sales.json : the real-money offer catalogue (Spenders sale search) -----
 # paymentrewards = every Super Sale / Benefit / Event / Prime money bundle.
 # Decode the *slots* reward string into bucketed contents; price tier = c2ForReward.
-curname={c['JSONKey']:c['Name'] for c in items['currencies'] if c.get('JSONKey')}
 # token -> (bucket, display name) for the non-unit/non-id slot tokens
 TOK={'C2':('Rubies','Rubies'),'C1':('Resources','Coins'),'F':('Resources','Food'),'W':('Resources','Wood'),
  'S':('Resources','Stone'),'C':('Resources','Coal'),'O':('Resources','Oil'),'G':('Resources','Glass'),
@@ -229,7 +235,7 @@ for r in items['paymentrewards']:
     sig=(c2, tuple(sorted((i['name'], i['qty']) for i in its)))
     if sig in seen: continue
     seen[sig]=1
-    SALES.append({'id':r['paymentrewardID'],'c2':c2,'bonus':int(r.get('shownOfferBonus',0) or 0),'items':its})
+    SALES.append({'id':int(r['paymentrewardID']),'c2':c2,'bonus':int(r.get('shownOfferBonus',0) or 0),'items':its})
 sale_buckets=sorted({i['b'] for s in SALES for i in s['items']})
 salesout={'generated':src,'buckets':sale_buckets,'auLadder':[[p['rubies'],p['aud']] for p in json.load(open(os.path.join(ROOT,'tools/spenders/data/au-prices.json')))['rubyPacks']],'sales':SALES}
 json.dump(salesout,open(os.path.join(HERE,'data','sales.json'),'w'),separators=(',',':'))
