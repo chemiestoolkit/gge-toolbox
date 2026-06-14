@@ -24,6 +24,34 @@
     .sp-note { font-size: .8rem; color: var(--text-faint, #8a8372); margin-top: 16px; line-height: 1.5; border-left: 3px solid var(--gold-dim); padding: 8px 14px; background: rgba(217,178,90,.05); border-radius: var(--radius-sm); }
     .sp-tool-link { display: inline-flex; align-items: center; gap: 8px; margin-top: 6px; padding: 9px 16px; border-radius: var(--radius-sm); background: var(--bg-elev-2, var(--bg-elev)); border: 1px solid var(--border); color: var(--text); font-size: .88rem; font-weight: 600; text-decoration: none; }
     .sp-tool-link:hover { border-color: var(--gold); box-shadow: 0 0 12px rgba(217,178,90,.18); }
+
+    /* sale value search */
+    .ss-pick { display: flex; flex-wrap: wrap; gap: 6px; margin: 4px 0 12px; }
+    .ss-chip { display: inline-flex; align-items: center; gap: 6px; padding: 7px 13px; border-radius: 99px;
+      background: var(--bg-elev); border: 1px solid var(--border); color: var(--text-dim); font-size: .84rem; cursor: pointer; transition: .12s; user-select: none; }
+    .ss-chip:hover { border-color: var(--gold-dim); color: var(--text); }
+    .ss-chip.on { background: rgba(217,178,90,.12); border-color: var(--gold); color: var(--gold-bright, var(--gold)); font-weight: 600; }
+    .ss-controls { display: flex; flex-wrap: wrap; gap: 14px; align-items: flex-end; margin-bottom: 12px; }
+    .ss-field { display: flex; flex-direction: column; gap: 4px; }
+    .ss-field label { font-size: .76rem; color: var(--text-dim); }
+    .ss-field input { padding: 8px 11px; font: inherit; background: var(--bg-elev); border: 1px solid var(--border); border-radius: var(--radius-sm); color: var(--text); }
+    .ss-field input:focus { outline: none; border-color: var(--gold); }
+    #ss-budget { width: 120px; } #ss-search { width: 220px; max-width: 100%; }
+    .ss-list { display: grid; grid-template-columns: repeat(auto-fill, minmax(310px, 1fr)); gap: 12px; }
+    .ss-card { background: var(--bg-elev); border: 1px solid var(--border); border-radius: var(--radius); padding: 12px 14px; }
+    .ss-card.top { border-color: var(--gold-dim); }
+    .ss-head { display: flex; align-items: baseline; gap: 8px; flex-wrap: wrap; }
+    .ss-aud { font-size: 1.15rem; font-weight: 700; color: var(--text); }
+    .ss-aud .est { font-size: .68rem; color: var(--text-faint, #8a8372); font-weight: 400; }
+    .ss-bonus { font-size: .7rem; padding: 1px 8px; border-radius: 99px; border: 1px solid rgba(217,178,90,.5); color: var(--gold); }
+    .ss-val { margin-left: auto; font-size: .82rem; color: var(--text-dim); white-space: nowrap; }
+    .ss-val b { color: var(--gold-bright, var(--gold)); }
+    .ss-target { font-weight: 600; color: var(--text); margin: 7px 0 5px; }
+    .ss-bar { height: 4px; border-radius: 3px; background: rgba(255,255,255,.06); overflow: hidden; margin-bottom: 8px; }
+    .ss-bar > i { display: block; height: 100%; background: linear-gradient(90deg, var(--gold-dim), var(--gold)); }
+    .ss-contents { font-size: .78rem; color: var(--text-dim); line-height: 1.55; }
+    .ss-more { padding: 7px 16px; font: inherit; font-size: .8rem; cursor: pointer; border-radius: var(--radius-sm); background: var(--bg-elev); color: var(--text-dim); border: 1px solid var(--border); margin-top: 12px; }
+    .ss-more:hover { color: var(--text); border-color: var(--gold-dim); }
   </style>
 </head>
 <body>
@@ -51,6 +79,25 @@
       <label class="sp-toggle"><input type="checkbox" id="prime"> +300% Prime Time offer active (×4 rubies on straight packs — beats the doubler)</label>
       <div style="overflow-x:auto"><table class="sp" id="packsTbl"></table></div>
       <div class="sp-note" id="packsNote"></div>
+    </section>
+
+    <section class="panel">
+      <h2 class="sp-h">🔎 Sale value search — money → anything</h2>
+      <p class="sp-sub">Compare every real-money sale by what you get <b>per dollar</b>. Pick what you're after,
+        set a budget if you like, and it ranks the offers. This is the full sale <em>catalogue</em> (Super Sale,
+        Benefit, Event, Prime bundles) — which ones are live in your shop right now is decided per player, so
+        treat it as “when I see this offer, here's its value”.</p>
+      <div class="ss-pick" id="ss-pick"></div>
+      <div class="ss-controls">
+        <div class="ss-field"><label for="ss-budget">Budget (A$, optional)</label><input type="number" id="ss-budget" min="0" placeholder="any" /></div>
+        <div class="ss-field"><label for="ss-search">Search contents</label><input type="text" id="ss-search" placeholder="e.g. Demon slayer, sceat, gem" /></div>
+      </div>
+      <div class="sp-count" id="ss-count"></div>
+      <div class="ss-list" id="ss-list"></div>
+      <button class="ss-more" id="ss-more" style="display:none">Show more</button>
+      <div class="sp-note"><b>Prices:</b> exact where the offer's tier matches a known AU pack ($8.99 / $17.99 / $34.99 …),
+        <em>estimated</em> (marked ≈) for the cheaper bundle tiers. <b>Value</b> is how much of your chosen reward you get per A$;
+        the <em>+%</em> badge is the game's own value rating. Bundles with huge bonuses are usually the lapsed-spender offers — real, but only if the game serves them to you.</div>
     </section>
 
     <section class="panel">
@@ -92,9 +139,12 @@
     "use strict";
     var $ = function (id) { return document.getElementById(id); };
     var fmt = function (n) { return Number(n).toLocaleString("en-AU"); };
-    var AU;
+    var AU, SALES;
 
-    fetch("./data/au-prices.json").then(function (r) { return r.json(); }).then(function (d) { AU = d; init(); });
+    Promise.all([
+      fetch("./data/au-prices.json").then(function (r) { return r.json(); }),
+      fetch("./data/sales.json").then(function (r) { return r.json(); })
+    ]).then(function (res) { AU = res[0]; SALES = res[1]; init(); });
 
     // The doubler (×2) and Prime Time (+300% = ×4) only hit straight ruby packs,
     // and they DON'T stack — you take whichever single boost is better.
@@ -178,10 +228,85 @@
     }
 
     function renderAll() { renderPacks(); renderValue(); }
+
+    /* ---- sale value search --------------------------------------------- */
+    var BUCKET_ICON = { "Rubies": "🔴", "Troops": "⚔️", "Tools": "🪜", "Equipment": "🛡️", "Gems": "💎",
+      "Currencies": "🪙", "Boosters": "⚡", "Resources": "🌾", "VIP": "👑", "XP": "✨", "Time skips": "⏱️", "Misc": "📦" };
+    var ssTarget = "Overall value", ssShown = 30;
+    var auLadder; // sorted [[rubies, aud], ...]
+
+    function audFor(c2) { // -> [aud, exact]
+      for (var i = 0; i < auLadder.length; i++) if (auLadder[i][0] === c2) return [auLadder[i][1], true];
+      var lo = auLadder[0], hi = auLadder[auLadder.length - 1];
+      if (c2 <= lo[0]) return [c2 * lo[1] / lo[0], false];
+      if (c2 >= hi[0]) return [c2 * hi[1] / hi[0], false];
+      for (var j = 0; j < auLadder.length - 1; j++) {
+        var a = auLadder[j], b = auLadder[j + 1];
+        if (c2 >= a[0] && c2 <= b[0]) return [a[1] + (c2 - a[0]) / (b[0] - a[0]) * (b[1] - a[1]), false];
+      }
+      return [c2 * hi[1] / hi[0], false];
+    }
+    function fillSalePicker() {
+      var pref = ["Overall value", "Rubies", "Troops", "Tools", "Equipment", "Gems", "Currencies", "Boosters", "Resources", "VIP"];
+      var rest = SALES.buckets.filter(function (b) { return pref.indexOf(b) < 0; });
+      var order = ["Overall value"].concat(pref.slice(1).filter(function (b) { return SALES.buckets.indexOf(b) >= 0; })).concat(rest);
+      $("ss-pick").innerHTML = order.map(function (b) {
+        var ic = b === "Overall value" ? "🏆" : (BUCKET_ICON[b] || "📦");
+        return "<span class='ss-chip" + (b === ssTarget ? " on" : "") + "' data-b=\"" + b + "\"><span>" + ic + "</span>" + b + "</span>";
+      }).join("");
+    }
+    function targetQty(s, b) { var q = 0; for (var i = 0; i < s.items.length; i++) if (s.items[i].b === b) q += s.items[i].qty; return q; }
+    function contentsText(s, max) {
+      var parts = s.items.map(function (i) { return fmt(i.qty) + "× " + i.name + (i.stat ? " (" + i.stat + ")" : ""); });
+      if (parts.length > max) return parts.slice(0, max).join(" · ") + " · +" + (parts.length - max) + " more";
+      return parts.join(" · ");
+    }
+    function renderSales() {
+      var b = ssTarget, overall = b === "Overall value";
+      var budget = parseFloat($("ss-budget").value) || 0;
+      var q = $("ss-search").value.trim().toLowerCase();
+      var rows = [];
+      SALES.sales.forEach(function (s) {
+        var pa = audFor(s.c2), aud = pa[0];
+        if (budget && aud > budget + 0.005) return;
+        if (q && !s.items.some(function (i) { return i.name.toLowerCase().indexOf(q) >= 0; })) return;
+        var tq = overall ? 0 : targetQty(s, b);
+        if (!overall && !tq) return;
+        rows.push({ s: s, aud: aud, est: !pa[1], tq: tq, score: overall ? s.bonus : tq / aud });
+      });
+      rows.sort(function (a, b2) { return b2.score - a.score; });
+      var best = rows.length ? rows[0].score : 1;
+      $("ss-count").textContent = rows.length + " sale" + (rows.length === 1 ? "" : "s") +
+        (overall ? " — ranked by the game's value badge" : " contain " + (BUCKET_ICON[b] || "") + " " + b.toLowerCase() + " — ranked by most per A$") +
+        (budget ? " under A$" + budget : "") + (q ? " matching “" + q + "”" : "");
+      $("ss-list").innerHTML = rows.slice(0, ssShown).map(function (r, i) {
+        var bar = Math.max(4, Math.round(r.score / best * 100));
+        var valTxt = overall ? "<b>+" + r.s.bonus + "%</b> value" : "<b>" + fmt(Math.round(r.score)) + "</b> per A$";
+        return "<div class='ss-card" + (i === 0 ? " top" : "") + "'><div class='ss-head'>" +
+          "<span class='ss-aud'>A$" + r.aud.toFixed(2) + (r.est ? " <span class='est'>≈</span>" : "") + "</span>" +
+          (r.s.bonus ? "<span class='ss-bonus'>+" + r.s.bonus + "%</span>" : "") +
+          "<span class='ss-val'>" + valTxt + "</span></div>" +
+          (overall ? "" : "<div class='ss-target'>" + (BUCKET_ICON[b] || "") + " " + fmt(r.tq) + " " + b.toLowerCase() + "</div>") +
+          "<div class='ss-bar'><i style='width:" + bar + "%'></i></div>" +
+          "<div class='ss-contents'>" + contentsText(r.s, 7) + "</div></div>";
+      }).join("");
+      $("ss-more").style.display = rows.length > ssShown ? "" : "none";
+    }
+
     function init() {
-      renderAll(); renderDaily();
+      auLadder = SALES.auLadder.slice().sort(function (a, b) { return a[0] - b[0]; });
+      renderAll(); renderDaily(); fillSalePicker(); renderSales();
       $("doubler").addEventListener("change", renderAll);
       $("prime").addEventListener("change", renderAll);
+      $("ss-pick").addEventListener("click", function (e) {
+        var c = e.target.closest(".ss-chip"); if (!c) return;
+        ssTarget = c.dataset.b; ssShown = 30;
+        [].forEach.call($("ss-pick").children, function (n) { n.classList.toggle("on", n.dataset.b === ssTarget); });
+        renderSales();
+      });
+      $("ss-budget").addEventListener("input", function () { ssShown = 30; renderSales(); });
+      $("ss-search").addEventListener("input", function () { ssShown = 30; renderSales(); });
+      $("ss-more").addEventListener("click", function () { ssShown += 40; renderSales(); });
     }
   })();
   </script>

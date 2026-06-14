@@ -202,11 +202,11 @@ window.TOOLS = [
     img: "assets/img/tool-art/lootbox.webp",
     cat: "misc",
     name: "Spenders Corner (AU1)",
-    desc: "Real money to rubies on AU1, ranked: every pack, Ruby Rush bundle and the 7-day daily chain in rubies per AUD — with the 2× doubler and +300% Prime Time factored in.",
+    desc: "Real money value on AU1: the pure ruby-pack board (rubies per AUD with the doubler & Prime Time) plus a sale-value search that ranks every money offer by how much of any reward — troops, currencies, gems, gear — you get per dollar.",
     icon: "💸",
     status: "live",
     url: "tools/spenders/",
-    tags: ["spending", "rubies", "value", "packs", "bundles", "daily", "prime", "doubler", "aud", "au1", "shop", "money"],
+    tags: ["spending", "rubies", "value", "packs", "sales", "offers", "bundles", "daily", "prime", "doubler", "aud", "au1", "money", "search"],
   },
   {
     slug: "item-value",

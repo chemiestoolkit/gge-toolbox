@@ -174,4 +174,64 @@ pkgout={'generated':src,'buckets':buckets,'packages':PKG}
 OUTDIR=os.path.join(ROOT,'tools/item-value/data')
 os.makedirs(OUTDIR,exist_ok=True)
 json.dump(pkgout,open(os.path.join(OUTDIR,'packages.json'),'w'),separators=(',',':'))
+
+# ---- sales.json : the real-money offer catalogue (Spenders sale search) -----
+# paymentrewards = every Super Sale / Benefit / Event / Prime money bundle.
+# Decode the *slots* reward string into bucketed contents; price tier = c2ForReward.
+curname={c['JSONKey']:c['Name'] for c in items['currencies'] if c.get('JSONKey')}
+# token -> (bucket, display name) for the non-unit/non-id slot tokens
+TOK={'C2':('Rubies','Rubies'),'C1':('Resources','Coins'),'F':('Resources','Food'),'W':('Resources','Wood'),
+ 'S':('Resources','Stone'),'C':('Resources','Coal'),'O':('Resources','Oil'),'G':('Resources','Glass'),
+ 'I':('Resources','Iron'),'A':('Resources','Aquamarine'),'HF':('Resources','Food'),'HM':('Resources','Mead'),
+ 'HB':('Resources','Beef'),'MEAD':('Resources','Mead'),'HONEY':('Resources','Honey'),'BEEF':('Resources','Beef'),
+ 'RB':('Resources','Material bag'),'RP':('Resources','Resource points'),
+ 'VT':('VIP','VIP time'),'VP':('VIP','VIP points'),'XP':('XP','XP'),
+ 'RE':('Equipment','Random hero'),'GE':('Equipment','Random equipment'),'UE':('Equipment','Unique equipment'),
+ 'EUE':('Equipment','Unique enchanted equipment'),'GID':('Gems','Gem'),'GLID':('Gems','Random gem'),
+ 'CIBP':('Construction items','CI blueprint'),'LB':('Loot boxes','Loot box'),'RI':('Misc','Relic'),
+ 'GT':('Misc','Gift package'),'EF':('Misc','Extinguish fire'),'AG':('Misc','Alliance gift'),
+ 'PD':('Boosters','Payment doubler'),'PLD':('Misc','Plague doctor'),'PTS':('Misc','Permanent tool slot'),
+ 'PUS':('Misc','Permanent unit slot'),'AIP':('Boosters','Alien protection'),'DPT':('Boosters','Dungeon protection'),
+ 'B':('Boosters','Booster'),'PG':('Boosters','Glory booster'),'XPB':('Boosters','XP booster'),
+ 'KTB':('Boosters','Khan tablet booster'),'KMB':('Boosters','Khan medal booster'),'RPB':('Boosters','Rage booster'),
+ 'REPB':('Boosters','Reputation booster'),'GPB':('Boosters','Gallantry booster'),'STB':('Boosters','Samurai booster'),
+ 'LTB':('Boosters','LTPE booster'),'ACB':('Boosters','Alliance coin booster'),'MS':('Time skips','Minute skips')}
+
+def decode_offer(s):
+    try: data=json.loads(s.replace('*','"'))
+    except Exception: return None
+    out=[]
+    for slot in data.get('slots',[]):
+        if not isinstance(slot,list) or len(slot)<1: continue
+        tok=slot[0]; val=slot[1] if len(slot)>1 else None
+        if tok in ('OL','OG','OM'): continue
+        if tok=='U' and isinstance(val,list):
+            nm,bk,role,stat=unit_info(val[0]); e={'b':bk,'name':nm,'qty':iv(val[1] if len(val)>1 else 1)}
+            if stat: e['stat']=stat
+        elif tok=='CI' and isinstance(val,list):
+            e={'b':'Construction items','name':cis.get(str(val[0]),'CI '+str(val[0])),'qty':iv(val[1] if len(val)>1 else 1)}
+        elif tok=='D':
+            wid=str(val[0] if isinstance(val,list) else val); e={'b':'Decorations','name':blds.get(wid,'building '+wid),'qty':iv(val[1] if isinstance(val,list) and len(val)>1 else 1)}
+        elif tok in TOK:
+            bk,nm=TOK[tok]; e={'b':bk,'name':nm,'qty':iv(val) if not isinstance(val,list) else 1}
+        elif tok in curname:
+            e={'b':'Currencies','name':curname[tok],'qty':iv(val) if not isinstance(val,list) else 1}
+        else:
+            continue
+        out.append(e)
+    return out
+
+seen={}; SALES=[]
+for r in items['paymentrewards']:
+    its=decode_offer(r.get('rewards','') or '')
+    if not its: continue
+    c2=int(r['c2ForReward'])
+    sig=(c2, tuple(sorted((i['name'], i['qty']) for i in its)))
+    if sig in seen: continue
+    seen[sig]=1
+    SALES.append({'id':r['paymentrewardID'],'c2':c2,'bonus':int(r.get('shownOfferBonus',0) or 0),'items':its})
+sale_buckets=sorted({i['b'] for s in SALES for i in s['items']})
+salesout={'generated':src,'buckets':sale_buckets,'auLadder':[[p['rubies'],p['aud']] for p in json.load(open(os.path.join(ROOT,'tools/spenders/data/au-prices.json')))['rubyPacks']],'sales':SALES}
+json.dump(salesout,open(os.path.join(HERE,'data','sales.json'),'w'),separators=(',',':'))
+print('sales.json:',len(SALES),'distinct money offers (from',len(items['paymentrewards']),'), buckets:',sale_buckets)
 print('packages.json:',len(PKG),'shoppable packages, buckets:',buckets)
