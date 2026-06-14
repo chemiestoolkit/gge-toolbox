@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Item Value Finder — Maxy's Empire Toolkit</title>
+  <meta name="description" content="Pick what you're after — troops, sceats, construction & upgrade tokens, gems, decorations, event currency — and see which in-game shop packages give the most per token, grouped by currency." />
+  <link rel="stylesheet" href="../../assets/css/theme.css?v=15" />
+  <link rel="icon" type="image/png" href="../../assets/img/favicon.png" />
+  <style>
+    h2.sp-h { font-size: 1.05rem; color: var(--gold); margin: 0 0 4px; font-family: var(--font-display); }
+    .sp-sub { font-size: .82rem; color: var(--text-dim); margin: 0 0 14px; line-height: 1.5; }
+    .sp-count { font-size: .78rem; color: var(--text-faint, #8a8372); margin-bottom: 10px; }
+    .sp-note { font-size: .8rem; color: var(--text-faint, #8a8372); margin-top: 16px; line-height: 1.5; border-left: 3px solid var(--gold-dim); padding: 8px 14px; background: rgba(217,178,90,.05); border-radius: var(--radius-sm); }
+    .sp-tool-link { display: inline-flex; align-items: center; gap: 8px; padding: 9px 16px; border-radius: var(--radius-sm); background: var(--bg-elev-2, var(--bg-elev)); border: 1px solid var(--border); color: var(--text); font-size: .88rem; font-weight: 600; text-decoration: none; }
+    .sp-tool-link:hover { border-color: var(--gold); box-shadow: 0 0 12px rgba(217,178,90,.18); }
+
+    /* iconed item-type chips + per-currency cards with value bars */
+    .iv-pick { display: flex; flex-wrap: wrap; gap: 6px; margin: 4px 0 14px; }
+    .iv-chip { display: inline-flex; align-items: center; gap: 6px; padding: 7px 13px; border-radius: 99px;
+      background: var(--bg-elev); border: 1px solid var(--border); color: var(--text-dim); font-size: .84rem;
+      cursor: pointer; transition: .12s; user-select: none; }
+    .iv-chip:hover { border-color: var(--gold-dim); color: var(--text); }
+    .iv-chip.on { background: rgba(217,178,90,.12); border-color: var(--gold); color: var(--gold-bright, var(--gold)); font-weight: 600; }
+    .iv-chip .ic { font-size: 1.05rem; }
+    .iv-curs { display: grid; grid-template-columns: repeat(auto-fill, minmax(330px, 1fr)); gap: 14px; }
+    .iv-cur { background: var(--bg-elev); border: 1px solid var(--border); border-radius: var(--radius); padding: 12px 14px; }
+    .iv-cur-head { display: flex; align-items: baseline; gap: 7px; margin-bottom: 9px; padding-bottom: 8px; border-bottom: 1px solid var(--border-soft); }
+    .iv-cur-head .nm { font-weight: 600; color: var(--gold); font-size: .95rem; }
+    .iv-cur-head .ic { font-size: 1.05rem; }
+    .iv-cur-head .ct { margin-left: auto; font-size: .72rem; color: var(--text-faint, #8a8372); }
+    .iv-deal { padding: 7px 0; border-bottom: 1px solid rgba(255,255,255,.04); }
+    .iv-deal:last-child { border-bottom: 0; }
+    .iv-deal .row1 { display: flex; align-items: baseline; gap: 8px; }
+    .iv-deal .qty { color: var(--text); font-weight: 600; font-variant-numeric: tabular-nums; white-space: nowrap; }
+    .iv-deal .nm { color: var(--text); }
+    .iv-deal .stat { font-size: .72rem; padding: 1px 7px; border-radius: 99px; background: rgba(217,178,90,.1);
+      color: var(--gold-dim); white-space: nowrap; }
+    .iv-deal .each { margin-left: auto; font-size: .78rem; color: var(--text-dim); white-space: nowrap; font-variant-numeric: tabular-nums; }
+    .iv-deal .each b { color: var(--gold-bright, var(--gold)); }
+    .iv-deal .shop { font-size: .72rem; color: var(--text-faint, #8a8372); margin: 2px 0 4px; }
+    .iv-bar { height: 4px; border-radius: 3px; background: rgba(255,255,255,.06); overflow: hidden; }
+    .iv-bar > i { display: block; height: 100%; background: linear-gradient(90deg, var(--gold-dim), var(--gold)); }
+    .iv-cur-more { font-size: .74rem; color: var(--text-faint, #8a8372); margin-top: 7px; }
+  </style>
+</head>
+<body>
+  <header class="topbar">
+    <div class="wrap">
+      <a class="brand" href="../../"><span class="crest">🛡️</span> Maxy's Empire <b>Toolkit</b></a>
+    </div>
+  </header>
+
+  <main class="wrap">
+    <div class="tool-head">
+      <a class="back" href="../../">← All tools</a>
+      <h1>🎁 Item Value Finder</h1>
+      <p>Chasing something specific? Pick it and see which in-game shop packages give the most of it
+         <b>per token spent</b> — across the event vendors (Nomad, Samurai, seasonal LTPE shops) and the
+         Hall of Legends shops (sceats, construction &amp; upgrade tokens). Grouped by the currency you pay in.</p>
+    </div>
+
+    <section class="panel">
+      <div class="iv-pick" id="itemPick"></div>
+      <div class="sp-count" id="ivCount"></div>
+      <div class="iv-curs" id="ivList"></div>
+      <div class="sp-note"><b>Reading it:</b> you can only compare <em>within</em> a currency (50 Khan Tablets ≠ 50 Sceats),
+        so each currency is ranked separately — lower “each” cost is better. This ranks by <em>quantity</em>; for troops,
+        tools and gems the individual power still varies (shown as a stat chip), so treat it as “most units per token”, not “strongest”.
+        <b>Imperial ducats</b> aren't sold in any package — they're earned through the Hall of Legends — so they're not listed.</div>
+    </section>
+
+    <section class="panel">
+      <h2 class="sp-h">💸 Spending real money instead?</h2>
+      <p class="sp-sub">For the best <b>rubies per dollar</b> on AU1 — packs, Ruby Rush and the daily chain — head to Spenders Corner.</p>
+      <a class="sp-tool-link" href="../spenders/">💸 Open Spenders Corner →</a>
+    </section>
+
+    <div class="sp-note">
+      <b>Where this comes from:</b> package contents, currencies and item names are decoded from Goodgame's public
+      client data (the same files the game downloads). Which shops are open depends on the current events; treat this
+      as the catalogue and its value, not a live stock list.
+    </div>
+  </main>
+
+  <footer class="footer">
+    <div class="wrap"><p>Package &amp; item data from Goodgame Studios' game data (June 2026). Unofficial fan tool.</p></div>
+  </footer>
+
+  <script>
+  (function () {
+    "use strict";
+    var $ = function (id) { return document.getElementById(id); };
+    var fmt = function (n) { return Number(n).toLocaleString("en-AU"); };
+    var PKG;
+
+    fetch("./data/packages.json").then(function (r) { return r.json(); }).then(function (d) { PKG = d; init(); });
+
+    var BUCKET_ICON = { "Troops": "⚔️", "Tools": "🪜", "Equipment": "🛡️", "Gems": "💎", "Decorations": "🏛️",
+      "Buildings": "🏰", "Construction items": "🧱", "Construction tokens": "🔨", "Upgrade tokens": "⬆️",
+      "Sceats": "📜", "Event / gacha currency": "🎟️", "Hero shards": "🦸", "Loot boxes": "🎁",
+      "Resources": "🌾", "Reward bags": "💰", "Time skips": "⏱️", "Travel tickets": "🐴", "VIP": "👑", "XP": "✨", "Misc": "📦" };
+    function curIcon(c) {
+      if (/Ruby/.test(c)) return "🔴"; if (/Khan/.test(c)) return "🏇"; if (/Samurai/.test(c)) return "🗡️";
+      if (/Sceat/.test(c)) return "📜"; if (/Rift/.test(c)) return "🌀"; if (/Relic/.test(c)) return "💀";
+      if (/Rune/.test(c)) return "ᚱ"; if (/Coin/.test(c)) return "🪙"; if (/Event Token/.test(c)) return "🎟️";
+      if (/Gold/.test(c)) return "🟡"; if (/Silver/.test(c)) return "⚪"; return "🪙";
+    }
+    var curBucket = "Troops", IV_TOP = 6, ivExpanded = {};
+
+    function fillItemPicker() {
+      var pref = ["Troops", "Tools", "Equipment", "Gems", "Decorations", "Construction items",
+                  "Construction tokens", "Upgrade tokens", "Sceats", "Event / gacha currency"];
+      var rest = PKG.buckets.filter(function (b) { return pref.indexOf(b) < 0; });
+      var order = pref.filter(function (b) { return PKG.buckets.indexOf(b) >= 0; }).concat(rest);
+      if (order.indexOf(curBucket) < 0) curBucket = order[0];
+      $("itemPick").innerHTML = order.map(function (b) {
+        return "<span class='iv-chip" + (b === curBucket ? " on" : "") + "' data-b=\"" + b + "\"><span class='ic'>" +
+          (BUCKET_ICON[b] || "📦") + "</span>" + b + "</span>";
+      }).join("");
+    }
+
+    function renderItemFinder() {
+      var b = curBucket, byCur = {};
+      PKG.packages.forEach(function (p) {
+        p.rw.forEach(function (w) {
+          if (w.b !== b || !w.qty || !p.cost) return;
+          (byCur[p.cur] = byCur[p.cur] || []).push({ qty: w.qty, name: w.name, stat: w.stat, shop: p.shop,
+            cost: p.cost, each: p.cost / w.qty });
+        });
+      });
+      var curs = Object.keys(byCur);
+      curs.forEach(function (c) { byCur[c].sort(function (a, b2) { return a.each - b2.each; }); });
+      curs.sort(function (a, b2) { return byCur[a][0].each - byCur[b2][0].each; });
+      var total = curs.reduce(function (n, c) { return n + byCur[c].length; }, 0);
+      $("ivCount").textContent = total + " packages give " + (BUCKET_ICON[b] || "") + " " + b.toLowerCase() +
+        ", across " + curs.length + " " + (curs.length === 1 ? "currency" : "currencies") + " — cheapest per unit first.";
+      $("ivList").innerHTML = curs.map(function (c) {
+        var list = byCur[c], bestEach = list[0].each;
+        var show = ivExpanded[c] ? list.length : Math.min(list.length, IV_TOP);
+        var fmtEach = function (e) { return e >= 100 ? fmt(Math.round(e)) : e >= 1 ? e.toFixed(1) : e.toFixed(2); };
+        var deals = list.slice(0, show).map(function (r) {
+          var w = Math.max(4, Math.round(bestEach / r.each * 100));
+          return "<div class='iv-deal'><div class='row1'><span class='qty'>" + fmt(r.qty) + "×</span><span class='nm'>" +
+            r.name + "</span>" + (r.stat ? "<span class='stat'>" + r.stat + "</span>" : "") +
+            "<span class='each'><b>" + fmtEach(r.each) + "</b> each</span></div>" +
+            (r.shop ? "<div class='shop'>" + r.shop + " · " + fmt(r.cost) + " " + c + "</div>" : "") +
+            "<div class='iv-bar'><i style='width:" + w + "%'></i></div></div>";
+        }).join("");
+        var more = list.length > IV_TOP ? "<div class='iv-cur-more iv-toggle' data-c=\"" + c + "\" style='cursor:pointer'>" +
+          (ivExpanded[c] ? "▴ show less" : "▾ +" + (list.length - IV_TOP) + " more in " + c) + "</div>" : "";
+        return "<div class='iv-cur'><div class='iv-cur-head'><span class='ic'>" + curIcon(c) + "</span><span class='nm'>" + c +
+          "</span><span class='ct'>" + list.length + " deal" + (list.length === 1 ? "" : "s") + "</span></div>" + deals + more + "</div>";
+      }).join("");
+    }
+
+    function init() {
+      fillItemPicker(); renderItemFinder();
+      $("itemPick").addEventListener("click", function (e) {
+        var chip = e.target.closest(".iv-chip"); if (!chip) return;
+        curBucket = chip.dataset.b; ivExpanded = {};
+        [].forEach.call($("itemPick").children, function (n) { n.classList.toggle("on", n.dataset.b === curBucket); });
+        renderItemFinder();
+      });
+      $("ivList").addEventListener("click", function (e) {
+        var t = e.target.closest(".iv-toggle"); if (!t) return;
+        ivExpanded[t.dataset.c] = !ivExpanded[t.dataset.c]; renderItemFinder();
+      });
+    }
+  })();
+  </script>
+</body>
+</html>

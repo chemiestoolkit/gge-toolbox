@@ -4,7 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Spenders Corner (AU1) — Maxy's Empire Toolkit</title>
-  <meta name="description" content="Best-value ruby buying on Australia 1: every pack and bundle ranked in rubies per AUD, the 7-day daily bundle chain, and the game's own offer-targeting rules — including the win-back ladder." />
+  <meta name="description" content="Best-value ruby buying on Australia 1: every real-money pack, bundle and the 7-day daily chain ranked in rubies per AUD, with the 2x doubler and +300% Prime Time factored in." />
   <link rel="stylesheet" href="../../assets/css/theme.css?v=15" />
   <link rel="icon" type="image/png" href="../../assets/img/favicon.png" />
   <style>
@@ -21,61 +21,9 @@
     .sp-good { color: var(--good); } .sp-bad { color: var(--bad); }
     .sp-toggle { display: inline-flex; align-items: center; gap: 8px; font-size: .84rem; color: var(--text-dim); cursor: pointer; user-select: none; margin-bottom: 10px; }
     .sp-toggle input { accent-color: var(--gold); width: 16px; height: 16px; }
-    .sp-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(230px, 1fr)); gap: 12px; margin: 4px 0 6px; }
-    .sp-stat { background: var(--bg-elev); border: 1px solid var(--border); border-radius: var(--radius); padding: 13px 15px; }
-    .sp-stat .l { font-size: .72rem; color: var(--text-faint, #8a8372); text-transform: uppercase; letter-spacing: .05em; margin-bottom: 4px; }
-    .sp-stat .v { font-size: 1.35rem; font-weight: 700; color: var(--text); line-height: 1.15; font-variant-numeric: tabular-nums; }
-    .sp-stat .sub { font-size: .74rem; color: var(--text-dim); margin-top: 3px; line-height: 1.4; }
-    .sp-ladder { display: grid; grid-template-columns: repeat(auto-fit, minmax(170px, 1fr)); gap: 10px; margin-top: 8px; }
-    .sp-rung { background: var(--bg-elev); border: 1px solid var(--border); border-radius: var(--radius); padding: 11px 13px; }
-    .sp-rung b { color: var(--gold); display: block; margin-bottom: 4px; font-size: .9rem; }
-    .sp-rung .x { font-size: 1.25rem; font-weight: 700; color: var(--text); }
-    .sp-rung .d { font-size: .74rem; color: var(--text-dim); margin-top: 3px; line-height: 1.45; }
-    .sp-field { display: inline-flex; flex-direction: column; gap: 4px; margin: 0 16px 12px 0; vertical-align: top; }
-    .sp-field label { font-size: .76rem; color: var(--text-dim); }
-    .sp-field input, .sp-field select { padding: 8px 11px; font: inherit; background: var(--bg-elev); border: 1px solid var(--border); border-radius: var(--radius-sm); color: var(--text); width: 170px; max-width: 100%; }
-    .sp-field input:focus, .sp-field select:focus { outline: none; border-color: var(--gold); }
-    .sp-search { width: 100%; max-width: 340px; padding: 9px 12px; font: inherit; background: var(--bg-elev); border: 1px solid var(--border); border-radius: var(--radius-sm); color: var(--text); margin: 0 10px 12px 0; }
-    .sp-search:focus { outline: none; border-color: var(--gold); }
-    .sp-offer { border: 1px solid var(--border-soft); border-radius: var(--radius); padding: 10px 13px; margin-bottom: 9px; background: var(--bg-elev); }
-    .sp-offer .head { display: flex; flex-wrap: wrap; gap: 8px; align-items: baseline; }
-    .sp-offer .pack { font-weight: 700; color: var(--text); }
-    .sp-offer .chip { font-size: .68rem; padding: 2px 9px; border-radius: 99px; border: 1px solid var(--border); color: var(--text-dim); letter-spacing: .03em; }
-    .sp-offer .chip.lapse { border-color: rgba(63,185,80,.5); color: var(--good); }
-    .sp-offer .chip.spend { border-color: rgba(217,178,90,.5); color: var(--gold); }
-    .sp-offer .rew { font-size: .8rem; color: var(--text-dim); margin-top: 6px; line-height: 1.55; }
     .sp-note { font-size: .8rem; color: var(--text-faint, #8a8372); margin-top: 16px; line-height: 1.5; border-left: 3px solid var(--gold-dim); padding: 8px 14px; background: rgba(217,178,90,.05); border-radius: var(--radius-sm); }
-    .sp-more { padding: 7px 16px; font: inherit; font-size: .8rem; cursor: pointer; border-radius: var(--radius-sm); background: var(--bg-elev); color: var(--text-dim); border: 1px solid var(--border); }
-    .sp-more:hover { color: var(--text); border-color: var(--gold-dim); }
-    .sp-count { font-size: .78rem; color: var(--text-faint, #8a8372); margin-bottom: 10px; }
-
-    /* item value finder — iconed cards + value bars */
-    .iv-pick { display: flex; flex-wrap: wrap; gap: 6px; margin: 4px 0 14px; }
-    .iv-chip { display: inline-flex; align-items: center; gap: 6px; padding: 7px 13px; border-radius: 99px;
-      background: var(--bg-elev); border: 1px solid var(--border); color: var(--text-dim); font-size: .84rem;
-      cursor: pointer; transition: .12s; user-select: none; }
-    .iv-chip:hover { border-color: var(--gold-dim); color: var(--text); }
-    .iv-chip.on { background: rgba(217,178,90,.12); border-color: var(--gold); color: var(--gold-bright, var(--gold)); font-weight: 600; }
-    .iv-chip .ic { font-size: 1.05rem; }
-    .iv-curs { display: grid; grid-template-columns: repeat(auto-fill, minmax(330px, 1fr)); gap: 14px; }
-    .iv-cur { background: var(--bg-elev); border: 1px solid var(--border); border-radius: var(--radius); padding: 12px 14px; }
-    .iv-cur-head { display: flex; align-items: baseline; gap: 7px; margin-bottom: 9px; padding-bottom: 8px; border-bottom: 1px solid var(--border-soft); }
-    .iv-cur-head .nm { font-weight: 600; color: var(--gold); font-size: .95rem; }
-    .iv-cur-head .ic { font-size: 1.05rem; }
-    .iv-cur-head .ct { margin-left: auto; font-size: .72rem; color: var(--text-faint, #8a8372); }
-    .iv-deal { padding: 7px 0; border-bottom: 1px solid rgba(255,255,255,.04); }
-    .iv-deal:last-child { border-bottom: 0; }
-    .iv-deal .row1 { display: flex; align-items: baseline; gap: 8px; }
-    .iv-deal .qty { color: var(--text); font-weight: 600; font-variant-numeric: tabular-nums; white-space: nowrap; }
-    .iv-deal .nm { color: var(--text); }
-    .iv-deal .stat { font-size: .72rem; padding: 1px 7px; border-radius: 99px; background: rgba(217,178,90,.1);
-      color: var(--gold-dim); white-space: nowrap; }
-    .iv-deal .each { margin-left: auto; font-size: .78rem; color: var(--text-dim); white-space: nowrap; font-variant-numeric: tabular-nums; }
-    .iv-deal .each b { color: var(--gold-bright, var(--gold)); }
-    .iv-deal .shop { font-size: .72rem; color: var(--text-faint, #8a8372); margin: 2px 0 4px; }
-    .iv-bar { height: 4px; border-radius: 3px; background: rgba(255,255,255,.06); overflow: hidden; }
-    .iv-bar > i { display: block; height: 100%; background: linear-gradient(90deg, var(--gold-dim), var(--gold)); }
-    .iv-cur-more { font-size: .74rem; color: var(--text-faint, #8a8372); margin-top: 7px; }
+    .sp-tool-link { display: inline-flex; align-items: center; gap: 8px; margin-top: 6px; padding: 9px 16px; border-radius: var(--radius-sm); background: var(--bg-elev-2, var(--bg-elev)); border: 1px solid var(--border); color: var(--text); font-size: .88rem; font-weight: 600; text-decoration: none; }
+    .sp-tool-link:hover { border-color: var(--gold); box-shadow: 0 0 12px rgba(217,178,90,.18); }
   </style>
 </head>
 <body>
@@ -89,9 +37,9 @@
     <div class="tool-head">
       <a class="back" href="../../">← All tools</a>
       <h1>💸 Spenders Corner <span style="font-size:.6em;color:var(--text-dim)">(Australia 1)</span></h1>
-      <p>If you're going to spend, spend well. Every ruby source on AU1 ranked in <b>rubies per dollar</b>,
-         the 7-day daily-bundle chain, and — straight from the game's own data — the targeting rules that
-         decide which offers <em>you</em> get shown, including the win-back ladder.</p>
+      <p>If you're going to spend, spend well. Every way to turn <b>real money into rubies</b> on AU1,
+         ranked by <b>rubies per dollar</b> — packs, Ruby Rush bundles and the 7-day daily chain — with the
+         2× Payment Doubler and the +300% Prime Time offer factored in.</p>
     </div>
 
     <section class="panel">
@@ -106,20 +54,6 @@
     </section>
 
     <section class="panel">
-      <h2 class="sp-h">🎁 Item value finder — most for your tokens</h2>
-      <p class="sp-sub">Chasing something specific? Pick it and see which in-game shop packages give the most of it
-        per token spent — across the event vendors (Nomad, Samurai, seasonal LTPE shops) and the Hall of Legends
-        shops (sceats, construction & upgrade tokens). Grouped by the currency you pay in, cheapest-per-unit first.</p>
-      <div class="iv-pick" id="itemPick"></div>
-      <div class="sp-count" id="ivCount"></div>
-      <div class="iv-curs" id="ivList"></div>
-      <div class="sp-note"><b>Reading it:</b> you can only compare <em>within</em> a currency (50 Khan Tablets ≠ 50 Sceats),
-        so each currency is ranked separately — lower “each” cost is better. This ranks by <em>quantity</em>; for troops,
-        tools and gems the individual power still varies, so treat it as “most units per token”, not “strongest”.
-        <b>Imperial ducats</b> aren't sold in any package — they're earned through the Hall of Legends — so they're not listed.</div>
-    </section>
-
-    <section class="panel">
       <h2 class="sp-h">📅 The daily-bundle chain (your daily rotation)</h2>
       <p class="sp-sub">The Daily Bundles tab runs a 7-step chain — each consecutive day the bonus climbs.
         Days 1–6 cost A$17.99, day 7 jumps to A$89.99 for the big payout. The chain is where the best
@@ -128,47 +62,21 @@
     </section>
 
     <section class="panel">
-      <h2 class="sp-h">⏳ The win-back ladder — when the game pays you to wait</h2>
-      <p class="sp-sub">From the game's own offer-targeting data: special one-time bundles unlock purely by
-        <b>how long it's been since your last purchase</b>. Same pack, fatter bundle the longer you lapse.</p>
-      <div class="sp-ladder" id="ladder"></div>
-      <div class="sp-note"><b>How to use this:</b> if you buy regularly, you'll never see the big tiers.
-        Planning a purchase anyway? Check your days-lapsed below first — being patient past day 61 or 121
-        multiplies the freebies several times over. Offers are also gated by level, lifetime spend, your
-        last-90-days spend, and even your <em>current ruby stock</em> (running low changes what you're shown).</div>
-    </section>
-
-    <section class="panel">
-      <h2 class="sp-h">🎯 Your offer profile</h2>
-      <p class="sp-sub">Filter the game's 3,218 offer definitions down to the ones that can target <em>you</em>.</p>
-      <div class="sp-field"><label for="pLevel">Your level (legend level + 70 if applicable)</label><input type="number" id="pLevel" value="70" min="1"></div>
-      <div class="sp-field"><label for="pLapsed">Days since your last purchase</label><input type="number" id="pLapsed" value="0" min="0"></div>
-      <div class="sp-field"><label for="pPay">Have you ever bought?</label><select id="pPay"><option value="1">Yes</option><option value="0">No</option></select></div>
-      <div class="sp-count" id="profileCount"></div>
-      <div id="profileList"></div>
-    </section>
-
-    <section class="panel">
-      <h2 class="sp-h">🔎 Offer explorer</h2>
-      <p class="sp-sub">Search everything the offer engine can serve — by what's inside it.</p>
-      <input class="sp-search" id="search" placeholder="Search rewards… (e.g. Demons, Gem, VIP, Glory booster)" />
-      <label class="sp-toggle"><input type="checkbox" id="onlyBonus"> Only offers with a bonus badge</label>
-      <div class="sp-count" id="exCount"></div>
-      <div id="exList"></div>
-      <button class="sp-more" id="exMore" style="display:none">Show more</button>
+      <h2 class="sp-h">🎁 Spending in-game currency instead?</h2>
+      <p class="sp-sub">Already sitting on Khan Tablets, Sceats, event tokens or gold? The Item Value Finder
+        ranks every in-game shop package by how much of a given item you get per token.</p>
+      <a class="sp-tool-link" href="../item-value/">🎁 Open the Item Value Finder →</a>
     </section>
 
     <div class="sp-note">
-      <b>Where this comes from:</b> offer definitions, targeting rules and reward contents are decoded from
-      Goodgame's public client data (the same files the game downloads); AUD prices and bundle contents were
-      captured from the AU1 shop. Which offers actually appear, and when, is decided server-side per player —
-      treat this as the menu and the rules, not a live feed. Subscriptions on AU1: Player #1 A$17.99/mo,
-      Player #2 A$34.99/mo, Alliance A$8.99/mo.
+      <b>Where this comes from:</b> AUD prices and bundle contents were captured from the AU1 shop (June 2026).
+      Which offers and doubler/Prime-Time promos appear, and when, is decided server-side per player — treat this as
+      the menu, not a live feed. Subscriptions on AU1: Player #1 A$17.99/mo, Player #2 A$34.99/mo, Alliance A$8.99/mo.
     </div>
   </main>
 
   <footer class="footer">
-    <div class="wrap"><p>Offer data from Goodgame Studios' game data (June 2026) · AUD prices from the AU1 shop. Unofficial fan tool — spend responsibly.</p></div>
+    <div class="wrap"><p>AUD prices from the AU1 shop (June 2026). Unofficial fan tool — spend responsibly.</p></div>
   </footer>
 
   <script>
@@ -176,15 +84,10 @@
     "use strict";
     var $ = function (id) { return document.getElementById(id); };
     var fmt = function (n) { return Number(n).toLocaleString("en-AU"); };
-    var AU, OFFERS, PKG;
+    var AU;
 
-    Promise.all([
-      fetch("./data/au-prices.json").then(function (r) { return r.json(); }),
-      fetch("./data/offers.json").then(function (r) { return r.json(); }),
-      fetch("./data/packages.json").then(function (r) { return r.json(); })
-    ]).then(function (res) { AU = res[0]; OFFERS = res[1]; PKG = res[2]; init(); });
+    fetch("./data/au-prices.json").then(function (r) { return r.json(); }).then(function (d) { AU = d; init(); });
 
-    /* ---- value board -------------------------------------------------- */
     // The doubler (×2) and Prime Time (+300% = ×4) only hit straight ruby packs,
     // and they DON'T stack — you take whichever single boost is better.
     function packMult(doubler, prime) {
@@ -234,65 +137,6 @@
         "2× doubler gives. Prime Time and the doubler don't stack, so if Prime Time is up, ignore the doubler and buy the largest pack you're comfortable with.";
     }
 
-    /* ---- item value finder --------------------------------------------- */
-    var BUCKET_ICON = { "Troops": "⚔️", "Tools": "🪜", "Equipment": "🛡️", "Gems": "💎", "Decorations": "🏛️",
-      "Buildings": "🏰", "Construction items": "🧱", "Construction tokens": "🔨", "Upgrade tokens": "⬆️",
-      "Sceats": "📜", "Event / gacha currency": "🎟️", "Hero shards": "🦸", "Loot boxes": "🎁",
-      "Resources": "🌾", "Reward bags": "💰", "Time skips": "⏱️", "Travel tickets": "🐴", "VIP": "👑", "XP": "✨", "Misc": "📦" };
-    function curIcon(c) {
-      if (/Ruby|Ruby/.test(c)) return "🔴"; if (/Khan/.test(c)) return "🏇"; if (/Samurai/.test(c)) return "🗡️";
-      if (/Sceat/.test(c)) return "📜"; if (/Rift/.test(c)) return "🌀"; if (/Relic/.test(c)) return "💀";
-      if (/Rune/.test(c)) return "ᚱ"; if (/Coin/.test(c)) return "🪙"; if (/Event Token/.test(c)) return "🎟️";
-      if (/Gold/.test(c)) return "🟡"; if (/Silver/.test(c)) return "⚪"; return "🪙";
-    }
-    var curBucket = "Troops", IV_TOP = 6, ivExpanded = {};
-
-    function fillItemPicker() {
-      var pref = ["Troops", "Tools", "Equipment", "Gems", "Decorations", "Construction items",
-                  "Construction tokens", "Upgrade tokens", "Sceats", "Event / gacha currency"];
-      var rest = PKG.buckets.filter(function (b) { return pref.indexOf(b) < 0; });
-      var order = pref.filter(function (b) { return PKG.buckets.indexOf(b) >= 0; }).concat(rest);
-      $("itemPick").innerHTML = order.map(function (b) {
-        return "<span class='iv-chip" + (b === curBucket ? " on" : "") + "' data-b=\"" + b + "\"><span class='ic'>" +
-          (BUCKET_ICON[b] || "📦") + "</span>" + b + "</span>";
-      }).join("");
-    }
-
-    function renderItemFinder() {
-      var b = curBucket, byCur = {};
-      PKG.packages.forEach(function (p) {
-        p.rw.forEach(function (w) {
-          if (w.b !== b || !w.qty || !p.cost) return;
-          (byCur[p.cur] = byCur[p.cur] || []).push({ qty: w.qty, name: w.name, stat: w.stat, shop: p.shop,
-            cost: p.cost, each: p.cost / w.qty });
-        });
-      });
-      var curs = Object.keys(byCur);
-      curs.forEach(function (c) { byCur[c].sort(function (a, b2) { return a.each - b2.each; }); });
-      curs.sort(function (a, b2) { return byCur[a][0].each - byCur[b2][0].each; });
-      var total = curs.reduce(function (n, c) { return n + byCur[c].length; }, 0);
-      $("ivCount").textContent = total + " packages give " + (BUCKET_ICON[b] || "") + " " + b.toLowerCase() +
-        ", across " + curs.length + " " + (curs.length === 1 ? "currency" : "currencies") + " — cheapest per unit first.";
-      $("ivList").innerHTML = curs.map(function (c) {
-        var list = byCur[c], bestEach = list[0].each;
-        var show = ivExpanded[c] ? list.length : Math.min(list.length, IV_TOP);
-        var fmtEach = function (e) { return e >= 100 ? fmt(Math.round(e)) : e >= 1 ? e.toFixed(1) : e.toFixed(2); };
-        var deals = list.slice(0, show).map(function (r) {
-          var w = Math.max(4, Math.round(bestEach / r.each * 100));
-          return "<div class='iv-deal'><div class='row1'><span class='qty'>" + fmt(r.qty) + "×</span><span class='nm'>" +
-            r.name + "</span>" + (r.stat ? "<span class='stat'>" + r.stat + "</span>" : "") +
-            "<span class='each'><b>" + fmtEach(r.each) + "</b> each</span></div>" +
-            (r.shop ? "<div class='shop'>" + r.shop + " · " + fmt(r.cost) + " " + c + "</div>" : "") +
-            "<div class='iv-bar'><i style='width:" + w + "%'></i></div></div>";
-        }).join("");
-        var more = list.length > IV_TOP ? "<div class='iv-cur-more iv-toggle' data-c=\"" + c + "\" style='cursor:pointer'>" +
-          (ivExpanded[c] ? "▴ show less" : "▾ +" + (list.length - IV_TOP) + " more in " + c) + "</div>" : "";
-        return "<div class='iv-cur'><div class='iv-cur-head'><span class='ic'>" + curIcon(c) + "</span><span class='nm'>" + c +
-          "</span><span class='ct'>" + list.length + " deal" + (list.length === 1 ? "" : "s") + "</span></div>" + deals + more + "</div>";
-      }).join("");
-    }
-
-    /* ---- daily chain --------------------------------------------------- */
     function renderDaily() {
       var html = "<thead><tr><th class='l'>Day</th><th>Bonus</th><th>Rubies</th><th>AUD</th><th>Rubies / A$</th></tr></thead><tbody>";
       AU.dailyBundles.days.forEach(function (d) {
@@ -303,103 +147,10 @@
       $("dailyTbl").innerHTML = html + "</tbody>";
     }
 
-    /* ---- win-back ladder ----------------------------------------------- */
-    function renderLadder() {
-      var tiers = [
-        { label: "22–30 days", mult: "baseline", desc: "First win-back window opens. Small one-time bundle on the big pack." },
-        { label: "31–60 days", mult: "≈1×", desc: "Bundle moves to the 10k pack: e.g. 200× units + 90k food on top." },
-        { label: "61–120 days", mult: "≈3×", desc: "Same pack, triple the freebies: e.g. 600× units + 270k food." },
-        { label: "121+ days", mult: "≈4×", desc: "Maximum tier: e.g. 800× units + 360k food — the game's best 'please come back'." }
-      ];
-      $("ladder").innerHTML = tiers.map(function (t) {
-        return "<div class='sp-rung'><b>" + t.label + "</b><span class='x'>" + t.mult + "</span><div class='d'>" + t.desc + "</div></div>";
-      }).join("");
-    }
-
-    /* ---- offers shared ------------------------------------------------- */
-    function rewardText(o, max) {
-      if (!o.rewards) return "";
-      var parts = o.rewards.slice(0, max).map(function (e) {
-        return (e.qty !== undefined ? fmt(e.qty) + "× " : "") + e.name;
-      });
-      if (o.rewards.length > max) parts.push("+" + (o.rewards.length - max) + " more");
-      return parts.join(" · ");
-    }
-    function chips(o) {
-      var c = [];
-      if (o.lapsedMin) c.push("<span class='chip lapse'>lapsed " + o.lapsedMin + (o.lapsedMax ? "–" + o.lapsedMax : "+") + "d</span>");
-      if (o.spentMin) c.push("<span class='chip spend'>lifetime spend " + fmt(o.spentMin) + (o.spentMax ? "–" + fmt(o.spentMax) : "+") + "</span>");
-      if (o.spent90Min) c.push("<span class='chip spend'>90-day spend " + fmt(o.spent90Min) + (o.spent90Max ? "–" + fmt(o.spent90Max) : "+") + "</span>");
-      if (o.lvlMin) c.push("<span class='chip'>lvl " + o.lvlMin + "–" + (o.lvlMax || "∞") + "</span>");
-      if (o.payuser === "1") c.push("<span class='chip'>buyers only</span>");
-      if (o.payuser === "0") c.push("<span class='chip'>non-buyers only</span>");
-      if (o.cap) c.push("<span class='chip'>max " + o.cap + "×</span>");
-      return c.join(" ");
-    }
-    function offerCard(o) {
-      return "<div class='sp-offer'><div class='head'><span class='pack'>" + fmt(o.c2) + "-ruby pack offer</span>" +
-        (o.bonus ? "<span class='chip spend'>+" + o.bonus + "%</span>" : "") + chips(o) +
-        "</div><div class='rew'>" + rewardText(o, 8) + "</div></div>";
-    }
-
-    /* ---- profile -------------------------------------------------------- */
-    function renderProfile() {
-      var lvl = +$("pLevel").value || 1, lapsed = +$("pLapsed").value || 0, pay = $("pPay").value;
-      var hits = OFFERS.offers.filter(function (o) {
-        if (o.lvlMin && lvl < +o.lvlMin) return false;
-        if (o.lvlMax && lvl > +o.lvlMax) return false;
-        if (o.payuser !== undefined && o.payuser !== pay) return false;
-        if (o.lapsedMin && lapsed < +o.lapsedMin) return false;
-        if (o.lapsedMax && lapsed > +o.lapsedMax) return false;
-        return true;
-      });
-      // surface the interesting ones: targeted (lapsed/level/payuser) first, then biggest bonus
-      hits.sort(function (a, b) {
-        var ta = (a.lapsedMin ? 2 : 0) + (a.lvlMin ? 1 : 0), tb = (b.lapsedMin ? 2 : 0) + (b.lvlMin ? 1 : 0);
-        return tb - ta || b.bonus - a.bonus;
-      });
-      var targeted = hits.filter(function (o) { return o.lapsedMin || o.lvlMin || o.payuser !== undefined; });
-      $("profileCount").textContent = hits.length + " of " + OFFERS.offers.length +
-        " offer definitions can target this profile" +
-        (targeted.length ? " — showing the " + Math.min(targeted.length, 12) + " specifically-targeted ones first." : ".");
-      $("profileList").innerHTML = (targeted.length ? targeted : hits).slice(0, 12).map(offerCard).join("");
-    }
-
-    /* ---- explorer -------------------------------------------------------- */
-    var exShown = 25;
-    function renderExplorer() {
-      var q = $("search").value.trim().toLowerCase(), onlyB = $("onlyBonus").checked;
-      var hits = OFFERS.offers.filter(function (o) {
-        if (onlyB && !o.bonus) return false;
-        if (!q) return true;
-        return (o.rewards || []).some(function (e) { return e.name && e.name.toLowerCase().indexOf(q) >= 0; });
-      });
-      hits.sort(function (a, b) { return b.bonus - a.bonus; });
-      $("exCount").textContent = hits.length + " matching offers" + (q ? " containing “" + q + "”" : "");
-      $("exList").innerHTML = hits.slice(0, exShown).map(offerCard).join("");
-      $("exMore").style.display = hits.length > exShown ? "" : "none";
-    }
-
     function init() {
-      fillItemPicker();
-      renderValue(); renderItemFinder(); renderDaily(); renderLadder(); renderProfile(); renderExplorer();
+      renderValue(); renderDaily();
       $("doubler").addEventListener("change", renderValue);
       $("prime").addEventListener("change", renderValue);
-      $("itemPick").addEventListener("click", function (e) {
-        var chip = e.target.closest(".iv-chip"); if (!chip) return;
-        curBucket = chip.dataset.b; ivExpanded = {};
-        [].forEach.call($("itemPick").children, function (n) { n.classList.toggle("on", n.dataset.b === curBucket); });
-        renderItemFinder();
-      });
-      $("ivList").addEventListener("click", function (e) {
-        var t = e.target.closest(".iv-toggle"); if (!t) return;
-        ivExpanded[t.dataset.c] = !ivExpanded[t.dataset.c]; renderItemFinder();
-      });
-      ["pLevel", "pLapsed"].forEach(function (id) { $(id).addEventListener("input", renderProfile); });
-      $("pPay").addEventListener("change", renderProfile);
-      $("search").addEventListener("input", function () { exShown = 25; renderExplorer(); });
-      $("onlyBonus").addEventListener("change", function () { exShown = 25; renderExplorer(); });
-      $("exMore").addEventListener("click", function () { exShown += 50; renderExplorer(); });
     }
   })();
   </script>
