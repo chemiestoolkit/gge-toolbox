@@ -118,7 +118,7 @@
     <section class="panel">
       <h2 class="sp-h">🔎 Sale value search — money → anything</h2>
       <p class="sp-sub">Pick exactly what you're chasing — <b>attack</b> vs <b>defence</b> troops, siege tools, time skips,
-        Sceat, construction / upgrade tokens, gacha tickets, offerings — and it ranks every real-money sale by how much
+        Sceat, construction / upgrade tokens, gacha &amp; wheel currencies, offerings — and it ranks every real-money sale by how much
         of <em>that</em> you get <b>per dollar</b>. This is the full sale <em>catalogue</em> (Super Sale, Benefit, Event,
         Prime bundles); which offers are live in your shop is decided per player, so read it as “when I see this offer,
         here's its value”. <b>Retired seasons are hidden by default</b> so you mostly see current-meta bundles.</p>
@@ -130,9 +130,9 @@
         <div class="ss-field"><label>Relevance</label><label class="ss-toggle"><input type="checkbox" id="ss-recent" checked> Hide retired seasons</label></div>
       </div>
       <details class="ss-weights" id="ss-weights">
-        <summary>⚖️ Value weights — tune what matters <span class="hint">(drives the 🏆 Overall ranking; troops &amp; tools are already weighted by combat power)</span></summary>
+        <summary>⚖️ Value weights — tune what matters <span class="hint">(drives the 🏆 Overall ranking. Starts on sensible default tiers — wheel tickets near-zero, event-gacha &amp; affluence high, gear/rubies above neutral — troops &amp; tools already weighted by combat power)</span></summary>
         <div class="ss-weights-body" id="ss-weights-body"></div>
-        <button class="ss-more" id="ss-wreset" style="margin-top:4px">Reset weights</button>
+        <button class="ss-more" id="ss-wreset" style="margin-top:4px">Reset to default tiers</button>
       </details>
       <div class="sp-count" id="ss-count"></div>
       <div class="ss-list" id="ss-list"></div>
@@ -141,7 +141,10 @@
         (qty × atk/def) — a pile of weak units no longer beats a smaller strong pack, and attack vs defence are split so an attack
         account isn't told a wall-of-defence bundle is great. <b>Time skips</b> are pooled into total hours; everything else scores by
         quantity. Banners, event-point items and token chests are pulled <em>out</em> of the troop count into their own
-        🚩/🗡️/👑 buckets so they don't inflate troop value. The <b>⚖️ weights</b> let you say what <em>you</em> care about (crank
+        🚩/🗡️/👑 buckets so they don't inflate troop value. <b>Gacha &amp; wheels are split out properly:</b> basic <em>Wheel tickets</em>
+        (low value), <em>Affluence tickets</em> (Wheel of Affluence — strong in bulk), <em>Lucky pennies</em> and a catch-all
+        <em>Event gacha currency</em> facet that auto-buckets rotating event currencies (Easter eggs, etc.) when they're live in the
+        captured data — each priced on its own so junk tickets no longer ride along with the good stuff. The <b>⚖️ weights</b> let you say what <em>you</em> care about (crank
         Resources for mead, zero-out defence) — that drives the <b>🏆 Overall</b> ranking; there's no in-game number for cross-category
         worth, so it's your call, not a guess. On the <b>🏆 Overall</b> tab each card shows <b>“% vs best deal”</b> — 100% is the
         strongest-value offer currently shown, everything else is rated against it (so the number always matches the ranking).
@@ -259,7 +262,16 @@
     var BUCKET_ICON = { "Rubies": "🔴", "Troops": "⚔️", "Tools": "🪜", "Equipment": "🛡️", "Gems": "💎",
       "Currencies": "🪙", "Boosters": "⚡", "Resources": "🌾", "VIP": "👑", "XP": "✨", "Time skips": "⏱️", "Misc": "📦" };
     var ssTarget = "overall", ssShown = 30, ssSort = "value";
-    var auLadder, weights = {}; // weights: per-facet multiplier for the Overall ranking (default 1)
+    var auLadder, weights = {}; // weights: per-facet multiplier for the Overall ranking
+    // Sensible default value tiers (tunable live). 1 = neutral. Wheel tickets are
+    // near-junk; event-gacha & affluence (WoA) are top; premium gear/currency above 1.
+    var DEFAULT_W = {
+      eventgacha: 2.5, affluence: 2,
+      tickets: 0.5, feathers: 0.5, pennies: 0.5,
+      rubies: 1.5, equip: 1.5, gems: 1.5,
+      coins: 0.5, xp: 0.5, misc: 0.5
+    };
+    function defW(k) { return DEFAULT_W[k] == null ? 1 : DEFAULT_W[k]; }
 
     function audFor(c2) { // -> [aud, exact]
       for (var i = 0; i < auLadder.length; i++) if (auLadder[i][0] === c2) return [auLadder[i][1], true];
@@ -301,11 +313,16 @@
         if (/upgrade token/.test(n))      return "upgrade";
         if (/sceat/.test(n))              return "sceat";
         if (/offering to/.test(n))        return "offerings";
-        return "gacha"; // tickets, affluence, lucky pennies, fast-travel feathers
+        if (/affluence/.test(n))          return "affluence"; // Wheel of Affluence (WoA)
+        if (/feather/.test(n))            return "feathers";  // fast-travel utility
+        if (/lucky penn/.test(n))         return "pennies";   // retired gacha currency
+        if (n === "tickets" || /wheel ticket|fortune ticket|lucky ticket/.test(n)) return "tickets"; // basic wheel — low value
+        return "eventgacha"; // rotating event gacha currency (e.g. Easter "hollowed eggs") — high value
       }
       if (b === "Troops") {
         if (/atk/.test(st))               return "atk";
         if (/def/.test(st))               return "deftroops";
+        if (/booster/.test(n))            return "boosters"; // reputation boosters are mis-bucketed as troops
         if (/samurai token/.test(n))      return "samurai";
         if (/royal token/.test(n))        return "royal";
         return "points"; // banners, LTPE, Berimond treasures, war horns, etc.
@@ -320,7 +337,11 @@
       equip:     { ic: "🎖️", label: "Hero equipment" },
       rubies:    { ic: "🔴", label: "Rubies" },
       gems:      { ic: "💎", label: "Gems" },
-      gacha:     { ic: "🎰", label: "Gacha tickets" },
+      eventgacha:{ ic: "🥚", label: "Event gacha currency" },
+      affluence: { ic: "🎡", label: "Affluence tickets" },
+      tickets:   { ic: "🎟️", label: "Wheel tickets" },
+      pennies:   { ic: "🍀", label: "Lucky pennies" },
+      feathers:  { ic: "🪶", label: "Fast-travel feathers" },
       sceat:     { ic: "📜", label: "Sceat" },
       samurai:   { ic: "🗡️", label: "Samurai tokens" },
       royal:     { ic: "👑", label: "Royal tokens" },
@@ -340,9 +361,10 @@
       { g: "Find the best…",            ks: ["overall"] },
       { g: "⚔️ Military & gear",        ks: ["atk", "deftroops", "tools", "equip", "gems"] },
       { g: "💠 Premium currency",       ks: ["rubies"] },
-      { g: "🎟️ Event & gacha tokens",  ks: ["gacha", "sceat", "samurai", "royal", "offerings"] },
+      { g: "🎰 Gacha & wheels",         ks: ["eventgacha", "affluence", "tickets", "pennies"] },
+      { g: "🎟️ Event tokens",          ks: ["sceat", "samurai", "royal", "offerings"] },
       { g: "🏗️ Build & speed",         ks: ["construct", "upgrade", "skips"] },
-      { g: "🌾 Economy",                ks: ["resources", "coins", "boosters", "vip"] },
+      { g: "🌾 Economy",                ks: ["resources", "coins", "boosters", "vip", "feathers"] },
       { g: "🎁 Other",                  ks: ["points", "xp", "misc"] }
     ];
     function itemRaw(it, k) { // one reward line's contribution to facet k
@@ -380,7 +402,7 @@
     function facetQty(s, k) { return s._f[k] ? s._f[k].qty : 0; }
     function overallScore(s) { // your weights × each facet's value, normalised so weights compare
       var sum = 0;
-      for (var k in s._f) { var w = weights[k] == null ? 1 : weights[k]; sum += w * (s._f[k].raw / (catNorm[k] || 1)); }
+      for (var k in s._f) { var w = weights[k] == null ? defW(k) : weights[k]; sum += w * (s._f[k].raw / (catNorm[k] || 1)); }
       return sum;
     }
     function itemEmoji(i) {
@@ -471,7 +493,7 @@
       FGROUPS.forEach(function (grp) {
         grp.ks.forEach(function (k) {
           if (k === "overall" || !FACET_HAS[k]) return;
-          var w = weights[k] == null ? 1 : weights[k], F = FACET[k];
+          var w = weights[k] == null ? defW(k) : weights[k], F = FACET[k];
           html += "<div class='ss-wrow'><label>" + F.ic + " " + F.label + "</label>" +
             "<input type='range' min='0' max='3' step='0.5' value='" + w + "' data-b=\"" + k + "\">" +
             "<span class='wv' data-wv=\"" + k + "\">" + w.toFixed(1) + "</span></div>";
