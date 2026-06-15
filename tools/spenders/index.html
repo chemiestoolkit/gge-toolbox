@@ -79,6 +79,12 @@
     .ss-target .muted { color: var(--text-faint, #8a8372); font-weight: 400; }
     .ss-toggle { display: inline-flex; align-items: center; gap: 7px; font-size: .8rem; color: var(--text-dim); cursor: pointer; user-select: none; }
     .ss-toggle input { accent-color: var(--gold); width: 15px; height: 15px; }
+    .ss-chip.dim { opacity: .4; }
+    .ss-chip.dim::after { content: " ·retired"; font-size: .62rem; color: var(--text-faint, #8a8372); }
+    .ss-empty { border: 1px dashed var(--border); border-radius: var(--radius); padding: 22px 18px; text-align: center;
+      color: var(--text-dim); font-size: .88rem; line-height: 1.6; }
+    .ss-empty b { color: var(--gold); }
+    .ss-sizes { color: var(--text-faint, #8a8372); font-style: italic; padding-left: 38px; }
   </style>
 </head>
 <body>
@@ -137,8 +143,13 @@
         quantity. Banners, event-point items and token chests are pulled <em>out</em> of the troop count into their own
         🚩/🗡️/👑 buckets so they don't inflate troop value. The <b>⚖️ weights</b> let you say what <em>you</em> care about (crank
         Resources for mead, zero-out defence) — that drives the <b>🏆 Overall</b> ranking; there's no in-game number for cross-category
-        worth, so it's your call, not a guess. <b>Relevance:</b> “Hide retired seasons” drops the legacy catalogue (pre-modern offer
-        engine) so you mostly see current bundles; <b>“Newest era”</b> sort orders by internal offer ID. <b>Prices:</b> exact where the
+        worth, so it's your call, not a guess. On the <b>🏆 Overall</b> tab each card shows <b>“% vs best deal”</b> — 100% is the
+        strongest-value offer currently shown, everything else is rated against it (so the number always matches the ranking).
+        <b>Same bundle, many sizes:</b> when an offer is sold at several sizes (40 / 80 / 150 troops of the identical pack) they're
+        collapsed into one <em>best-value</em> card with an “also sold in N other sizes” note, so the list isn't flooded with near-duplicates.
+        <b>Relevance:</b> “Hide retired seasons” drops the legacy catalogue (pre-modern offer
+        engine) so you mostly see current bundles — facets that only exist in retired seasons (e.g. hero equipment) are dimmed
+        and tell you to untick it; <b>“Newest era”</b> sort orders by internal offer ID. <b>Prices:</b> exact where the
         tier matches a known AU pack ($8.99 / $17.99 / $34.99 …), <em>estimated</em> (≈) for the cheaper tiers. The static data holds offer
         <em>definitions</em>, not your live daily rotation, so search by what you actually see in-game.</div>
     </section>
@@ -264,8 +275,8 @@
     function fillSalePicker() {
       $("ss-pick").innerHTML = FGROUPS.map(function (grp) {
         var chips = grp.ks.filter(function (k) { return k === "overall" || FACET_HAS[k]; }).map(function (k) {
-          var f = FACET[k];
-          return "<span class='ss-chip" + (k === ssTarget ? " on" : "") + "' data-b=\"" + k + "\"><span>" + f.ic + "</span>" + f.label + "</span>";
+          var f = FACET[k], dim = k !== "overall" && !FACET_LIVE[k];
+          return "<span class='ss-chip" + (k === ssTarget ? " on" : "") + (dim ? " dim" : "") + "' data-b=\"" + k + "\"><span>" + f.ic + "</span>" + f.label + "</span>";
         });
         if (!chips.length) return "";
         return "<div class='ss-grp'><span class='ss-grp-h'>" + grp.g + "</span><div class='ss-grp-chips'>" + chips.join("") + "</div></div>";
@@ -339,7 +350,15 @@
       if (FACET[k].mins) return it.qty * (SKIP_MIN[it.name] || 0);
       return it.qty;
     }
-    var catNorm = {}, FACET_HAS = {};
+    var catNorm = {}, FACET_HAS = {}, FACET_LIVE = {};
+    function computeLive() { // which facets have offers under the CURRENT "hide retired" filter
+      FACET_LIVE = {};
+      var hideOld = $("ss-recent").checked;
+      SALES.sales.forEach(function (s) {
+        if (hideOld && s.id < RECENT_ID) return;
+        for (var k in s._f) FACET_LIVE[k] = true;
+      });
+    }
     function prep() { // attach per-facet aggregates to each sale + compute 90th-pct norms
       var pools = {};
       SALES.sales.forEach(function (s) {
@@ -402,15 +421,32 @@
       });
       if (ssSort === "new") rows.sort(function (a, b2) { return b2.s.id - a.s.id || b2.score - a.score; });
       else rows.sort(function (a, b2) { return b2.score - a.score; });
+      // collapse the same bundle sold at several sizes into one best-value card
+      var seen = {}, deduped = [];
+      rows.forEach(function (r) {
+        var sig = r.s._sig || (r.s._sig = r.s.items.map(function (i) { return i.name; }).sort().join("|"));
+        if (seen[sig] != null) { deduped[seen[sig]].sizes++; return; }
+        seen[sig] = deduped.length; r.sizes = 0; deduped.push(r);
+      });
+      rows = deduped;
       var best = rows.reduce(function (m, r) { return Math.max(m, r.score); }, 1e-9);
       var how = ssSort === "new" ? "newest era first" : (overall ? "your value weights" : (F.pow ? "most combat power per A$" : F.mins ? "most skip-time per A$" : "most per A$"));
-      $("ss-count").textContent = rows.length + " sale" + (rows.length === 1 ? "" : "s") +
+      if (!rows.length) {
+        var hint = (!overall && !FACET_LIVE[k] && FACET_HAS[k])
+          ? F.ic + " <b>" + F.label + "</b> only shows up in <b>retired seasons</b>. Untick “Hide retired seasons” above to see those offers."
+          : "No offers match" + (budget ? " under <b>A$" + budget + "</b>" : "") + (q ? " matching “<b>" + q + "</b>”" : "") + ". Try widening the budget or clearing the search.";
+        $("ss-list").innerHTML = "<div class='ss-empty'>" + hint + "</div>";
+        $("ss-count").textContent = "0 offers" + (overall ? "" : " with " + F.ic + " " + F.label.toLowerCase());
+        $("ss-more").style.display = "none";
+        return;
+      }
+      $("ss-count").textContent = fmt(rows.length) + " offer" + (rows.length === 1 ? "" : "s") +
         (overall ? "" : " with " + F.ic + " " + F.label.toLowerCase()) +
         " — sorted by " + how + (budget ? " · under A$" + budget : "") + (q ? " · matching “" + q + "”" : "") +
         (hideOld && hidden ? " · " + fmt(hidden) + " retired hidden" : "");
       $("ss-list").innerHTML = rows.slice(0, ssShown).map(function (r, i) {
         var bar = Math.max(4, Math.round(r.score / best * 100));
-        var valTxt = overall ? "<b>+" + r.s.bonus + "%</b> game value"
+        var valTxt = overall ? "<b>" + Math.round(r.score / best * 100) + "%</b> vs best deal"
           : F.pow ? "<b>" + fmt(Math.round(r.score)) + "</b> power / A$"
           : F.mins ? "<b>" + (r.score / 60).toFixed(1) + "</b> skip-hrs / A$"
           : "<b>" + per(r.score) + "</b> / A$";
@@ -423,7 +459,9 @@
           (r.s.bonus ? "<span class='ss-bonus'>+" + r.s.bonus + "%</span>" : "") +
           "<span class='ss-val'>" + valTxt + "</span></div>" + targetLine +
           "<div class='ss-bar'><i style='width:" + bar + "%'></i></div>" +
-          "<div class='ss-contents'>" + contentsList(r.s, 7) + "</div></div>";
+          "<div class='ss-contents'>" + contentsList(r.s, 7) +
+          (r.sizes ? "<div class='ss-sizes'>also sold in " + r.sizes + " other size" + (r.sizes > 1 ? "s" : "") + " — this is the best value</div>" : "") +
+          "</div></div>";
       }).join("");
       $("ss-more").style.display = rows.length > ssShown ? "" : "none";
     }
@@ -444,9 +482,10 @@
     function init() {
       auLadder = SALES.auLadder.slice().sort(function (a, b) { return a[0] - b[0]; });
       prep();
+      computeLive();
       renderWeights();
       renderAll(); renderDaily(); fillSalePicker(); renderSales();
-      $("ss-recent").addEventListener("change", function () { ssShown = 30; renderSales(); });
+      $("ss-recent").addEventListener("change", function () { ssShown = 30; computeLive(); fillSalePicker(); renderSales(); });
       $("doubler").addEventListener("change", renderAll);
       $("prime").addEventListener("change", renderAll);
       $("ss-pick").addEventListener("click", function (e) {
@@ -469,10 +508,10 @@
         var b = inp.dataset.b, v = parseFloat(inp.value);
         weights[b] = v;
         var wv = $("ss-weights-body").querySelector('[data-wv="' + b + '"]'); if (wv) wv.textContent = v.toFixed(1);
-        if (ssTarget === "Overall value") renderSales();
+        if (ssTarget === "overall") renderSales();
       });
       $("ss-wreset").addEventListener("click", function (e) {
-        e.preventDefault(); weights = {}; renderWeights(); if (ssTarget === "Overall value") renderSales();
+        e.preventDefault(); weights = {}; renderWeights(); if (ssTarget === "overall") renderSales();
       });
     }
   })();
