@@ -20,11 +20,15 @@ mkdir -p "$cache"
 EMPIRE="https://empire-html5.goodgamestudios.com/default"
 LANGSRV="https://langserv.public.ggs-ep.com"
 
-# mtime helper (BSD/macOS `stat -f`, GNU/Linux `stat -c`)
-mtime() { stat -f %m "$1" 2>/dev/null || stat -c %Y "$1" 2>/dev/null || echo 0; }
+# mtime helper. GNU/Linux `stat -c` first (it's what CI runs on); macOS falls
+# through to the BSD `stat -f` form. Order matters: on Linux `stat -f` does NOT
+# fail — it means --file-system and prints non-numeric text, which would poison
+# the arithmetic in fresh() under `set -u`.
+mtime() { stat -c %Y "$1" 2>/dev/null || stat -f %m "$1" 2>/dev/null || echo 0; }
 # treat a file as fresh if downloaded < 30 min ago (avoids re-pulling 18 MB
-# once per tool when refresh-all.sh runs ten builds back-to-back)
-fresh() { [[ -f "$1" ]] && (( $(date +%s) - $(mtime "$1") < 1800 )); }
+# once per tool when refresh-all.sh runs ten builds back-to-back). Guard the
+# value to an integer so a stray non-numeric mtime can never abort the build.
+fresh() { [[ -f "$1" ]] || return 1; local m; m="$(mtime "$1")"; [[ "$m" =~ ^[0-9]+$ ]] || m=0; (( $(date +%s) - m < 1800 )); }
 
 ITEMS_VER=""; LANG_VER=""; DLL_REL=""
 
