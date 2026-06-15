@@ -1,5 +1,5 @@
 {
-  "generated": "2026-06-12T12:16:47Z",
+  "generated": "2026-06-15T13:33:21Z",
   "items": [
     {
       "name": "Anniversary Barrel Workshop",
@@ -1863,7 +1863,7 @@
           "v": 2,
           "tmpl": "+{0} additional wave(s) in the Rift Raid Event",
           "pct": false,
-          "label": "equipmentAREAdditionalWaves"
+          "label": "Additional waves in the Rift Raid Event"
         }
       ]
     },
