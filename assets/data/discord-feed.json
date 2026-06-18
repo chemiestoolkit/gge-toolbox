@@ -1,5 +1,5 @@
 {
-  "updated": "2026-06-17",
+  "updated": "2026-06-18",
   "note": "announcements auto-pulled from the GGE Community Hub (alertsempire category) by assets/data/fetch-ggs-news.py; primeTimes still manual.",
   "announcements": [
     {
@@ -7,12 +7,6 @@
       "title": "Steam Release & Rift Raid Leaderboard Update",
       "body": "Two big updates today: our Steam release date is confirmed, and the Rift Raid global leaderboard is coming in-game. Read on for all the details",
       "url": "https://communityhub.goodgamestudios.com/2026/06/16/steam-release-rift-raid-leaderboard-update/"
-    },
-    {
-      "date": "12 Jun 2026",
-      "title": "DE1 – Server Issues & Upcoming Compensation",
-      "body": "",
-      "url": "https://communityhub.goodgamestudios.com/2026/06/12/de1-server-issues-upcoming-compensation/"
     }
   ],
   "primeTimes": []
