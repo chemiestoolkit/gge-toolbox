@@ -1,5 +1,5 @@
 {
-  "generated": "2026-06-19T11:40:40Z",
+  "generated": "2026-06-20T10:12:38Z",
   "items": [
     {
       "name": "Anniversary Barrel Workshop",
@@ -2603,7 +2603,7 @@
           "v": 125000,
           "tmpl": "+{0} beef storage capacity",
           "pct": false,
-          "label": "beefCapacityBonus"
+          "label": "Bonus to beef storage capacity in castle"
         }
       ]
     },
@@ -2617,7 +2617,7 @@
           "v": 69,
           "tmpl": "+{0} beef storage capacity",
           "pct": false,
-          "label": "beefCapacityBonus"
+          "label": "Bonus to beef storage capacity in castle"
         }
       ]
     },
@@ -2631,7 +2631,7 @@
           "v": 375000,
           "tmpl": "+{0} beef storage capacity",
           "pct": false,
-          "label": "beefCapacityBonus"
+          "label": "Bonus to beef storage capacity in castle"
         }
       ]
     },
