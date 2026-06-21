@@ -1,0 +1,45 @@
+name: Anti Black Souls — joins/leaves watch
+
+# Polls gge-tracker for Black Souls' member movements and pings a Discord
+# webhook on any new join/leave. State (the last-posted timestamp) is kept in
+# the Actions cache, so this never commits to main and adds no history noise.
+on:
+  # Hourly. GitHub's free cron can drift a few minutes under load — fine here.
+  schedule:
+    - cron: "5 * * * *"
+  # Manual button in the Actions tab for testing.
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: alliance-watch
+  cancel-in-progress: false
+
+jobs:
+  watch:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      # Restore the last-seen watermark. A unique save key each run guarantees
+      # the cache is always written; restore-keys grabs the most recent prior one.
+      - name: Restore watch state
+        uses: actions/cache@v4
+        with:
+          path: tools/_srcdata/cache/alliance-watch-state.json
+          key: alliance-watch-state-${{ github.run_id }}
+          restore-keys: |
+            alliance-watch-state-
+
+      - name: Poll movements and notify Discord
+        env:
+          DISCORD_ALLIANCE_HOOK: ${{ secrets.DISCORD_ALLIANCE_HOOK }}
+        run: python3 tools/_srcdata/alliance-watch.py
