@@ -94,14 +94,18 @@ window.GGEi = (function () {
       '<path d="m15.477 12.89 1.515 8.526a.5.5 0 0 1-.81.47l-3.58-2.687a1 1 0 0 0-1.197 0l-3.586 2.686a.5.5 0 0 1-.81-.469l1.514-8.526" fill="none"/></svg>';
   }
 
-  // Colour-coded kingdom flag chip. idx 0..3, or pass a kingdom name.
+  // Colour-coded kingdom shield. idx 0..3, or pass a kingdom name.
   function kingdom(idx, size) {
     var k = typeof idx === "number" ? KING[idx]
       : KING.filter(function (x) { return x.n.toLowerCase() === String(idx).toLowerCase(); })[0];
     if (!k) return "";
     var s = px(size);
-    return '<span class="kflag" title="' + esc(k.n) + '" style="background:' + k.c +
-      ";width:" + Math.round(s * 0.7) + "px;height:" + Math.round(s * 0.7) + 'px"></span>';
+    return '<svg class="gsvg kshield" width="' + s + '" height="' + s + '" viewBox="0 0 24 24" aria-hidden="true">' +
+      "<title>" + esc(k.n) + "</title>" +
+      '<path d="M12 2.2l7.5 2.8v5.6c0 4.7-3.3 7.6-7.5 10.4-4.2-2.8-7.5-5.7-7.5-10.4V5z" fill="' + k.c + '" stroke="rgba(0,0,0,.4)" stroke-width="1"/>' +
+      '<path d="M12 2.2l7.5 2.8v5.6c0 4.7-3.3 7.6-7.5 10.4z" fill="rgba(0,0,0,.16)"/>' +
+      '<path d="M12 2.2l7.5 2.8v1l-7.5-2.6L4.5 6V5z" fill="rgba(255,255,255,.35)"/>' +
+      "</svg>";
   }
 
   return { ic: ic, has: has, lab: lab, medal: medal, kingdom: kingdom, KING: KING, BASE: BASE };
