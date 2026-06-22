@@ -113,3 +113,14 @@ table.vip-table { width: 100%; border-collapse: collapse; font-size: .84rem; }
 
 .vip-credit { margin-top: 18px; font-size: .72rem; color: var(--text-faint); }
 .vip-credit a { color: var(--text-faint); text-decoration: underline; }
+
+/* ---- game-asset icon kit (vip-icons.js) ---- */
+.gi, .gsvg { vertical-align: -0.18em; flex: none; }
+.gi { object-fit: contain; }
+.gsvg { display: inline-block; }
+.gi-lab { display: inline-flex; align-items: center; gap: 5px; white-space: nowrap; }
+.kflag { display: inline-block; border-radius: 3px; vertical-align: -0.04em; box-shadow: inset 0 0 0 1px rgba(0,0,0,.3); }
+
+/* stat-bar cells that lead with an icon */
+.ar-stat .l .gi, .ar-stat .l .gsvg, .vip-kv .k .gi, .vip-kv .k .gsvg { vertical-align: -0.15em; margin-right: 4px; opacity: .85; }
+td .gi, td .gsvg, th .gsvg { vertical-align: -0.16em; }
