@@ -106,6 +106,11 @@
   ],
   "news": [
     {
+      "date": "16 Jun 2026",
+      "title": "Steam Release & Rift Raid Leaderboard Update",
+      "url": "https://communityhub.goodgamestudios.com/2026/06/16/steam-release-rift-raid-leaderboard-update/"
+    },
+    {
       "date": "11 Jun 2026",
       "title": "The Summer of Conquest!",
       "url": "https://communityhub.goodgamestudios.com/2026/06/11/the-summer-of-conquest/"
@@ -139,11 +144,6 @@
       "date": "19 May 2026",
       "title": "The Mycelial Sovereign",
       "url": "https://communityhub.goodgamestudios.com/2026/05/19/the-mycelial-sovereign/"
-    },
-    {
-      "date": "19 May 2026",
-      "title": "The Mistress of Decay",
-      "url": "https://communityhub.goodgamestudios.com/2026/05/19/the-mistress-of-decay/"
     }
   ],
   "newsUrl": "https://communityhub.goodgamestudios.com/newshube4k/",
@@ -225,5 +225,5 @@
       }
     ]
   },
-  "newsUpdated": "2026-06-23"
+  "newsUpdated": "2026-06-24"
 }
