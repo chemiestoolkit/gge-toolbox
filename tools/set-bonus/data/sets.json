@@ -1,5 +1,5 @@
 {
-  "generated": "2026-06-25T10:18:50Z",
+  "generated": "2026-06-26T10:26:42Z",
   "sets": [
     {
       "setID": "1063",
@@ -6507,6 +6507,234 @@
         }
       ],
       "wearer": "General",
+      "maxPieces": 9
+    },
+    {
+      "setID": "1088",
+      "name": "Rift Armor of Yoshiro",
+      "tiers": [
+        {
+          "need": 2,
+          "effects": [
+            "-45% of zombie infection rate on wall area"
+          ]
+        },
+        {
+          "need": 3,
+          "effects": [
+            "-45% of zombie infection rate for melee units"
+          ]
+        },
+        {
+          "need": 4,
+          "effects": [
+            "-45% of zombie infection rate for ranged units"
+          ]
+        },
+        {
+          "need": 5,
+          "effects": [
+            "-45% of zombie infection rate on courtyard area"
+          ]
+        },
+        {
+          "need": 6,
+          "effects": [
+            "+300% gate reduction in the Rift Raid Event"
+          ]
+        },
+        {
+          "need": 7,
+          "effects": [
+            "-45% of zombie infection rate for ranged units"
+          ]
+        },
+        {
+          "need": 8,
+          "effects": [
+            "-45% of zombie infection rate on courtyard area"
+          ]
+        },
+        {
+          "need": 9,
+          "effects": [
+            "+300% gate reduction in the Rift Raid Event"
+          ]
+        }
+      ],
+      "pieces": [],
+      "wearer": "",
+      "maxPieces": 9
+    },
+    {
+      "setID": "1087",
+      "name": "Rift Regalia of the Eastern Raiders",
+      "tiers": [
+        {
+          "need": 2,
+          "effects": [
+            "-45% of zombie infection rate on wall area"
+          ]
+        },
+        {
+          "need": 3,
+          "effects": [
+            "-45% of zombie infection rate for melee units"
+          ]
+        },
+        {
+          "need": 4,
+          "effects": [
+            "-45% of zombie infection rate for ranged units"
+          ]
+        },
+        {
+          "need": 5,
+          "effects": [
+            "-45% of zombie infection rate on courtyard area"
+          ]
+        },
+        {
+          "need": 6,
+          "effects": [
+            "+300% gate reduction in the Rift Raid Event"
+          ]
+        },
+        {
+          "need": 7,
+          "effects": [
+            "-45% of zombie infection rate for ranged units"
+          ]
+        },
+        {
+          "need": 8,
+          "effects": [
+            "-45% of zombie infection rate on courtyard area"
+          ]
+        },
+        {
+          "need": 9,
+          "effects": [
+            "+300% gate reduction in the Rift Raid Event"
+          ]
+        }
+      ],
+      "pieces": [],
+      "wearer": "",
+      "maxPieces": 9
+    },
+    {
+      "setID": "1089",
+      "name": "Rift Relics of the House of Gerbrandt",
+      "tiers": [
+        {
+          "need": 2,
+          "effects": [
+            "-45% of zombie infection rate on wall area"
+          ]
+        },
+        {
+          "need": 3,
+          "effects": [
+            "-45% of zombie infection rate for melee units"
+          ]
+        },
+        {
+          "need": 4,
+          "effects": [
+            "-45% of zombie infection rate for ranged units"
+          ]
+        },
+        {
+          "need": 5,
+          "effects": [
+            "-45% of zombie infection rate on courtyard area"
+          ]
+        },
+        {
+          "need": 6,
+          "effects": [
+            "+300% gate reduction in the Rift Raid Event"
+          ]
+        },
+        {
+          "need": 7,
+          "effects": [
+            "-45% of zombie infection rate for ranged units"
+          ]
+        },
+        {
+          "need": 8,
+          "effects": [
+            "-45% of zombie infection rate on courtyard area"
+          ]
+        },
+        {
+          "need": 9,
+          "effects": [
+            "+300% gate reduction in the Rift Raid Event"
+          ]
+        }
+      ],
+      "pieces": [],
+      "wearer": "",
+      "maxPieces": 9
+    },
+    {
+      "setID": "1090",
+      "name": "Rift Treasures of the Bloodcrow Caesar",
+      "tiers": [
+        {
+          "need": 2,
+          "effects": [
+            "-45% of zombie infection rate on wall area"
+          ]
+        },
+        {
+          "need": 3,
+          "effects": [
+            "-45% of zombie infection rate for melee units"
+          ]
+        },
+        {
+          "need": 4,
+          "effects": [
+            "-45% of zombie infection rate for ranged units"
+          ]
+        },
+        {
+          "need": 5,
+          "effects": [
+            "-45% of zombie infection rate on courtyard area"
+          ]
+        },
+        {
+          "need": 6,
+          "effects": [
+            "+300% gate reduction in the Rift Raid Event"
+          ]
+        },
+        {
+          "need": 7,
+          "effects": [
+            "-45% of zombie infection rate for ranged units"
+          ]
+        },
+        {
+          "need": 8,
+          "effects": [
+            "-45% of zombie infection rate on courtyard area"
+          ]
+        },
+        {
+          "need": 9,
+          "effects": [
+            "+300% gate reduction in the Rift Raid Event"
+          ]
+        }
+      ],
+      "pieces": [],
+      "wearer": "",
       "maxPieces": 9
     },
     {
