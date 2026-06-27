@@ -106,19 +106,9 @@
   ],
   "news": [
     {
-      "date": "23 Jun 2026",
-      "title": "Bug: Castellan Set – Mead Unit Spawn Effect",
-      "url": "https://communityhub.goodgamestudios.com/2026/06/23/bug-castellan-set-mead-unit-spawn-effect/"
-    },
-    {
       "date": "16 Jun 2026",
       "title": "Steam Release & Rift Raid Leaderboard Update",
       "url": "https://communityhub.goodgamestudios.com/2026/06/16/steam-release-rift-raid-leaderboard-update/"
-    },
-    {
-      "date": "12 Jun 2026",
-      "title": "DE1 – Server Issues & Upcoming Compensation",
-      "url": "https://communityhub.goodgamestudios.com/2026/06/12/de1-server-issues-upcoming-compensation/"
     },
     {
       "date": "11 Jun 2026",
@@ -144,6 +134,16 @@
       "date": "21 May 2026",
       "title": "Spring Ends. The Conquest Begins.",
       "url": "https://communityhub.goodgamestudios.com/2026/05/21/elementor-12608/"
+    },
+    {
+      "date": "19 May 2026",
+      "title": "The Ashen Tyrant",
+      "url": "https://communityhub.goodgamestudios.com/2026/05/19/elementor-12525/"
+    },
+    {
+      "date": "19 May 2026",
+      "title": "The Mycelial Sovereign",
+      "url": "https://communityhub.goodgamestudios.com/2026/05/19/the-mycelial-sovereign/"
     }
   ],
   "newsUrl": "https://communityhub.goodgamestudios.com/newshube4k/",
@@ -225,5 +225,5 @@
       }
     ]
   },
-  "newsUpdated": "2026-06-26"
+  "newsUpdated": "2026-06-27"
 }
