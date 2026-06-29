@@ -1,0 +1,315 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Live Event Rankings — Maxy's Empire Toolkit</title>
+  <link rel="stylesheet" href="../../assets/css/theme.css?v=15" />
+  <link rel="stylesheet" href="../vip/vip.css" />
+  <style>
+    .er-row-you td { background: rgba(217, 178, 90,.08); }
+    .er-title { color: var(--text-faint); font-size: .72rem; margin-left: 4px; }
+    .er-banner { display: flex; align-items: center; gap: 14px; background: linear-gradient(90deg, rgba(217,178,90,.10), transparent); border: 1px solid var(--gold-dim); border-radius: var(--radius); padding: 12px 16px; margin: 4px 0 14px; }
+    .er-ev-art { width: 52px; height: 52px; border-radius: var(--radius-sm); object-fit: cover; flex: none; box-shadow: 0 2px 8px rgba(0,0,0,.3); }
+    .er-ev-fallback { width: 52px; height: 52px; display: inline-flex; align-items: center; justify-content: center; border-radius: var(--radius-sm); background: var(--bg-elev-2); color: var(--gold); flex: none; }
+    .er-ev-name { font-size: 1.08rem; font-weight: 700; color: var(--text); font-family: var(--font-display, inherit); }
+    .er-ev-sub { font-size: .8rem; color: var(--text-dim); margin-top: 2px; }
+    .er-ava { display: inline-flex; align-items: center; justify-content: center; width: 22px; height: 22px; border-radius: 50%; font-size: .62rem; font-weight: 700; color: #fff; margin-right: 7px; vertical-align: -0.35em; text-shadow: 0 1px 1px rgba(0,0,0,.35); flex: none; }
+  </style>
+  <link rel="icon" type="image/png" href="../../assets/img/favicon.png" />
+</head>
+<body>
+  <header class="topbar">
+    <div class="wrap">
+      <a class="brand" href="../../"><span class="crest">🛡️</span> Maxy's Empire <b>Toolkit</b></a>
+    </div>
+  </header>
+
+  <main class="wrap">
+    <div class="tool-head">
+      <a class="back" href="../../">← All tools</a>
+      <h1>🏆 Live Event Rankings</h1>
+      <p>The game's <b>own live leaderboards</b> for every event — might, honor,
+         invasions, contests — straight off the game servers. Search a rank number or
+         a name. Functionality mirrors danadum's empire-rankings.</p>
+    </div>
+
+    <section class="panel">
+
+      <div class="vip-toolbar" id="toolbar">
+        <select class="vip-server-pick" id="server"></select>
+        <select class="vip-server-pick" id="event"></select>
+        <select class="vip-server-pick" id="category"></select>
+        <button class="vip-btn ghost" id="mode-toggle">👤 Players</button>
+        <input class="vip-input" id="q" placeholder="Rank # or name…" style="min-width:150px" />
+        <button class="vip-btn" id="go">Search</button>
+      </div>
+
+      <div class="er-banner" id="evbanner" style="display:none"></div>
+      <div class="vip-status" id="status"></div>
+      <div style="overflow-x:auto"><table class="vip-table" id="tbl"></table></div>
+      <div class="vip-pager">
+        <button class="vip-btn ghost" id="prev">← Prev</button>
+        <span id="pageinfo"></span>
+        <button class="vip-btn ghost" id="next">Next →</button>
+      </div>
+
+      <p class="vip-credit">Live data over the game protocol via
+        <a href="https://github.com/danadum/empire-api" target="_blank" rel="noopener">danadum's empire-api</a> —
+        functionality mirrors <a href="https://danadum.github.io/empire-rankings/" target="_blank" rel="noopener">empire-rankings</a>.</p>
+    </section>
+  </main>
+
+  <script src="../vip/vip-icons.js"></script>
+  <script src="../vip/vip-viz.js"></script>
+  <script>
+    /* Gate (same as vip-shared, but this page manages its own API) */
+
+    const API = "https://empire-api.fly.dev";
+    const EVENTS_URL = "https://raw.githubusercontent.com/danadum/ggs-assets/main/gge/events.json";
+
+    /* GGE worlds: zone -> display name (from the GGS network configs). */
+    const SERVERS = {
+      "EmpireEx_22": "Australia (AU1)", "EmpireEx": "International 1", "EmpireEx_7": "International 2",
+      "EmpireEx_43": "International 3", "EmpireEx_46": "World 1", "EmpireEx_49": "World 2",
+      "EmpireEx_2": "Germany", "EmpireEx_3": "France", "EmpireEx_19": "Great Britain",
+      "EmpireEx_21": "USA", "EmpireEx_20": "Brazil", "EmpireEx_8": "Spain", "EmpireEx_38": "Spain 2",
+      "EmpireEx_9": "Italy", "EmpireEx_10": "Turkey", "EmpireEx_11": "Netherlands",
+      "EmpireEx_12": "Hungary", "EmpireEx_17": "Hungary 2", "EmpireEx_5": "Poland",
+      "EmpireEx_6": "Portuguese", "EmpireEx_4": "Czechia", "EmpireEx_18": "Slovakia",
+      "EmpireEx_13": "Scandinavia", "EmpireEx_14": "Russia", "EmpireEx_15": "Romania",
+      "EmpireEx_16": "Bulgaria", "EmpireEx_28": "Greece", "EmpireEx_29": "Lithuania",
+      "EmpireEx_24": "Japan", "EmpireEx_26": "India", "EmpireEx_27": "China",
+      "EmpireEx_25": "Hispanic", "EmpireEx_32": "Saudi Arabia", "EmpireEx_33": "UAE",
+      "EmpireEx_34": "Egypt", "EmpireEx_35": "Arab", "EmpireEx_36": "Asia", "EmpireEx_37": "HANT",
+    };
+
+    /* Event display names (resolved from the game lang files at build time). */
+    const TITLES = {
+      "allianceHonor": "Average honor", "allianceMight": "Alliance might", "cargo_points": "Cargo points",
+      "dialog_BeggingKnights_nobilityPoints": "Plunder points",
+      "dialog_longPointsEvent_seasonalPoints": "Season points",
+      "dialog_playerInfo_infoAchievements": "Achievement points",
+      "dialog_redAlienInvasion_message_header": "War of the Bloodcrows",
+      "dialog_tempServer_scoring_header_might": "Outer Realms might",
+      "dialog_title_gachadeco2x2": "Fatal Flora Trap", "dominionPoints": "Command points",
+      "eventBuilding_DonationEvent": "Imperial Patronage",
+      "event_title_113": "Beyond the Horizon", "event_title_127": "The Enchanted Snowglobe",
+      "event_title_128": "Summoning of the Hollow Moon", "event_title_130": "Sands of Fortune",
+      "event_title_131": "King's Banquet", "event_title_134": "Midnight Market",
+      "event_title_3": "Battle for Berimond", "event_title_60": "Nobility Contest",
+      "event_title_601": "Kingdom's League", "event_title_71": "War of the Realms",
+      "event_title_72": "Nomad Invasion", "event_title_80": "Samurai Invasion",
+      "event_title_85": "Berimond Invasion", "event_title_89": "Wheel of Unimaginable Affluence",
+      "event_title_97": "Attack of the Shapeshifters", "honorPoints": "Honor",
+      "legendLevel": "Legendary level", "playerMight": "Might points", "temp_server_name": "Outer Realms",
+    };
+
+    const $ = (id) => document.getElementById(id);
+    const esc = (s) => String(s == null ? "" : s).replace(/[&<>"]/g, (c) =>
+      ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]));
+    const num = (v) => (v == null ? "—" : Number(v).toLocaleString());
+
+    /* Event key -> the artwork already shipped in assets/img/event-icons/. */
+    const EV_ICON_BASE = "../../assets/img/event-icons/";
+    const EV_ICON = {
+      event_title_3: "berimond", event_title_85: "berimond",
+      event_title_71: "waroftherealms", event_title_72: "nomadinvasion",
+      event_title_80: "samuraiinvasion", event_title_113: "beyondthehorizon",
+      event_title_601: "kingdomleague", event_title_60: "grandtournament",
+      dialog_redAlienInvasion_message_header: "bloodcrow",
+      temp_server_name: "outerrealms", dialog_tempServer_scoring_header_might: "outerrealms",
+      eventBuilding_DonationEvent: "patronage", dialog_longPointsEvent_seasonalPoints: "ltpe",
+    };
+    /* What the score column actually measures -> an icon kit glyph/png. */
+    function metricIcon(key) {
+      if (/might/i.test(key)) return "might";
+      if (/honor/i.test(key)) return "honor";
+      if (/legend/i.test(key)) return "glory";
+      return "glory";
+    }
+    /* Deterministic colour-coded initials avatar (matches the war room). */
+    function ava(name) {
+      const s = String(name || "?"); let h = 0;
+      for (let i = 0; i < s.length; i++) h = (h * 31 + s.charCodeAt(i)) >>> 0;
+      const ini = (s.replace(/[^a-zA-Z0-9]/g, "").slice(0, 2) || "?").toUpperCase();
+      return '<span class="er-ava" style="background:hsl(' + (h % 360) + ',45%,42%)">' + ini + "</span>";
+    }
+    function renderBanner() {
+      const key = curEventKey, name = TITLES[key] || key, cat = catLabel(curCat());
+      const art = EV_ICON[key]
+        ? '<img class="er-ev-art" src="' + EV_ICON_BASE + EV_ICON[key] + '.webp" alt="" loading="lazy">'
+        : '<span class="er-ev-fallback">' + (window.GGEi.ic(metricIcon(key), 26) || "🏆") + "</span>";
+      const sub = (mode === "alliance" ? "Alliances" : "Players") + (cat && cat !== "All" ? " · " + esc(cat) : "");
+      $("evbanner").innerHTML = art + '<div><div class="er-ev-name">' + esc(name) +
+        '</div><div class="er-ev-sub">' + sub + "</div></div>";
+      $("evbanner").style.display = "";
+    }
+
+    let EVENTS = null;          // { player: {...}, alliance: {...}, player_to_alliance: [...] }
+    let mode = "player";        // player | alliance
+    let curEventKey = "playerMight";
+    let curCatIdx = 0;
+    let curSearch = 1;          // rank number or name
+    let pageSize = 10;
+    let firstRank = 1, lastRank = 1;
+
+    function curEvent() { return EVENTS[mode][curEventKey]; }
+    function curCat() { return (curEvent().categories || [])[curCatIdx] || {}; }
+    // Friendly names for the leaderboard sub-categories (the game ships raw keys).
+    const CAT_NAMES = {
+      dialog_ci_filter01_all: "All",
+      currentEvent: "Current event",
+      dialog_combinedReward_eventOver: "Final standings",
+      dialog_factionhighscore_blueList: "Blue faction",
+      dialog_factionhighscore_redList: "Red faction",
+      dialog_factionhighscore_blueList_legendary: "Blue faction · Lgd",
+      dialog_factionhighscore_redList_legendary: "Red faction · Lgd",
+    };
+    function catLabel(c) {
+      if (c.name === "level_placeholder") return "Level " + c.value;
+      if (c.name === "legendaryLevel_placeholder") return "Legendary " + c.value;
+      if (CAT_NAMES[c.name]) return CAT_NAMES[c.name];
+      return c.value ? c.name + " " + c.value : (TITLES[c.name] || c.name || "All");
+    }
+
+    function fillSelectors() {
+      $("event").innerHTML = Object.keys(EVENTS[mode]).map((k) =>
+        '<option value="' + esc(k) + '"' + (k === curEventKey ? " selected" : "") + ">" +
+        esc(TITLES[k] || k) + "</option>").join("");
+      const cats = curEvent().categories || [];
+      $("category").innerHTML = cats.map((c, i) =>
+        '<option value="' + i + '"' + (i === curCatIdx ? " selected" : "") + ">" + esc(catLabel(c)) + "</option>").join("");
+      $("category").style.display = cats.length > 1 ? "" : "none";
+    }
+
+    async function load() {
+      const status = $("status");
+      status.textContent = "Loading…"; status.className = "vip-status";
+      renderBanner();
+      const ev = curEvent();
+      const lt = ev.id;
+      const lid = curCat().id;
+      const server = $("server").value;
+      const isRank = /^-?[0-9]+$/.test(String(curSearch));
+      let url;
+      if (ev.global) {
+        url = isRank
+          ? API + "/" + server + '/llsp/%22LT%22:' + lt + (lid ? ',%22LID%22:' + lid : "") + ',%22R%22:' + curSearch
+          : API + "/" + server + '/slse/%22LT%22:' + lt + ',%22SV%22:%22' + encodeURIComponent(curSearch) + '%22';
+      } else {
+        url = API + "/" + server + "/hgh/%22LT%22:" + lt + (lid ? ',%22LID%22:' + lid : "") +
+          ',%22SV%22:%22' + encodeURIComponent(curSearch) + '%22';
+      }
+      try {
+        let json = null;
+        for (let attempt = 0; attempt < 2 && !json; attempt++) {
+          const r = await fetch(url);
+          const j = await r.json();
+          if (j.return_code === 0 || j.return_code === "0") json = j;
+          else if (attempt === 1) {
+            // The game returns an error when an event has no live list
+            // (i.e. it isn't currently running) — say that instead of "retry".
+            throw new Error("no result — the name isn't on this leaderboard, or this event isn't running right now");
+          }
+          else await new Promise((res) => setTimeout(res, 600));
+        }
+        const rows = json.content.L || [];
+        lastRank = json.content.LR || json.content.T || (rows.length ? rows[rows.length - 1][0] : 1);
+        if (!rows.length) {
+          $("tbl").innerHTML = "";
+          status.textContent = "No results — check the name/rank or try another category.";
+          return;
+        }
+        firstRank = rows[0][0];
+        pageSize = Math.max(rows.length, 1);
+        render(rows);
+        status.textContent = (TITLES[curEventKey] || curEventKey) + " — " +
+          catLabel(curCat()) + " · highest tracked rank ~" + num(lastRank);
+        $("pageinfo").textContent = "Ranks " + num(firstRank) + "–" + num(rows[rows.length - 1][0]);
+      } catch (e) {
+        status.textContent = "⚠ " + e.message;
+        status.className = "vip-status vip-error";
+      }
+    }
+
+    function render(rows) {
+      const isAlliance = mode === "alliance";
+      const scoreHead = (window.GGEi.ic(metricIcon(curEventKey), 13) || "") + " Score";
+      const maxScore = Math.max(1, ...rows.map((r) => Number(r[1]) || 0));
+      const scoreCell = (score) => '<td class="r"><span class="gv-barwrap">' +
+        window.GGEv.bar(Number(score) || 0, maxScore, { w: 46, bare: true, color: "var(--gold)" }) +
+        "<b>" + num(score) + "</b></span></td>";
+      $("tbl").innerHTML = "<thead><tr><th>#</th><th>" + (isAlliance ? "Alliance" : "Player") + "</th>" +
+        (isAlliance ? "" : "<th>Level</th><th>Alliance</th>") + "<th style='text-align:right'>" + scoreHead + "</th></tr></thead>";
+      const tb = document.createElement("tbody");
+      rows.forEach((row) => {
+        const [rank, score, info] = row;
+        const rankCell = window.GGEi.medal(rank, 17) || num(rank);
+        const tr = document.createElement("tr");
+        if (isAlliance) {
+          tr.innerHTML = '<td class="r">' + rankCell + '</td><td class="nm">' + window.GGEi.ic("alliance", 16) + " " + esc(info.N || info.AN || "?") +
+            "</td>" + scoreCell(score);
+        } else {
+          const lvl = info.LL ? info.L + "/" + info.LL : info.L;
+          tr.innerHTML = '<td class="r">' + rankCell + '</td><td class="nm">' + ava(info.N) + esc(info.N || "?") + "</td>" +
+            '<td class="r">' + esc(lvl ?? "—") + "</td><td>" + esc(info.AN || "—") + "</td>" +
+            scoreCell(score);
+        }
+        tb.appendChild(tr);
+      });
+      $("tbl").appendChild(tb);
+    }
+
+    /* ---- wiring ---- */
+    $("server").innerHTML = Object.entries(SERVERS).map(([z, n]) =>
+      '<option value="' + z + '">' + n + "</option>").join("");
+    $("server").value = localStorage.getItem("vip_er_server") || "EmpireEx_22";
+
+    $("server").addEventListener("change", () => {
+      localStorage.setItem("vip_er_server", $("server").value);
+      curSearch = 1; load();
+    });
+    function defaultCatIdx() {
+      // level-bracket events default to the TOP bracket (e.g. Level 70)
+      const cats = curEvent().categories || [];
+      return cats.length && cats[0].name === "level_placeholder" ? cats.length - 1 : 0;
+    }
+    $("event").addEventListener("change", () => {
+      curEventKey = $("event").value; curCatIdx = defaultCatIdx(); curSearch = 1; fillSelectors(); load();
+    });
+    $("category").addEventListener("change", () => {
+      curCatIdx = +$("category").value; curSearch = 1; load();
+    });
+    $("mode-toggle").addEventListener("click", () => {
+      mode = mode === "player" ? "alliance" : "player";
+      $("mode-toggle").textContent = mode === "player" ? "👤 Players" : "🛡️ Alliances";
+      // map between player/alliance variants of the same event when possible
+      const map = EVENTS.player_to_alliance || [];
+      const pair = map.find((e) => e[mode === "alliance" ? 0 : 1] === curEventKey);
+      curEventKey = pair ? pair[mode === "alliance" ? 1 : 0] : Object.keys(EVENTS[mode])[0];
+      curCatIdx = defaultCatIdx(); curSearch = 1; fillSelectors(); load();
+    });
+    $("go").addEventListener("click", () => {
+      const v = $("q").value.trim();
+      curSearch = v === "" ? 1 : (/^[0-9]+$/.test(v) ? +v : v);
+      load();
+    });
+    $("q").addEventListener("keydown", (e) => { if (e.key === "Enter") $("go").click(); });
+    $("prev").addEventListener("click", () => {
+      curSearch = Math.max(1, firstRank - pageSize); load();
+    });
+    $("next").addEventListener("click", () => {
+      curSearch = firstRank + pageSize; load();
+    });
+
+    fetch(EVENTS_URL)
+      .then((r) => r.json())
+      .then((d) => { EVENTS = d; curCatIdx = defaultCatIdx(); fillSelectors(); load(); })
+      .catch((e) => {
+        $("status").textContent = "Could not load the events list: " + e.message;
+        $("status").className = "vip-status vip-error";
+      });
+  </script>
+</body>
+</html>

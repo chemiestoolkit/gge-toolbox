@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Search &amp; Analyse — Maxy's Empire Toolkit</title>
+  <link rel="stylesheet" href="../../assets/css/theme.css?v=15" />
+  <link rel="stylesheet" href="../vip/vip.css" />
+  <style>
+    .s-ava { display: inline-flex; align-items: center; justify-content: center; width: 22px; height: 22px; border-radius: 50%; font-size: .62rem; font-weight: 700; color: #fff; margin-right: 8px; vertical-align: -0.35em; text-shadow: 0 1px 1px rgba(0,0,0,.35); flex: none; }
+    h3 .s-ava { width: 30px; height: 30px; font-size: .8rem; vertical-align: -0.5em; }
+    .s-move-add { color: var(--good); } .s-move-remove { color: var(--bad); } .s-move-relocate { color: var(--gold); }
+  </style>
+  <link rel="icon" type="image/png" href="../../assets/img/favicon.png" />
+</head>
+<body>
+  <header class="topbar">
+    <div class="wrap">
+      <a class="brand" href="../../"><span class="crest">🛡️</span> Maxy's Empire <b>Toolkit</b></a>
+    </div>
+  </header>
+
+  <main class="wrap">
+    <div class="tool-head">
+      <a class="back" href="../../">← All tools</a>
+      <h1><img src="../../assets/img/tool-art/stronghold.webp" alt="" style="height:1.5em;width:auto;vertical-align:-0.35em;border-radius:7px;margin-right:10px;box-shadow:0 2px 8px rgba(0,0,0,.3)">Search &amp; Analyse</h1>
+      <p>Four lookup tools: player profile &amp; history, alliance profile, castle
+         scout (defence levels per castle), and live server movements &amp; renames.</p>
+    </div>
+
+    <section class="panel">
+
+      <div class="vip-toolbar" id="toolbar">
+        <select class="vip-server-pick" id="mode">
+          <option value="player">Player profile</option>
+          <option value="alliance">Alliance profile</option>
+          <option value="castles">Castle scout</option>
+          <option value="movements">Movements</option>
+          <option value="renames">Renames</option>
+        </select>
+        <input class="vip-input" id="q" placeholder="Player name…" />
+        <button class="vip-btn" id="go">Search</button>
+      </div>
+
+      <div class="vip-status" id="status"></div>
+      <div id="out"></div>
+
+      <p class="vip-credit">Data: <a href="https://gge-tracker.com" target="_blank" rel="noopener">gge-tracker.com</a> public API.</p>
+    </section>
+  </main>
+
+  <script src="../vip/vip-icons.js"></script>
+  <script src="../vip/vip-viz.js"></script>
+  <script src="../vip/vip-shared.js"></script>
+  <script>
+    const { api, esc, num, ago, mountServerPicker } = window.VIP;
+    const ic = (n, s, t) => window.GGEi.ic(n, s, t);
+    const vz = window.GGEv;
+    const MAXLV = { keep: 8, wall: 10, gate: 10, tower: 10, moat: 8 };
+    const fcell = (v, part) => '<td class="r">' + vz.bar(Number(v) || 0, MAXLV[part], { w: 30, color: vz.fortColor(Number(v) || 0, MAXLV[part]), label: (v == null ? "?" : v) }) + "</td>";
+    function ava(name) {
+      const s = String(name || "?"); let h = 0;
+      for (let i = 0; i < s.length; i++) h = (h * 31 + s.charCodeAt(i)) >>> 0;
+      const ini = (s.replace(/[^a-zA-Z0-9]/g, "").slice(0, 2) || "?").toUpperCase();
+      return '<span class="s-ava" style="background:hsl(' + (h % 360) + ',45%,42%)">' + ini + "</span>";
+    }
+    mountServerPicker(document.getElementById("toolbar"));
+
+    const out = document.getElementById("out");
+    const status = document.getElementById("status");
+    const modeSel = document.getElementById("mode");
+    const q = document.getElementById("q");
+
+    const CASTLE_TYPES = { 1: "Main castle", 4: "Outpost", 22: "Capital", 23: "Metro", 26: "Kingdom castle", 3: "Royal tower" };
+
+    modeSel.addEventListener("change", () => {
+      const m = modeSel.value;
+      q.placeholder = m === "alliance" ? "Alliance name…" : m === "movements" || m === "renames" ? "Optional: filter name…" : "Player name…";
+      q.style.display = "";
+      if (m === "movements" || m === "renames") run();
+    });
+
+    function kv(pairs) {
+      return '<div class="vip-kv">' + pairs.map(([k, v]) =>
+        '<div class="cell"><div class="k">' + k + '</div><div class="v">' + v + "</div></div>").join("") + "</div>";
+    }
+    function table(headers, rowsHtml) {
+      return '<div style="overflow-x:auto"><table class="vip-table"><thead><tr>' +
+        headers.map((h) => "<th>" + h + "</th>").join("") + "</tr></thead><tbody>" +
+        rowsHtml + "</tbody></table></div>";
+    }
+
+    // Resolve alliance IDs → names (the history API only gives IDs). Cached.
+    const allyCache = {};
+    async function allyName(id) {
+      if (!id) return "No alliance";
+      if (allyCache[id] !== undefined) return allyCache[id];
+      try { const a = await api("alliances/id/" + encodeURIComponent(id)); allyCache[id] = a.alliance_name || ("Alliance #" + id); }
+      catch (e) { allyCache[id] = "Alliance #" + id; }
+      return allyCache[id];
+    }
+    async function renderHistory(hist, curName, curId) {
+      const el = document.getElementById("hist");
+      if (!el || !hist.length) return;
+      if (curId) allyCache[curId] = curName || ("Alliance #" + curId);
+      // newest first
+      const sorted = hist.slice().sort((a, b) => new Date(b.date) - new Date(a.date));
+      const rows = await Promise.all(sorted.map(async (h) => {
+        const from = await allyName(h.old_alliance_id);
+        const to = await allyName(h.new_alliance_id);
+        return '<tr><td>' + ago(h.date) + '</td><td>' + esc(from) +
+               '</td><td class="nm">' + esc(to) + "</td></tr>";
+      }));
+      el.innerHTML = "<h4>Alliance history</h4>" + table(["When", "From", "To"], rows.join(""));
+    }
+
+    async function run() {
+      const m = modeSel.value;
+      const name = q.value.trim();
+      out.innerHTML = "";
+      status.textContent = "Loading…"; status.className = "vip-status";
+      try {
+        if (m === "player") {
+          if (!name) { status.textContent = "Enter a player name."; return; }
+          const p = await api("players/" + encodeURIComponent(name));
+          out.innerHTML =
+            "<h3>" + ava(p.player_name) + esc(p.player_name) + (p.alliance_name ? ' <span style="color:var(--text-dim)">[' + esc(p.alliance_name) + "]</span>" : "") + "</h3>" +
+            kv([
+              ["Level", esc(p.level) + (p.legendary_level ? " / " + esc(p.legendary_level) : "")],
+              [ic("might", 12) + "Might", '<span class="gv-barwrap">' + vz.bar(Number(p.might_current) || 0, Math.max(Number(p.might_all_time) || 0, Number(p.might_current) || 0, 1), { w: 48, bare: true, color: (Number(p.might_current) < 0.9 * Number(p.might_all_time) ? "#e0563f" : "var(--gold)") }) + "<b>" + num(p.might_current) + "</b></span>"], [ic("might", 12) + "Might (best)", num(p.might_all_time)],
+              [ic("loot", 12) + "Loot", num(p.loot_current)], [ic("loot", 12) + "Loot (all time)", num(p.loot_all_time)],
+              [ic("glory", 12) + "Glory", num(p.current_fame)], [ic("glory", 12) + "Best glory", num(p.highest_fame)], [ic("honor", 12) + "Honour", num(p.honor)],
+              ["Updated", ago(p.updated_at)],
+            ]) + '<div id="hist"></div>';
+          status.textContent = "";
+          renderHistory(p.alliance_history || [], p.alliance_name, p.alliance_id);
+        } else if (m === "alliance") {
+          if (!name) { status.textContent = "Enter an alliance name."; return; }
+          const a = await api("alliances/name/" + encodeURIComponent(name));
+          out.innerHTML = "<h3>" + ic("alliance", 20) + " " + esc(a.alliance_name) + "</h3>" +
+            kv([
+              ["Members", num(a.player_count)],
+              [ic("might", 12) + "Might", num(a.might_current)], [ic("might", 12) + "Might (best)", num(a.might_all_time)],
+              [ic("loot", 12) + "Loot", num(a.loot_current)], [ic("loot", 12) + "Loot (all time)", num(a.loot_all_time)],
+              [ic("glory", 12) + "Glory", num(a.current_fame)], [ic("glory", 12) + "Best glory", num(a.highest_fame)],
+            ]);
+          status.textContent = "";
+        } else if (m === "castles") {
+          if (!name) { status.textContent = "Enter a player name."; return; }
+          const list = await api("castle/search/" + encodeURIComponent(name));
+          if (!Array.isArray(list) || !list.length) { status.textContent = "No castles tracked for this player."; return; }
+          out.innerHTML = table(
+            ["Castle", "Type", "Kingdom", "Position", "Keep", "Wall", "Gate", "Towers", "Moat"],
+            list.map((c) =>
+              '<tr><td class="nm">' + ic("castle", 13) + " " + esc(c.name) + "</td>" +
+              "<td>" + (CASTLE_TYPES[c.type] || "Type " + c.type) + "</td>" +
+              "<td>" + window.GGEi.kingdom(c.kingdomId, 13) + " " + (["Green","Ice","Sands","Fire"][c.kingdomId] || "?") + "</td>" +
+              '<td class="r">' + c.positionX + ":" + c.positionY + "</td>" +
+              fcell(c.keepLevel, "keep") + fcell(c.wallLevel, "wall") +
+              fcell(c.gateLevel, "gate") + fcell(c.towerLevel, "tower") +
+              fcell(c.moatLevel, "moat") + "</tr>").join(""));
+          status.textContent = list.length + " castles — defence levels straight from the last scan.";
+        } else if (m === "movements") {
+          const params = { page: 1 };
+          if (name) { params.search = name; params.searchType = "player"; }
+          const d = await api("server/movements", params);
+          out.innerHTML = table(
+            ["When", "Player", "Alliance", "Might", "Move", "From", "To"],
+            (d.movements || []).map((r) =>
+              "<tr><td>" + ago(r.created_at) + '</td><td class="nm">' + ava(r.player_name) + esc(r.player_name) + "</td>" +
+              "<td>" + esc(r.alliance_name ?? "—") + '</td><td class="r">' + num(r.player_might) + "</td>" +
+              '<td class="s-move-' + esc(r.movement_type) + '">' + esc(r.movement_type) + " · " + (CASTLE_TYPES[r.castle_type] || "type " + esc(r.castle_type)) + "</td>" +
+              '<td class="r">' + (r.position_x_old != null ? r.position_x_old + ":" + r.position_y_old : "—") + "</td>" +
+              '<td class="r">' + (r.position_x_new != null ? r.position_x_new + ":" + r.position_y_new : "—") + "</td></tr>").join(""));
+          status.textContent = "Latest castle movements (placements, relocations, removals).";
+        } else if (m === "renames") {
+          const d = await api("server/renames", { page: 1 });
+          let rows = d.renames || [];
+          if (name) rows = rows.filter((r) =>
+            (r.old_player_name + r.new_player_name).toLowerCase().includes(name.toLowerCase()));
+          out.innerHTML = table(
+            ["When", "Old name", "New name", "Alliance", "Might"],
+            rows.map((r) =>
+              "<tr><td>" + ago(r.date) + "</td><td>" + esc(r.old_player_name) + '</td><td class="nm">' +
+              ava(r.new_player_name) + esc(r.new_player_name) + "</td><td>" + esc(r.alliance_name ?? "—") + '</td><td class="r">' +
+              num(r.player_might) + "</td></tr>").join(""));
+          status.textContent = "Recent player renames — catch name-changers.";
+        }
+      } catch (e) {
+        status.textContent = "Error: " + e.message; status.className = "vip-status vip-error";
+      }
+    }
+
+    document.getElementById("go").addEventListener("click", run);
+    q.addEventListener("keydown", (e) => { if (e.key === "Enter") run(); });
+  </script>
+</body>
+</html>
