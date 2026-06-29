@@ -108,8 +108,12 @@ def post_discord(embeds):
     for i in range(0, len(embeds), 10):
         payload = {"username": "Anti Black Souls", "embeds": embeds[i:i + 10]}
         data = json.dumps(payload).encode("utf-8")
+        # Discord sits behind Cloudflare, which 403s the default Python-urllib
+        # User-Agent (error 1010) — set an explicit UA or the POST is blocked.
         req = urllib.request.Request(HOOK, data=data,
-            headers={"Content-Type": "application/json"}, method="POST")
+            headers={"Content-Type": "application/json",
+                     "User-Agent": "gge-toolbox-alliance-watch/1.0 (+https://github.com/chemiestoolkit/gge-toolbox)"},
+            method="POST")
         try:
             with urllib.request.urlopen(req, timeout=30) as r:
                 r.read()
