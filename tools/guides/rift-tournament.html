@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Rift Tournament — Maxy's Empire Toolkit</title>
+  <meta name="description" content="The reworked Rift Raid's alliance meta-layer: the six divisions (Copper to Diamond), the Quest Board, Rift Tournament Levels, and the level + ranking rewards." />
+  <link rel="stylesheet" href="../../assets/css/theme.css" />
+  <link rel="stylesheet" href="./guide.css" />
+  <link rel="icon" type="image/png" href="../../assets/img/favicon.png" />
+</head>
+<body>
+  <header class="topbar">
+    <div class="wrap">
+      <a class="brand" href="../../"><span class="crest">🛡️</span> Maxy's Empire <b>Toolkit</b></a>
+    </div>
+  </header>
+
+  <main class="wrap">
+    <div class="tool-head guide">
+      <a class="back" href="../../">← All tools</a>
+      <h1>🏆 Rift Tournament</h1>
+      <div class="guide-meta">
+        <span class="guide-tag">Event</span>
+        <span class="guide-tag">Rift Raid</span>
+        <span class="guide-tag">Alliance</span>
+        <span class="guide-tag">Divisions</span>
+        <span class="guide-read">~5 min read</span>
+      </div>
+    </div>
+
+    <div class="guide">
+      <article>
+
+        <div class="tip warn">
+          <b>⚠️ Work in progress — not yet complete or verified.</b> The Rift Tournament went live very
+          recently (game version 776.06). The <em>mechanics</em> below are pulled straight from the game's
+          own data files, so they're accurate — but the <em>exact reward amounts</em> (how much of each item
+          you get per division, level and placement) are decided server-side and aren't in the client, so
+          those are marked "see in-game" until they're confirmed from live reward screens. Treat numbers as
+          structure, not gospel.
+        </div>
+
+        <p class="guide-lead">The <b>Rift Tournament</b> is the new alliance meta-layer wrapped around the
+          <a href="./rift-raid.html">Rift Raid</a>. While you fight the boss as usual, your alliance now also
+          climbs a ladder of <b>six divisions</b>, completes <b>quests</b> for points, and earns two whole new
+          reward tracks on top of the normal boss loot. Think of it as a season: do well, rank up, win better
+          prizes next time.</p>
+
+        <div class="tip">
+          <b>It sits on top of the boss fight — it doesn't replace it.</b> You still breach walls and clear the
+          courtyard for Boss Defeat Rewards. The Tournament just adds quests, a division leaderboard, and the
+          new Rift currencies. If the rift itself is new to you, read <a href="./rift-raid.html">Rift Raid
+          Basics</a> first.
+        </div>
+
+        <h2>The six divisions</h2>
+        <p>Every alliance sits in one of six divisions. The higher your division, the more <b>Rift Tournament
+          Levels</b> you can reach — and the better the rewards get. At the end of each event your alliance is
+          ranked against the others in your sub-group and moves up or down for next time.</p>
+
+        <p><b>Copper → Glass → Bronze → Silver → Gold → Diamond</b> (Diamond is the top). In the standard
+          "Ranking" mode, promotions and demotions work by your placement in your sub-division:</p>
+
+        <table class="guide-table">
+          <thead><tr><th>Division</th><th>Move up</th><th>Move down</th></tr></thead>
+          <tbody>
+            <tr><td>💎 Diamond</td><td>— (top tier)</td><td>bottom 2 → Gold</td></tr>
+            <tr><td>🥇 Gold</td><td>top 1 → Diamond</td><td>bottom 3 → Silver</td></tr>
+            <tr><td>🥈 Silver</td><td>top 2 → Gold</td><td>bottom 5 → Bronze</td></tr>
+            <tr><td>🥉 Bronze</td><td>top 3 → Silver</td><td>bottom 8 → Glass</td></tr>
+            <tr><td>🔷 Glass</td><td>top 5 → Bronze</td><td>bottom 16 → Copper</td></tr>
+            <tr><td>🟫 Copper</td><td>top 8 → Glass</td><td>— (bottom tier)</td></tr>
+          </tbody>
+        </table>
+        <p class="guide-note">First time your alliance joins, you start in <b>Copper</b>. A one-off "seeding"
+          event slots everyone into a starting division before normal ranking begins.</p>
+
+        <h2>How you score: the Quest Board</h2>
+        <p>Points come from <b>quests</b>, not from the boss directly. The Quest Board offers up to <b>25
+          quests</b> at once, tied to the boss level your alliance is on. Every quest you claim adds <b>Rift
+          Tournament Points</b> to the alliance total — and crossing point thresholds raises your <b>Rift
+          Tournament Level</b>.</p>
+
+        <table class="guide-table">
+          <thead><tr><th>Rule</th><th>Detail</th></tr></thead>
+          <tbody>
+            <tr><td>Quests at once</td><td>up to 25 on the board</td></tr>
+            <tr><td>Accept</td><td>one at a time; each accept costs <b>1 Rift Quest Ticket</b></td></tr>
+            <tr><td>Tickets</td><td>start with up to <b>10</b>; buy <b>1 extra</b> for rubies (doesn't carry over)</td></tr>
+            <tr><td>Time limit</td><td>each quest runs <b>6 hours</b>; fail it and the ticket is gone</td></tr>
+            <tr><td>Reroll</td><td>any un-accepted quest can be rerolled; reroll/claim/fail puts the slot on cooldown (skip with rubies)</td></tr>
+          </tbody>
+        </table>
+
+        <p>There are <b>12 quest types</b> — a mix of building troops, using tools, killing the boss's units,
+          and earning Rift Points:</p>
+        <ul>
+          <li><b>Courtyard Raider / Wall Breacher</b> — earn Rift Points on the courtyard / walls of a boss.</li>
+          <li><b>Courtyard / Wall Hunter</b> &amp; <b>Eliminator</b> — kill a number of specific (or any) units there.</li>
+          <li><b>Melee / Ranged Supremacy</b> &amp; <b>Bastion</b> — obtain units above an attack / defence threshold.</li>
+          <li><b>Tool Deployment</b> — consume support tools attacking a boss.</li>
+          <li><b>Treasure Hunter</b> — open loot boxes.</li>
+          <li><b>Rift Shopper / Collector / Spender</b> — buy, obtain, or spend event currency.</li>
+        </ul>
+
+        <h2>The two reward tracks</h2>
+        <p>On top of the usual Boss Defeat loot, the Tournament pays out two ways. <b>To be eligible for
+          anything, you must contribute at least 250 Rift Tournament Points.</b></p>
+
+        <table class="guide-table">
+          <thead><tr><th>Track</th><th>How you get it</th></tr></thead>
+          <tbody>
+            <tr><td><b>Level Rewards</b></td><td>Each time your alliance crosses a point threshold and gains a Rift Tournament Level, <em>every</em> eligible member gets a reward. Higher division = more levels = better rewards.</td></tr>
+            <tr><td><b>Ranking Rewards</b></td><td>Given to the top alliances in your sub-division at the end of the event. The <b>#1 alliance</b> also earns the <b>Rift Tournament Trophy</b>.</td></tr>
+          </tbody>
+        </table>
+
+        <h2>What you can win</h2>
+        <p>The new reward pool (all confirmed present in the game data) is built around division prestige and a
+          fresh "Riftsliver" theme:</p>
+        <ul>
+          <li><b>Division Castellan &amp; Commander skins</b> — Bronze / Silver / Gold / Diamond. A map reskin of
+            your castles (Castellan) and your marching army (Commander). Only the top four divisions get these.</li>
+          <li><b>Riftsliver decorations</b> — 16 in all: <b>Relic, Wellspring, Nexus and Bulwark</b>, each in
+            Bronze / Silver / Gold / Diamond. <a href="../overview-decorations/">Browse them in the Decorations
+            overview →</a></li>
+          <li><b>Riftsliver gear</b> — a Castellan-slot <b>Amulet</b> and <b>Loop</b> per tier.</li>
+          <li><b>"Rift Raid Conqueror" alliance crest layout</b> — per division.</li>
+          <li><b>Premium Rift Boxes</b> (Bronze / Silver / Gold) and the <b>Rift Tournament</b> event reward
+            set — <a href="../overview-loot-box/">see the Loot Box overview →</a></li>
+          <li><b>Currencies:</b> <b>Rift Points</b> (earned in combat — they gate Boss Defeat Rewards and feed
+            quests) and <b>Rift Quest Tickets</b>.</li>
+        </ul>
+
+        <div class="tip warn">
+          <b>The exact amounts aren't public yet.</b> Which division / level / placement gives <em>how many</em>
+          of each item is delivered by the game server at event time and isn't in the client files — so this
+          guide can't pin those numbers down. The fastest way to lock them in: open the in-game <b>reward hub</b>
+          and the <b>division reward</b> panels during a live event and screenshot them.
+        </div>
+
+        <h2>Quick takeaways</h2>
+        <ul>
+          <li>Hit <b>250 points</b> personally or you get nothing — spend your tickets.</li>
+          <li>Quests give points; <b>points raise your alliance level</b>; levels (and your division) decide rewards.</li>
+          <li>Climbing divisions is the long game — a higher division unlocks more levels and better prizes each season.</li>
+          <li>Don't waste Quest Tickets on quests you can't finish in 6 hours; reroll the bad ones early.</li>
+        </ul>
+
+        <p class="guide-note">Mechanics sourced from the Goodgame Empire client data (items v776.06 / lang 4282).
+          Reward quantities pending live in-game confirmation. Spotted something off or have reward screenshots?
+          They'd sharpen this guide.</p>
+
+      </article>
+    </div>
+  </main>
+</body>
+</html>

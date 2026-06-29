@@ -43,6 +43,17 @@ window.TOOLS = [
     tags: ["guide", "rift", "dragon", "ashen", "tyrant", "eggs", "wyrmling", "evolution", "range", "melee", "wall", "obsidian", "boss"],
   },
   {
+    slug: "guide-rift-tournament",
+    img: "assets/img/event-icons/riftraid.webp",
+    cat: "guides",
+    name: "Rift Tournament",
+    desc: "The reworked Rift Raid's alliance meta-layer: the six divisions (Copper to Diamond), the Quest Board, Rift Tournament Levels, and the level + ranking reward tracks. Mechanics confirmed; reward amounts pending.",
+    icon: "🏆",
+    status: "live",
+    url: "tools/guides/rift-tournament.html",
+    tags: ["guide", "rift", "tournament", "division", "diamond", "gold", "silver", "bronze", "glass", "copper", "quest", "board", "riftsliver", "ranking", "alliance", "castellan", "commander", "rift points"],
+  },
+  {
     slug: "guide-food-production",
     img: "assets/img/tool-art/food.webp",
     cat: "featured",
