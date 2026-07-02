@@ -1,19 +1,6 @@
 {
-  "updated": "2026-07-01",
+  "updated": "2026-07-02",
   "note": "announcements auto-pulled from the GGE Community Hub (alertsempire category) by assets/data/fetch-ggs-news.py; primeTimes still manual.",
-  "announcements": [
-    {
-      "date": "12 Jun 2026",
-      "title": "DE1 – Server Issues & Upcoming Compensation",
-      "body": "",
-      "url": "https://communityhub.goodgamestudios.com/2026/06/12/de1-server-issues-upcoming-compensation/"
-    },
-    {
-      "date": "27 Apr 2026",
-      "title": "⚙️ Upcoming Update – 23rd of June",
-      "body": "",
-      "url": "https://communityhub.goodgamestudios.com/2026/04/27/upcoming-update/"
-    }
-  ],
+  "announcements": [],
   "primeTimes": []
 }
