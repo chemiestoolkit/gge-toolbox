@@ -661,7 +661,7 @@
             <div class="b"><div class="v">${num(r.atkLost)}</div><div class="k">Attackers killed</div></div></div>
           ${r.held ? `<div class="ds-prot">${num(r.defLeft)} still standing · protection ${num(r.lastProt)}%.</div>`
                    : `<div class="ds-prot">Broke on wave ${r.breachedAt} — ${num(r.atkThrough)} poured toward the Keep.</div>`}
-          <table class="ds-waves" style="margin-top:6px"><thead><tr><th>Wv</th><th>You lost</th><th>Left</th><th>Atk lost</th></tr></thead><tbody>${rows}</tbody></table>
+          <div style="overflow-x:auto"><table class="ds-waves" style="margin-top:6px"><thead><tr><th>Wv</th><th>You lost</th><th>Left</th><th>Atk lost</th></tr></thead><tbody>${rows}</tbody></table></div>
         </div>`;
       }).join("");
       const keepCard = `<div class="ds-rescard ${keep.overrun ? "breach" : "hold"}">

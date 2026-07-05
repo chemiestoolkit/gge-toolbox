@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+# Members-only Leaders Corner — encrypted + noindex; keep it out of crawlers too.
+Disallow: /gge-toolbox/tools/vip/
