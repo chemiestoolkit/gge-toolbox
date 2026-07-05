@@ -81,7 +81,10 @@
     }
     if (!query) return true;
     const hay = (t.name + " " + t.desc + " " + (t.tags || []).join(" ")).toLowerCase();
-    return hay.includes(query);
+    // Tokenised AND-match: every word in the query must appear somewhere in the
+    // name/desc/tags, so "raid boss", "boss rift", "attack commander gear" all hit
+    // (a plain substring match only worked for contiguous phrases).
+    return query.split(/\s+/).filter(Boolean).every((w) => hay.includes(w));
   }
 
   function cardFor(t) {
