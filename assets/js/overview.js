@@ -109,6 +109,11 @@ function cardOverview(opts) {
     card.stats.map((s) => ({ key: s.key, label: s.label, num: s.num }));
   let sort = opts.defaultSort || { key: sortOptions[0].key, dir: sortOptions[0].num ? -1 : 1 };
   let query = "";
+  // Lazy render: only paint a batch at a time (500+ image cards choke phones if
+  // rendered synchronously). More load on scroll or via the button.
+  const PAGE = opts.pageSize || 80;
+  let shown = PAGE, lastTotal = 0;
+  const reset = () => { shown = PAGE; render(); };
 
   const esc = (s) => String(s == null ? "" : s).replace(/[&<>"]/g, (c) =>
     ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]));
@@ -139,15 +144,22 @@ function cardOverview(opts) {
 
   const grid = document.createElement("div");
   grid.className = "ov-cards";
-  mount.append(bar, grid);
+  const more = document.createElement("button");
+  more.className = "ov-more"; more.type = "button";
+  more.style.cssText = "display:none;margin:16px auto 0;padding:9px 22px;border-radius:999px;border:1px solid var(--gold-dim);background:var(--bg-elev);color:var(--gold);font:inherit;font-size:.85rem;font-weight:600;cursor:pointer;";
+  more.addEventListener("click", () => { shown += PAGE; render(); });
+  mount.append(bar, grid, more);
+  if ("IntersectionObserver" in window) {
+    new IntersectionObserver((es) => { if (es[0].isIntersecting && shown < lastTotal) { shown += PAGE; render(); } }, { rootMargin: "600px" }).observe(more);
+  }
 
-  input.addEventListener("input", () => { query = input.value.trim().toLowerCase(); render(); });
+  input.addEventListener("input", () => { query = input.value.trim().toLowerCase(); reset(); });
   sel.addEventListener("change", () => {
     sort.key = sel.value;
     sort.dir = (sortOptions.find((o) => o.key === sel.value) || {}).num ? -1 : 1;
-    setDirLabel(); render();
+    setDirLabel(); reset();
   });
-  dirBtn.addEventListener("click", () => { sort.dir *= -1; setDirLabel(); render(); });
+  dirBtn.addEventListener("click", () => { sort.dir *= -1; setDirLabel(); reset(); });
 
   function rows() {
     let r = data;
@@ -162,8 +174,11 @@ function cardOverview(opts) {
 
   function render() {
     const list = rows();
-    count.textContent = list.length + (list.length === 1 ? " entry" : " entries");
-    grid.innerHTML = list.map((row) => {
+    lastTotal = list.length;
+    const slice = list.slice(0, shown);
+    count.textContent = list.length + (list.length === 1 ? " entry" : " entries") +
+      (slice.length < list.length ? " · showing " + slice.length : "");
+    grid.innerHTML = slice.map((row) => {
       const url = card.img(row);
       const corner = card.corner ? card.corner(row) : null;
       let thumb;
@@ -195,6 +210,9 @@ function cardOverview(opts) {
         '</div><div class="stats">' + stats + "</div>" + extra + "</div></div>"
       );
     }).join("");
+    const remaining = lastTotal - shown;
+    more.style.display = remaining > 0 ? "block" : "none";
+    if (remaining > 0) more.textContent = "Show " + Math.min(PAGE, remaining) + " more (" + remaining + " left)";
   }
 
   render();
