@@ -19,6 +19,11 @@
   ],
   "changelog": [
     {
+      "date": "Jul 2026",
+      "title": "Home feed refresh — live event calendar",
+      "body": "The Upcoming Events calendar now auto-updates from Goodgame's own schedule every day, so it stays current on its own. Latest from GGS is caught up, and the home page has been tidied."
+    },
+    {
       "date": "Jun 2026",
       "title": "Item Value Finder — icons & cleaner names",
       "body": "Every reward now shows a small in-game icon (troops, tools, equipment, decorations, construction items, tokens & currencies), construction-item and gem names are fixed, and each deal is labelled with a clean vendor (Hall of Legends, Nomad shop, Rift Raid shop…) instead of dev labels."
