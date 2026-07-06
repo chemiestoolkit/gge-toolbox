@@ -106,6 +106,11 @@
   ],
   "news": [
     {
+      "date": "2 Jul 2026",
+      "title": "Rise Through the Divisions: The Biggest Rift Raid Update Yet",
+      "url": "https://communityhub.goodgamestudios.com/2026/07/02/rise-through-the-divisions-the-biggest-rift-raid-update-yet/"
+    },
+    {
       "date": "23 Jun 2026",
       "title": "Bug: Castellan Set – Mead Unit Spawn Effect",
       "url": "https://communityhub.goodgamestudios.com/2026/06/23/bug-castellan-set-mead-unit-spawn-effect/"
@@ -139,91 +144,87 @@
       "date": "21 May 2026",
       "title": "Unite or Fall A Dead World Seeks Another",
       "url": "https://communityhub.goodgamestudios.com/2026/05/21/unite-or-fall-a-dead-world-seeks-another/"
-    },
-    {
-      "date": "21 May 2026",
-      "title": "Spring Ends. The Conquest Begins.",
-      "url": "https://communityhub.goodgamestudios.com/2026/05/21/elementor-12608/"
     }
   ],
   "newsUrl": "https://communityhub.goodgamestudios.com/newshube4k/",
   "events": {
-    "month": "June 2026",
+    "month": "July 2026",
     "iconBase": "assets/img/event-icons/",
     "items": [
       {
         "name": "Nomad Invasion",
         "emoji": "🌊",
         "icon": "nomadinvasion.webp",
-        "dates": "06–09 · 13–16 · 20–23 · 27–30 Jun"
+        "dates": "04–07 · 11–14 · 18–21 · 25–28 Jul"
       },
       {
         "name": "Samurai Invasion",
         "emoji": "⚔️",
         "icon": "samuraiinvasion.webp",
-        "dates": "05–06 · 12–13 · 19–20 · 26–27 Jun"
+        "dates": "03–04 · 10–11 · 17–18 · 24–25 Jul · 31 Jul–01 Aug"
       },
       {
         "name": "Bloodcrow Invasion",
         "emoji": "🩸",
         "icon": "bloodcrow.webp",
-        "dates": "09–12 · 23–26 Jun"
+        "dates": "07–10 · 21–24 Jul"
       },
       {
         "name": "War of the Realms",
         "emoji": "⚔️",
         "icon": "waroftherealms.webp",
-        "dates": "02–05 · 16–19 · 30 Jun–03 Jul"
+        "dates": "14–17 · 28–31 Jul"
       },
       {
         "name": "Berimond Kingdom",
         "emoji": "🏰",
         "icon": "berimond.webp",
-        "dates": "02–05 · 23–26 Jun"
+        "dates": "07–10 · 28–31 Jul"
       },
       {
-        "name": "Rift Raid (Necromancer)",
+        "name": "Rift Raid",
         "emoji": "🌀",
         "icon": "riftraid.webp",
-        "dates": "06–13 Jun"
+        "dates": "07–14 Jul"
       },
       {
         "name": "Bladecoast",
         "emoji": "🗡️",
         "icon": "bladecoast.webp",
-        "dates": "10–17 Jun"
+        "dates": "12–19 Jul"
       },
       {
         "name": "Grand Tournament",
         "emoji": "🏆",
         "icon": "grandtournament.webp",
-        "dates": "16–23 Jun"
+        "dates": "21–28 Jul"
       },
       {
         "name": "Beyond the Horizon",
         "emoji": "🌅",
         "icon": "beyondthehorizon.webp",
-        "dates": "11–15 · 18–22 Jun"
+        "dates": "02–06 · 16–20 Jul · 30 Jul–03 Aug"
       },
       {
         "name": "Outer Realms",
         "emoji": "🌌",
         "icon": "outerrealms.webp",
-        "dates": "01 · 04 · 08 · 15 · 22 · 25 Jun"
+        "dates": "06–09 · 09–13 · 13–16 · 20–24 Jul"
       },
       {
         "name": "Imperial Patronage",
         "emoji": "👑",
         "icon": "patronage.webp",
-        "dates": "16–23 Jun"
+        "dates": "17–24 Jul"
       },
       {
         "name": "Grand Nobility Contest",
         "emoji": "🎖️",
         "icon": "ltpe.webp",
-        "dates": "16 Jun – 17 Jul"
+        "dates": "17 Jul–15 Aug"
       }
     ]
   },
-  "newsUpdated": "2026-07-05"
+  "newsUpdated": "2026-07-06",
+  "eventsUpdated": "2026-07-06"
 }

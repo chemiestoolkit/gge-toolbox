@@ -39,7 +39,7 @@ jobs:
       - name: Refresh all tool data
         run: bash tools/refresh-all.sh
 
-      - name: Refresh GGS news + alerts feed
+      - name: Refresh GGS news + event calendar
         run: python3 assets/data/fetch-ggs-news.py
 
       - name: Commit changes if any

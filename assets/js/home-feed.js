@@ -158,32 +158,4 @@
       renderCalendar(d.events);
     })
     .catch((e) => console.error("home-feed:", e));
-
-  /* Discord-sourced feed (announcements + prime times), populated by the
-     reader bot — see .github/DISCORD-FEED.md. */
-  function renderDiscordList(elId, items, emptyMsg) {
-    const el = document.getElementById(elId);
-    if (!el) return;
-    if (!items || !items.length) {
-      el.innerHTML = `<li class="df-empty">${esc(emptyMsg)}</li>`;
-      return;
-    }
-    el.innerHTML = items.slice(0, 6).map((it) => {
-      const title = it.url
-        ? `<a class="df-title" href="${esc(it.url)}" target="_blank" rel="noopener">${esc(it.title)}</a>`
-        : `<span class="df-title">${esc(it.title)}</span>`;
-      return `<li class="df-item">
-        ${it.date ? `<span class="df-date">${esc(it.date)}</span>` : ""}
-        <span class="df-body">${title}${it.body ? " — " + esc(it.body) : ""}</span>
-      </li>`;
-    }).join("");
-  }
-
-  fetch("assets/data/discord-feed.json?v=" + Date.now())
-    .then((r) => r.json())
-    .then((d) => {
-      renderDiscordList("prime-times", d.primeTimes, "No active prime-time offers right now.");
-      renderDiscordList("announcements", d.announcements, "No recent announcements.");
-    })
-    .catch((e) => console.error("discord-feed:", e));
 })();
