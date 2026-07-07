@@ -1,5 +1,5 @@
 {
-  "generated": "2026-07-06T11:42:32Z",
+  "generated": "2026-07-07T10:29:56Z",
   "items": [
     {
       "name": "Anniversary Barrel Workshop",
@@ -2320,6 +2320,162 @@
           "tmpl": null,
           "pct": false,
           "label": "Bonus to beef production per hour"
+        }
+      ]
+    },
+    {
+      "name": "Pirate defense workshop",
+      "level": 4,
+      "rarity": 4,
+      "kind": "Temporary",
+      "effects": [
+        {
+          "v": 30,
+          "tmpl": "+{0}% melee units attack strength in the Rift Raid Event",
+          "pct": true,
+          "label": "equipmentAREOffensiveMeleeBonus"
+        },
+        {
+          "v": 30,
+          "tmpl": "+{0}% ranged units attack strength in the Rift Raid Event",
+          "pct": true,
+          "label": "equipmentAREOffensiveRangedBonus"
+        },
+        {
+          "v": 100,
+          "tmpl": "+{0}% army travel speed in the Rift Raid Event",
+          "pct": true,
+          "label": "equipmentARESpeedBonus"
+        }
+      ]
+    },
+    {
+      "name": "Pirate farm",
+      "level": 4,
+      "rarity": 4,
+      "kind": "Temporary",
+      "effects": [
+        {
+          "v": 5,
+          "tmpl": "+{0}% food production increase",
+          "pct": true,
+          "label": "Bonus to food production in castle"
+        },
+        {
+          "v": 7500,
+          "tmpl": null,
+          "pct": false,
+          "label": "Bonus to honey production per hour"
+        },
+        {
+          "v": 25000,
+          "tmpl": null,
+          "pct": false,
+          "label": "Bonus to mead production in castle"
+        }
+      ]
+    },
+    {
+      "name": "Pirate honey gardens",
+      "level": 4,
+      "rarity": 4,
+      "kind": "Temporary",
+      "effects": [
+        {
+          "v": 35,
+          "tmpl": "+{0}% melee units attack strength",
+          "pct": true,
+          "label": "Bonus to melee units attack strength"
+        },
+        {
+          "v": 35,
+          "tmpl": "+{0}% ranged units attack strength",
+          "pct": true,
+          "label": "Bonus to ranged units attack strength"
+        },
+        {
+          "v": 60,
+          "tmpl": "+{0}% combat strength when attacking enemy courtyards",
+          "pct": true,
+          "label": "Bonus to courtyard attack combat strength"
+        }
+      ]
+    },
+    {
+      "name": "Pirate keep",
+      "level": 4,
+      "rarity": 4,
+      "kind": "Temporary",
+      "effects": [
+        {
+          "v": 35,
+          "tmpl": "+{0}% front unit limit when attacking",
+          "pct": true,
+          "label": "Bonus to front attack troop capacity"
+        },
+        {
+          "v": 35,
+          "tmpl": "+{0}% flank unit limit when attacking",
+          "pct": true,
+          "label": "Bonus to unit limit on the flanks when attacking"
+        },
+        {
+          "v": 1,
+          "tmpl": "+{0} additional wave(s)",
+          "pct": false,
+          "label": "additionalWaves"
+        }
+      ]
+    },
+    {
+      "name": "Pirate offensive workshop",
+      "level": 4,
+      "rarity": 4,
+      "kind": "Temporary",
+      "effects": [
+        {
+          "v": 50,
+          "tmpl": "+{0}% unit limit on the front in the Rift Raid Event",
+          "pct": true,
+          "label": "equipmentAREAttackUnitAmountFront"
+        },
+        {
+          "v": 50,
+          "tmpl": "+{0}% flank unit limit in the Rift Raid Event",
+          "pct": true,
+          "label": "equipmentAREAttackUnitAmountFlank"
+        },
+        {
+          "v": 2,
+          "tmpl": "+{0} additional wave(s) in the Rift Raid Event",
+          "pct": false,
+          "label": "Additional waves in the Rift Raid Event"
+        }
+      ]
+    },
+    {
+      "name": "Pirate tavern",
+      "level": 4,
+      "rarity": 4,
+      "kind": "Temporary",
+      "effects": [
+        {
+          "v": 50,
+          "tmpl": "+{0}% recruitment speed",
+          "pct": true,
+          "label": "Bonus to recruitment speed"
+        },
+        {
+          "v": 50,
+          "tmpl": "+{0}% tool production speed",
+          "pct": true,
+          "label": "Bonus to tool production speed"
+        },
+        {
+          "v": 4000,
+          "tmpl": "+{0} public order inside your main castle",
+          "pct": false,
+          "label": "publicOrderBonusMain"
         }
       ]
     },
