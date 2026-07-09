@@ -20,6 +20,11 @@
   "changelog": [
     {
       "date": "Jul 2026",
+      "title": "Rift Tournament guide — full rework",
+      "body": "Updated with Goodgame's official reveal: the six divisions (Copper→Diamond), Rift Points, the real quest-ticket rules (2 to start, +2 per boss kill), and every Riftsliver reward with exact stats. Notes that it was pulled for technical faults and is due back."
+    },
+    {
+      "date": "Jul 2026",
       "title": "Home feed refresh — live event calendar",
       "body": "The Upcoming Events calendar now auto-updates from Goodgame's own schedule every day, so it stays current on its own. Latest from GGS is caught up, and the home page has been tidied."
     },
@@ -230,6 +235,6 @@
       }
     ]
   },
-  "newsUpdated": "2026-07-08",
-  "eventsUpdated": "2026-07-08"
+  "newsUpdated": "2026-07-09",
+  "eventsUpdated": "2026-07-09"
 }

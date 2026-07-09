@@ -44,6 +44,24 @@
     .evc-key i { width: 9px; height: 9px; border-radius: 3px; display: inline-block; }
     .evc-key.sel { border-color: var(--gold); color: var(--text); background: rgba(217,178,90,.1); }
     .evc-hint { font-size: .62rem; color: var(--text-faint); margin-top: 6px; }
+
+    /* suggestions box */
+    .sg-sub { font-size: .8rem; color: var(--text-dim); margin: 2px 0 10px; }
+    #suggest-form { display: flex; flex-direction: column; gap: 8px; }
+    .sg-row { display: flex; gap: 8px; flex-wrap: wrap; }
+    #sg-name { flex: 1; min-width: 150px; }
+    #suggest-form input[type=text], #suggest-form select, #suggest-form textarea {
+      font: inherit; font-size: .84rem; padding: 8px 10px; border-radius: var(--radius-sm);
+      border: 1px solid var(--border); background: var(--bg-elev-2); color: var(--text); }
+    #suggest-form textarea { resize: vertical; min-height: 56px; }
+    #suggest-form input:focus, #suggest-form select:focus, #suggest-form textarea:focus { outline: none; border-color: var(--gold); }
+    .sg-hp { position: absolute !important; left: -9999px; width: 1px; height: 1px; opacity: 0; }
+    .sg-foot { display: flex; align-items: center; gap: 10px; }
+    .sg-status { font-size: .76rem; color: var(--text-faint); flex: 1; }
+    .sg-status.ok { color: var(--good, #7fd9a6); } .sg-status.err { color: var(--bad, #f87171); }
+    .sg-send { font: inherit; font-weight: 700; font-size: .84rem; padding: 8px 22px; margin-left: auto;
+      border-radius: 999px; border: 1px solid var(--gold); background: var(--gold); color: #1a1206; cursor: pointer; }
+    .sg-send:disabled { opacity: .5; cursor: default; }
   </style>
 </head>
 <body class="dash" data-page="home">
@@ -112,6 +130,31 @@
 
     </div>
 
+    <!-- ── Suggestions box → Discord ──────────────────────── -->
+    <div class="home-card suggest-card">
+      <div class="home-card-head">💡 Suggestions &amp; bug reports</div>
+      <p class="sg-sub">Got a tool idea, a data fix, or found a bug? Send it straight to the team — it lands in our Discord.</p>
+      <form id="suggest-form" autocomplete="off">
+        <div class="sg-row">
+          <input type="text" id="sg-name" maxlength="40" placeholder="Your in-game name (optional)" />
+          <select id="sg-cat" aria-label="Category">
+            <option value="💡 Tool idea">💡 Tool idea</option>
+            <option value="🐞 Bug / wrong data">🐞 Bug / wrong data</option>
+            <option value="✨ Improvement">✨ Improvement</option>
+            <option value="💬 Other">💬 Other</option>
+          </select>
+        </div>
+        <textarea id="sg-text" maxlength="700" rows="3" required
+          placeholder="What's your suggestion? Be as specific as you like…"></textarea>
+        <!-- honeypot: bots fill this, humans never see it -->
+        <input type="text" id="sg-website" class="sg-hp" tabindex="-1" autocomplete="off" aria-hidden="true" />
+        <div class="sg-foot">
+          <span id="sg-status" class="sg-status"></span>
+          <button type="submit" id="sg-send" class="sg-send">Send</button>
+        </div>
+      </form>
+    </div>
+
 
     <div class="controls">
       <label class="search">
@@ -134,5 +177,6 @@
   <script src="assets/js/registry.js?v=5"></script>
   <script src="assets/js/hub.js?v=3"></script>
   <script src="assets/js/home-feed.js"></script>
+  <script src="assets/js/suggest.js"></script>
 </body>
 </html>
