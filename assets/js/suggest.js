@@ -11,7 +11,10 @@
 (function () {
   "use strict";
 
-  var SUGGEST_ENDPOINT = "";  // ← paste your webhook URL or relay URL here
+  // Dedicated public suggestions webhook (intentionally client-side; NOT the
+  // alliance-watch/notifications secret). If it ever gets spammed, delete it in
+  // Discord and drop a fresh one in here. Prefer the Worker relay for full privacy.
+  var SUGGEST_ENDPOINT = "https://discord.com/api/webhooks/1524677621777170545/q5PrtFCubPnqXe01oP3CkMli1kQllU9gnXAwBlhLlV3JcyNd2SrR0w4z1xxVSAMvs1Ce";
 
   var form = document.getElementById("suggest-form");
   if (!form) return;
@@ -65,15 +68,18 @@
     var fd = new FormData();
     fd.append("payload_json", JSON.stringify(payload));
 
+    // no-cors: a direct browser→Discord webhook POST. Discord doesn't reliably send
+    // CORS headers, so we fire-and-forget — the multipart request still delivers, and
+    // this avoids the "posted but shown as failed → user resubmits → duplicate" trap.
+    // (A Worker relay would let us read the real status; direct webhook can't.)
     btn.disabled = true; set("Sending…");
-    fetch(SUGGEST_ENDPOINT, { method: "POST", body: fd })
-      .then(function (r) {
-        if (!r.ok) throw new Error(r.status);
+    fetch(SUGGEST_ENDPOINT, { method: "POST", mode: "no-cors", body: fd })
+      .then(function () {
         try { localStorage.setItem("sg_last", Date.now()); } catch (_) {}
         form.reset();
         set("Thanks! Sent to the team. 🎉", "ok");
       })
-      .catch(function () { set("Couldn't send — try again in a bit.", "err"); })
+      .catch(function () { set("Couldn't send — check your connection and try again.", "err"); })
       .finally(function () { btn.disabled = false; });
   });
 })();
