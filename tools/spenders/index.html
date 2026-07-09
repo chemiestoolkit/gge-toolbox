@@ -4,6 +4,13 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Spenders Corner (AU1) — Maxy's Empire Toolkit</title>
+  <meta property="og:type" content="website" />
+  <meta property="og:site_name" content="Maxy's Empire Toolkit" />
+  <meta property="og:title" content="Spenders Corner (AU1) — Maxy's Empire Toolkit" />
+  <meta property="og:description" content="Real money value on AU1: the pure ruby-pack board (rubies per AUD with the doubler &amp; Prime Time) plus a sale-value search that ranks every money offer by how much of any reward — troops, currencies, gems, gear — you get per dollar." />
+  <meta property="og:url" content="https://chemiestoolkit.github.io/gge-toolbox/tools/spenders/" />
+  <meta property="og:image" content="https://chemiestoolkit.github.io/gge-toolbox/assets/img/tool-art/lootbox.webp" />
+  <meta name="twitter:card" content="summary" />
   <meta name="description" content="Best-value ruby buying on Australia 1: every real-money pack, bundle and the 7-day daily chain ranked in rubies per AUD, with the 2x doubler and +300% Prime Time factored in." />
   <link rel="stylesheet" href="../../assets/css/theme.css?v=15" />
   <link rel="icon" type="image/png" href="../../assets/img/favicon.png" />
@@ -195,7 +202,11 @@
     Promise.all([
       fetch("./data/au-prices.json").then(function (r) { return r.json(); }),
       fetch("./data/sales.json").then(function (r) { return r.json(); })
-    ]).then(function (res) { AU = res[0]; SALES = res[1]; init(); });
+    ]).then(function (res) { AU = res[0]; SALES = res[1]; init(); })
+      .catch(function () {
+        document.body.insertAdjacentHTML("beforeend",
+          '<div style="text-align:center;padding:24px;opacity:.75">Couldn’t load the price data — refresh to try again.</div>');
+      });
 
     // The doubler (×2) and Prime Time (+300% = ×4) only hit straight ruby packs,
     // and they DON'T stack — you take whichever single boost is better.
@@ -513,7 +524,7 @@
       $("ss-pick").addEventListener("click", function (e) {
         var c = e.target.closest(".ss-chip"); if (!c) return;
         ssTarget = c.dataset.b; ssShown = 30;
-        [].forEach.call($("ss-pick").children, function (n) { n.classList.toggle("on", n.dataset.b === ssTarget); });
+        [].forEach.call($("ss-pick").querySelectorAll(".ss-chip"), function (n) { n.classList.toggle("on", n.dataset.b === ssTarget); });
         renderSales();
       });
       $("ss-budget").addEventListener("input", function () { ssShown = 30; renderSales(); });

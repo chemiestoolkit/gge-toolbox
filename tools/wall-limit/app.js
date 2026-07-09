@@ -71,7 +71,7 @@
     let bP = 0, bA = 0;
     Object.entries(BUILDINGS).forEach(([name, b]) => { const [p, a] = b.levels[buildLevel[name]]; bP += p; bA += a; });
     let dCY = 0, dWall = 0, dStr = 0;
-    DECOS.forEach((d, i) => { const n = decoQty[i] || 0; if (!n) return; dCY += d.cy * n; dWall += d.wall * n; dStr += d.cystr * n; });
+    DECOS.forEach((d, i) => { const n = decoQty[i] || 0; if (!n) return; dCY += (d.cy || 0) * n; dWall += (d.wall || 0) * n; dStr += (d.cystr || 0) * n; });
 
     const cyUsed = Math.min(dCY, CAPS.personalCY);
     const wallUsed = Math.min(dWall, CAPS.wallPct);

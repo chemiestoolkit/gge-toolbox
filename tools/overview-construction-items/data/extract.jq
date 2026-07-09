@@ -24,6 +24,7 @@
           ) as $n
         | select($n != null)
         | { name: $n,
+            raw: (.name // ""),
             level: (.level|tonumber? // 1),
             rarity: (.rarenessID|tonumber? // 0),
             kind: (if .slotTypeID == "1" then "Primary"

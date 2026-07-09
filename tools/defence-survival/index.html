@@ -4,6 +4,13 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Defence Survival Calculator — Maxy's Empire Toolkit</title>
+  <meta property="og:type" content="website" />
+  <meta property="og:site_name" content="Maxy's Empire Toolkit" />
+  <meta property="og:title" content="Defence Survival Calculator — Maxy's Empire Toolkit" />
+  <meta property="og:description" content="Will your castle hold? Enter your wall/gate/moat protection, defensive tools and garrison, then an incoming attack — and see whether each wall segment holds and whether the courtyard falls. In calibration." />
+  <meta property="og:url" content="https://chemiestoolkit.github.io/gge-toolbox/tools/defence-survival/" />
+  <meta property="og:image" content="https://chemiestoolkit.github.io/gge-toolbox/assets/img/hero-banner.webp" />
+  <meta name="twitter:card" content="summary" />
   <meta name="description" content="Will your castle hold? Set your castellan, garrison and defensive tools per segment, then the incoming attack — resolved with Goodgame's own per-wave battle formula." />
   <link rel="stylesheet" href="../../assets/css/theme.css?v=15" />
   <link rel="icon" type="image/png" href="../../assets/img/favicon.png" />
@@ -428,10 +435,10 @@
         });
         segs[k] = {
           front: s.front,
-          dm: DEF_M[+$("dm-" + k).value], dmc: +$("dmc-" + k).value || 0,
-          dr: DEF_R[+$("dr-" + k).value], drc: +$("drc-" + k).value || 0,
-          am: ATK_M[+$("am-" + k).value], amc: +$("amc-" + k).value || 0,
-          ar: ATK_R[+$("ar-" + k).value], arc: +$("arc-" + k).value || 0,
+          dm: DEF_M[+$("dm-" + k).value], dmc: Math.max(0, +$("dmc-" + k).value || 0),
+          dr: DEF_R[+$("dr-" + k).value], drc: Math.max(0, +$("drc-" + k).value || 0),
+          am: ATK_M[+$("am-" + k).value], amc: Math.max(0, +$("amc-" + k).value || 0),
+          ar: ATK_R[+$("ar-" + k).value], arc: Math.max(0, +$("arc-" + k).value || 0),
           protBonus, strBonus, red,
         };
       }
@@ -577,9 +584,8 @@
         let through = 0;
         if (dmc + drc <= 0 && !breachedAt) { breachedAt = w; through = (s.amc + s.arc) - r.attackerLoss; atkThrough += through; }
         rows.push({ w, dLost: r.dmLoss + r.drLoss, dLeft: dmc + drc, aLost: r.attackerLoss, through });
-        if (dmc + drc <= 0) break;
       }
-      // waves after breach: full wave walks through (handled in loop via continue for w>breach only if loop continued)
+      // waves after breach fall into the defLeft<=0 branch above: the full wave walks through
       return { key: k, front: s.front, held: (dmc + drc) > 0, startDef, defLeft: dmc + drc, defLost, atkLost, atkThrough, breachedAt, lastProt, rows };
     }
 

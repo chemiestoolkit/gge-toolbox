@@ -147,7 +147,7 @@ function renderTargets() {
     if (!name) { $("targetHint").textContent = ""; return; }
     const p = byName.get(name) / pool.total;
     const avg = Math.round(1 / p);
-    const n90 = Math.ceil(Math.log(0.1) / Math.log(1 - p));
+    const n90 = p >= 1 ? 1 : Math.ceil(Math.log(0.1) / Math.log(1 - p));
     $("targetHint").textContent = "Avg " + avg + " spins · 90% chance within " + n90 + " spins";
   };
   $("targetHint").textContent = "";

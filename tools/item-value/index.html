@@ -4,6 +4,13 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Item Value Finder — Maxy's Empire Toolkit</title>
+  <meta property="og:type" content="website" />
+  <meta property="og:site_name" content="Maxy's Empire Toolkit" />
+  <meta property="og:title" content="Item Value Finder — Maxy's Empire Toolkit" />
+  <meta property="og:description" content="Pick what you&#x27;re after — troops, sceats, construction &amp; upgrade tokens, gems, decos, event currency — and see which in-game shop packages give the most per token." />
+  <meta property="og:url" content="https://chemiestoolkit.github.io/gge-toolbox/tools/item-value/" />
+  <meta property="og:image" content="https://chemiestoolkit.github.io/gge-toolbox/assets/img/tool-art/lootbox.webp" />
+  <meta name="twitter:card" content="summary" />
   <meta name="description" content="Pick what you're after — troops, sceats, construction & upgrade tokens, gems, decorations, event currency — and see which in-game shop packages give the most per token, grouped by currency." />
   <link rel="stylesheet" href="../../assets/css/theme.css?v=15" />
   <link rel="icon" type="image/png" href="../../assets/img/favicon.png" />
@@ -99,7 +106,11 @@
     var fmt = function (n) { return Number(n).toLocaleString("en-AU"); };
     var PKG;
 
-    fetch("./data/packages.json").then(function (r) { return r.json(); }).then(function (d) { PKG = d; init(); });
+    fetch("./data/packages.json").then(function (r) { return r.json(); }).then(function (d) { PKG = d; init(); })
+      .catch(function () {
+        document.body.insertAdjacentHTML("beforeend",
+          '<div style="text-align:center;padding:24px;opacity:.75">Couldn’t load the package data — refresh to try again.</div>');
+      });
 
     var BUCKET_ICON = { "Troops": "⚔️", "Tools": "🪜", "Equipment": "🛡️", "Gems": "💎", "Decorations": "🏛️",
       "Buildings": "🏰", "Construction items": "🧱", "Construction tokens": "🔨", "Upgrade tokens": "⬆️",

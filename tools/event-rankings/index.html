@@ -4,6 +4,13 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Live Event Rankings — Maxy's Empire Toolkit</title>
+  <meta property="og:type" content="website" />
+  <meta property="og:site_name" content="Maxy's Empire Toolkit" />
+  <meta property="og:title" content="Live Event Rankings — Maxy's Empire Toolkit" />
+  <meta property="og:description" content="The game&#x27;s own live leaderboards for every event — might, honour, invasions, contests — straight off the game servers. Search any rank number or name, per server." />
+  <meta property="og:url" content="https://chemiestoolkit.github.io/gge-toolbox/tools/event-rankings/" />
+  <meta property="og:image" content="https://chemiestoolkit.github.io/gge-toolbox/assets/img/tool-art/rankings.webp" />
+  <meta name="twitter:card" content="summary" />
   <link rel="stylesheet" href="../../assets/css/theme.css?v=15" />
   <link rel="stylesheet" href="../vip/vip.css" />
   <style>
@@ -214,6 +221,7 @@
           }
           else await new Promise((res) => setTimeout(res, 600));
         }
+        if (!json.content) throw new Error("no result — the name isn't on this leaderboard, or this event isn't running right now");
         const rows = json.content.L || [];
         lastRank = json.content.LR || json.content.T || (rows.length ? rows[rows.length - 1][0] : 1);
         if (!rows.length) {

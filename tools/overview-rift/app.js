@@ -22,17 +22,19 @@
     const root = document.getElementById("root");
     root.innerHTML = "";
 
-    /* Wall-break sim placeholder banner */
-    const cta = document.createElement("div");
+    /* Wall-break sim cross-link */
+    const cta = document.createElement("a");
     cta.className = "sim-cta";
+    cta.href = "../wall-break/";
+    cta.style.textDecoration = "none";
     cta.innerHTML = `
       <span class="sim-cta-ico">🧱</span>
       <span class="sim-cta-text">
-        <b>Rift Wall-Break Simulator</b> — coming soon.
-        <p>Plan how many units and which tools you need to breach a wall segment on a
+        <b>Rift Wall-Break Simulator</b> — plan your breach.
+        <p>Work out how many units and which tools you need to breach a wall segment on a
            given boss/stage, factoring the boss's defensive effects below.</p>
       </span>
-      <span class="sim-cta-soon">Planned</span>
+      <span class="sim-cta-soon" style="background:var(--accent,#c9a227);color:#1a1a1a">Open →</span>
     `;
     root.appendChild(cta);
 

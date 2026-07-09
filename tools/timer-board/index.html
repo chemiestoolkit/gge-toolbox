@@ -4,8 +4,15 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Timer Board — Maxy's Empire Toolkit</title>
+  <meta property="og:type" content="website" />
+  <meta property="og:site_name" content="Maxy's Empire Toolkit" />
+  <meta property="og:title" content="Timer Board — Maxy's Empire Toolkit" />
+  <meta property="og:description" content="Track every build, research, recruitment and travel timer in one place — tagged per account or teammate, with live countdowns, finish times, browser alerts and optional Discord webhook pings. Saved on your device." />
+  <meta property="og:url" content="https://chemiestoolkit.github.io/gge-toolbox/tools/timer-board/" />
+  <meta property="og:image" content="https://chemiestoolkit.github.io/gge-toolbox/assets/img/hero-banner.webp" />
+  <meta name="twitter:card" content="summary" />
   <meta name="description" content="Track your Goodgame Empire build, research, recruitment and travel timers in one place — per account or teammate, with live countdowns, ready-at times, browser alerts and optional Discord webhook pings." />
-  <link rel="stylesheet" href="../../assets/css/theme.css" />
+  <link rel="stylesheet" href="../../assets/css/theme.css?v=15" />
   <link rel="icon" type="image/png" href="../../assets/img/favicon.png" />
   <style>
     .tb-add { display: grid; gap: 12px; }
@@ -422,7 +429,7 @@
       var shown = timers.filter(function (t) { return filterPerson === null || (t.person || "") === filterPerson; });
       if (!shown.length) {
         list.innerHTML = '<div class="tb-empty">' + (timers.length ? "No timers for this filter." : "No timers yet. Add one above — or tap a quick-add chip.") + "</div>";
-        $("tb-head").textContent = timers.length ? "Your timers" : "Your timers";
+        $("tb-head").textContent = "Your timers";
         $("tb-clear").hidden = !timers.some(function (t) { return t.endTs <= Date.now(); });
         return;
       }

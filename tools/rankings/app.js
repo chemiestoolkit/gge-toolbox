@@ -27,7 +27,7 @@
   // Level brackets for the per-level player lists (LID values).
   const BRACKETS = [
     { id: 1, label: "Level 1–19" }, { id: 2, label: "Level 20–29" },
-    { id: 3, label: "Level 30–39" }, { id: 4, label: "Level 40–59" },
+    { id: 3, label: "Level 30–39" }, { id: 4, label: "Level 40–49" },
     { id: 5, label: "Level 50–69" }, { id: 6, label: "Level 70" },
   ];
 

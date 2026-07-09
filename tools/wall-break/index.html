@@ -4,6 +4,13 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Rift Wall-Break Simulator — Maxy's Empire Toolkit</title>
+  <meta property="og:type" content="website" />
+  <meta property="og:site_name" content="Maxy's Empire Toolkit" />
+  <meta property="og:title" content="Rift Wall-Break Simulator — Maxy's Empire Toolkit" />
+  <meta property="og:description" content="Set up a rift attack — commander, abilities, per-lane troops and tools — and see whether each wall segment breaks, with projected losses and points. In calibration." />
+  <meta property="og:url" content="https://chemiestoolkit.github.io/gge-toolbox/tools/wall-break/" />
+  <meta property="og:image" content="https://chemiestoolkit.github.io/gge-toolbox/assets/img/hero-banner.webp" />
+  <meta name="twitter:card" content="summary" />
   <link rel="stylesheet" href="../../assets/css/theme.css?v=15" />
   <link rel="stylesheet" href="../vip/vip.css" />
   <style>
@@ -509,8 +516,8 @@
         segments[k] = {
           mAtkStat: (MELEE[+$("mUnit-" + k).value] || {}).meleeAtk || 0,
           rAtkStat: (RANGED[+$("rUnit-" + k).value] || {}).rangeAtk || 0,
-          mCount0: +$("mCount-" + k).value || 0,
-          rCount0: +$("rCount-" + k).value || 0,
+          mCount0: Math.max(0, +$("mCount-" + k).value || 0),
+          rCount0: Math.max(0, +$("rCount-" + k).value || 0),
           mMult: (1 + (combat + melee + pos) / 100) * mMal,
           rMult: (1 + (combat + ranged + pos) / 100) * rMal,
           gateToolRed, wallToolRed, toolQty,

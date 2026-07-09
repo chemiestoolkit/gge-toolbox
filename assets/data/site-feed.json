@@ -1,5 +1,5 @@
 {
-  "updated": "2026-06-14",
+  "updated": "2026-07-09",
   "maxyNotes": [
     {
       "date": "Jun 2026",
@@ -18,6 +18,11 @@
     }
   ],
   "changelog": [
+    {
+      "date": "Jul 2026",
+      "title": "Site-wide tune-up — 20+ fixes across the archive",
+      "body": "Full audit of all 52 tools: Construction Items overview now shows real item icons (240 of 241), share-preview cards on every tool page, a defence-survival multi-wave bug squashed (post-breach waves now reach the keep), correct level brackets on Rankings, the rift overview links straight to the Wall-Break sim, plus a stack of small input-handling and error-state fixes."
+    },
     {
       "date": "Jul 2026",
       "title": "Rift Tournament guide — full rework",
