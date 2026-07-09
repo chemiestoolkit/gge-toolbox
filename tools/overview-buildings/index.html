@@ -41,7 +41,7 @@
   </footer>
 
   <script src="../../assets/js/corrections.js"></script>
-  <script src="../../assets/js/overview.js?v=2"></script>
+  <script src="../../assets/js/overview.js?v=3"></script>
   <script>
     fetch("./data/buildings.json")
       .then((r) => r.json())
@@ -78,7 +78,7 @@
           ],
           card: {
             title: (r) => r.name,
-            img: () => null,
+            img: (r) => r.img || null,
             corner: (r) => "L" + r.maxLevel,
             placeholder: "🏛️",
             stats: [

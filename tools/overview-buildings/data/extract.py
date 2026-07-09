@@ -8,12 +8,38 @@ and the total resource cost + build time to take it from L1 to max.
 Game data pulled direct from Goodgame by tools/_srcdata/pull.sh.
 Run from build.sh.
 """
-import json, os, re, urllib.request
+import glob, json, os, re, urllib.request
 
 _SRC      = os.path.abspath(os.path.join(os.path.dirname(__file__), "..", "..", "_srcdata", "cache"))
 ITEMS_URL = "file://" + os.path.join(_SRC, "items_latest.json")
 LANG_URL  = "file://" + os.path.join(_SRC, "en.json")
 OUT       = os.path.join(os.path.dirname(__file__), "buildings.json")
+ASSET_ROOT = "https://empire-html5.goodgamestudios.com/default/assets/"
+
+
+def asset_index():
+    """basename(lowercased, sans timestamp) -> full GGS CDN url, from the game's own DLL."""
+    dll = open(glob.glob(os.path.join(_SRC, "ggs.dll*"))[0], encoding="utf-8", errors="replace").read()
+    idx = {}
+    for p in re.findall(r"itemassets/[A-Za-z0-9_/]+--\d+", dll):
+        idx[p.rsplit("/", 1)[-1].split("--")[0].lower()] = ASSET_ROOT + p + ".webp"
+    return idx
+
+
+def building_img(idx, raw, max_level):
+    """Best skin: highest shipped level asset at or below max level, else any variant."""
+    rl = raw.lower()
+    # collect every "<raw>_building_level<n>[_variant]" style key (incl. fixed-position piers etc.)
+    cands = []
+    for k in idx:
+        m = re.match(re.escape(rl) + r"_(?:fixedposition)?building_level(\d+)(_.*)?$", k)
+        if m:
+            cands.append((int(m.group(1)), m.group(2) or "", k))
+    if cands:
+        below = [c for c in cands if c[0] <= max_level]
+        pick = max(below or cands, key=lambda c: (c[0], c[1] == ""))  # highest level, plain variant first
+        return idx[pick[2]]
+    return idx.get(rl)  # plain key (e.g. Castlewall)
 
 
 def fetch(url):
@@ -32,6 +58,7 @@ def main():
     d    = json.loads(fetch(ITEMS_URL))
     lang = {k.lower(): v for k, v in json.loads(fetch(LANG_URL)).items() if isinstance(v, str)}
     eff_name = {str(e["effectID"]): e.get("name", "") for e in d.get("effects", [])}
+    idx  = asset_index()
 
     def L(key, default=""):
         return lang.get(key.lower(), default)
@@ -101,6 +128,7 @@ def main():
         items.append({
             "name": disp,
             "raw": nm,
+            "img": building_img(idx, nm, max_level),
             "group": rep.get("group", ""),
             "ground": rep.get("buildingGroundType", ""),
             "maxLevel": max_level,

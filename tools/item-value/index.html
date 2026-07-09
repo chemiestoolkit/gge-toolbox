@@ -168,8 +168,15 @@
             ? "<span class='iv-ico'><img src='" + r.img + "' alt='' loading='lazy' " +
               "onerror=\"this.parentNode.textContent='" + bIcon + "'\"></span>"
             : "<span class='iv-ico'>" + bIcon + "</span>";
+          var OVERVIEW_OF = { "Troops": "overview-troops-tools", "Tools": "overview-troops-tools",
+            "Equipment": "overview-equipment", "Decorations": "overview-decorations",
+            "Construction items": "overview-construction-items", "Buildings": "overview-buildings" };
+          var nm = OVERVIEW_OF[b]
+            ? "<a href='../" + OVERVIEW_OF[b] + "/?q=" + encodeURIComponent(r.name) + "' " +
+              "style='color:inherit;text-decoration:underline dotted' title='Open in the overview'>" + r.name + "</a>"
+            : r.name;
           return "<div class='iv-deal'><div class='row1'>" + ico + "<span class='qty'>" + fmt(r.qty) + "×</span><span class='nm'>" +
-            r.name + "</span>" + (r.stat ? "<span class='stat'>" + r.stat + "</span>" : "") +
+            nm + "</span>" + (r.stat ? "<span class='stat'>" + r.stat + "</span>" : "") +
             "<span class='each'><b>" + fmtEach(r.each) + "</b> each</span></div>" +
             (r.shop ? "<div class='shop'>" + r.shop + " · " + fmt(r.cost) + " " + c + "</div>" : "") +
             "<div class='iv-bar'><i style='width:" + w + "%'></i></div></div>";

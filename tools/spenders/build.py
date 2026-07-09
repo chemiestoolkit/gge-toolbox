@@ -325,6 +325,10 @@ def decode_offer(s):
             if UNIT_IMG.get(str(val[0])): e['img']=UNIT_IMG[str(val[0])]
         elif tok=='CI' and isinstance(val,list):
             e={'b':'Construction items','name':cis.get(str(val[0]),'CI '+str(val[0])),'qty':iv(val[1] if len(val)>1 else 1)}
+            if CI_IMG.get(str(val[0])): e['img']=CI_IMG[str(val[0])]
+        elif tok=='GID' and val is not None:
+            gid=str(val[0] if isinstance(val,list) else val)
+            e={'b':'Gems','name':gem_name(gid) or 'Gem','qty':iv(val[1] if isinstance(val,list) and len(val)>1 else 1)}
         elif tok=='D':
             wid=str(val[0] if isinstance(val,list) else val); e={'b':'Decorations','name':blds.get(wid,'building '+wid),'qty':iv(val[1] if isinstance(val,list) and len(val)>1 else 1)}
             if DECO_IMG.get(e['name']): e['img']=DECO_IMG[e['name']]
@@ -339,15 +343,23 @@ def decode_offer(s):
         out.append(e)
     return out
 
+# The game's CURRENT shop rotation = shoppingCarts; a paymentreward it references
+# is genuinely on sale in-game. Everything else is retired/seasonal back-catalogue.
+live_ids={int(c['rewardID']) for c in items.get('shoppingCarts',[])}
+
 seen={}; SALES=[]
 for r in items['paymentrewards']:
     its=decode_offer(r.get('rewards','') or '')
     if not its: continue
     c2=int(r['c2ForReward'])
+    rid=int(r['paymentrewardID'])
     sig=(c2, tuple(sorted((i['name'], i['qty']) for i in its)))
-    if sig in seen: continue
-    seen[sig]=1
-    SALES.append({'id':int(r['paymentrewardID']),'c2':c2,'bonus':int(r.get('shownOfferBonus',0) or 0),'items':its})
+    if sig in seen:
+        if rid in live_ids: SALES[seen[sig]]['live']=1   # any live duplicate marks the kept card live
+        continue
+    seen[sig]=len(SALES)
+    SALES.append({'id':rid,'c2':c2,'bonus':int(r.get('shownOfferBonus',0) or 0),
+                  'live':1 if rid in live_ids else 0,'items':its})
 sale_buckets=sorted({i['b'] for s in SALES for i in s['items']})
 # per-category "raw value" of an offer = sum(qty*power) for troops/tools, else sum(qty).
 # store a per-category 90th-percentile norm so the UI's category weights are comparable.

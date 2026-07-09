@@ -116,11 +116,15 @@ function renderOdds() {
       RARITY[r] + " " + fmtPct(counts[r]) + "%</span>")
     .join("");
 
+  // click any catalogued reward to open its overview entry (effects, stats)
+  const OVERVIEW_OF = { Equipment: "overview-equipment", Decoration: "overview-decorations",
+                        Construction: "overview-construction-items", Units: "overview-troops-tools" };
   const rows = pool.entries
     .map((e) => {
       const amt = e.amount != null && e.amount !== 1 ? '<span class="amt"> ×' + e.amount + "</span>" : "";
-      const nameHtml = e.type === "Equipment"
-        ? '<a class="eq-link" href="../overview-equipment/?q=' + encodeURIComponent(e.name) + '">' + esc(e.name) + "</a>"
+      const ov = OVERVIEW_OF[e.type];
+      const nameHtml = ov
+        ? '<a class="eq-link" href="../' + ov + '/?q=' + encodeURIComponent(e.name) + '">' + esc(e.name) + "</a>"
         : esc(e.name);
       return (
         '<tr><td class="r' + e.rarity + '">' + nameHtml + amt +

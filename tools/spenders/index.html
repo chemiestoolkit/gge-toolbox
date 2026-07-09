@@ -134,7 +134,7 @@
         <div class="ss-field"><label for="ss-budget">Budget (A$, optional)</label><input type="number" id="ss-budget" min="0" placeholder="any" /></div>
         <div class="ss-field"><label for="ss-search">Search contents</label><input type="text" id="ss-search" placeholder="e.g. Demon slayer, Affluence, sceat" /></div>
         <div class="ss-field"><label>Sort</label><div class="ss-sort" id="ss-sort"><button data-s="value" class="on">Best value</button><button data-s="new">Newest era</button></div></div>
-        <div class="ss-field"><label>Relevance</label><label class="ss-toggle"><input type="checkbox" id="ss-recent" checked> Hide retired seasons</label></div>
+        <div class="ss-field"><label>Relevance</label><label class="ss-toggle"><input type="checkbox" id="ss-recent" checked> Current shop rotation only</label></div>
       </div>
       <details class="ss-weights" id="ss-weights">
         <summary>⚖️ Value weights — tune what matters <span class="hint">(drives the 🏆 Overall ranking. Starts on sensible default tiers — wheel tickets near-zero, event-gacha &amp; affluence high, gear/rubies above neutral — troops &amp; tools already weighted by combat power)</span></summary>
@@ -157,8 +157,8 @@
         strongest-value offer currently shown, everything else is rated against it (so the number always matches the ranking).
         <b>Same bundle, many sizes:</b> when an offer is sold at several sizes (40 / 80 / 150 troops of the identical pack) they're
         collapsed into one <em>best-value</em> card with an “also sold in N other sizes” note, so the list isn't flooded with near-duplicates.
-        <b>Relevance:</b> “Hide retired seasons” drops the legacy catalogue (pre-modern offer
-        engine) so you mostly see current bundles — facets that only exist in retired seasons (e.g. hero equipment) are dimmed
+        <b>Relevance:</b> “Current shop rotation only” keeps just the bundles the game's own shop
+        catalogue references right now (cross-checked against the client's shopping-cart table) — facets that only exist in retired offers are dimmed
         and tell you to untick it; <b>“Newest era”</b> sort orders by internal offer ID. <b>Prices:</b> exact where the
         tier matches a known AU pack ($8.99 / $17.99 / $34.99 …), <em>estimated</em> (≈) for the cheaper tiers. The static data holds offer
         <em>definitions</em>, not your live daily rotation, so search by what you actually see in-game.</div>
@@ -307,7 +307,7 @@
     }
     // ---- refined facets: re-classify every reward from name + combat stat ----
     var SKIP_MIN = { "Skip 30 minutes": 30, "Skip 1 hour": 60, "Skip 5 hours": 300, "Skip 24 hours": 1440 };
-    var RECENT_ID = 500000; // modern offer-engine cutoff; below this = retired legacy seasons
+    // an offer is "live" when the game's shoppingCarts table references it (baked in at build time as s.live)
     function classify(it) {
       var n = (it.name || "").toLowerCase(), b = it.b, st = (it.stat || "").toLowerCase();
       if (b === "Resources")  return /coin/.test(n) ? "coins" : "resources";
@@ -388,7 +388,7 @@
       FACET_LIVE = {};
       var hideOld = $("ss-recent").checked;
       SALES.sales.forEach(function (s) {
-        if (hideOld && s.id < RECENT_ID) return;
+        if (hideOld && !s.live) return;
         for (var k in s._f) FACET_LIVE[k] = true;
       });
     }
@@ -443,7 +443,7 @@
       var hideOld = $("ss-recent").checked;
       var rows = [], hidden = 0;
       SALES.sales.forEach(function (s) {
-        if (hideOld && s.id < RECENT_ID) { hidden++; return; }
+        if (hideOld && !s.live) { hidden++; return; }
         var pa = audFor(s.c2), aud = pa[0];
         if (budget && aud > budget + 0.005) return;
         if (q && !s.items.some(function (i) { return i.name.toLowerCase().indexOf(q) >= 0; })) return;
@@ -466,7 +466,7 @@
       var how = ssSort === "new" ? "newest era first" : (overall ? "your value weights" : (F.pow ? "most combat power per A$" : F.mins ? "most skip-time per A$" : "most per A$"));
       if (!rows.length) {
         var hint = (!overall && !FACET_LIVE[k] && FACET_HAS[k])
-          ? F.ic + " <b>" + F.label + "</b> only shows up in <b>retired seasons</b>. Untick “Hide retired seasons” above to see those offers."
+          ? F.ic + " <b>" + F.label + "</b> only shows up in <b>retired offers</b>. Untick “Current shop rotation only” above to see those."
           : "No offers match" + (budget ? " under <b>A$" + budget + "</b>" : "") + (q ? " matching “<b>" + q + "</b>”" : "") + ". Try widening the budget or clearing the search.";
         $("ss-list").innerHTML = "<div class='ss-empty'>" + hint + "</div>";
         $("ss-count").textContent = "0 offers" + (overall ? "" : " with " + F.ic + " " + F.label.toLowerCase());

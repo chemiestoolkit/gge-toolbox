@@ -20,6 +20,11 @@
   "changelog": [
     {
       "date": "Jul 2026",
+      "title": "Images everywhere, clickable rewards & a smarter Spenders Corner",
+      "body": "Buildings overview got real building art (105/112) and the rift bosses their portraits — all straight from the game's own files. Any catalogued reward in the Gacha Simulator and Item Value Finder is now clickable and jumps to its overview entry. Spenders Corner rebuilt its relevance logic: the sale search now cross-checks the game's own shop catalogue, so by default you see the bundles actually on sale right now instead of the retired back-catalogue."
+    },
+    {
+      "date": "Jul 2026",
       "title": "Site-wide tune-up — 20+ fixes across the archive",
       "body": "Full audit of all 52 tools: Construction Items overview now shows real item icons (240 of 241), share-preview cards on every tool page, a defence-survival multi-wave bug squashed (post-breach waves now reach the keep), correct level brackets on Rankings, the rift overview links straight to the Wall-Break sim, plus a stack of small input-handling and error-state fixes."
     },

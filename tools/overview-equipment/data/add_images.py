@@ -21,10 +21,21 @@ for p in re.findall(r"itemassets/Equipment/(?:Uniques|Heroes)/Hero_Unique_\d+/He
     eid = re.search(r"Hero_Unique_(\d+)--", p).group(1)
     idx.setdefault(eid, p)
 
+# Legacy hero pieces have no unique render — the game shows generic hero art
+# keyed by the item's picID (Hero_Generic_<picID>). Index those as a fallback.
+import os
+generic = {}
+for p in re.findall(r"itemassets/[A-Za-z0-9_/]*Hero_Generic_\d+--\d+", dll):
+    gid = re.search(r"Hero_Generic_(\d+)--", p).group(1)
+    generic.setdefault(gid, p)
+raw_items = json.load(open(os.path.join(os.path.dirname(dll_path), "items_latest.json")))
+pic_of = {str(e.get("equipmentID")): str(e.get("picID")) for e in raw_items.get("equipments", []) if e.get("picID")}
+
 data = json.load(open(data_path))
 hit = 0
 for it in data["items"]:
-    p = idx.get(str(it["id"])) or (it.get("reuseId") and idx.get(str(it["reuseId"])))
+    p = (idx.get(str(it["id"])) or (it.get("reuseId") and idx.get(str(it["reuseId"])))
+         or generic.get(pic_of.get(str(it["id"]), "")))
     if p:
         it["img"] = ASSET_ROOT + p + ".webp"
         hit += 1

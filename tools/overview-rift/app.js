@@ -44,7 +44,10 @@
     bosses.forEach((b, i) => {
       const t = document.createElement("button");
       t.className = "boss-tab" + (i === curBoss ? " active" : "");
-      t.innerHTML = `<span class="boss-tab-name">${esc(b.name)}</span>
+      t.innerHTML = (b.img ? `<img class="boss-tab-art" src="${esc(b.img)}" alt="" loading="lazy"
+                       style="width:44px;height:44px;object-fit:contain;border-radius:8px"
+                       onerror="this.remove()">` : "") +
+                    `<span class="boss-tab-name">${esc(b.name)}</span>
                      <span class="boss-tab-sub">${esc(b.internalName)} · ${b.levels.length} levels</span>`;
       t.addEventListener("click", () => { curBoss = i; curLevel = 0; render(); });
       tabs.appendChild(t);
@@ -58,10 +61,15 @@
     const head = document.createElement("div");
     head.className = "boss-head";
     head.innerHTML = `
+      ${boss.img ? `<img class="boss-head-art" src="${esc(boss.img)}" alt="" loading="lazy"
+         style="width:96px;height:96px;object-fit:contain;border-radius:12px;flex:none" onerror="this.remove()">` : ""}
       <div class="boss-head-main">
         <h2>${esc(boss.name)}${boss.rarity ? `<span class="rarity-pill ${rarCls}">${esc(boss.rarity)}</span>` : ""}</h2>
         <p class="boss-desc">${esc(boss.description || "")}</p>
       </div>`;
+    head.style.display = "flex";
+    head.style.gap = "16px";
+    head.style.alignItems = "center";
     root.appendChild(head);
 
     /* Level pills */

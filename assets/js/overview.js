@@ -57,6 +57,9 @@ window.EmpireOverview = function (opts) {
   scroll.appendChild(table);
 
   mount.append(bar, scroll);
+  // deep-link: /?q=Item+Name prefilters the table (used by cross-tool item links)
+  const urlQ = new URLSearchParams(location.search).get("q");
+  if (urlQ) { input.value = urlQ; query = urlQ.trim().toLowerCase(); }
   input.addEventListener("input", () => { query = input.value.trim().toLowerCase(); render(); });
 
   const esc = (s) => String(s == null ? "" : s).replace(/[&<>"]/g, (c) =>
@@ -126,6 +129,9 @@ function cardOverview(opts) {
   const input = document.createElement("input");
   input.type = "search"; input.placeholder = opts.placeholder || "Search…"; input.autocomplete = "off";
   if (opts.defaultSearch) { input.value = opts.defaultSearch; query = opts.defaultSearch.trim().toLowerCase(); }
+  // deep-link: /?q=Item+Name prefilters the cards (used by cross-tool item links)
+  const urlQ2 = new URLSearchParams(location.search).get("q");
+  if (urlQ2) { input.value = urlQ2; query = urlQ2.trim().toLowerCase(); }
   search.appendChild(input);
 
   const sortWrap = document.createElement("div");

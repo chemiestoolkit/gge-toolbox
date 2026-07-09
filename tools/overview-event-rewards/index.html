@@ -76,8 +76,17 @@
       "Nomad Invasion": "nomadinvasion", "Samurai Invasion": "samuraiinvasion",
       "Bloodcrow invasion": "bloodcrow", "War of the Realms": "waroftherealms",
       "Battle for Berimond": "berimond", "Berimond Invasion": "berimond",
-      "Rift Raid": "riftraid", "Grand Tournament": "grandtournament",
+      "Rift Raid": "riftraid", "Rift Tournament": "riftraid",
+      "Grand Tournament": "grandtournament",
       "Alliance tournament": "grandtournament", "Grand Nobility Prize": "ltpe",
+      "Sands of Fortune": "ltpe", "Summoning of the Hollow Moon": "ltpe",
+      "The Enchanted Snowglobe": "ltpe", "Carnival of Masks": "ltpe",
+    };
+    /* thematic fallbacks where no icon exists */
+    const EMOJI = {
+      "Wheel of Fortune": "🎡 ", "Wheel of Unimaginable Affluence": "🎡 ",
+      "Marauders' contest": "🏴‍☠️ ", "Midnight Market": "🌙 ",
+      "Halloween Banquet": "🎃 ", "King's Banquet": "👑 ",
     };
     const iconFor = (name) =>
       ICONS[name] ? "../../assets/img/event-icons/" + ICONS[name] + ".webp" : null;
@@ -94,7 +103,7 @@
         const p = document.createElement("button");
         p.className = "ev-pill" + (i === curEv ? " active" : "");
         const ic = iconFor(e.name);
-        p.innerHTML = (ic ? '<img src="' + ic + '" alt="" onerror="this.remove()">' : "🏅 ") + esc(e.name);
+        p.innerHTML = (ic ? '<img src="' + ic + '" alt="" onerror="this.remove()">' : (EMOJI[e.name] || "🏅 ")) + esc(e.name);
         p.addEventListener("click", () => { curEv = i; curBr = 0; render(); });
         pills.appendChild(p);
       });

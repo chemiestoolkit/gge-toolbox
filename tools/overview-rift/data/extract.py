@@ -25,6 +25,14 @@ def fetch(url, label):
         return r.read().decode("utf-8")
 
 
+def boss_img(bid):
+    """Per-boss portrait (DetailView_RaidBoss_<id>) resolved from the game's DLL asset index."""
+    import glob, re
+    dll = open(glob.glob(os.path.join(_SRC, "ggs.dll*"))[0], encoding="utf-8", errors="replace").read()
+    m = re.search(r"itemassets/[A-Za-z0-9_/]*DetailView_RaidBoss_" + str(bid) + r"--\d+", dll)
+    return "https://empire-html5.goodgamestudios.com/default/assets/" + m.group(0) + ".webp" if m else None
+
+
 def main():
     d    = json.loads(fetch(ITEMS_URL, "items_latest.json"))
     lang = {k.lower(): v for k, v in json.loads(fetch(LANG_URL, "lang/en.json")).items()}
@@ -198,6 +206,7 @@ def main():
             "internalName": raw,
             "rarity": rarity,
             "description": desc,
+            "img": boss_img(bid),
             "levels": levels_out,
         })
 
