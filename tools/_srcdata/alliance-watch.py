@@ -34,14 +34,35 @@ HOOK = os.environ.get("DISCORD_ALLIANCE_HOOK", "").strip()
 GREEN = 0x4ade80   # join
 RED   = 0xf87171   # leave
 
+# Cloudflare/origin transient statuses — retry these, never hard-fail on them.
+TRANSIENT_CODES = {429, 500, 502, 503, 504, 520, 521, 522, 523, 524}
 
-def api_get(path):
-    req = urllib.request.Request(API + path, headers={
-        "gge-server": SERVER,
-        "User-Agent": "gge-toolbox-alliance-watch/1.0",
-    })
-    with urllib.request.urlopen(req, timeout=30) as r:
-        return json.loads(r.read().decode("utf-8"))
+
+class TransientError(Exception):
+    """Upstream is temporarily unreachable — skip this cycle, catch up next run."""
+
+
+def api_get(path, retries=4):
+    last = None
+    for attempt in range(retries):
+        try:
+            req = urllib.request.Request(API + path, headers={
+                "gge-server": SERVER,
+                "User-Agent": "gge-toolbox-alliance-watch/1.0",
+            })
+            with urllib.request.urlopen(req, timeout=30) as r:
+                return json.loads(r.read().decode("utf-8"))
+        except urllib.error.HTTPError as e:
+            last = e
+            if e.code not in TRANSIENT_CODES:
+                raise                       # genuine 4xx (e.g. 404) — surface it
+        except (urllib.error.URLError, TimeoutError) as e:
+            last = e                        # DNS/connection/timeout — always transient
+        wait = 2 ** attempt
+        print(f"api_get {path}: attempt {attempt + 1}/{retries} failed ({last}) — retry in {wait}s",
+              file=sys.stderr)
+        time.sleep(wait)
+    raise TransientError(f"gge-tracker unreachable after {retries} tries: {last}")
 
 
 def load_state():
@@ -104,24 +125,42 @@ def to_embed(u):
 
 
 def post_discord(embeds):
-    # Discord caps embeds at 10 per message — chunk to be safe.
+    """Post embeds in chunks of 10. Returns True if everything posted, False if we
+    gave up on a transient/dead-webhook error (caller then keeps the watermark
+    unsaved so we retry next run instead of failing the job)."""
     for i in range(0, len(embeds), 10):
         payload = {"username": "Anti Black Souls", "embeds": embeds[i:i + 10]}
         data = json.dumps(payload).encode("utf-8")
-        # Discord sits behind Cloudflare, which 403s the default Python-urllib
-        # User-Agent (error 1010) — set an explicit UA or the POST is blocked.
-        req = urllib.request.Request(HOOK, data=data,
-            headers={"Content-Type": "application/json",
-                     "User-Agent": "gge-toolbox-alliance-watch/1.0 (+https://github.com/chemiestoolkit/gge-toolbox)"},
-            method="POST")
-        try:
-            with urllib.request.urlopen(req, timeout=30) as r:
-                r.read()
-        except urllib.error.HTTPError as e:
-            body = e.read().decode("utf-8", "replace")[:300]
-            print(f"Discord POST failed {e.code}: {body}", file=sys.stderr)
-            raise
+        for attempt in range(4):
+            # Discord sits behind Cloudflare, which 403s the default Python-urllib
+            # User-Agent (error 1010) — set an explicit UA or the POST is blocked.
+            req = urllib.request.Request(HOOK, data=data,
+                headers={"Content-Type": "application/json",
+                         "User-Agent": "gge-toolbox-alliance-watch/1.0 (+https://github.com/chemiestoolkit/gge-toolbox)"},
+                method="POST")
+            try:
+                with urllib.request.urlopen(req, timeout=30) as r:
+                    r.read()
+                break                                   # chunk posted
+            except urllib.error.HTTPError as e:
+                if e.code == 429:
+                    wait = float(e.headers.get("Retry-After", 2) or 2)
+                elif e.code in TRANSIENT_CODES:
+                    wait = 2 ** attempt
+                else:                                   # 400/401/404 — bad payload or dead webhook
+                    body = e.read().decode("utf-8", "replace")[:300]
+                    print(f"Discord POST hard error {e.code}: {body}", file=sys.stderr)
+                    return False
+                print(f"Discord POST {e.code} — retry in {wait:.0f}s", file=sys.stderr)
+                time.sleep(min(wait, 30))
+            except (urllib.error.URLError, TimeoutError) as e:
+                print(f"Discord POST network error ({e}) — retry", file=sys.stderr)
+                time.sleep(2 ** attempt)
+        else:
+            print("Discord POST: gave up after retries.", file=sys.stderr)
+            return False
         time.sleep(0.4)  # be gentle with the webhook rate limit
+    return True
 
 
 def parse_ts(s):
@@ -132,10 +171,16 @@ def parse_ts(s):
 
 def main():
     if not HOOK:
+        # Misconfig, but don't fail the job (and email) every hour over it.
         print("DISCORD_ALLIANCE_HOOK not set — nothing to do.", file=sys.stderr)
-        return 1
+        return 0
 
-    data = api_get(f"updates/alliances/{ALLIANCE_ID}/players")
+    try:
+        data = api_get(f"updates/alliances/{ALLIANCE_ID}/players")
+    except TransientError as e:
+        print(f"Skipping this cycle — {e}", file=sys.stderr)
+        return 0                            # transient upstream: no crash, no email
+
     updates = data.get("updates", []) or []
     # Oldest → newest so Discord shows them in chronological order.
     updates.sort(key=lambda u: parse_ts(u.get("created_at")))
@@ -143,25 +188,29 @@ def main():
     state = load_state()
     since = parse_ts(state.get("watermark"))
     first_run = "watermark" not in state
-
     fresh = [u for u in updates if parse_ts(u.get("created_at")) > since]
 
-    if updates:
-        state["watermark"] = updates[-1]["created_at"]
-
     if first_run:
+        if updates:
+            state["watermark"] = updates[-1]["created_at"]
         save_state(state)
         print(f"First run — baseline set at {state.get('watermark')}, posted nothing.")
         return 0
 
     if not fresh:
+        if updates:
+            state["watermark"] = updates[-1]["created_at"]
         save_state(state)
         print("No new joins/leaves.")
         return 0
 
-    post_discord([to_embed(u) for u in fresh])
-    save_state(state)
-    print(f"Posted {len(fresh)} movement(s) to Discord.")
+    # Only advance the watermark once Discord has actually accepted the posts.
+    if post_discord([to_embed(u) for u in fresh]):
+        state["watermark"] = updates[-1]["created_at"]
+        save_state(state)
+        print(f"Posted {len(fresh)} movement(s) to Discord.")
+    else:
+        print("Discord post failed — keeping watermark, will retry next run.", file=sys.stderr)
     return 0
 
 
