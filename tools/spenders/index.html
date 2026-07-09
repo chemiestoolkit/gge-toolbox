@@ -51,6 +51,16 @@
     .ss-aud { font-size: 1.15rem; font-weight: 700; color: var(--text); }
     .ss-aud .est { font-size: .68rem; color: var(--text-faint, #8a8372); font-weight: 400; }
     .ss-bonus { font-size: .7rem; padding: 1px 8px; border-radius: 99px; border: 1px solid rgba(217,178,90,.5); color: var(--gold); }
+    .ss-bonus .real { color: var(--text-faint, #8a8372); }
+    .ss-src { font-size: .66rem; padding: 1px 7px; border-radius: 99px; border: 1px solid var(--line, #3a352a); color: var(--text-dim, #b5ac97); }
+    .ss-gate { font-size: .7rem; color: var(--text-dim, #b5ac97); margin: 3px 0 0; }
+    .ss-gate b { color: var(--gold); }
+    .ss-ladder { margin-top: 10px; border-top: 1px solid var(--line, #3a352a); padding-top: 8px; font-size: .8rem; }
+    .ss-ladder summary { cursor: pointer; color: var(--text-dim, #b5ac97); }
+    .ss-ladder table { width: 100%; border-collapse: collapse; margin-top: 6px; font-size: .76rem; }
+    .ss-ladder th, .ss-ladder td { text-align: left; padding: 3px 8px 3px 0; border-bottom: 1px solid var(--line, #3a352a); }
+    .ss-ladder th { color: var(--text-faint, #8a8372); font-weight: 600; }
+    .ss-ladder td b { color: var(--gold); }
     .ss-val { margin-left: auto; font-size: .82rem; color: var(--text-dim); white-space: nowrap; }
     .ss-val b { color: var(--gold-bright, var(--gold)); }
     .ss-target { font-weight: 600; color: var(--text); margin: 7px 0 5px; }
@@ -134,7 +144,7 @@
         <div class="ss-field"><label for="ss-budget">Budget (A$, optional)</label><input type="number" id="ss-budget" min="0" placeholder="any" /></div>
         <div class="ss-field"><label for="ss-search">Search contents</label><input type="text" id="ss-search" placeholder="e.g. Demon slayer, Affluence, sceat" /></div>
         <div class="ss-field"><label>Sort</label><div class="ss-sort" id="ss-sort"><button data-s="value" class="on">Best value</button><button data-s="new">Newest era</button></div></div>
-        <div class="ss-field"><label>Relevance</label><label class="ss-toggle"><input type="checkbox" id="ss-recent" checked> Current shop rotation only</label></div>
+        <div class="ss-field"><label>Relevance</label><label class="ss-toggle"><input type="checkbox" id="ss-recent" checked> Hide retired legacy offers</label></div>
       </div>
       <details class="ss-weights" id="ss-weights">
         <summary>⚖️ Value weights — tune what matters <span class="hint">(drives the 🏆 Overall ranking. Starts on sensible default tiers — wheel tickets near-zero, event-gacha &amp; affluence high, gear/rubies above neutral — troops &amp; tools already weighted by combat power)</span></summary>
@@ -157,11 +167,21 @@
         strongest-value offer currently shown, everything else is rated against it (so the number always matches the ranking).
         <b>Same bundle, many sizes:</b> when an offer is sold at several sizes (40 / 80 / 150 troops of the identical pack) they're
         collapsed into one <em>best-value</em> card with an “also sold in N other sizes” note, so the list isn't flooded with near-duplicates.
-        <b>Relevance:</b> “Current shop rotation only” keeps just the bundles the game's own shop
-        catalogue references right now (cross-checked against the client's shopping-cart table) — facets that only exist in retired offers are dimmed
+        <b>Relevance:</b> offers come in three classes, straight from the game's own tables —
+        🛒 <b>shop rotation</b> (the always-visible bundle chain), ⚡ <b>pop-up offers</b> (the rotating
+        targeted-sale engine; the game decides who sees which, some gated by your lifetime ruby spend)
+        and retired <b>legacy</b> seasons. “Hide retired legacy offers” keeps the first two — facets that only exist in retired offers are dimmed
         and tell you to untick it; <b>“Newest era”</b> sort orders by internal offer ID. <b>Prices:</b> exact where the
         tier matches a known AU pack ($8.99 / $17.99 / $34.99 …), <em>estimated</em> (≈) for the cheaper tiers. The static data holds offer
         <em>definitions</em>, not your live daily rotation, so search by what you actually see in-game.</div>
+
+      <details class="ss-ladder" id="ss-ladder">
+        <summary>🎯 <b>The spender-tier ladder</b> — what the pop-up engine plans for each wallet</summary>
+        <p class="muted" style="font-size:.78rem">Some pop-up offers are gated by your <b>lifetime rubies bought</b> — the game literally
+          holds different deals for different wallets. This is that ladder, straight from the client data
+          (offer count per tier, the price tiers used, and the bonus range splashed on them).</p>
+        <div id="ss-ladder-body"></div>
+      </details>
     </section>
 
     <section class="panel">
@@ -388,7 +408,7 @@
       FACET_LIVE = {};
       var hideOld = $("ss-recent").checked;
       SALES.sales.forEach(function (s) {
-        if (hideOld && !s.live) return;
+        if (hideOld && s.src === "legacy") return;
         for (var k in s._f) FACET_LIVE[k] = true;
       });
     }
@@ -443,7 +463,7 @@
       var hideOld = $("ss-recent").checked;
       var rows = [], hidden = 0;
       SALES.sales.forEach(function (s) {
-        if (hideOld && !s.live) { hidden++; return; }
+        if (hideOld && s.src === "legacy") { hidden++; return; }
         var pa = audFor(s.c2), aud = pa[0];
         if (budget && aud > budget + 0.005) return;
         if (q && !s.items.some(function (i) { return i.name.toLowerCase().indexOf(q) >= 0; })) return;
@@ -457,7 +477,8 @@
       // collapse the same bundle sold at several sizes into one best-value card
       var seen = {}, deduped = [];
       rows.forEach(function (r) {
-        var sig = r.s._sig || (r.s._sig = r.s.items.map(function (i) { return i.name; }).sort().join("|"));
+        var sig = r.s._sig || (r.s._sig = r.s.items.map(function (i) { return i.name; }).sort().join("|") +
+          "§" + (r.s.src || "") + "§" + (r.s.gate ? r.s.gate.join("-") : ""));
         if (seen[sig] != null) { deduped[seen[sig]].sizes++; return; }
         seen[sig] = deduped.length; r.sizes = 0; deduped.push(r);
       });
@@ -466,7 +487,7 @@
       var how = ssSort === "new" ? "newest era first" : (overall ? "your value weights" : (F.pow ? "most combat power per A$" : F.mins ? "most skip-time per A$" : "most per A$"));
       if (!rows.length) {
         var hint = (!overall && !FACET_LIVE[k] && FACET_HAS[k])
-          ? F.ic + " <b>" + F.label + "</b> only shows up in <b>retired offers</b>. Untick “Current shop rotation only” above to see those."
+          ? F.ic + " <b>" + F.label + "</b> only shows up in <b>retired legacy offers</b>. Untick “Hide retired legacy offers” above to see those."
           : "No offers match" + (budget ? " under <b>A$" + budget + "</b>" : "") + (q ? " matching “<b>" + q + "</b>”" : "") + ". Try widening the budget or clearing the search.";
         $("ss-list").innerHTML = "<div class='ss-empty'>" + hint + "</div>";
         $("ss-count").textContent = "0 offers" + (overall ? "" : " with " + F.ic + " " + F.label.toLowerCase());
@@ -487,10 +508,22 @@
           : F.pow ? "<div class='ss-target'>" + F.ic + " " + fmt(r.qty) + " " + F.label.toLowerCase() + " <span class='muted'>· " + fmt(r.raw) + " power</span></div>"
           : F.mins ? "<div class='ss-target'>" + F.ic + " " + (r.raw / 60).toFixed(1) + " hours of skips <span class='muted'>· " + fmt(r.qty) + " items</span></div>"
           : "<div class='ss-target'>" + F.ic + " " + fmt(r.qty) + " " + F.label.toLowerCase() + "</div>";
+        var srcBadge = r.s.src === "shop" ? "<span class='ss-src' title='Always-visible shop bundle chain'>🛒 shop</span>"
+          : r.s.src === "popup" ? "<span class='ss-src' title='Rotating pop-up offer — the game picks who sees it'>⚡ pop-up</span>"
+          : "<span class='ss-src' title='Retired seasonal offer'>🕰️ retired</span>";
+        // pop-up offers: the splash bonus vs the bonus the game's own contents-worth numbers give
+        var bonusHtml = r.s.bonus
+          ? "<span class='ss-bonus' title='Bonus % splashed on the offer" +
+            (r.s.realPct != null && r.s.realPct !== r.s.bonus ? " — the advertised contents-worth works out to +" + r.s.realPct + "%" : "") + "'>+" + r.s.bonus + "%" +
+            (r.s.realPct != null && r.s.realPct !== r.s.bonus ? " <span class='real'>(real +" + r.s.realPct + "%)</span>" : "") + "</span>"
+          : "";
+        var gateLine = r.s.gate
+          ? "<div class='ss-gate'>🎯 shown to players with <b>" + fmt(r.s.gate[0]) + (r.s.gate[1] ? "–" + fmt(r.s.gate[1]) : "+") + "</b> lifetime rubies bought</div>"
+          : "";
         return "<div class='ss-card" + (i === 0 ? " top" : "") + "'><div class='ss-head'>" +
           "<span class='ss-aud'>A$" + r.aud.toFixed(2) + (r.est ? " <span class='est'>≈</span>" : "") + "</span>" +
-          (r.s.bonus ? "<span class='ss-bonus'>+" + r.s.bonus + "%</span>" : "") +
-          "<span class='ss-val'>" + valTxt + "</span></div>" + targetLine +
+          bonusHtml + srcBadge +
+          "<span class='ss-val'>" + valTxt + "</span></div>" + gateLine + targetLine +
           "<div class='ss-bar'><i style='width:" + bar + "%'></i></div>" +
           "<div class='ss-contents'>" + contentsList(r.s, 7) +
           (r.sizes ? "<div class='ss-sizes'>also sold in " + r.sizes + " other size" + (r.sizes > 1 ? "s" : "") + " — this is the best value</div>" : "") +
@@ -512,12 +545,33 @@
       });
       $("ss-weights-body").innerHTML = html;
     }
+    function renderLadder() {
+      var tiers = {};
+      SALES.sales.forEach(function (s) {
+        if (!s.gate) return;
+        var key = s.gate[0] + "|" + (s.gate[1] || 0);
+        var t = tiers[key] || (tiers[key] = { mn: s.gate[0], mx: s.gate[1] || 0, n: 0, auds: {}, bMin: 1e9, bMax: 0, rMin: 1e9, rMax: 0 });
+        t.n++;
+        t.auds["A$" + audFor(s.c2)[0].toFixed(2)] = 1;
+        if (s.bonus) { t.bMin = Math.min(t.bMin, s.bonus); t.bMax = Math.max(t.bMax, s.bonus); }
+        if (s.realPct != null) { t.rMin = Math.min(t.rMin, s.realPct); t.rMax = Math.max(t.rMax, s.realPct); }
+      });
+      var rows = Object.keys(tiers).map(function (k) { return tiers[k]; }).sort(function (a, b) { return a.mn - b.mn || a.mx - b.mx; });
+      if (!rows.length) { $("ss-ladder").style.display = "none"; return; }
+      $("ss-ladder-body").innerHTML =
+        "<table><thead><tr><th>Lifetime rubies bought</th><th>Tailored offers</th><th>Price tiers</th><th>Bonus splashed</th><th>Real contents-worth</th></tr></thead><tbody>" +
+        rows.map(function (t) {
+          var rng = function (lo, hi, suf) { return lo > hi ? "—" : (lo === hi ? "+" + lo + suf : "+" + lo + "–" + hi + suf); };
+          return "<tr><td><b>" + fmt(t.mn) + (t.mx ? "–" + fmt(t.mx) : "+") + "</b></td><td>" + t.n + "</td><td>" +
+            Object.keys(t.auds).sort().join(", ") + "</td><td>" + rng(t.bMin, t.bMax, "%") + "</td><td>" + rng(t.rMin, t.rMax, "%") + "</td></tr>";
+        }).join("") + "</tbody></table>";
+    }
     function init() {
       auLadder = SALES.auLadder.slice().sort(function (a, b) { return a[0] - b[0]; });
       prep();
       computeLive();
       renderWeights();
-      renderAll(); renderDaily(); fillSalePicker(); renderSales();
+      renderAll(); renderDaily(); fillSalePicker(); renderSales(); renderLadder();
       $("ss-recent").addEventListener("change", function () { ssShown = 30; computeLive(); fillSalePicker(); renderSales(); });
       $("doubler").addEventListener("change", renderAll);
       $("prime").addEventListener("change", renderAll);

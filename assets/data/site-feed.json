@@ -20,6 +20,11 @@
   "changelog": [
     {
       "date": "Jul 2026",
+      "title": "Spenders Corner — offer classes, honest bonuses & the spender-tier ladder",
+      "body": "Deep dive into the game's own offer tables. Every sale is now classed 🛒 shop rotation / ⚡ pop-up engine / 🕰️ retired, straight from the client data. Pop-up offers show the REAL contents-worth bonus next to the splashed one (the +500% banner is usually +400% by the game's own numbers — 1,467 of 1,524 pop-ups overstate). And the new spender-tier ladder exposes offer targeting: 20 tiers of deals gated by your lifetime rubies bought, from A$2.77 starter hooks to A$179.99 whale bundles."
+    },
+    {
+      "date": "Jul 2026",
       "title": "Images everywhere, clickable rewards & a smarter Spenders Corner",
       "body": "Buildings overview got real building art (105/112) and the rift bosses their portraits — all straight from the game's own files. Any catalogued reward in the Gacha Simulator and Item Value Finder is now clickable and jumps to its overview entry. Spenders Corner rebuilt its relevance logic: the sale search now cross-checks the game's own shop catalogue, so by default you see the bundles actually on sale right now instead of the retired back-catalogue."
     },

@@ -343,9 +343,13 @@ def decode_offer(s):
         out.append(e)
     return out
 
-# The game's CURRENT shop rotation = shoppingCarts; a paymentreward it references
-# is genuinely on sale in-game. Everything else is retired/seasonal back-catalogue.
+# Offer classes, from the game's own tables:
+#   shop   — referenced by shoppingCarts = the always-visible shop chain, on sale now
+#   popup  — id >= 500000 = the rotating pop-up offer engine (server picks who sees what;
+#            carries advertised ruby-worth + optional lifetime-spend targeting gates)
+#   legacy — everything else: retired seasonal catalogue
 live_ids={int(c['rewardID']) for c in items.get('shoppingCarts',[])}
+def offer_src(rid): return 'shop' if rid in live_ids else ('popup' if rid>=500000 else 'legacy')
 
 seen={}; SALES=[]
 for r in items['paymentrewards']:
@@ -353,13 +357,20 @@ for r in items['paymentrewards']:
     if not its: continue
     c2=int(r['c2ForReward'])
     rid=int(r['paymentrewardID'])
-    sig=(c2, tuple(sorted((i['name'], i['qty']) for i in its)))
-    if sig in seen:
-        if rid in live_ids: SALES[seen[sig]]['live']=1   # any live duplicate marks the kept card live
-        continue
+    src_cls=offer_src(rid)
+    sig=(src_cls, c2, tuple(sorted((i['name'], i['qty']) for i in its)))
+    if sig in seen: continue
     seen[sig]=len(SALES)
-    SALES.append({'id':rid,'c2':c2,'bonus':int(r.get('shownOfferBonus',0) or 0),
-                  'live':1 if rid in live_ids else 0,'items':its})
+    e={'id':rid,'c2':c2,'bonus':int(r.get('shownOfferBonus',0) or 0),'src':src_cls,'items':its}
+    if src_cls=='popup':
+        adv=int(r.get('shownCurrencyValue') or 0)
+        if adv>=c2>0:
+            e['adv']=adv
+            e['realPct']=round((adv-c2)/c2*100)   # contents-worth bonus from the game's own numbers
+        mn=str(r.get('c2LifetimeSpentMin') or '').strip(); mx=str(r.get('c2LifetimeSpentMax') or '').strip()
+        if mn not in ('','0'):
+            e['gate']=[int(mn), int(mx) if mx not in ('','0') else 0]  # lifetime-rubies spend window
+    SALES.append(e)
 sale_buckets=sorted({i['b'] for s in SALES for i in s['items']})
 # per-category "raw value" of an offer = sum(qty*power) for troops/tools, else sum(qty).
 # store a per-category 90th-percentile norm so the UI's category weights are comparable.
