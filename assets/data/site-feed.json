@@ -131,16 +131,6 @@
   ],
   "news": [
     {
-      "date": "7 Jul 2026",
-      "title": "Important Update about the Berimond Advisor",
-      "url": "https://communityhub.goodgamestudios.com/2026/07/07/important-update-about-the-berimond-advisor/"
-    },
-    {
-      "date": "7 Jul 2026",
-      "title": "Glory Event Restart",
-      "url": "https://communityhub.goodgamestudios.com/2026/07/07/glory-event-missing-on-fr1/"
-    },
-    {
       "date": "2 Jul 2026",
       "title": "Rise Through the Divisions: The Biggest Rift Raid Update Yet",
       "url": "https://communityhub.goodgamestudios.com/2026/07/02/rise-through-the-divisions-the-biggest-rift-raid-update-yet/"
@@ -169,6 +159,16 @@
       "date": "11 Jun 2026",
       "title": "The News Hub is finally here!",
       "url": "https://communityhub.goodgamestudios.com/2026/06/11/elementor-12857/"
+    },
+    {
+      "date": "11 Jun 2026",
+      "title": "The Sands of Fortune Return",
+      "url": "https://communityhub.goodgamestudios.com/2026/06/11/the-sands-of-fortune-return/"
+    },
+    {
+      "date": "21 May 2026",
+      "title": "Unite or Fall A Dead World Seeks Another",
+      "url": "https://communityhub.goodgamestudios.com/2026/05/21/unite-or-fall-a-dead-world-seeks-another/"
     }
   ],
   "newsUrl": "https://communityhub.goodgamestudios.com/newshube4k/",
@@ -250,6 +250,6 @@
       }
     ]
   },
-  "newsUpdated": "2026-07-10",
-  "eventsUpdated": "2026-07-10"
+  "newsUpdated": "2026-07-11",
+  "eventsUpdated": "2026-07-11"
 }
