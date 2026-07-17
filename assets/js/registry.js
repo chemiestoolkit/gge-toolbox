@@ -488,6 +488,16 @@ window.TOOLS = [
     status: "live",
     tags: ["event", "rewards", "milestones", "points", "rift raid", "nomad", "samurai"],
   },
+  {
+    slug: "overview-rift-rewards",
+    img: "assets/img/event-icons/riftraid.webp",
+    cat: "overviews",
+    name: "Rift Tournament Rewards",
+    desc: "Every ranking reward for all six divisions, rank by rank — including the tiers the in-game screen hides.",
+    icon: "🏆",
+    status: "live",
+    tags: ["rift", "tournament", "rewards", "ranking", "divisions", "diamond", "riftsliver", "leaderboard", "crest", "amulet"],
+  },
 
   // ---- Rankings & stats --------------------------------------------------
   {

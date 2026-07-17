@@ -7,7 +7,7 @@
   <meta property="og:type" content="website" />
   <meta property="og:site_name" content="Maxy's Empire Toolkit" />
   <meta property="og:title" content="Rift Tournament — Maxy's Empire Toolkit" />
-  <meta property="og:description" content="The reworked Rift Raid&#x27;s alliance meta-layer: the six divisions (Copper to Diamond), the Quest Board, Rift Tournament Levels, and the level + ranking reward tracks. Mechanics confirmed; reward amounts pending." />
+  <meta property="og:description" content="The reworked Rift Raid&#x27;s alliance meta-layer: the six divisions (Copper to Diamond), the Quest Board, Rift Tournament Levels, and the fully decoded ranking reward tables." />
   <meta property="og:url" content="https://chemiestoolkit.github.io/gge-toolbox/tools/guides/rift-tournament.html" />
   <meta property="og:image" content="https://chemiestoolkit.github.io/gge-toolbox/assets/img/event-icons/riftraid.webp" />
   <meta name="twitter:card" content="summary" />
@@ -39,13 +39,14 @@
     <div class="guide">
       <article>
 
-        <div class="tip warn">
-          <b>⚠️ Debuted 7 Jul 2026 — then pulled for technical faults.</b> The Rift Tournament ran its first
-          window (<b>7–14 Jul 2026</b>) but was taken back down shortly after launch over technical issues, and
-          is expected to return once fixed. The mechanics below are now <b>confirmed</b> — cross-checked between
-          Goodgame's official reveal and the game's own data files. The one thing still not public is the
-          <em>exact reward quantity</em> at each division/level/placement — those are handed out server-side, so
-          they're marked "see in-game" until confirmed from live reward screens.
+        <div class="tip">
+          <b>🟢 Live again — and this run is the Distribution phase.</b> After the false start on 7 Jul (pulled
+          for technical faults), the Tournament is back. This first full run seeds the divisions: <b>every
+          alliance starts in Copper</b> on one big leaderboard, and your final placement decides which division
+          you begin next season in. That's also why the in-game reward screens only show Copper —
+          higher-division tabs stay locked until your alliance actually reaches them. The full reward tables for
+          <em>all</em> divisions are decoded from the game files in our new
+          <a href="../overview-rift-rewards/">Rift Tournament Rewards overview</a>.
         </div>
 
         <p class="guide-lead">The <b>Rift Tournament</b> is a competitive season wrapped around the
@@ -66,21 +67,24 @@
           the others in its sub-division and moves up or down for next time.</p>
 
         <p><b>Copper → Glass → Bronze → Silver → Gold → Diamond</b> — Diamond (added in this rework) is the new
-          top tier. Promotion/demotion is by placement in your sub-division:</p>
+          top tier. From season two, promotion/demotion runs by placement in your sub-division, with the exact
+          counts now confirmed from the in-game rules:</p>
 
         <table class="guide-table">
-          <thead><tr><th>Division</th><th>Move up</th><th>Move down</th></tr></thead>
+          <thead><tr><th>Division</th><th>Sub-division</th><th>Move up</th><th>Move down</th></tr></thead>
           <tbody>
-            <tr><td>💎 Diamond</td><td>— (top tier)</td><td>bottom places → Gold</td></tr>
-            <tr><td>🥇 Gold</td><td>top → Diamond</td><td>bottom → Silver</td></tr>
-            <tr><td>🥈 Silver</td><td>top → Gold</td><td>bottom → Bronze</td></tr>
-            <tr><td>🥉 Bronze</td><td>top → Silver</td><td>bottom → Glass</td></tr>
-            <tr><td>🔷 Glass</td><td>top → Bronze</td><td>bottom → Copper</td></tr>
-            <tr><td>🟫 Copper</td><td>top → Glass</td><td>— (bottom tier)</td></tr>
+            <tr><td>💎 Diamond</td><td>5 alliances</td><td>— (top tier)</td><td>bottom 2 → Gold</td></tr>
+            <tr><td>🥇 Gold</td><td>8</td><td>top 1 → Diamond</td><td>bottom 3 → Silver</td></tr>
+            <tr><td>🥈 Silver</td><td>16</td><td>top 2 → Gold</td><td>bottom 5 → Bronze</td></tr>
+            <tr><td>🥉 Bronze</td><td>30</td><td>top 3 → Silver</td><td>bottom 8 → Glass</td></tr>
+            <tr><td>🔷 Glass</td><td>50</td><td>top 5 → Bronze</td><td>bottom 16 → Copper</td></tr>
+            <tr><td>🟫 Copper</td><td>unlimited</td><td>top 8 → Glass</td><td>— (bottom tier)</td></tr>
           </tbody>
         </table>
-        <p class="guide-note">First time in, your alliance is seeded into a starting division before normal
-          ranking begins. Exact promote/demote counts per sub-division are set server-side.</p>
+        <p class="guide-note"><b>This first run (Distribution phase)</b> works differently: everyone is in Copper
+          on one big division leaderboard, and final placement seeds next season — top 36 alliances → Gold,
+          37–96 → Silver, 97–456 → Bronze, 457–1,356 → Glass, the rest stay Copper. Diamond isn't seeded
+          directly; it's reached by winning a Gold sub-division from season two.</p>
 
         <h2>Rift Points — the new currency</h2>
         <p>The Tournament introduces <b>Rift Points</b>, which <b>replace the old Activity Points</b>. You earn
@@ -94,13 +98,16 @@
           <b>Tournament level track</b>.</p>
 
         <table class="guide-table">
-          <thead><tr><th>Rule</th><th>Detail (official)</th></tr></thead>
+          <thead><tr><th>Rule</th><th>Detail (in-game rules, relaunch)</th></tr></thead>
           <tbody>
-            <tr><td>Quest tickets</td><td>start with <b>2</b>; earn <b>+2 for every boss your alliance defeats</b>; buy up to <b>3</b> more</td></tr>
-            <tr><td>Accepting</td><td>one quest per ticket; you have <b>6 hours</b> to finish it once accepted</td></tr>
-            <tr><td>Rerolling</td><td><b>completely free</b>, with a <b>1-hour cooldown per slot</b></td></tr>
+            <tr><td>Quest board</td><td>up to <b>25 quests</b> on the board at once; you can only have <b>one accepted at a time</b></td></tr>
+            <tr><td>Quest tickets</td><td>start with <b>2</b>; earn <b>+2 every Rift Tournament level</b> your alliance gains; buy up to <b>3</b> more at <b>7,500 rubies</b> each (bought tickets don't carry over)</td></tr>
+            <tr><td>Accepting</td><td>one ticket per quest; finish within the time limit or the quest <b>fails and the ticket is gone</b>. Completed-but-unclaimed quests auto-claim when the event ends</td></tr>
+            <tr><td>Rerolling</td><td>free — <b>any participating member</b> can reroll a quest that nobody has accepted yet. Claiming, failing or rerolling puts that slot on cooldown (skippable with rubies)</td></tr>
           </tbody>
         </table>
+        <p class="guide-note">GGS's own texts disagree on the ticket-purchase cap (the rules say 5, the buy popup
+          says 1) — the shop config itself says <b>3 per event</b>, so that's what we list.</p>
 
         <p>Quest objectives cover the whole toolkit of rift play:</p>
         <ul>
@@ -116,10 +123,37 @@
         <table class="guide-table">
           <thead><tr><th>Track</th><th>How you get it</th></tr></thead>
           <tbody>
-            <tr><td><b>Level rewards</b></td><td>Every time your alliance crosses a point threshold and gains a Tournament level, <em>every</em> eligible member is paid out. This is the reworked replacement for the old Activity Rewards. Higher division = more levels = better payouts.</td></tr>
-            <tr><td><b>Ranking / division rewards</b></td><td>Given to the top alliances in your sub-division at the end of the window, scaled by division. The winning alliance takes the <b>Rift Tournament</b> title.</td></tr>
+            <tr><td><b>Level rewards</b></td><td>Every time your alliance crosses a point threshold and gains a Tournament level, <em>every</em> eligible member is paid out automatically. This replaces the old Activity Rewards. Higher division = more levels = better payouts.</td></tr>
+            <tr><td><b>Ranking rewards</b></td><td>Given to the top alliances in your sub-division at the end of the window, scaled by division. Sub-division winners also take the <b>Rift Tournament Trophy</b>.</td></tr>
           </tbody>
         </table>
+
+        <div class="tip">
+          <b>Eligibility — the 250-point floor.</b> To receive <em>any</em> Tournament rewards you must contribute
+          at least <b>250 Rift Tournament Points</b> to your alliance (check the contributions tab). And if you
+          <b>leave your alliance during the event, you forfeit your ranking rewards</b> — move castles after the
+          window, not during it.
+        </div>
+
+        <h2>Ranking rewards at a glance</h2>
+        <p>The full rank-by-rank tables for all six divisions live in the
+          <a href="../overview-rift-rewards/">Rift Tournament Rewards overview</a> — including everything the
+          in-game screen keeps locked until you reach that division. The headline prizes:</p>
+        <table class="guide-table">
+          <thead><tr><th>Division</th><th>Paid ranks</th><th>Winner's headline haul</th></tr></thead>
+          <tbody>
+            <tr><td>💎 Diamond</td><td>all 5</td><td><b>1,000,000 rubies</b>, 7,500 dragon scale splinters + 1,000 tiles, Diamond Wellspring + Bulwark decos, a <b>permanent</b> +6-wave Diamond Amulet, +1,500% recruitment crest</td></tr>
+            <tr><td>🥇 Gold</td><td>top 5</td><td>5,000 splinters + 500 tiles, Gold Wellspring + Bulwark, +7-wave Amulet (60 d), +1,400% crest</td></tr>
+            <tr><td>🥈 Silver</td><td>top 6</td><td>4,000 Plaster, 100 ducats + 100 Sceats, Silver decos, +6-wave Amulet (40 d), +1,300% crest</td></tr>
+            <tr><td>🥉 Bronze</td><td>top 6</td><td>3,500 Plaster, 85 ducats + 85 Sceats, Bronze decos, +4-wave Amulet (30 d), +1,200% crest</td></tr>
+            <tr><td>🔷 Glass</td><td>top 8</td><td>3,000 Upgrade + 1,500 Construction tokens, 70 ducats + 70 Sceats, Bronze Wellspring</td></tr>
+            <tr><td>🟫 Copper</td><td>top 10</td><td>2,500 Upgrade + 1,250 Construction tokens, 50 ducats + 50 Sceats, Bronze Wellspring</td></tr>
+          </tbody>
+        </table>
+        <p class="guide-note"><b>This run pays better than normal Copper:</b> the Distribution-phase table is
+          boosted — top 10 in your sub-division get <b>4,000 Upgrade + 2,000 Construction tokens, 70 ducats +
+          70 Sceats</b>, and the top 4 add the <b>Gold Riftsliver Relic</b> (9,750 PO).
+          <a href="../overview-rift-rewards/">Full tables →</a></p>
 
         <h2>What you can win — the Riftsliver pool</h2>
         <p>The whole reward set is themed <b>"Riftsliver"</b> (the official blog spells it "Riftshiver"), tiered
@@ -156,29 +190,33 @@
         </div>
 
         <div class="tip warn">
-          <b>Reward <em>quantities</em> aren't public yet.</b> Which division / level / placement gives
-          <em>how many</em> of each item is delivered by the server at event time and isn't in the client files.
-          The fastest way to pin them down: open the in-game <b>reward hub</b> and <b>division reward</b> panels
-          during a live window and screenshot them.
+          <b>Ranking rewards: fully decoded. Level rewards: still server-side.</b> The rank-by-rank division
+          tables are now in the client files and published in the
+          <a href="../overview-rift-rewards/">rewards overview</a>. The per-<em>level</em> payout quantities are
+          the one piece still delivered server-side — screenshots of the in-game reward hub during this window
+          would let us finish those tables too.
         </div>
 
         <h2>Quick takeaways</h2>
         <ul>
-          <li><b>Kill bosses</b> — each alliance boss kill hands the whole team <b>+2 quest tickets</b>, so more
-            kills = more score attempts.</li>
-          <li>Quests give points; points raise your alliance level; your <b>level × division</b> decides rewards.</li>
-          <li>Reroll is free (1h/slot) — dump any quest you can't clear in 6 hours and pull a better one.</li>
-          <li>Chase Rift Points in battle: they unlock the Boss Defeat Rewards <em>and</em> feed quests.</li>
-          <li>Climbing divisions is the long game — Diamond unlocks the strongest Riftsliver gear (and that
-            +1500% recruitment crest).</li>
+          <li><b>Hit 250 points early</b> — under the eligibility floor you get <em>nothing</em>, however well
+            the alliance does. Then keep quests turning over.</li>
+          <li><b>Level ups snowball</b> — every Tournament level pays out <em>and</em> hands everyone +2 quest
+            tickets for more score attempts.</li>
+          <li>Reroll is free — any member can reroll an unaccepted quest, so curate the board for your hitters.
+            But <b>don't let an accepted quest fail</b>: the ticket is gone for good.</li>
+          <li><b>Don't leave your alliance mid-event</b> — you forfeit the ranking rewards you've earned.</li>
+          <li><b>This run decides your seed</b> — top 36 alliances jump straight to Gold next season. A hard push
+            now skips months of climbing.</li>
         </ul>
 
-        <p class="guide-note">Mechanics from Goodgame's official "Rise Through the Divisions" reveal (2 Jul 2026)
-          cross-checked with the client data (items v776.06). Reward quantities pending live confirmation — got
-          reward screenshots from a live window? They'd finish this guide off.</p>
+        <p class="guide-note">Mechanics from the in-game relaunch rules cross-checked with the client data
+          (items v780.01, 17 Jul 2026) and Goodgame's "Rise Through the Divisions" reveal. Level-reward
+          quantities pending live confirmation — reward-hub screenshots from this window would finish the set.</p>
 
         <div class="guide-nav">
           <a class="guide-tool-link" href="../../">← All tools</a>
+          <a class="guide-tool-link" href="../overview-rift-rewards/">🏆 Ranking Rewards tables</a>
           <a class="guide-tool-link" href="./rift-raid.html">🕳️ Rift Raid Basics</a>
           <a class="guide-tool-link" href="../rift-optimizer/">🌀 Rift Commander Maker</a>
         </div>

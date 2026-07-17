@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Rift Tournament Rewards — Maxy's Empire Toolkit</title>
+  <meta property="og:type" content="website" />
+  <meta property="og:site_name" content="Maxy's Empire Toolkit" />
+  <meta property="og:title" content="Rift Tournament Rewards — Maxy's Empire Toolkit" />
+  <meta property="og:description" content="Every Rift Tournament ranking reward, rank by rank, for all six divisions — straight from the game files. See what the in-game screen doesn't show you yet." />
+  <meta property="og:url" content="https://chemiestoolkit.github.io/gge-toolbox/tools/overview-rift-rewards/" />
+  <meta property="og:image" content="https://chemiestoolkit.github.io/gge-toolbox/assets/img/event-icons/riftraid.webp" />
+  <meta name="twitter:card" content="summary" />
+  <meta name="description" content="Rift Tournament ranking rewards for every division and rank — rubies, dragon scales, Riftsliver decorations, amulets and winner crests, decoded from the game data." />
+  <link rel="stylesheet" href="../../assets/css/theme.css?v=15" />
+  <link rel="icon" type="image/png" href="../../assets/img/favicon.png" />
+  <style>
+    .div-pills { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 16px; }
+    .div-pill {
+      display: inline-flex; align-items: center; gap: 7px;
+      padding: 8px 14px; border-radius: var(--radius-sm); font: inherit; font-size: .84rem; font-weight: 700;
+      background: var(--bg-elev-2); border: 1px solid var(--border); color: var(--text-dim); cursor: pointer;
+      transition: .12s;
+    }
+    .div-pill:hover { border-color: var(--gold-dim); color: var(--text); }
+    .div-pill.active { border-color: var(--gold); color: var(--text); background: rgba(217,178,90,.08); }
+    .div-pill .now { font-size: .6rem; font-weight: 800; letter-spacing: .05em; text-transform: uppercase;
+      background: var(--gold); color: #1a1206; border-radius: 99px; padding: 2px 7px; }
+
+    .div-meta { display: flex; flex-wrap: wrap; gap: 8px; margin: 0 0 14px; }
+    .div-chip { font-size: .74rem; color: var(--text-dim); background: var(--bg-elev-2);
+      border: 1px solid var(--border-soft); border-radius: 99px; padding: 4px 12px; }
+    .div-chip b { color: var(--text); }
+
+    table.rr { width: 100%; border-collapse: collapse; font-size: .85rem; }
+    .rr th { text-align: left; font-size: .68rem; text-transform: uppercase; letter-spacing: .06em;
+      color: var(--text-faint); padding: 6px 10px; border-bottom: 1px solid var(--border); }
+    .rr td { padding: 9px 10px; border-bottom: 1px solid var(--border); vertical-align: top; }
+    .rr td.rk { font-variant-numeric: tabular-nums; color: var(--gold); font-weight: 800; white-space: nowrap; width: 84px; }
+    .rr tr.winner td { background: rgba(217,178,90,.05); }
+    .items { display: flex; flex-wrap: wrap; gap: 6px; }
+    .it { display: inline-flex; align-items: center; gap: 5px; font-size: .78rem; color: var(--text);
+      background: var(--bg-elev-2); border: 1px solid var(--border-soft); border-radius: 8px; padding: 4px 9px; }
+    .it small { color: var(--text-faint); font-size: .68rem; }
+    .it.deco { border-color: rgba(127,217,166,.35); }
+    .it.gear { border-color: rgba(217,178,90,.45); }
+    .it.crest { border-color: rgba(180,140,255,.4); }
+
+    .tbl-scroll { overflow-x: auto; }
+    h2.sec { margin: 30px 0 10px; font-size: 1.05rem; }
+    .note { font-size: .78rem; color: var(--text-faint); margin-top: 10px; line-height: 1.5; }
+    table.mv { width: 100%; border-collapse: collapse; font-size: .84rem; }
+    .mv th { text-align: left; font-size: .68rem; text-transform: uppercase; letter-spacing: .06em;
+      color: var(--text-faint); padding: 6px 10px; border-bottom: 1px solid var(--border); }
+    .mv td { padding: 7px 10px; border-bottom: 1px solid var(--border); color: var(--text-dim); }
+    .mv td:first-child { color: var(--text); font-weight: 700; white-space: nowrap; }
+    .legend { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 10px; margin-top: 12px; }
+    .leg { background: var(--bg-elev-2); border: 1px solid var(--border-soft); border-radius: var(--radius-sm); padding: 10px 12px; font-size: .8rem; color: var(--text-dim); }
+    .leg b { color: var(--text); display: block; margin-bottom: 3px; }
+  </style>
+</head>
+<body>
+  <header class="topbar">
+    <div class="wrap">
+      <a class="brand" href="../../"><span class="crest">🛡️</span> Maxy's Empire <b>Toolkit</b></a>
+    </div>
+  </header>
+
+  <main class="wrap">
+    <div class="tool-head">
+      <a class="back" href="../../">← All tools</a>
+      <h1>🏆 Rift Tournament Rewards</h1>
+      <p>The <b>ranking (leaderboard) rewards</b> for every division, rank by rank — decoded straight from the
+        game files. The in-game screen only shows your current division's rewards, so this is the full picture,
+        including the tiers your alliance hasn't reached yet. Mechanics live in the
+        <a href="../guides/rift-tournament.html">Rift Tournament guide</a>.</p>
+    </div>
+
+    <section class="panel">
+      <div class="div-pills" id="pills"></div>
+      <div class="div-meta" id="meta"></div>
+      <div class="tbl-scroll"><table class="rr">
+        <thead><tr><th>Rank</th><th>Rewards (every eligible member)</th></tr></thead>
+        <tbody id="rows"></tbody>
+      </table></div>
+      <p class="note">Eligibility: contribute at least <b>250 Rift Tournament Points</b> during the event — and
+        stay in your alliance until it ends (leaving forfeits your ranking rewards). Subdivision winners also
+        receive the <b>Rift Tournament Trophy</b>.</p>
+
+      <h2 class="sec">📦 What the items are</h2>
+      <div class="legend">
+        <div class="leg"><b>🌿 Riftsliver Wellspring (deco)</b>9,200 PO + unboosted production/hr:
+          Bronze +10k mead &amp; food · Silver +30k mead &amp; food · Gold +45k mead &amp; beef · Diamond +75k mead &amp; beef.</div>
+        <div class="leg"><b>🛡️ Riftsliver Bulwark (deco)</b>9,200 PO + Rift-event combat: wall &amp; gate reduction
+          Bronze +100% · Silver +150% (+1 wave) · Gold +200% (+1 wave) · Diamond +250% (+2 waves).</div>
+        <div class="leg"><b>🗿 Gold Riftsliver Relic (deco)</b>Pure Public Order: 9,750 PO — this run's
+          top-4 qualification prize. (A 10,000 PO Diamond Relic also exists in the reward pool.)</div>
+        <div class="leg"><b>📿 Riftsliver Amulet (Commander)</b>Additional attack waves:
+          Bronze +4 (30 days) · Silver +6 (40 d) · Gold +7 (60 d) · Diamond +6 (120 d — <b>permanent</b> for the Diamond #1).</div>
+        <div class="leg"><b>🚩 Winner's crest (alliance)</b>Subdivision winners Bronze→Diamond fly a coat of arms
+          with <b>+1,200 / 1,300 / 1,400 / 1,500%</b> recruitment speed for up to 7 days.</div>
+        <div class="leg"><b>🐲 Dragon scales · 🪙 Ducats &amp; Sceats · 🔨 Tokens</b>Dragon scale splinters/tiles
+          (dragon-building fusion), Imperial ducats &amp; Sceats (Hall of Legends), Upgrade &amp; Construction tokens
+          (construction-item fusion), Plaster (build resource).</div>
+      </div>
+
+      <h2 class="sec">🔀 How divisions move</h2>
+      <p class="note" style="margin: 4px 0 10px;">Alliances compete inside a <b>subdivision</b> of their division;
+        placement there decides promotion and demotion each season.</p>
+      <div class="tbl-scroll"><table class="mv">
+        <thead><tr><th>Division</th><th>Subdivision size</th><th>Paid ranks</th><th>Move up</th><th>Move down</th></tr></thead>
+        <tbody>
+          <tr><td>💎 Diamond</td><td>5 alliances</td><td>all 5</td><td>— (top)</td><td>bottom 2 → Gold</td></tr>
+          <tr><td>🥇 Gold</td><td>8</td><td>top 5</td><td>top 1 → Diamond</td><td>bottom 3 → Silver</td></tr>
+          <tr><td>🥈 Silver</td><td>16</td><td>top 6</td><td>top 2 → Gold</td><td>bottom 5 → Bronze</td></tr>
+          <tr><td>🥉 Bronze</td><td>30</td><td>top 6</td><td>top 3 → Silver</td><td>bottom 8 → Glass</td></tr>
+          <tr><td>🔷 Glass</td><td>50</td><td>top 8</td><td>top 5 → Bronze</td><td>bottom 16 → Copper</td></tr>
+          <tr><td>🟫 Copper</td><td>unlimited</td><td>top 10</td><td>top 8 → Glass</td><td>— (bottom)</td></tr>
+        </tbody>
+      </table></div>
+
+      <p class="note"><b>This first run is the Distribution phase:</b> every alliance starts in Copper on one big
+        division leaderboard (ranking rewards are still fought out in random subdivisions). Final placement seeds
+        next season's divisions — per the in-game rules: <b>top 36 → Gold</b>, 37–96 → Silver, 97–456 → Bronze,
+        457–1,356 → Glass, the rest stay Copper. Diamond isn't seeded directly this run — it's reached by winning
+        a Gold subdivision from season two onward.</p>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <div class="wrap"><p>Reward tables decoded from the game data (items v780.01, 17 Jul 2026). Level-reward
+      quantities are delivered server-side and aren't in the client files.</p></div>
+  </footer>
+
+  <script>
+    /* Ranking rewards — leaderboardRewards eventTypeID 137, decoded from items v780.01.
+       Items are [emoji, label, qty|note, cssClass]. */
+    const RUBY = (n) => ["💎", "Rubies", n, ""];
+    const SPL  = (n) => ["🐲", "Dragon scale splinters", n, ""];
+    const TILE = (n) => ["🐉", "Dragon scale tiles", n, ""];
+    const PLAS = (n) => ["🧱", "Plaster", n, ""];
+    const DUC  = (n) => ["🪙", "Imperial ducats", n, ""];
+    const SCE  = (n) => ["⚜️", "Sceats", n, ""];
+    const UPG  = (n) => ["🔨", "Upgrade tokens", n, ""];
+    const CON  = (n) => ["🏗️", "Construction tokens", n, ""];
+    const WELL = (t) => ["🌿", t + " Riftsliver Wellspring", "9,200 PO deco", "deco"];
+    const BULW = (t) => ["🛡️", t + " Riftsliver Bulwark", "9,200 PO deco", "deco"];
+    const RELIC_G = () => ["🗿", "Gold Riftsliver Relic", "9,750 PO", "deco"];
+    const AMU  = (t, d) => ["📿", t + " Riftsliver Amulet", d, "gear"];
+    const CREST = (p) => ["🚩", "Winner's crest", "+" + p + "% recruitment · 7 d", "crest"];
+
+    const DIVS = [
+      { key: "qual", icon: "🏁", name: "This run (Distribution)", now: true,
+        meta: ["Everyone starts in <b>Copper</b>", "Paid ranks: <b>top 10</b> per subdivision", "Seeds next season's divisions"],
+        ranks: [
+          [ "1–4", [UPG("4,000"), CON("2,000"), DUC("70"), SCE("70"), RELIC_G()] ],
+          [ "5–10", [UPG("4,000"), CON("2,000"), DUC("70"), SCE("70")] ],
+        ] },
+      { key: "diamond", icon: "💎", name: "Diamond",
+        meta: ["Subdivision: <b>5 alliances</b>", "Paid ranks: <b>all 5</b>", "Bottom 2 demote"],
+        ranks: [
+          [ "1", [RUBY("1,000,000"), SPL("7,500"), TILE("1,000"), WELL("Diamond"), BULW("Diamond"), AMU("Diamond", "+6 waves · permanent"), CREST("1,500")] ],
+          [ "2", [RUBY("750,000"), SPL("7,000"), TILE("900"), WELL("Diamond"), BULW("Diamond"), AMU("Diamond", "+6 waves · 120 d")] ],
+          [ "3", [RUBY("500,000"), SPL("6,500"), TILE("800"), WELL("Diamond"), AMU("Diamond", "+6 waves · 120 d")] ],
+          [ "4", [RUBY("350,000")] ],
+          [ "5", [RUBY("200,000")] ],
+        ] },
+      { key: "gold", icon: "🥇", name: "Gold",
+        meta: ["Subdivision: <b>8 alliances</b>", "Paid ranks: <b>top 5</b>", "Top 1 → Diamond · bottom 3 demote"],
+        ranks: [
+          [ "1", [SPL("5,000"), TILE("500"), WELL("Gold"), BULW("Gold"), AMU("Gold", "+7 waves · 60 d"), CREST("1,400")] ],
+          [ "2", [SPL("4,500"), TILE("400"), WELL("Gold"), BULW("Gold")] ],
+          [ "3–5", [SPL("4,000"), TILE("300"), WELL("Gold")] ],
+        ] },
+      { key: "silver", icon: "🥈", name: "Silver",
+        meta: ["Subdivision: <b>16 alliances</b>", "Paid ranks: <b>top 6</b>", "Top 2 → Gold · bottom 5 demote"],
+        ranks: [
+          [ "1", [PLAS("4,000"), DUC("100"), SCE("100"), WELL("Silver"), BULW("Silver"), AMU("Silver", "+6 waves · 40 d"), CREST("1,300")] ],
+          [ "2", [PLAS("4,000"), DUC("100"), SCE("100"), WELL("Silver"), BULW("Silver")] ],
+          [ "3–6", [PLAS("4,000"), DUC("100"), SCE("100"), WELL("Silver")] ],
+        ] },
+      { key: "bronze", icon: "🥉", name: "Bronze",
+        meta: ["Subdivision: <b>30 alliances</b>", "Paid ranks: <b>top 6</b>", "Top 3 → Silver · bottom 8 demote"],
+        ranks: [
+          [ "1", [PLAS("3,500"), DUC("85"), SCE("85"), WELL("Bronze"), BULW("Bronze"), AMU("Bronze", "+4 waves · 30 d"), CREST("1,200")] ],
+          [ "2", [PLAS("3,500"), DUC("85"), SCE("85"), WELL("Bronze"), BULW("Bronze")] ],
+          [ "3–6", [PLAS("3,500"), DUC("85"), SCE("85"), WELL("Bronze")] ],
+        ] },
+      { key: "glass", icon: "🔷", name: "Glass",
+        meta: ["Subdivision: <b>50 alliances</b>", "Paid ranks: <b>top 8</b>", "Top 5 → Bronze · bottom 16 demote"],
+        ranks: [
+          [ "1–4", [UPG("3,000"), CON("1,500"), DUC("70"), SCE("70"), WELL("Bronze")] ],
+          [ "5–8", [UPG("3,000"), CON("1,500"), DUC("70"), SCE("70")] ],
+        ] },
+      { key: "copper", icon: "🟫", name: "Copper",
+        meta: ["Subdivision: <b>unlimited</b>", "Paid ranks: <b>top 10</b>", "Top 8 → Glass"],
+        ranks: [
+          [ "1–4", [UPG("2,500"), CON("1,250"), DUC("50"), SCE("50"), WELL("Bronze")] ],
+          [ "5–10", [UPG("2,500"), CON("1,250"), DUC("50"), SCE("50")] ],
+        ] },
+    ];
+
+    const esc = (s) => String(s == null ? "" : s).replace(/[&<>"]/g, (c) =>
+      ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]));
+
+    let cur = 0;
+    function render() {
+      const pills = document.getElementById("pills");
+      pills.innerHTML = "";
+      DIVS.forEach((d, i) => {
+        const b = document.createElement("button");
+        b.className = "div-pill" + (i === cur ? " active" : "");
+        b.innerHTML = d.icon + " " + esc(d.name) + (d.now ? ' <span class="now">live</span>' : "");
+        b.addEventListener("click", () => { cur = i; render(); });
+        pills.appendChild(b);
+      });
+
+      const d = DIVS[cur];
+      document.getElementById("meta").innerHTML =
+        d.meta.map((m) => '<span class="div-chip">' + m + "</span>").join("");
+
+      const rows = document.getElementById("rows");
+      rows.innerHTML = "";
+      d.ranks.forEach(([rk, items], idx) => {
+        const tr = document.createElement("tr");
+        if (idx === 0) tr.className = "winner";
+        tr.innerHTML = '<td class="rk">' + (idx === 0 ? "🏆 " : "") + esc(rk) + "</td><td><div class='items'>" +
+          items.map(([em, nm, q, cls]) =>
+            '<span class="it ' + cls + '">' + em + " " + esc(nm) +
+            (q ? " <small>" + esc(q) + "</small>" : "") + "</span>").join("") +
+          "</div></td>";
+        rows.appendChild(tr);
+      });
+    }
+    render();
+  </script>
+</body>
+</html>
