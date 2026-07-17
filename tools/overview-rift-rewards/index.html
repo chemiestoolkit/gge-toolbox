@@ -39,10 +39,14 @@
     .rr td.rk { font-variant-numeric: tabular-nums; color: var(--gold); font-weight: 800; white-space: nowrap; width: 84px; }
     .rr tr.winner td { background: rgba(217,178,90,.05); }
     .items { display: flex; flex-wrap: wrap; gap: 6px; }
-    .it { display: inline-flex; align-items: center; gap: 5px; font-size: .78rem; color: var(--text);
-      background: var(--bg-elev-2); border: 1px solid var(--border-soft); border-radius: 8px; padding: 4px 9px; }
+    .it { display: inline-flex; align-items: center; gap: 6px; font-size: .78rem; color: var(--text);
+      background: var(--bg-elev-2); border: 1px solid var(--border-soft); border-radius: 8px; padding: 4px 9px;
+      text-decoration: none; }
     .it small { color: var(--text-faint); font-size: .68rem; }
+    .it img { width: 20px; height: 20px; object-fit: contain; flex: none; }
     .it.deco { border-color: rgba(127,217,166,.35); }
+    a.it.deco:hover { border-color: rgba(127,217,166,.8); background: rgba(127,217,166,.06); }
+    a.it.deco small::after { content: " ↗"; opacity: .6; }
     .it.gear { border-color: rgba(217,178,90,.45); }
     .it.crest { border-color: rgba(180,140,255,.4); }
 
@@ -134,19 +138,47 @@
 
   <script>
     /* Ranking rewards — leaderboardRewards eventTypeID 137, decoded from items v780.01.
-       Items are [emoji, label, qty|note, cssClass]. */
-    const RUBY = (n) => ["💎", "Rubies", n, ""];
-    const SPL  = (n) => ["🐲", "Dragon scale splinters", n, ""];
-    const TILE = (n) => ["🐉", "Dragon scale tiles", n, ""];
-    const PLAS = (n) => ["🧱", "Plaster", n, ""];
-    const DUC  = (n) => ["🪙", "Imperial ducats", n, ""];
-    const SCE  = (n) => ["⚜️", "Sceats", n, ""];
-    const UPG  = (n) => ["🔨", "Upgrade tokens", n, ""];
-    const CON  = (n) => ["🏗️", "Construction tokens", n, ""];
-    const WELL = (t) => ["🌿", t + " Riftsliver Wellspring", "9,200 PO deco", "deco"];
-    const BULW = (t) => ["🛡️", t + " Riftsliver Bulwark", "9,200 PO deco", "deco"];
-    const RELIC_G = () => ["🗿", "Gold Riftsliver Relic", "9,750 PO", "deco"];
-    const AMU  = (t, d) => ["📿", t + " Riftsliver Amulet", d, "gear"];
+       Items are [icon, label, qty|note, cssClass, link?] — icon is an in-game asset
+       URL (emoji fallback baked in via onerror) or a plain emoji string. */
+    /* Icons vendored from the GGS asset CDN into ./img/ (no hotlinking) —
+       source paths are in the game client; see tools/_srcdata/cache/. */
+    const ICO = {
+      rubies: "../../assets/icons/rubies.png",
+      spl:  "img/dragon-splinters.webp",
+      tile: "img/dragon-tiles.webp",
+      plas: "img/plaster.webp",
+      duc:  "img/ducat.webp",
+      sce:  "img/sceat.webp",
+      upg:  "img/upgrade-token.webp",
+      con:  "img/construction-token.webp",
+      amu:  { Bronze: "img/amulet-bronze.webp", Silver: "img/amulet-silver.webp",
+              Gold: "img/amulet-gold.webp", Diamond: "img/amulet-diamond.webp" },
+      deco: (colour, tier) => "img/" + (colour === "Green" ? "wellspring" : colour === "Red" ? "bulwark" : "relic") +
+        "-" + tier.toLowerCase() + ".png",
+    };
+    const RUBY = (n) => [ICO.rubies, "Rubies", n, ""];
+    const SPL  = (n) => [ICO.spl, "Dragon scale splinters", n, ""];
+    const TILE = (n) => [ICO.tile, "Dragon scale tiles", n, ""];
+    const PLAS = (n) => [ICO.plas, "Plaster", n, ""];
+    const DUC  = (n) => [ICO.duc, "Imperial ducats", n, ""];
+    const SCE  = (n) => [ICO.sce, "Sceats", n, ""];
+    const UPG  = (n) => [ICO.upg, "Upgrade tokens", n, ""];
+    const CON  = (n) => [ICO.con, "Construction tokens", n, ""];
+
+    // Deco chips carry their real effects and deep-link into the Decorations overview.
+    const DECO_LINK = (name) => "../overview-decorations/?q=" + encodeURIComponent(name);
+    const WELL_FX = { Bronze: "+10k mead & food/hr", Silver: "+30k mead & food/hr",
+                      Gold: "+45k mead & beef/hr", Diamond: "+75k mead & beef/hr" };
+    const BULW_FX = { Bronze: "+100% wall & gate breach", Silver: "+150% breach · +1 wave",
+                      Gold: "+200% breach · +1 wave", Diamond: "+250% breach · +2 waves" };
+    const WELL = (t) => [ICO.deco("Green", t), t + " Riftsliver Wellspring",
+      "9,200 PO · " + WELL_FX[t], "deco", DECO_LINK(t + " Riftsliver Wellspring")];
+    const BULW = (t) => [ICO.deco("Red", t), t + " Riftsliver Bulwark",
+      "9,200 PO · " + BULW_FX[t] + " (Rift event)", "deco", DECO_LINK(t + " Riftsliver Bulwark")];
+    const RELIC_G = () => [ICO.deco("", "Gold"), "Gold Riftsliver Relic",
+      "9,750 PO", "deco", DECO_LINK("Gold Riftsliver Relic")];
+
+    const AMU  = (t, d) => [ICO.amu[t], t + " Riftsliver Amulet", d, "gear"];
     const CREST = (p) => ["🚩", "Winner's crest", "+" + p + "% recruitment · 7 d", "crest"];
 
     const DIVS = [
@@ -221,13 +253,21 @@
 
       const rows = document.getElementById("rows");
       rows.innerHTML = "";
+      const FALLBACK = { deco: "🌿", gear: "📿", "": "🎁" };
       d.ranks.forEach(([rk, items], idx) => {
         const tr = document.createElement("tr");
         if (idx === 0) tr.className = "winner";
         tr.innerHTML = '<td class="rk">' + (idx === 0 ? "🏆 " : "") + esc(rk) + "</td><td><div class='items'>" +
-          items.map(([em, nm, q, cls]) =>
-            '<span class="it ' + cls + '">' + em + " " + esc(nm) +
-            (q ? " <small>" + esc(q) + "</small>" : "") + "</span>").join("") +
+          items.map(([ic, nm, q, cls, link]) => {
+            const icon = /^(https?:|\.\.|img\/)/.test(ic)
+              ? '<img src="' + esc(ic) + '" alt="" onerror="this.outerHTML=\'' +
+                (FALLBACK[cls] || "🎁") + '\'">'
+              : ic;
+            const body = icon + " " + esc(nm) + (q ? " <small>" + esc(q) + "</small>" : "");
+            return link
+              ? '<a class="it ' + cls + '" href="' + esc(link) + '" title="Open in the Decorations overview">' + body + "</a>"
+              : '<span class="it ' + cls + '">' + body + "</span>";
+          }).join("") +
           "</div></td>";
         rows.appendChild(tr);
       });
