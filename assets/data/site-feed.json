@@ -1,265 +1,265 @@
 {
- "updated": "2026-07-17",
- "maxyNotes": [
-  {
-   "date": "Jun 2026",
-   "title": "Released to the alliance",
-   "body": "Released to the alliance and metal visitors who are still over, any questions let me know. Rift wall break calculator is my current focus so there is no more guessing, will expand on it down the line so it can also calculate your losses in the cy. Currently just in the leaders corner tools."
+  "updated": "2026-07-17",
+  "maxyNotes": [
+    {
+      "date": "Jun 2026",
+      "title": "Released to the alliance",
+      "body": "Released to the alliance and metal visitors who are still over, any questions let me know. Rift wall break calculator is my current focus so there is no more guessing, will expand on it down the line so it can also calculate your losses in the cy. Currently just in the leaders corner tools."
+    },
+    {
+      "date": "Jun 2026",
+      "title": "Planned",
+      "body": "Planned — Boss specific guides + tool usage, PvP attacking guide + tooling, in-depth Defence guide. Locked-off section for leaders only at the moment, contains a few tools I don't want leaked at this time — so PM me for a code and I might say yes."
+    },
+    {
+      "date": "Jun 2026",
+      "title": "Work in progress",
+      "body": "Links only shared to Chemies members. Send me a PM in-game / DM if you want anything specific added, want more images, or want to contribute a guide or calculator of your own. Cheers, Maxy"
+    }
+  ],
+  "changelog": [
+    {
+      "date": "Jul 2026",
+      "title": "Rift Tournament Level Rewards — the full 30-level track decoded",
+      "body": "New tab in the Rift Tournament Rewards overview: every level reward with its exact point threshold (2,000 → 87,000) and the division you need to unlock it — Copper caps at level 5, Diamond runs to 30. Each 5-level block ends in a Riftsliver Relic PO deco, and each level-up also banks +2 quest tickets. Turns out the level tables ARE in the game files after all, so nothing here is guesswork."
+    },
+    {
+      "date": "Jul 2026",
+      "title": "Rift Tournament rewards — every division decoded (new overview)",
+      "body": "The Tournament is back live, but in-game you can only see your own division's rewards. So we pulled the lot from the game files: a new Rift Tournament Rewards overview lists every ranking reward for all six divisions rank by rank — the Diamond winner's 1,000,000 rubies + permanent +6-wave amulet, the +1,200–1,500% recruitment crests, the boosted Distribution-phase Copper table this run pays out, and more. The guide got a matching pass: relaunch quest-ticket rules, the 250-point eligibility floor, real promotion/demotion counts and this season's seeding cutoffs (top 36 → Gold)."
+    },
+    {
+      "date": "Jul 2026",
+      "title": "Spenders Corner — offer classes, honest bonuses & the spender-tier ladder",
+      "body": "Deep dive into the game's own offer tables. Every sale is now classed 🛒 shop rotation / ⚡ pop-up engine / 🕰️ retired, straight from the client data. Pop-up offers show the REAL contents-worth bonus next to the splashed one (the +500% banner is usually +400% by the game's own numbers — 1,467 of 1,524 pop-ups overstate). And the new spender-tier ladder exposes offer targeting: 20 tiers of deals gated by your lifetime rubies bought, from A$2.77 starter hooks to A$179.99 whale bundles."
+    },
+    {
+      "date": "Jul 2026",
+      "title": "Images everywhere, clickable rewards & a smarter Spenders Corner",
+      "body": "Buildings overview got real building art (105/112) and the rift bosses their portraits — all straight from the game's own files. Any catalogued reward in the Gacha Simulator and Item Value Finder is now clickable and jumps to its overview entry. Spenders Corner rebuilt its relevance logic: the sale search now cross-checks the game's own shop catalogue, so by default you see the bundles actually on sale right now instead of the retired back-catalogue."
+    },
+    {
+      "date": "Jul 2026",
+      "title": "Site-wide tune-up — 20+ fixes across the archive",
+      "body": "Full audit of all 52 tools: Construction Items overview now shows real item icons (240 of 241), share-preview cards on every tool page, a defence-survival multi-wave bug squashed (post-breach waves now reach the keep), correct level brackets on Rankings, the rift overview links straight to the Wall-Break sim, plus a stack of small input-handling and error-state fixes."
+    },
+    {
+      "date": "Jul 2026",
+      "title": "Rift Tournament guide — full rework",
+      "body": "Updated with Goodgame's official reveal: the six divisions (Copper→Diamond), Rift Points, the real quest-ticket rules (2 to start, +2 per boss kill), and every Riftsliver reward with exact stats. Notes that it was pulled for technical faults and is due back."
+    },
+    {
+      "date": "Jul 2026",
+      "title": "Home feed refresh — live event calendar",
+      "body": "The Upcoming Events calendar now auto-updates from Goodgame's own schedule every day, so it stays current on its own. Latest from GGS is caught up, and the home page has been tidied."
+    },
+    {
+      "date": "Jun 2026",
+      "title": "Item Value Finder — icons & cleaner names",
+      "body": "Every reward now shows a small in-game icon (troops, tools, equipment, decorations, construction items, tokens & currencies), construction-item and gem names are fixed, and each deal is labelled with a clean vendor (Hall of Legends, Nomad shop, Rift Raid shop…) instead of dev labels."
+    },
+    {
+      "date": "Jun 2026",
+      "title": "Rift Courtyard Calculator",
+      "body": "New calculator: will your courtyard hit clear the rift boss's CY, and what will it cost? Pick a boss & level, set your wave once and toggle your pre-battle tools — calibrated against real Fungal L10–L12 battle reports (±13% on losses)."
+    },
+    {
+      "date": "Jun 2026",
+      "title": "Six new tools + a tidier Calculators page",
+      "body": "Added the Buildings overview, Building Upgrade Cost & Time, Recruitment Speed Caps, Equipment Set-Bonus Finder, a native Hall of Legends Planner and a device-local Timer Board. The three Rift calculators now lead the Calculators page under Feature Calculators."
+    },
+    {
+      "date": "Jun 2026",
+      "title": "Rift Wall-Break Simulator — calibrated",
+      "body": "The wall-break sim is now tuned against two full Level 11 boss reports — breach waves land exactly and losses within a few percent. Kills now accelerate as a wall thins, the front takes both rams and ladders, gear reduction splits into gate and wall, and unit stats read straight off the Troops overview by level. No more guessing."
+    },
+    {
+      "date": "Jun 2026",
+      "title": "Misc Tools — Fortress & Name Changes now public",
+      "body": "Fortress Tracker (live cooldowns, last attacker, your personal 72h timer) and Name Changes (catch the renamers) moved out of the gated area into a new Misc Tools section — open to everyone."
+    },
+    {
+      "date": "Jun 2026",
+      "title": "References & community sheets",
+      "body": "New: Maximise Recruitment guide, Courtyard Limits and Name Change Pricing references, plus hosted community sheets (CI costs, WoA 2024 odds)."
+    },
+    {
+      "date": "Jun 2026",
+      "title": "All overviews complete",
+      "body": "Four new overviews: Troops & Tools (461 units + 255 tools with real stats), Generals (full ability kits), Loot Boxes (46 boxes with real drop chances) and Event Rewards (milestone tracks for 20 events)."
+    },
+    {
+      "date": "Jun 2026",
+      "title": "Auto-updating data",
+      "body": "All tool data now refreshes automatically every day — and after game maintenances — straight from the community data cache."
+    },
+    {
+      "date": "Jun 2026",
+      "title": "Smarter Rift optimizer",
+      "body": "The Rift Commander Maker now builds the strongest loadout by weighted combat value — range/melee/courtyard attack first, then unit limit, then strength — and shows the combat totals. Rift-only sets (no PvP/castellan)."
+    },
+    {
+      "date": "Jun 2026",
+      "title": "Accurate event art",
+      "body": "Every event in the homepage plan now uses the in-game icon. Fixed missing Victorious hero images in the Equipment Overview."
+    },
+    {
+      "date": "Jun 2026",
+      "title": "Guides",
+      "body": "New Guides section — start with Getting Started, Combat Basics, Attack Commander Setup and Rift Raid Basics. Searchable like any tool."
+    },
+    {
+      "date": "Jun 2026",
+      "title": "Events plan with real art",
+      "body": "The homepage events row now uses in-game event art, and the whole feed (news, changelog, events) updates from one data file."
+    },
+    {
+      "date": "Jun 2026",
+      "title": "Rift Raid Bosses",
+      "body": "All 3 bosses, 20 levels each, with per-stage wall garrisons and boss effects. Rift Commander Maker now shows real piece art and exact gem names."
+    },
+    {
+      "date": "Jun 2026",
+      "title": "Equipment Overview",
+      "body": "617 gear pieces with full effect lists and real art, including Hero-slot commander portraits. Gacha Sim drops link straight here."
+    },
+    {
+      "date": "Jun 2026",
+      "title": "Decorations Overview",
+      "body": "532 decorations with images. Default sort is Decoration Points."
+    },
+    {
+      "date": "Jun 2026",
+      "title": "Gacha Spin Simulator",
+      "body": "Real drop rates across 5 game versions, with pulls-to-get targeting."
+    },
+    {
+      "date": "Jun 2026",
+      "title": "Attack Speed & Detection",
+      "body": "Travel time, horse boosts and the exact detection window."
+    }
+  ],
+  "news": [
+    {
+      "date": "7 Jul 2026",
+      "title": "Important Update about the Berimond Advisor",
+      "url": "https://communityhub.goodgamestudios.com/2026/07/07/important-update-about-the-berimond-advisor/"
+    },
+    {
+      "date": "7 Jul 2026",
+      "title": "Glory Event Restart",
+      "url": "https://communityhub.goodgamestudios.com/2026/07/07/glory-event-missing-on-fr1/"
+    },
+    {
+      "date": "2 Jul 2026",
+      "title": "Rise Through the Divisions: The Biggest Rift Raid Update Yet",
+      "url": "https://communityhub.goodgamestudios.com/2026/07/02/rise-through-the-divisions-the-biggest-rift-raid-update-yet/"
+    },
+    {
+      "date": "23 Jun 2026",
+      "title": "Bug: Castellan Set – Mead Unit Spawn Effect",
+      "url": "https://communityhub.goodgamestudios.com/2026/06/23/bug-castellan-set-mead-unit-spawn-effect/"
+    },
+    {
+      "date": "16 Jun 2026",
+      "title": "Steam Release & Rift Raid Leaderboard Update",
+      "url": "https://communityhub.goodgamestudios.com/2026/06/16/steam-release-rift-raid-leaderboard-update/"
+    },
+    {
+      "date": "12 Jun 2026",
+      "title": "DE1 – Server Issues & Upcoming Compensation",
+      "url": "https://communityhub.goodgamestudios.com/2026/06/12/de1-server-issues-upcoming-compensation/"
+    },
+    {
+      "date": "11 Jun 2026",
+      "title": "The Summer of Conquest!",
+      "url": "https://communityhub.goodgamestudios.com/2026/06/11/the-summer-of-conquest/"
+    },
+    {
+      "date": "11 Jun 2026",
+      "title": "The News Hub is finally here!",
+      "url": "https://communityhub.goodgamestudios.com/2026/06/11/elementor-12857/"
+    }
+  ],
+  "newsUrl": "https://communityhub.goodgamestudios.com/newshube4k/",
+  "events": {
+    "month": "July 2026",
+    "iconBase": "assets/img/event-icons/",
+    "items": [
+      {
+        "name": "Nomad Invasion",
+        "emoji": "🌊",
+        "icon": "nomadinvasion.webp",
+        "dates": "04–07 · 11–14 · 18–21 · 25–28 Jul"
+      },
+      {
+        "name": "Samurai Invasion",
+        "emoji": "⚔️",
+        "icon": "samuraiinvasion.webp",
+        "dates": "03–04 · 10–11 · 17–18 · 24–25 Jul · 31 Jul–01 Aug"
+      },
+      {
+        "name": "Bloodcrow Invasion",
+        "emoji": "🩸",
+        "icon": "bloodcrow.webp",
+        "dates": "07–10 · 21–24 Jul"
+      },
+      {
+        "name": "War of the Realms",
+        "emoji": "⚔️",
+        "icon": "waroftherealms.webp",
+        "dates": "14–17 · 28–31 Jul"
+      },
+      {
+        "name": "Berimond Kingdom",
+        "emoji": "🏰",
+        "icon": "berimond.webp",
+        "dates": "07–10 · 28–31 Jul"
+      },
+      {
+        "name": "Rift Raid",
+        "emoji": "🌀",
+        "icon": "riftraid.webp",
+        "dates": "07–14 Jul"
+      },
+      {
+        "name": "Bladecoast",
+        "emoji": "🗡️",
+        "icon": "bladecoast.webp",
+        "dates": "12–19 Jul"
+      },
+      {
+        "name": "Grand Tournament",
+        "emoji": "🏆",
+        "icon": "grandtournament.webp",
+        "dates": "21–28 Jul"
+      },
+      {
+        "name": "Beyond the Horizon",
+        "emoji": "🌅",
+        "icon": "beyondthehorizon.webp",
+        "dates": "02–06 · 16–20 Jul · 30 Jul–03 Aug"
+      },
+      {
+        "name": "Outer Realms",
+        "emoji": "🌌",
+        "icon": "outerrealms.webp",
+        "dates": "06–09 · 09–13 · 13–16 · 20–24 Jul"
+      },
+      {
+        "name": "Imperial Patronage",
+        "emoji": "👑",
+        "icon": "patronage.webp",
+        "dates": "17–24 Jul"
+      },
+      {
+        "name": "Grand Nobility Contest",
+        "emoji": "🎖️",
+        "icon": "ltpe.webp",
+        "dates": "17 Jul–15 Aug"
+      }
+    ]
   },
-  {
-   "date": "Jun 2026",
-   "title": "Planned",
-   "body": "Planned — Boss specific guides + tool usage, PvP attacking guide + tooling, in-depth Defence guide. Locked-off section for leaders only at the moment, contains a few tools I don't want leaked at this time — so PM me for a code and I might say yes."
-  },
-  {
-   "date": "Jun 2026",
-   "title": "Work in progress",
-   "body": "Links only shared to Chemies members. Send me a PM in-game / DM if you want anything specific added, want more images, or want to contribute a guide or calculator of your own. Cheers, Maxy"
-  }
- ],
- "changelog": [
-  {
-   "date": "Jul 2026",
-   "title": "Rift Tournament Level Rewards — the full 30-level track decoded",
-   "body": "New tab in the Rift Tournament Rewards overview: every level reward with its exact point threshold (2,000 → 87,000) and the division you need to unlock it — Copper caps at level 5, Diamond runs to 30. Each 5-level block ends in a Riftsliver Relic PO deco, and each level-up also banks +2 quest tickets. Turns out the level tables ARE in the game files after all, so nothing here is guesswork."
-  },
-  {
-   "date": "Jul 2026",
-   "title": "Rift Tournament rewards — every division decoded (new overview)",
-   "body": "The Tournament is back live, but in-game you can only see your own division's rewards. So we pulled the lot from the game files: a new Rift Tournament Rewards overview lists every ranking reward for all six divisions rank by rank — the Diamond winner's 1,000,000 rubies + permanent +6-wave amulet, the +1,200–1,500% recruitment crests, the boosted Distribution-phase Copper table this run pays out, and more. The guide got a matching pass: relaunch quest-ticket rules, the 250-point eligibility floor, real promotion/demotion counts and this season's seeding cutoffs (top 36 → Gold)."
-  },
-  {
-   "date": "Jul 2026",
-   "title": "Spenders Corner — offer classes, honest bonuses & the spender-tier ladder",
-   "body": "Deep dive into the game's own offer tables. Every sale is now classed 🛒 shop rotation / ⚡ pop-up engine / 🕰️ retired, straight from the client data. Pop-up offers show the REAL contents-worth bonus next to the splashed one (the +500% banner is usually +400% by the game's own numbers — 1,467 of 1,524 pop-ups overstate). And the new spender-tier ladder exposes offer targeting: 20 tiers of deals gated by your lifetime rubies bought, from A$2.77 starter hooks to A$179.99 whale bundles."
-  },
-  {
-   "date": "Jul 2026",
-   "title": "Images everywhere, clickable rewards & a smarter Spenders Corner",
-   "body": "Buildings overview got real building art (105/112) and the rift bosses their portraits — all straight from the game's own files. Any catalogued reward in the Gacha Simulator and Item Value Finder is now clickable and jumps to its overview entry. Spenders Corner rebuilt its relevance logic: the sale search now cross-checks the game's own shop catalogue, so by default you see the bundles actually on sale right now instead of the retired back-catalogue."
-  },
-  {
-   "date": "Jul 2026",
-   "title": "Site-wide tune-up — 20+ fixes across the archive",
-   "body": "Full audit of all 52 tools: Construction Items overview now shows real item icons (240 of 241), share-preview cards on every tool page, a defence-survival multi-wave bug squashed (post-breach waves now reach the keep), correct level brackets on Rankings, the rift overview links straight to the Wall-Break sim, plus a stack of small input-handling and error-state fixes."
-  },
-  {
-   "date": "Jul 2026",
-   "title": "Rift Tournament guide — full rework",
-   "body": "Updated with Goodgame's official reveal: the six divisions (Copper→Diamond), Rift Points, the real quest-ticket rules (2 to start, +2 per boss kill), and every Riftsliver reward with exact stats. Notes that it was pulled for technical faults and is due back."
-  },
-  {
-   "date": "Jul 2026",
-   "title": "Home feed refresh — live event calendar",
-   "body": "The Upcoming Events calendar now auto-updates from Goodgame's own schedule every day, so it stays current on its own. Latest from GGS is caught up, and the home page has been tidied."
-  },
-  {
-   "date": "Jun 2026",
-   "title": "Item Value Finder — icons & cleaner names",
-   "body": "Every reward now shows a small in-game icon (troops, tools, equipment, decorations, construction items, tokens & currencies), construction-item and gem names are fixed, and each deal is labelled with a clean vendor (Hall of Legends, Nomad shop, Rift Raid shop…) instead of dev labels."
-  },
-  {
-   "date": "Jun 2026",
-   "title": "Rift Courtyard Calculator",
-   "body": "New calculator: will your courtyard hit clear the rift boss's CY, and what will it cost? Pick a boss & level, set your wave once and toggle your pre-battle tools — calibrated against real Fungal L10–L12 battle reports (±13% on losses)."
-  },
-  {
-   "date": "Jun 2026",
-   "title": "Six new tools + a tidier Calculators page",
-   "body": "Added the Buildings overview, Building Upgrade Cost & Time, Recruitment Speed Caps, Equipment Set-Bonus Finder, a native Hall of Legends Planner and a device-local Timer Board. The three Rift calculators now lead the Calculators page under Feature Calculators."
-  },
-  {
-   "date": "Jun 2026",
-   "title": "Rift Wall-Break Simulator — calibrated",
-   "body": "The wall-break sim is now tuned against two full Level 11 boss reports — breach waves land exactly and losses within a few percent. Kills now accelerate as a wall thins, the front takes both rams and ladders, gear reduction splits into gate and wall, and unit stats read straight off the Troops overview by level. No more guessing."
-  },
-  {
-   "date": "Jun 2026",
-   "title": "Misc Tools — Fortress & Name Changes now public",
-   "body": "Fortress Tracker (live cooldowns, last attacker, your personal 72h timer) and Name Changes (catch the renamers) moved out of the gated area into a new Misc Tools section — open to everyone."
-  },
-  {
-   "date": "Jun 2026",
-   "title": "References & community sheets",
-   "body": "New: Maximise Recruitment guide, Courtyard Limits and Name Change Pricing references, plus hosted community sheets (CI costs, WoA 2024 odds)."
-  },
-  {
-   "date": "Jun 2026",
-   "title": "All overviews complete",
-   "body": "Four new overviews: Troops & Tools (461 units + 255 tools with real stats), Generals (full ability kits), Loot Boxes (46 boxes with real drop chances) and Event Rewards (milestone tracks for 20 events)."
-  },
-  {
-   "date": "Jun 2026",
-   "title": "Auto-updating data",
-   "body": "All tool data now refreshes automatically every day — and after game maintenances — straight from the community data cache."
-  },
-  {
-   "date": "Jun 2026",
-   "title": "Smarter Rift optimizer",
-   "body": "The Rift Commander Maker now builds the strongest loadout by weighted combat value — range/melee/courtyard attack first, then unit limit, then strength — and shows the combat totals. Rift-only sets (no PvP/castellan)."
-  },
-  {
-   "date": "Jun 2026",
-   "title": "Accurate event art",
-   "body": "Every event in the homepage plan now uses the in-game icon. Fixed missing Victorious hero images in the Equipment Overview."
-  },
-  {
-   "date": "Jun 2026",
-   "title": "Guides",
-   "body": "New Guides section — start with Getting Started, Combat Basics, Attack Commander Setup and Rift Raid Basics. Searchable like any tool."
-  },
-  {
-   "date": "Jun 2026",
-   "title": "Events plan with real art",
-   "body": "The homepage events row now uses in-game event art, and the whole feed (news, changelog, events) updates from one data file."
-  },
-  {
-   "date": "Jun 2026",
-   "title": "Rift Raid Bosses",
-   "body": "All 3 bosses, 20 levels each, with per-stage wall garrisons and boss effects. Rift Commander Maker now shows real piece art and exact gem names."
-  },
-  {
-   "date": "Jun 2026",
-   "title": "Equipment Overview",
-   "body": "617 gear pieces with full effect lists and real art, including Hero-slot commander portraits. Gacha Sim drops link straight here."
-  },
-  {
-   "date": "Jun 2026",
-   "title": "Decorations Overview",
-   "body": "532 decorations with images. Default sort is Decoration Points."
-  },
-  {
-   "date": "Jun 2026",
-   "title": "Gacha Spin Simulator",
-   "body": "Real drop rates across 5 game versions, with pulls-to-get targeting."
-  },
-  {
-   "date": "Jun 2026",
-   "title": "Attack Speed & Detection",
-   "body": "Travel time, horse boosts and the exact detection window."
-  }
- ],
- "news": [
-  {
-   "date": "7 Jul 2026",
-   "title": "Important Update about the Berimond Advisor",
-   "url": "https://communityhub.goodgamestudios.com/2026/07/07/important-update-about-the-berimond-advisor/"
-  },
-  {
-   "date": "7 Jul 2026",
-   "title": "Glory Event Restart",
-   "url": "https://communityhub.goodgamestudios.com/2026/07/07/glory-event-missing-on-fr1/"
-  },
-  {
-   "date": "2 Jul 2026",
-   "title": "Rise Through the Divisions: The Biggest Rift Raid Update Yet",
-   "url": "https://communityhub.goodgamestudios.com/2026/07/02/rise-through-the-divisions-the-biggest-rift-raid-update-yet/"
-  },
-  {
-   "date": "23 Jun 2026",
-   "title": "Bug: Castellan Set – Mead Unit Spawn Effect",
-   "url": "https://communityhub.goodgamestudios.com/2026/06/23/bug-castellan-set-mead-unit-spawn-effect/"
-  },
-  {
-   "date": "16 Jun 2026",
-   "title": "Steam Release & Rift Raid Leaderboard Update",
-   "url": "https://communityhub.goodgamestudios.com/2026/06/16/steam-release-rift-raid-leaderboard-update/"
-  },
-  {
-   "date": "12 Jun 2026",
-   "title": "DE1 – Server Issues & Upcoming Compensation",
-   "url": "https://communityhub.goodgamestudios.com/2026/06/12/de1-server-issues-upcoming-compensation/"
-  },
-  {
-   "date": "11 Jun 2026",
-   "title": "The Summer of Conquest!",
-   "url": "https://communityhub.goodgamestudios.com/2026/06/11/the-summer-of-conquest/"
-  },
-  {
-   "date": "11 Jun 2026",
-   "title": "The News Hub is finally here!",
-   "url": "https://communityhub.goodgamestudios.com/2026/06/11/elementor-12857/"
-  }
- ],
- "newsUrl": "https://communityhub.goodgamestudios.com/newshube4k/",
- "events": {
-  "month": "July 2026",
-  "iconBase": "assets/img/event-icons/",
-  "items": [
-   {
-    "name": "Nomad Invasion",
-    "emoji": "🌊",
-    "icon": "nomadinvasion.webp",
-    "dates": "04–07 · 11–14 · 18–21 · 25–28 Jul"
-   },
-   {
-    "name": "Samurai Invasion",
-    "emoji": "⚔️",
-    "icon": "samuraiinvasion.webp",
-    "dates": "03–04 · 10–11 · 17–18 · 24–25 Jul · 31 Jul–01 Aug"
-   },
-   {
-    "name": "Bloodcrow Invasion",
-    "emoji": "🩸",
-    "icon": "bloodcrow.webp",
-    "dates": "07–10 · 21–24 Jul"
-   },
-   {
-    "name": "War of the Realms",
-    "emoji": "⚔️",
-    "icon": "waroftherealms.webp",
-    "dates": "14–17 · 28–31 Jul"
-   },
-   {
-    "name": "Berimond Kingdom",
-    "emoji": "🏰",
-    "icon": "berimond.webp",
-    "dates": "07–10 · 28–31 Jul"
-   },
-   {
-    "name": "Rift Raid",
-    "emoji": "🌀",
-    "icon": "riftraid.webp",
-    "dates": "07–14 Jul"
-   },
-   {
-    "name": "Bladecoast",
-    "emoji": "🗡️",
-    "icon": "bladecoast.webp",
-    "dates": "12–19 Jul"
-   },
-   {
-    "name": "Grand Tournament",
-    "emoji": "🏆",
-    "icon": "grandtournament.webp",
-    "dates": "21–28 Jul"
-   },
-   {
-    "name": "Beyond the Horizon",
-    "emoji": "🌅",
-    "icon": "beyondthehorizon.webp",
-    "dates": "02–06 · 16–20 Jul · 30 Jul–03 Aug"
-   },
-   {
-    "name": "Outer Realms",
-    "emoji": "🌌",
-    "icon": "outerrealms.webp",
-    "dates": "06–09 · 09–13 · 13–16 · 20–24 Jul"
-   },
-   {
-    "name": "Imperial Patronage",
-    "emoji": "👑",
-    "icon": "patronage.webp",
-    "dates": "17–24 Jul"
-   },
-   {
-    "name": "Grand Nobility Contest",
-    "emoji": "🎖️",
-    "icon": "ltpe.webp",
-    "dates": "17 Jul–15 Aug"
-   }
-  ]
- },
- "newsUpdated": "2026-07-23",
- "eventsUpdated": "2026-07-23"
+  "newsUpdated": "2026-07-24",
+  "eventsUpdated": "2026-07-24"
 }
