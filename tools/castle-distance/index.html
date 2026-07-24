@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Castle Distance — Maxy's Empire Toolkit</title>
+  <meta property="og:type" content="website" />
+  <meta property="og:site_name" content="Maxy's Empire Toolkit" />
+  <meta property="og:title" content="Castle Distance — Maxy's Empire Toolkit" />
+  <meta property="og:description" content="Measure the field (‘clicks’) distance between any two castles in Goodgame Empire — look each side up by player name, or punch in raw X:Y coordinates." />
+  <meta property="og:url" content="https://chemiestoolkit.github.io/gge-toolbox/tools/castle-distance/" />
+  <meta property="og:image" content="https://chemiestoolkit.github.io/gge-toolbox/assets/img/tool-art/stronghold.webp" />
+  <meta name="twitter:card" content="summary" />
+  <meta name="description" content="Goodgame Empire castle distance calculator: the straight-line field distance between two castles, by player-name lookup or manual coordinates." />
+  <link rel="stylesheet" href="../../assets/css/theme.css?v=15" />
+  <link rel="stylesheet" href="../vip/vip.css" />
+  <link rel="icon" type="image/png" href="../../assets/img/favicon.png" />
+  <style>
+    .cd-sides { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+    @media (max-width: 640px) { .cd-sides { grid-template-columns: 1fr; } }
+    .cd-side { background: var(--bg-elev-2); border: 1px solid var(--border); border-radius: var(--radius-sm); padding: 14px; }
+    .cd-side h3 { margin: 0 0 10px; font-size: .95rem; display: flex; align-items: center; gap: 8px; }
+    .cd-badge { font-size: .6rem; font-weight: 800; letter-spacing: .05em; text-transform: uppercase;
+      border-radius: 99px; padding: 2px 8px; color: #1a1206; }
+    .cd-badge.a { background: #67c1e8; } .cd-badge.b { background: #d9b25a; }
+    .cd-modes { display: inline-flex; gap: 2px; background: var(--bg-elev); border: 1px solid var(--border);
+      border-radius: 99px; padding: 2px; margin-bottom: 10px; }
+    .cd-mode { font: inherit; font-size: .74rem; font-weight: 700; padding: 5px 13px; border-radius: 99px;
+      border: 0; background: transparent; color: var(--text-dim); cursor: pointer; }
+    .cd-mode.on { background: var(--gold); color: #1a1206; }
+    .cd-row { display: flex; gap: 6px; flex-wrap: wrap; align-items: center; margin-bottom: 8px; }
+    .cd-side input, .cd-side select {
+      font: inherit; font-size: .84rem; padding: 7px 9px; border-radius: var(--radius-sm);
+      border: 1px solid var(--border); background: var(--bg-elev); color: var(--text); }
+    .cd-side input:focus, .cd-side select:focus { outline: none; border-color: var(--gold); }
+    .cd-name { flex: 1; min-width: 120px; }
+    .cd-xy { width: 74px; }
+    .cd-btn { font: inherit; font-weight: 700; font-size: .8rem; padding: 7px 14px; border-radius: 99px;
+      border: 1px solid var(--gold); background: var(--gold); color: #1a1206; cursor: pointer; }
+    .cd-castle-pick { width: 100%; }
+    .cd-pane { display: none; } .cd-pane.on { display: block; }
+    .cd-picked { font-size: .78rem; color: var(--text-dim); margin-top: 6px; min-height: 1.1em; }
+    .cd-picked b { color: var(--text); }
+    .cd-err { color: var(--bad, #f87171); font-size: .78rem; margin-top: 6px; }
+
+    .cd-result { margin-top: 18px; text-align: center; padding: 22px 16px; background: var(--bg-elev-2);
+      border: 1px solid var(--border); border-radius: var(--radius-sm); }
+    .cd-big { font-size: 2.6rem; font-weight: 800; color: var(--gold); line-height: 1; font-variant-numeric: tabular-nums; }
+    .cd-big span { font-size: 1rem; color: var(--text-dim); font-weight: 600; }
+    .cd-sub { margin-top: 10px; font-size: .85rem; color: var(--text-dim); }
+    .cd-sub b { color: var(--text); font-variant-numeric: tabular-nums; }
+    .cd-ends { display: flex; justify-content: center; gap: 10px 26px; flex-wrap: wrap; margin-top: 14px; font-size: .8rem; }
+    .cd-end { color: var(--text-dim); } .cd-end b { color: var(--text); }
+    .cd-warn { margin-top: 14px; font-size: .8rem; color: var(--gold); background: rgba(217,178,90,.08);
+      border: 1px solid var(--gold-dim); border-radius: var(--radius-sm); padding: 9px 12px; }
+    .cd-idle { color: var(--text-faint); font-size: .9rem; }
+  </style>
+</head>
+<body>
+  <header class="topbar">
+    <div class="wrap">
+      <a class="brand" href="../../"><span class="crest">🛡️</span> Maxy's Empire <b>Toolkit</b></a>
+    </div>
+  </header>
+
+  <main class="wrap">
+    <div class="tool-head">
+      <a class="back" href="../../">← All tools</a>
+      <h1>📐 Castle Distance</h1>
+      <p>The straight-line <b>field distance</b> — the "clicks" — between any two castles. Look each side up by
+        player name (pick which castle), or type raw <b>X:Y</b> coordinates. Great for judging who's in reach.</p>
+    </div>
+
+    <section class="panel">
+      <div class="vip-toolbar" id="toolbar"></div>
+
+      <div class="cd-sides">
+        <div class="cd-side" id="side-a"></div>
+        <div class="cd-side" id="side-b"></div>
+      </div>
+
+      <div class="cd-result" id="result">
+        <div class="cd-idle">Pick or enter <b>two castles</b> to measure the distance between them.</div>
+      </div>
+
+      <p class="vip-credit">Distances are straight-line map fields. Name lookups:
+        <a href="https://gge-tracker.com" target="_blank" rel="noopener">gge-tracker.com</a> public API.</p>
+    </section>
+  </main>
+
+  <script src="../vip/vip-icons.js"></script>
+  <script src="../vip/vip-shared.js"></script>
+  <script>
+    const { api, esc, mountServerPicker } = window.VIP;
+    mountServerPicker(document.getElementById("toolbar"));
+
+    const KINGDOMS = ["Great Empire", "Everwinter Glacier", "Burning Sands", "Fire Peaks"];
+    const SHORT = ["Green", "Ice", "Sands", "Fire"];
+    const CASTLE_TYPES = { 1: "Main castle", 4: "Outpost", 22: "Capital", 23: "Metro", 26: "Kingdom castle", 3: "Royal tower" };
+    const kflag = (k) => (window.GGEi ? window.GGEi.kingdom(k, 13) + " " : "") + (SHORT[k] || "?");
+
+    // Each side's resolved point: { x, y, kingdomId, label } or null.
+    const state = { a: null, b: null };
+
+    function sideMarkup(id) {
+      const letter = id.toUpperCase();
+      return (
+        '<h3><span class="cd-badge ' + id + '">' + letter + '</span> Castle ' + letter + '</h3>' +
+        '<div class="cd-modes" data-side="' + id + '">' +
+          '<button class="cd-mode on" data-mode="player" type="button">By player</button>' +
+          '<button class="cd-mode" data-mode="coords" type="button">By coordinates</button>' +
+        '</div>' +
+        '<div class="cd-pane on" data-pane="player" data-side="' + id + '">' +
+          '<div class="cd-row">' +
+            '<input class="cd-name" data-name="' + id + '" placeholder="Player name…" />' +
+            '<button class="cd-btn" data-find="' + id + '" type="button">Find</button>' +
+          '</div>' +
+          '<select class="cd-castle-pick" data-castles="' + id + '" style="display:none"></select>' +
+          '<div class="cd-picked" data-picked="' + id + '"></div>' +
+          '<div class="cd-err" data-err="' + id + '"></div>' +
+        '</div>' +
+        '<div class="cd-pane" data-pane="coords" data-side="' + id + '">' +
+          '<div class="cd-row">' +
+            '<select data-k="' + id + '">' + KINGDOMS.map((n, i) =>
+              '<option value="' + i + '">' + SHORT[i] + " · " + n + "</option>").join("") + '</select>' +
+          '</div>' +
+          '<div class="cd-row">' +
+            '<input class="cd-xy" type="number" data-x="' + id + '" placeholder="X" min="0" />' +
+            '<span style="color:var(--text-faint)">:</span>' +
+            '<input class="cd-xy" type="number" data-y="' + id + '" placeholder="Y" min="0" />' +
+          '</div>' +
+        '</div>'
+      );
+    }
+
+    document.getElementById("side-a").innerHTML = sideMarkup("a");
+    document.getElementById("side-b").innerHTML = sideMarkup("b");
+
+    const $ = (sel) => document.querySelector(sel);
+    const setErr = (id, msg) => { $('[data-err="' + id + '"]').textContent = msg || ""; };
+    const setPicked = (id, html) => { $('[data-picked="' + id + '"]').innerHTML = html || ""; };
+
+    // Mode toggle
+    document.querySelectorAll(".cd-modes").forEach((box) => {
+      const id = box.dataset.side;
+      box.querySelectorAll(".cd-mode").forEach((btn) => {
+        btn.addEventListener("click", () => {
+          box.querySelectorAll(".cd-mode").forEach((b) => b.classList.toggle("on", b === btn));
+          document.querySelectorAll('[data-pane][data-side="' + id + '"]').forEach((p) =>
+            p.classList.toggle("on", p.dataset.pane === btn.dataset.mode));
+          // Reset that side's resolved point; re-read from whichever pane is now active.
+          if (btn.dataset.mode === "coords") readCoords(id); else readPickedCastle(id);
+          compute();
+        });
+      });
+    });
+
+    // Manual-coords inputs
+    ["a", "b"].forEach((id) => {
+      ['[data-k="', '[data-x="', '[data-y="'].forEach((s) => {
+        $(s + id + '"]').addEventListener("input", () => { readCoords(id); compute(); });
+      });
+      // Find by player name
+      $('[data-find="' + id + '"]').addEventListener("click", () => findCastles(id));
+      $('[data-name="' + id + '"]').addEventListener("keydown", (e) => { if (e.key === "Enter") findCastles(id); });
+      $('[data-castles="' + id + '"]').addEventListener("change", () => { readPickedCastle(id); compute(); });
+    });
+
+    function readCoords(id) {
+      const k = Number($('[data-k="' + id + '"]').value);
+      const x = $('[data-x="' + id + '"]').value, y = $('[data-y="' + id + '"]').value;
+      if (x === "" || y === "") { state[id] = null; return; }
+      state[id] = { x: Number(x), y: Number(y), kingdomId: k, label: "Manual · " + SHORT[k] + " " + x + ":" + y };
+    }
+
+    function readPickedCastle(id) {
+      const sel = $('[data-castles="' + id + '"]');
+      if (sel.style.display === "none" || !sel.value) { state[id] = null; return; }
+      const o = sel.options[sel.selectedIndex];
+      state[id] = { x: Number(o.dataset.x), y: Number(o.dataset.y), kingdomId: Number(o.dataset.k), label: o.dataset.label };
+      setPicked(id, "Using <b>" + esc(o.dataset.label) + "</b>");
+    }
+
+    async function findCastles(id) {
+      const name = $('[data-name="' + id + '"]').value.trim();
+      const sel = $('[data-castles="' + id + '"]');
+      setErr(id, ""); setPicked(id, ""); sel.style.display = "none"; state[id] = null; compute();
+      if (!name) { setErr(id, "Enter a player name."); return; }
+      setPicked(id, "Searching…");
+      try {
+        const list = await api("castle/search/" + encodeURIComponent(name));
+        if (!Array.isArray(list) || !list.length) { setPicked(id, ""); setErr(id, "No castles tracked for “" + name + "” on this server."); return; }
+        // Sort: kingdom, then type (main first), then position.
+        list.sort((c1, c2) => c1.kingdomId - c2.kingdomId || c1.type - c2.type);
+        sel.innerHTML = list.map((c, i) => {
+          const label = name + " · " + (CASTLE_TYPES[c.type] || "Type " + c.type) + " · " + SHORT[c.kingdomId] + " " + c.positionX + ":" + c.positionY;
+          return '<option value="' + i + '" data-x="' + c.positionX + '" data-y="' + c.positionY +
+            '" data-k="' + c.kingdomId + '" data-label="' + esc(label) + '">' +
+            esc(SHORT[c.kingdomId] + " · " + (CASTLE_TYPES[c.type] || "Type " + c.type) + " · " + c.positionX + ":" + c.positionY) + "</option>";
+        }).join("");
+        sel.style.display = "";
+        setPicked(id, "");
+        readPickedCastle(id);
+        compute();
+      } catch (e) {
+        setPicked(id, ""); setErr(id, "Lookup failed: " + e.message);
+      }
+    }
+
+    function compute() {
+      const res = document.getElementById("result");
+      const A = state.a, B = state.b;
+      if (!A || !B) {
+        res.innerHTML = '<div class="cd-idle">Pick or enter <b>two castles</b> to measure the distance between them.</div>';
+        return;
+      }
+      const endHtml =
+        '<div class="cd-ends">' +
+          '<span class="cd-end"><span class="cd-badge a">A</span> <b>' + esc(A.label) + "</b></span>" +
+          '<span class="cd-end"><span class="cd-badge b">B</span> <b>' + esc(B.label) + "</b></span>" +
+        "</div>";
+
+      if (A.kingdomId !== B.kingdomId) {
+        res.innerHTML =
+          '<div class="cd-big">—</div>' +
+          '<div class="cd-warn">These castles are in <b>different kingdoms</b> (' + kflag(A.kingdomId) +
+          " vs " + kflag(B.kingdomId) + "). A straight-line field distance only applies " +
+          "<b>within one kingdom</b> — cross-kingdom marches route through the world map, not a straight line.</div>" +
+          endHtml;
+        return;
+      }
+
+      const dx = B.x - A.x, dy = B.y - A.y;
+      const dist = Math.hypot(dx, dy);
+      const ew = dx === 0 ? "" : (dx > 0 ? Math.abs(dx) + " east" : Math.abs(dx) + " west");
+      const ns = dy === 0 ? "" : (dy > 0 ? Math.abs(dy) + " south" : Math.abs(dy) + " north");
+      const dirs = [ew, ns].filter(Boolean).join(" · ");
+
+      res.innerHTML =
+        '<div class="cd-big">' + dist.toFixed(1) + ' <span>fields</span></div>' +
+        '<div class="cd-sub">Δ ' + (dirs || "same tile") + "  ·  ↔ <b>" + Math.abs(dx) +
+        "</b> across, ↕ <b>" + Math.abs(dy) + "</b> down  ·  " + kflag(A.kingdomId) + "</div>" +
+        endHtml;
+    }
+  </script>
+</body>
+</html>

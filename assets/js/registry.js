@@ -275,6 +275,17 @@ window.TOOLS = [
     tags: ["building", "upgrade", "cost", "time", "resources", "wood", "stone", "tokens", "construction", "speed", "xp"],
   },
   {
+    slug: "castle-distance",
+    img: "assets/img/tool-art/stronghold.webp",
+    cat: "calculators",
+    name: "Castle Distance",
+    desc: "The straight-line field ('clicks') distance between any two castles — look each side up by player name, or enter raw X:Y coordinates.",
+    icon: "📐",
+    status: "live",
+    url: "tools/castle-distance/",
+    tags: ["distance", "clicks", "fields", "castle", "coordinates", "position", "travel", "range", "map", "player"],
+  },
+  {
     slug: "recruitment-speed",
     img: "assets/img/tool-art/troops.webp",
     cat: "calculators",
