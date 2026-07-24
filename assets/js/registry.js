@@ -493,10 +493,10 @@ window.TOOLS = [
     img: "assets/img/event-icons/riftraid.webp",
     cat: "overviews",
     name: "Rift Tournament Rewards",
-    desc: "Every ranking reward for all six divisions, rank by rank — including the tiers the in-game screen hides.",
+    desc: "Ranking rewards for all six divisions plus the full 30-level reward track with point thresholds — including everything the in-game screen hides.",
     icon: "🏆",
     status: "live",
-    tags: ["rift", "tournament", "rewards", "ranking", "divisions", "diamond", "riftsliver", "leaderboard", "crest", "amulet"],
+    tags: ["rift", "tournament", "rewards", "ranking", "level rewards", "divisions", "diamond", "riftsliver", "leaderboard", "crest", "amulet", "thresholds"],
   },
 
   // ---- Rankings & stats --------------------------------------------------

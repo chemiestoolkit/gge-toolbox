@@ -7,14 +7,34 @@
   <meta property="og:type" content="website" />
   <meta property="og:site_name" content="Maxy's Empire Toolkit" />
   <meta property="og:title" content="Rift Tournament Rewards — Maxy's Empire Toolkit" />
-  <meta property="og:description" content="Every Rift Tournament ranking reward, rank by rank, for all six divisions — straight from the game files. See what the in-game screen doesn't show you yet." />
+  <meta property="og:description" content="Every Rift Tournament reward decoded from the game files: ranking rewards for all six divisions plus the full 30-level track with point thresholds. See what the in-game screen doesn't show you yet." />
   <meta property="og:url" content="https://chemiestoolkit.github.io/gge-toolbox/tools/overview-rift-rewards/" />
   <meta property="og:image" content="https://chemiestoolkit.github.io/gge-toolbox/assets/img/event-icons/riftraid.webp" />
   <meta name="twitter:card" content="summary" />
-  <meta name="description" content="Rift Tournament ranking rewards for every division and rank — rubies, dragon scales, Riftsliver decorations, amulets and winner crests, decoded from the game data." />
+  <meta name="description" content="Rift Tournament ranking rewards for every division and rank plus the 30-level reward track with point thresholds — rubies, dragon scales, Riftsliver decorations, amulets and winner crests, decoded from the game data." />
   <link rel="stylesheet" href="../../assets/css/theme.css?v=15" />
   <link rel="icon" type="image/png" href="../../assets/img/favicon.png" />
   <style>
+    .mode-tabs { display: inline-flex; gap: 2px; background: var(--bg-elev-2); border: 1px solid var(--border);
+      border-radius: 99px; padding: 3px; margin-bottom: 18px; }
+    .mode-tab { font: inherit; font-size: .84rem; font-weight: 700; padding: 7px 18px; border-radius: 99px;
+      border: 0; background: transparent; color: var(--text-dim); cursor: pointer; }
+    .mode-tab.on { background: var(--gold); color: #1a1206; }
+
+    .lv-caps { display: flex; flex-wrap: wrap; gap: 8px; margin: 0 0 14px; }
+    .lv-cap { font-size: .76rem; color: var(--text-dim); background: var(--bg-elev-2);
+      border: 1px solid var(--border-soft); border-radius: 99px; padding: 5px 12px; }
+    .lv-cap b { color: var(--text); }
+    table.lv { width: 100%; border-collapse: collapse; font-size: .85rem; }
+    .lv th { text-align: left; font-size: .68rem; text-transform: uppercase; letter-spacing: .06em;
+      color: var(--text-faint); padding: 6px 10px; border-bottom: 1px solid var(--border); }
+    .lv td { padding: 8px 10px; border-bottom: 1px solid var(--border); vertical-align: top; }
+    .lv td.n { font-variant-numeric: tabular-nums; color: var(--gold); font-weight: 800; white-space: nowrap; width: 56px; }
+    .lv td.pts { font-variant-numeric: tabular-nums; color: var(--text); font-weight: 600; white-space: nowrap; width: 90px; }
+    .lv td.gate { white-space: nowrap; width: 110px; font-size: .76rem; color: var(--text-dim); }
+    .lv tr.tier-row td { border-top: 2px solid var(--gold-dim); }
+    .lv tr.deco-row td { background: rgba(217,178,90,.04); }
+
     .div-pills { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 16px; }
     .div-pill {
       display: inline-flex; align-items: center; gap: 7px;
@@ -74,13 +94,20 @@
     <div class="tool-head">
       <a class="back" href="../../">← All tools</a>
       <h1>🏆 Rift Tournament Rewards</h1>
-      <p>The <b>ranking (leaderboard) rewards</b> for every division, rank by rank — decoded straight from the
-        game files. The in-game screen only shows your current division's rewards, so this is the full picture,
+      <p>Both Tournament reward tracks — the <b>ranking (leaderboard) rewards</b> for every division rank by
+        rank, and the full 30-level <b>level-reward track</b> with its point thresholds — decoded straight from
+        the game files. The in-game screen only shows your current division, so this is the full picture,
         including the tiers your alliance hasn't reached yet. Mechanics live in the
         <a href="../guides/rift-tournament.html">Rift Tournament guide</a>.</p>
     </div>
 
     <section class="panel">
+      <div class="mode-tabs" role="tablist">
+        <button class="mode-tab on" id="tab-rank" type="button">🏆 Ranking Rewards</button>
+        <button class="mode-tab" id="tab-level" type="button">🎖️ Level Rewards</button>
+      </div>
+
+      <div id="mode-rank">
       <div class="div-pills" id="pills"></div>
       <div class="div-meta" id="meta"></div>
       <div class="tbl-scroll"><table class="rr">
@@ -97,8 +124,9 @@
           Bronze +10k mead &amp; food · Silver +30k mead &amp; food · Gold +45k mead &amp; beef · Diamond +75k mead &amp; beef.</div>
         <div class="leg"><b>🛡️ Riftsliver Bulwark (deco)</b>9,200 PO + Rift-event combat: wall &amp; gate reduction
           Bronze +100% · Silver +150% (+1 wave) · Gold +200% (+1 wave) · Diamond +250% (+2 waves).</div>
-        <div class="leg"><b>🗿 Gold Riftsliver Relic (deco)</b>Pure Public Order: 9,750 PO — this run's
-          top-4 qualification prize. (A 10,000 PO Diamond Relic also exists in the reward pool.)</div>
+        <div class="leg"><b>🗿 Riftsliver Relic (deco)</b>Pure Public Order: Bronze 8,000 · Silver 8,750 ·
+          Gold 9,750 · Diamond 10,000 PO. The Gold one is this run's top-4 qualification prize; the ladder
+          also pays out at levels 15 / 20 / 25 / 30 of the Level Rewards track.</div>
         <div class="leg"><b>📿 Riftsliver Amulet (Commander)</b>Additional attack waves:
           Bronze +4 (30 days) · Silver +6 (40 d) · Gold +7 (60 d) · Diamond +6 (120 d — <b>permanent</b> for the Diamond #1).</div>
         <div class="leg"><b>🚩 Winner's crest (alliance)</b>Subdivision winners Bronze→Diamond fly a coat of arms
@@ -128,12 +156,35 @@
         next season's divisions — per the in-game rules: <b>top 36 → Gold</b>, 37–96 → Silver, 97–456 → Bronze,
         457–1,356 → Glass, the rest stay Copper. Diamond isn't seeded directly this run — it's reached by winning
         a Gold subdivision from season two onward.</p>
+      </div><!-- /mode-rank -->
+
+      <div id="mode-level" hidden>
+        <p class="note" style="margin: 0 0 12px;">One shared 30-level track for the whole event: every time your
+          alliance crosses a point threshold, <b>every eligible member</b> (250+ points contributed) is paid
+          automatically — and the alliance banks <b>+2 quest tickets</b> per level. Your <b>division caps how far
+          the track goes</b>:</p>
+        <div class="lv-caps">
+          <span class="lv-cap">🟫 Copper <b>level 5</b></span>
+          <span class="lv-cap">🔷 Glass <b>level 10</b></span>
+          <span class="lv-cap">🥉 Bronze <b>level 15</b></span>
+          <span class="lv-cap">🥈 Silver <b>level 20</b></span>
+          <span class="lv-cap">🥇 Gold <b>level 25</b></span>
+          <span class="lv-cap">💎 Diamond <b>level 30</b></span>
+        </div>
+        <div class="tbl-scroll"><table class="lv">
+          <thead><tr><th>Lvl</th><th>Points</th><th>Division needed</th><th>Rewards (every eligible member)</th></tr></thead>
+          <tbody id="lv-rows"></tbody>
+        </table></div>
+        <p class="note">Thresholds and payouts decoded from the game files (items v780.01) — the same numbers the
+          in-game reward hub shows for your current division, extended to the tiers it keeps locked. Each 5-level
+          block tops out with a <b>Riftsliver Relic</b> pure-PO deco (8,000 → 10,000 PO).</p>
+      </div>
     </section>
   </main>
 
   <footer class="footer">
-    <div class="wrap"><p>Reward tables decoded from the game data (items v780.01, 17 Jul 2026). Level-reward
-      quantities are delivered server-side and aren't in the client files.</p></div>
+    <div class="wrap"><p>Ranking and level reward tables decoded from the game data (items v780.01, 17 Jul 2026).
+      Game art © Goodgame Studios.</p></div>
   </footer>
 
   <script>
@@ -180,6 +231,55 @@
 
     const AMU  = (t, d) => [ICO.amu[t], t + " Riftsliver Amulet", d, "gear"];
     const CREST = (p) => ["🚩", "Winner's crest", "+" + p + "% recruitment · 7 d", "crest"];
+
+    /* Level-reward item helpers (leaguetypeevents event 137 → rewards 11067–11096). */
+    const RC   = (n) => ["img/rift-coin.webp", "Rift Coins", n, ""];
+    const ASH  = (n) => ["img/ashira-token.webp", "Ashira's Offering to Ulrich", n, ""];
+    const XP   = (n, tot) => ["⭐", "General XP books", n + " × 15k (" + tot + ")", ""];
+    const MEAD = (n) => ["img/mead.png", "Mead", n, ""];
+    const CH_S = (n) => ["img/dragon-chest-small.webp", "Small dragon chest", n, ""];
+    const CH_B = (n) => ["img/dragon-chest-big.webp", "Big dragon chest", n, ""];
+    const RELIC = (t, po, extra) => ["img/relic-" + t.toLowerCase() + ".png", t + " Riftsliver Relic",
+      po + " PO" + (extra || ""), "deco", DECO_LINK(t + " Riftsliver Relic")];
+    const TROOP = (nm, n) => ["⚔️", nm, n, ""];
+    const TOOL  = (nm, n) => ["🛠️", nm, n, ""];
+    const CI    = (nm, fx, n) => ["🧩", nm, n + " · " + fx + " · 4 d", ""];
+    const GEAR  = (nm, fx) => ["📿", nm, fx, "gear"];
+
+    /* The shared level track: [points, rewards]. Division cap = level 5/10/15/20/25/30. */
+    const LEVELS = [
+      [2000,  [TOOL("Raid Ladder 60%", "170"), TOOL("Raid Ram 60%", "60")]],
+      [4000,  [RC("500"), UPG("300")]],
+      [6000,  [TROOP("Shield-maidens (lvl 10)", "3,000"), TROOP("Valkyrie rangers (lvl 10)", "3,000"), MEAD("30,000")]],
+      [8000,  [RC("500"), CON("150")]],
+      [10000, [GEAR("Sundial of the cunning", "Commander: waves + front & flank"), TOOL("Bronze Sporeguard Chrono-Vial", "5")]],
+      [12500, [TOOL("Raid Ladder 80%", "900"), TOOL("Raid Ram 80%", "300")]],
+      [15000, [RC("600"), UPG("500")]],
+      [17500, [TROOP("Shield-maidens (lvl 10)", "6,000"), TROOP("Valkyrie rangers (lvl 10)", "6,000"), MEAD("60,000")]],
+      [20000, [RC("600"), CON("250")]],
+      [22500, [CI("Pirates' market", "+60% melee attack", "2"), TOOL("Graveguard Potion", "4")]],
+      [25000, [CH_S("8"), TOOL("Great Graveguard Potion", "35")]],
+      [28000, [RC("700"), TOOL("Huge Nomad tablet chest", "10,000")]],
+      [31000, [CI("Pirates' siege workshop", "+60% ranged attack", "2"), TOOL("Silver Sporeguard Chrono-Vial", "5")]],
+      [34000, [TOOL("Bronze Obsidian Weighted Net", "120"), TOOL("Bronze Obsidian Siege Shield", "120")]],
+      [37000, [RELIC("Bronze", "8,000"), TOOL("Enormous Samurai Token Chest", "10,000")]],
+      [40000, [CH_S("12"), TOOL("Great Graveguard Potion", "35")]],
+      [43000, [RC("1,600"), ASH("20")]],
+      [46000, [TOOL("Silver Obsidian Weighted Net", "60"), TOOL("Silver Obsidian Siege Shield", "60")]],
+      [49000, [CI("Pirates' defense workshop", "+60% courtyard attack", "2"), ASH("30")]],
+      [52000, [RELIC("Silver", "8,750"), CI("Pirates' drillground", "+35 flank capacity", "1")]],
+      [55500, [XP("25", "375k"), SCE("1,000")]],
+      [59000, [DUC("50"), RC("1,000")]],
+      [62500, [CI("Pirates' sawmill", "+80 front capacity", "1"), CH_S("15")]],
+      [66000, [PLAS("1,000"), XP("40", "600k")]],
+      [69500, [RELIC("Gold", "9,750"), RC("1,000")]],
+      [73000, [PLAS("1,500"), XP("55", "825k")]],
+      [76500, [RC("1,100"), DUC("75")]],
+      [80000, [CH_B("1"), TILE("4,000")]],
+      [83500, [RC("1,100"), SPL("3,000")]],
+      [87000, [RELIC("Diamond", "10,000", " · to deco storage")]],
+    ];
+    const GATES = ["🟫 Copper+", "🔷 Glass+", "🥉 Bronze+", "🥈 Silver+", "🥇 Gold+", "💎 Diamond"];
 
     const DIVS = [
       { key: "qual", icon: "🏁", name: "This run (Distribution)", now: true,
@@ -253,26 +353,54 @@
 
       const rows = document.getElementById("rows");
       rows.innerHTML = "";
-      const FALLBACK = { deco: "🌿", gear: "📿", "": "🎁" };
       d.ranks.forEach(([rk, items], idx) => {
         const tr = document.createElement("tr");
         if (idx === 0) tr.className = "winner";
-        tr.innerHTML = '<td class="rk">' + (idx === 0 ? "🏆 " : "") + esc(rk) + "</td><td><div class='items'>" +
-          items.map(([ic, nm, q, cls, link]) => {
-            const icon = /^(https?:|\.\.|img\/)/.test(ic)
-              ? '<img src="' + esc(ic) + '" alt="" onerror="this.outerHTML=\'' +
-                (FALLBACK[cls] || "🎁") + '\'">'
-              : ic;
-            const body = icon + " " + esc(nm) + (q ? " <small>" + esc(q) + "</small>" : "");
-            return link
-              ? '<a class="it ' + cls + '" href="' + esc(link) + '" title="Open in the Decorations overview">' + body + "</a>"
-              : '<span class="it ' + cls + '">' + body + "</span>";
-          }).join("") +
-          "</div></td>";
+        tr.innerHTML = '<td class="rk">' + (idx === 0 ? "🏆 " : "") + esc(rk) +
+          "</td><td><div class='items'>" + items.map(chip).join("") + "</div></td>";
         rows.appendChild(tr);
       });
     }
+
+    const FALLBACK = { deco: "🌿", gear: "📿", "": "🎁" };
+    function chip([ic, nm, q, cls, link]) {
+      const icon = /^(https?:|\.\.|img\/)/.test(ic)
+        ? '<img src="' + esc(ic) + '" alt="" onerror="this.outerHTML=\'' + (FALLBACK[cls] || "🎁") + '\'">'
+        : ic;
+      const body = icon + " " + esc(nm) + (q ? " <small>" + esc(q) + "</small>" : "");
+      return link
+        ? '<a class="it ' + cls + '" href="' + esc(link) + '" title="Open in the Decorations overview">' + body + "</a>"
+        : '<span class="it ' + cls + '">' + body + "</span>";
+    }
+
+    function renderLevels() {
+      const tb = document.getElementById("lv-rows");
+      tb.innerHTML = LEVELS.map(([pts, items], i) => {
+        const lvl = i + 1;
+        const gate = GATES[Math.floor(i / 5)];
+        const isTierStart = lvl > 1 && (lvl - 1) % 5 === 0;
+        const isDeco = items.some((it) => it[3] === "deco");
+        return '<tr class="' + (isTierStart ? "tier-row " : "") + (isDeco ? "deco-row" : "") + '">' +
+          '<td class="n">' + lvl + '</td><td class="pts">' + pts.toLocaleString("en") + "</td>" +
+          '<td class="gate">' + gate + "</td>" +
+          "<td><div class='items'>" + items.map(chip).join("") + "</div></td></tr>";
+      }).join("");
+    }
+
+    // Mode tabs
+    const tabRank = document.getElementById("tab-rank"), tabLevel = document.getElementById("tab-level");
+    const paneRank = document.getElementById("mode-rank"), paneLevel = document.getElementById("mode-level");
+    function setMode(m) {
+      const lvl = m === "level";
+      tabRank.classList.toggle("on", !lvl); tabLevel.classList.toggle("on", lvl);
+      paneRank.hidden = lvl; paneLevel.hidden = !lvl;
+    }
+    tabRank.addEventListener("click", () => setMode("rank"));
+    tabLevel.addEventListener("click", () => setMode("level"));
+
     render();
+    renderLevels();
+    if (new URLSearchParams(location.search).get("tab") === "levels") setMode("level");
   </script>
 </body>
 </html>
