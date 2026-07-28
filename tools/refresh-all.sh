@@ -9,6 +9,7 @@ set -uo pipefail
 here="$(cd "$(dirname "$0")" && pwd)"
 
 builds=(
+  "spenders/build.sh"
   "overview-equipment/data/build.sh"
   "overview-decorations/data/build.sh"
   "overview-rift/data/build.sh"

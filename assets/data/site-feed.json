@@ -20,6 +20,11 @@
  "changelog": [
   {
    "date": "Jul 2026",
+   "title": "Spenders Corner — back on the auto-refresh, and honest about price age",
+   "body": "Root cause of the staleness found: Spenders Corner was the one tool never wired into the daily data refresh, so its offer catalogue only updated when someone ran the build by hand. It's now part of refresh-all (which also keeps Item Value Finder current). The hand-captured AUD shop prices can't be automated — they need someone with the in-game shop open — so the page now reads the real capture date from the data instead of a hardcoded 'June 2026', and shows a clear warning once it's over a month old. Right now it's flagging 45 days."
+  },
+  {
+   "date": "Jul 2026",
    "title": "Rift rework incoming (29 Jul) — new Event Shop tool + guides updated",
    "body": "GGS is dropping a big Rift Raid rework: leaders now CHOOSE the boss, alliance combat boosters bought with Alliance Coins, new boss loot, and 1,500+ new quests. New Rift Event Shop overview lists all 141 packages across the blacksmith stalls (Rift Coin, Rift Shard, rubies, Legendary Rift Coin) plus the separate Ducat Shop, with exact prices — and it reads the game files directly, so new stock appears by itself. Checked the shop against older game builds: the ONLY new stock is the four Dominator booster tools (wall/gate debuff + Rift Points in one slot; the Veteran Banner is the 1,000-ruby premium variant). Rift Raid + Tournament guides updated with boss selection, the shop, boosters, the new 32-unit minimum on boss attacks, lowered defeat thresholds, and the auto-clearing of leftover Rift Points."
   },

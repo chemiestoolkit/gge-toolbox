@@ -120,11 +120,13 @@
          2× Payment Doubler and the +300% Prime Time offer factored in.</p>
     </div>
 
+    <div id="au-stale" class="sp-note" hidden></div>
+
     <section class="panel">
       <h2 class="sp-h">🏆 Best value for money — every way to buy rubies</h2>
       <p class="sp-sub">Straight ruby packs are the <em>worst</em> rubies-per-dollar in the shop, so don't just grab the
         biggest pack. This ranks <b>every</b> route together — packs, Ruby Rush bundles and the 7-day daily chain — by
-        <b>rubies per A$</b>, so you buy what actually pays. AUD prices captured from the AU1 shop, June 2026. The two
+        <b>rubies per A$</b>, so you buy what actually pays. AUD prices captured from the AU1 shop, <span class="au-when">June 2026</span>. The two
         boosts below only hit straight ruby packs and <b>don't stack</b> — you get whichever is better, so Prime Time wins when it's up.</p>
       <label class="sp-toggle"><input type="checkbox" id="doubler" checked> 2× Payment Doubler (doubles straight ruby packs — was running when these prices were captured)</label>
       <label class="sp-toggle"><input type="checkbox" id="prime"> +300% Prime Time offer active (×4 rubies on straight packs — beats the doubler)</label>
@@ -200,14 +202,14 @@
     </section>
 
     <div class="sp-note">
-      <b>Where this comes from:</b> AUD prices and bundle contents were captured from the AU1 shop (June 2026).
+      <b>Where this comes from:</b> AUD prices and bundle contents were captured from the AU1 shop (<span class="au-when">June 2026</span>).
       Which offers and doubler/Prime-Time promos appear, and when, is decided server-side per player — treat this as
       the menu, not a live feed. Subscriptions on AU1: Player #1 A$17.99/mo, Player #2 A$34.99/mo, Alliance A$8.99/mo.
     </div>
   </main>
 
   <footer class="footer">
-    <div class="wrap"><p>AUD prices from the AU1 shop (June 2026). Unofficial fan tool — spend responsibly.</p></div>
+    <div class="wrap"><p>AUD prices from the AU1 shop (<span class="au-when">June 2026</span>). Unofficial fan tool — spend responsibly.</p></div>
   </footer>
 
   <script>
@@ -222,11 +224,33 @@
     Promise.all([
       fetch("./data/au-prices.json").then(function (r) { return r.json(); }),
       fetch("./data/sales.json").then(function (r) { return r.json(); })
-    ]).then(function (res) { AU = res[0]; SALES = res[1]; init(); })
+    ]).then(function (res) { AU = res[0]; SALES = res[1]; stampAuAge(); init(); })
       .catch(function () {
         document.body.insertAdjacentHTML("beforeend",
           '<div style="text-align:center;padding:24px;opacity:.75">Couldn’t load the price data — refresh to try again.</div>');
       });
+
+    // Real-money prices are hand-captured from the in-game shop, so they age.
+    // Show the real capture date everywhere, and say plainly when it's old.
+    function stampAuAge() {
+      if (!AU || !AU.captured) return;
+      var d = new Date(AU.captured + "T00:00:00Z");
+      if (isNaN(d)) return;
+      var label = d.toLocaleDateString("en-AU", { day: "numeric", month: "long", year: "numeric" });
+      var days = Math.floor((Date.now() - d.getTime()) / 86400000);
+      Array.prototype.forEach.call(document.querySelectorAll(".au-when"), function (el) {
+        el.textContent = label;
+      });
+      if (days >= 30) {
+        var box = document.getElementById("au-stale");
+        box.hidden = false;
+        box.innerHTML = "<b>⚠️ These AUD prices are " + days + " days old</b> (captured " + label +
+          "). Goodgame rotates pack contents and runs limited-time sales, so the dollar figures below may no " +
+          "longer match your shop — the rubies-per-dollar <em>ranking</em> is still the useful part. " +
+          "Spotted different prices? Send a screenshot through the suggestions box on the home page and " +
+          "they'll be updated.";
+      }
+    }
 
     // The doubler (×2) and Prime Time (+300% = ×4) only hit straight ruby packs,
     // and they DON'T stack — you take whichever single boost is better.
