@@ -4,9 +4,11 @@ name: Refresh game data
 # (tools/_srcdata/pull.sh) and commits any changes. Keeps equipment, gacha pools,
 # rift bosses, decorations, etc. current after a game maintenance.
 on:
-  # Daily safety net (07:00 UTC ~= 17:00 Sydney).
+  # Twice daily so a content drop is picked up within hours, not a day
+  # (07:00 UTC ~= 17:00 Sydney; 19:00 UTC ~= 05:00 Sydney, after EU maintenance).
   schedule:
     - cron: "0 7 * * *"
+    - cron: "0 19 * * *"
   # Manual button in the Actions tab.
   workflow_dispatch:
   # External trigger — e.g. a Discord bot posting the maintenance announcement.
@@ -41,6 +43,14 @@ jobs:
 
       - name: Refresh GGS news + event calendar
         run: python3 assets/data/fetch-ggs-news.py
+
+      # Data updates itself; this flags when *written* pages (guides, overview
+      # copy) need a pass — e.g. the Alliance Combat Booster table filling in.
+      - name: Watch for new game content
+        continue-on-error: true
+        env:
+          CONTENT_WATCH_HOOK: ${{ secrets.CONTENT_WATCH_HOOK || secrets.DISCORD_ALLIANCE_HOOK }}
+        run: python3 tools/_srcdata/content-watch.py tools/_srcdata/cache tools/_srcdata/content-state.json
 
       - name: Commit changes if any
         run: |

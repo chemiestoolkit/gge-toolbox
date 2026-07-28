@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Rift Event Shop — Maxy's Empire Toolkit</title>
+  <meta property="og:type" content="website" />
+  <meta property="og:site_name" content="Maxy's Empire Toolkit" />
+  <meta property="og:title" content="Rift Event Shop — Maxy's Empire Toolkit" />
+  <meta property="og:description" content="Every Rift Raid event shop stall and its full stock — Rift Coins, Rift Shards, Legendary Rift Coins and Imperial Ducats — with exact prices, straight from the game files." />
+  <meta property="og:url" content="https://chemiestoolkit.github.io/gge-toolbox/tools/overview-rift-shop/" />
+  <meta property="og:image" content="https://chemiestoolkit.github.io/gge-toolbox/assets/img/event-icons/riftraid.webp" />
+  <meta name="twitter:card" content="summary" />
+  <meta name="description" content="Goodgame Empire Rift Raid event shop: all stock and prices across the Rift Coin, Rift Shard, Legendary Rift Coin and Ducat stalls, decoded from the game data." />
+  <link rel="stylesheet" href="../../assets/css/theme.css?v=15" />
+  <link rel="icon" type="image/png" href="../../assets/img/favicon.png" />
+  <style>
+    .sh-tabs { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 14px; }
+    .sh-tab { display: inline-flex; align-items: center; gap: 7px; padding: 8px 14px; border-radius: var(--radius-sm);
+      font: inherit; font-size: .82rem; font-weight: 700; background: var(--bg-elev-2); border: 1px solid var(--border);
+      color: var(--text-dim); cursor: pointer; transition: .12s; }
+    .sh-tab:hover { border-color: var(--gold-dim); color: var(--text); }
+    .sh-tab.on { border-color: var(--gold); color: var(--text); background: rgba(217,178,90,.08); }
+    .sh-tab img { width: 18px; height: 18px; object-fit: contain; }
+    .sh-tab .n { font-size: .68rem; color: var(--text-faint); font-weight: 600; }
+
+    .sh-bar { display: flex; flex-wrap: wrap; gap: 10px; align-items: center; margin-bottom: 14px; }
+    .sh-bar input { font: inherit; font-size: .84rem; padding: 8px 12px; border-radius: var(--radius-sm);
+      border: 1px solid var(--border); background: var(--bg-elev-2); color: var(--text); min-width: 200px; flex: 1; }
+    .sh-bar input:focus { outline: none; border-color: var(--gold); }
+    .sh-bar select { font: inherit; font-size: .82rem; padding: 8px 10px; border-radius: var(--radius-sm);
+      border: 1px solid var(--border); background: var(--bg-elev-2); color: var(--text); }
+    .sh-count { font-size: .76rem; color: var(--text-faint); }
+
+    table.sh { width: 100%; border-collapse: collapse; font-size: .85rem; }
+    .sh th { text-align: left; font-size: .68rem; text-transform: uppercase; letter-spacing: .06em;
+      color: var(--text-faint); padding: 6px 10px; border-bottom: 1px solid var(--border); }
+    .sh td { padding: 9px 10px; border-bottom: 1px solid var(--border); vertical-align: middle; }
+    .sh td.price { white-space: nowrap; width: 132px; font-variant-numeric: tabular-nums;
+      color: var(--gold); font-weight: 800; }
+    .sh td.price img { width: 17px; height: 17px; object-fit: contain; vertical-align: -3px; margin-right: 5px; }
+    .sh td.meta { white-space: nowrap; width: 100px; font-size: .74rem; color: var(--text-faint); }
+    .sh tr:hover td { background: rgba(217,178,90,.03); }
+    .gets { display: flex; flex-wrap: wrap; gap: 6px; align-items: center; }
+    .get { display: inline-flex; align-items: center; gap: 6px; font-size: .8rem; color: var(--text);
+      background: var(--bg-elev-2); border: 1px solid var(--border-soft); border-radius: 8px; padding: 4px 9px; }
+    .get img { width: 20px; height: 20px; object-fit: contain; flex: none; }
+    .get b { color: var(--gold); font-variant-numeric: tabular-nums; }
+    .get.lootbox { border-color: rgba(180,140,255,.4); }
+    .get.equipment { border-color: rgba(217,178,90,.45); }
+    .get.pending { border-style: dashed; opacity: .85; }
+    .get .soon { font-size: .62rem; color: var(--text-faint); font-style: italic; }
+    .tbl-scroll { overflow-x: auto; }
+    .note { font-size: .78rem; color: var(--text-faint); margin-top: 12px; line-height: 1.55; }
+    .empty { color: var(--text-faint); padding: 22px 4px; text-align: center; }
+  </style>
+</head>
+<body>
+  <header class="topbar">
+    <div class="wrap">
+      <a class="brand" href="../../"><span class="crest">🛡️</span> Maxy's Empire <b>Toolkit</b></a>
+    </div>
+  </header>
+
+  <main class="wrap">
+    <div class="tool-head">
+      <a class="back" href="../../">← All tools</a>
+      <h1>🪙 Rift Event Shop</h1>
+      <p>Every stall in the Rift Raid event shop and its full stock — what each item costs in
+        <b>Rift Coins</b>, <b>Rift Shards</b>, <b>Legendary Rift Coins</b> and <b>Imperial Ducats</b>.
+        Read straight from the game files, so it tracks the live shop. Mechanics:
+        <a href="../guides/rift-raid.html">Rift Raid guide</a> ·
+        <a href="../overview-rift-rewards/">Tournament rewards</a>.</p>
+    </div>
+
+    <section class="panel">
+      <div class="sh-tabs" id="tabs"></div>
+      <div class="sh-bar">
+        <input id="q" type="search" placeholder="Search items…" autocomplete="off" />
+        <select id="sort">
+          <option value="cost">Cheapest first</option>
+          <option value="-cost">Most expensive first</option>
+          <option value="name">Item name</option>
+        </select>
+        <span class="sh-count" id="count"></span>
+      </div>
+      <div class="tbl-scroll"><table class="sh">
+        <thead><tr><th>Price</th><th>You get</th><th>Limit</th></tr></thead>
+        <tbody id="rows"></tbody>
+      </table></div>
+      <div class="empty" id="empty" hidden>No items match that search.</div>
+      <p class="note" id="foot"></p>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <div class="wrap"><p>Shop stock decoded from the game data and refreshed daily — new stall entries from a
+      game update appear here automatically. Game art © Goodgame Studios.</p></div>
+  </footer>
+
+  <script>
+    const esc = (s) => String(s == null ? "" : s).replace(/[&<>"]/g, (c) =>
+      ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]));
+    const n = (v) => Number(v).toLocaleString("en");
+
+    let DATA = { entries: [] }, shops = [], cur = 0;
+    const rowsEl = document.getElementById("rows"), tabsEl = document.getElementById("tabs");
+    const qEl = document.getElementById("q"), sortEl = document.getElementById("sort");
+    const countEl = document.getElementById("count"), emptyEl = document.getElementById("empty");
+
+    fetch("data/rift-shop.json?v=" + Date.now())
+      .then((r) => { if (!r.ok) throw new Error("HTTP " + r.status); return r.json(); })
+      .then((d) => {
+        DATA = d;
+        shops = [...new Set(d.entries.map((e) => e.shop))];
+        renderTabs(); render();
+        const when = d.generated ? new Date(d.generated).toLocaleDateString("en-AU",
+          { day: "numeric", month: "short", year: "numeric" }) : "—";
+        document.getElementById("foot").innerHTML =
+          "Prices are the game's own package costs. Stock limits marked <b>1×</b> reset each event run. " +
+          "Data refreshed " + esc(when) + ". Items shown as <i>name pending</i> are already in the game files " +
+          "but have no in-game name yet — they fill in automatically once the update ships them.";
+      })
+      .catch((e) => {
+        rowsEl.innerHTML = '<tr><td colspan="3" style="color:var(--bad,#f87171)">Could not load shop data: ' +
+          esc(e.message) + "</td></tr>";
+      });
+
+    function renderTabs() {
+      tabsEl.innerHTML = shops.map((s, i) => {
+        const rows = DATA.entries.filter((e) => e.shop === s);
+        const img = rows[0] && rows[0].currencyImg;
+        return '<button class="sh-tab' + (i === cur ? " on" : "") + '" data-i="' + i + '" type="button">' +
+          (img ? '<img src="' + esc(img) + '" alt="" onerror="this.remove()">' : "🪙 ") +
+          esc(s) + ' <span class="n">' + rows.length + "</span></button>";
+      }).join("");
+      tabsEl.querySelectorAll(".sh-tab").forEach((b) =>
+        b.addEventListener("click", () => { cur = +b.dataset.i; renderTabs(); render(); }));
+    }
+
+    function render() {
+      const shop = shops[cur];
+      const q = qEl.value.trim().toLowerCase();
+      let list = DATA.entries.filter((e) => e.shop === shop);
+      if (q) list = list.filter((e) => e.gets.some((g) => g.name.toLowerCase().includes(q)));
+      const s = sortEl.value;
+      list = [...list].sort((a, b) =>
+        s === "cost" ? a.cost - b.cost :
+        s === "-cost" ? b.cost - a.cost :
+        (a.gets[0] ? a.gets[0].name : "").localeCompare(b.gets[0] ? b.gets[0].name : ""));
+
+      countEl.textContent = list.length + (list.length === 1 ? " item" : " items");
+      emptyEl.hidden = list.length > 0;
+
+      rowsEl.innerHTML = list.map((e) => {
+        const gets = e.gets.map((g) =>
+          '<span class="get ' + esc(g.kind) + (g.pending ? " pending" : "") + '">' +
+          (g.img ? '<img src="' + esc(g.img) + '" alt="" onerror="this.remove()">' : "") +
+          esc(g.name) + (g.qty > 1 ? " <b>×" + n(g.qty) + "</b>" : "") +
+          (g.pending ? ' <span class="soon">new</span>' : "") + "</span>").join("");
+        const limit = e.stock ? e.stock + "× per event" : "unlimited";
+        return "<tr><td class='price'>" +
+          (e.currencyImg ? '<img src="' + esc(e.currencyImg) + '" alt="" onerror="this.remove()">' : "") +
+          n(e.cost) + "</td><td><div class='gets'>" + gets + "</div></td>" +
+          "<td class='meta'>" + limit + "</td></tr>";
+      }).join("");
+    }
+
+    qEl.addEventListener("input", render);
+    sortEl.addEventListener("change", render);
+  </script>
+</body>
+</html>

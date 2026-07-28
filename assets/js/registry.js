@@ -500,6 +500,16 @@ window.TOOLS = [
     tags: ["event", "rewards", "milestones", "points", "rift raid", "nomad", "samurai"],
   },
   {
+    slug: "overview-rift-shop",
+    img: "assets/img/event-icons/riftraid.webp",
+    cat: "overviews",
+    name: "Rift Event Shop",
+    desc: "Every Rift Raid shop stall and its full stock — Rift Coin, Rift Shard, Legendary Rift Coin and Ducat prices for all 100 packages.",
+    icon: "🪙",
+    status: "live",
+    tags: ["rift", "shop", "event shop", "blacksmith", "ducat", "rift coin", "rift shard", "prices", "stock", "tools", "boxes"],
+  },
+  {
     slug: "overview-rift-rewards",
     img: "assets/img/event-icons/riftraid.webp",
     cat: "overviews",

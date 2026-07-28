@@ -16,6 +16,7 @@ builds=(
   "overview-generals/data/build.sh"
   "overview-loot-box/data/build.sh"
   "overview-event-rewards/data/build.sh"
+  "overview-rift-shop/data/build.sh"
   "overview-construction-items/data/build.sh"
   "overview-buildings/data/build.sh"
   "upgrade-cost/data/build.sh"
