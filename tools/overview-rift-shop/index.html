@@ -15,7 +15,15 @@
   <link rel="stylesheet" href="../../assets/css/theme.css?v=15" />
   <link rel="icon" type="image/png" href="../../assets/img/favicon.png" />
   <style>
+    .sh-fam { margin-bottom: 12px; }
+    .sh-fam-label { font-size: .66rem; text-transform: uppercase; letter-spacing: .06em;
+      color: var(--text-faint); margin-bottom: 6px; font-weight: 700; }
     .sh-tabs { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 14px; }
+    .sh-tab .new { font-size: .58rem; font-weight: 800; letter-spacing: .04em; text-transform: uppercase;
+      background: var(--good, #7fd9a6); color: #06251a; border-radius: 99px; padding: 2px 6px; }
+    .get.isnew { border-color: rgba(127,217,166,.6); }
+    .get .newtag { font-size: .58rem; font-weight: 800; letter-spacing: .04em; text-transform: uppercase;
+      color: var(--good, #7fd9a6); }
     .sh-tab { display: inline-flex; align-items: center; gap: 7px; padding: 8px 14px; border-radius: var(--radius-sm);
       font: inherit; font-size: .82rem; font-weight: 700; background: var(--bg-elev-2); border: 1px solid var(--border);
       color: var(--text-dim); cursor: pointer; transition: .12s; }
@@ -66,15 +74,16 @@
     <div class="tool-head">
       <a class="back" href="../../">← All tools</a>
       <h1>🪙 Rift Event Shop</h1>
-      <p>Every stall in the Rift Raid event shop and its full stock — what each item costs in
-        <b>Rift Coins</b>, <b>Rift Shards</b>, <b>Legendary Rift Coins</b> and <b>Imperial Ducats</b>.
-        Read straight from the game files, so it tracks the live shop. Mechanics:
-        <a href="../guides/rift-raid.html">Rift Raid guide</a> ·
+      <p>Every stall in the <b>Rift Raid event blacksmith</b> and its full stock — priced in
+        <b>Rift Coins</b>, <b>Rift Shards</b>, <b>Legendary Rift Coins</b> and <b>rubies</b>. The
+        <b>Ducat Shop</b> is listed below it for convenience, but it's a <em>separate</em> shop that came
+        with the Tournament, not a rift stall. Read straight from the game files, so it tracks the live shop.
+        Mechanics: <a href="../guides/rift-raid.html">Rift Raid guide</a> ·
         <a href="../overview-rift-rewards/">Tournament rewards</a>.</p>
     </div>
 
     <section class="panel">
-      <div class="sh-tabs" id="tabs"></div>
+      <div id="tabs"></div>
       <div class="sh-bar">
         <input id="q" type="search" placeholder="Search items…" autocomplete="off" />
         <select id="sort">
@@ -126,13 +135,30 @@
           esc(e.message) + "</td></tr>";
       });
 
+    // Two genuinely separate shops: the Rift Raid event blacksmith, and the
+    // Ducat Shop that arrived with the Tournament (not a rift event stall).
+    const FAMILIES = [
+      { key: "rift", label: "Rift Raid event shop — event currencies & rubies" },
+      { key: "ducat", label: "Ducat Shop — separate shop, Tournament currency" },
+    ];
+
+    function tabButton(s, i) {
+      const rows = DATA.entries.filter((e) => e.shop === s);
+      const img = rows[0] && rows[0].currencyImg;
+      const isNew = rows.some((r) => r.new);
+      return '<button class="sh-tab' + (i === cur ? " on" : "") + '" data-i="' + i + '" type="button">' +
+        (img ? '<img src="' + esc(img) + '" alt="" onerror="this.remove()">' : "🪙 ") +
+        esc(s) + ' <span class="n">' + rows.length + "</span>" +
+        (isNew ? ' <span class="new">new</span>' : "") + "</button>";
+    }
+
     function renderTabs() {
-      tabsEl.innerHTML = shops.map((s, i) => {
-        const rows = DATA.entries.filter((e) => e.shop === s);
-        const img = rows[0] && rows[0].currencyImg;
-        return '<button class="sh-tab' + (i === cur ? " on" : "") + '" data-i="' + i + '" type="button">' +
-          (img ? '<img src="' + esc(img) + '" alt="" onerror="this.remove()">' : "🪙 ") +
-          esc(s) + ' <span class="n">' + rows.length + "</span></button>";
+      tabsEl.innerHTML = FAMILIES.map((f) => {
+        const mine = shops.map((s, i) => [s, i])
+          .filter(([s]) => DATA.entries.some((e) => e.shop === s && e.family === f.key));
+        if (!mine.length) return "";
+        return '<div class="sh-fam"><div class="sh-fam-label">' + esc(f.label) + "</div>" +
+          '<div class="sh-tabs">' + mine.map(([s, i]) => tabButton(s, i)).join("") + "</div></div>";
       }).join("");
       tabsEl.querySelectorAll(".sh-tab").forEach((b) =>
         b.addEventListener("click", () => { cur = +b.dataset.i; renderTabs(); render(); }));
@@ -154,10 +180,11 @@
 
       rowsEl.innerHTML = list.map((e) => {
         const gets = e.gets.map((g) =>
-          '<span class="get ' + esc(g.kind) + (g.pending ? " pending" : "") + '">' +
+          '<span class="get ' + esc(g.kind) + (g.pending ? " pending" : "") + (e.new ? " isnew" : "") + '">' +
           (g.img ? '<img src="' + esc(g.img) + '" alt="" onerror="this.remove()">' : "") +
           esc(g.name) + (g.qty > 1 ? " <b>×" + n(g.qty) + "</b>" : "") +
-          (g.pending ? ' <span class="soon">new</span>' : "") + "</span>").join("");
+          (g.pending ? ' <span class="soon">unreleased</span>' : "") +
+          (e.new ? ' <span class="newtag">new</span>' : "") + "</span>").join("");
         const limit = e.stock ? e.stock + "× per event" : "unlimited";
         return "<tr><td class='price'>" +
           (e.currencyImg ? '<img src="' + esc(e.currencyImg) + '" alt="" onerror="this.remove()">' : "") +

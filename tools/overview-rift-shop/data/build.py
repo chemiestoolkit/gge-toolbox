@@ -114,27 +114,46 @@ CURRENCIES = {
     "costLegendaryRiftCoin": ("Legendary Rift Coin", "LegendaryRiftCoin"),
     "costRiftShard": ("Rift Shard", "RiftShard"),
     "costImperialDucat": ("Imperial Ducat", "ImperialDucat"),
+    # Rubies are packagePriceC2, not a cost* key — the premium side of the
+    # blacksmith. Worth showing: it's a big chunk of the stock.
+    "packagePriceC2": ("Rubies", "__rubies__"),
 }
-# Friendlier shop names than the dev comments.
+# Friendlier shop names than the dev comments, plus which shop each belongs to.
+# `family`: "rift" = the Rift Raid event blacksmith (event currencies + rubies);
+# "ducat" = the separate Ducat Shop that came with the Tournament — a different
+# shop entirely, not a rift event stall.
 SHOP_LABELS = {
-    "ARE Blacksmith - Rift Coin Package": "Rift Coin shop",
-    "ARE Blacksmith - RiftShard Package": "Rift Shard shop",
-    "ARE Blacksmith - Legendary Rift Coin Package": "Legendary Rift Coin shop",
-    "ARE Blacksmith Booster Tools": "Booster tools",
-    "ARME Ducat Shop": "Ducat shop (Tournament)",
+    "ARE Blacksmith - Rift Coin Package": ("Rift Coin", "rift"),
+    "ARE Blacksmith - RiftShard Package": ("Rift Shard", "rift"),
+    "ARE Blacksmith - Legendary Rift Coin Package": ("Legendary Rift Coin", "rift"),
+    "ARE Blacksmith - Ruby Package": ("Rubies", "rift"),
+    "ARE Blacksmith Booster Tools": ("Booster tools", "rift"),
+    "ARME Ducat Shop": ("Ducat Shop", "ducat"),
+    "ARME Questboard QuestTry Purchase": ("Quest tickets", "ducat"),
 }
+# Stock added after v776.06 — flagged as new in the UI. Keyed by dev comment so
+# it survives package-ID churn; drop entries here once they stop being news.
+NEW_SINCE = {"ARE Blacksmith Booster Tools"}
 
 entries = []
 for p in items["packages"]:
+    # Whitelist by shop: rubies (packagePriceC2) are used by every paid package
+    # in the game, so only the known rift/ducat stalls are in scope here.
+    raw_shop = str(p.get("comment1", "")).strip()
+    if raw_shop not in SHOP_LABELS:
+        continue
     cur_key = next((c for c in CURRENCIES if c in p), None)
     if not cur_key:
         continue
     cur_name, cur_internal = CURRENCIES[cur_key]
-    cur_img = None
-    for k, path in cur_assets.items():
-        if k == cur_internal.lower():
-            cur_img = ASSET_ROOT + path + ".webp"
-            break
+    if cur_internal == "__rubies__":
+        cur_img = "../../assets/icons/rubies.png"   # vendored; no clean CDN collectable
+    else:
+        cur_img = None
+        for k, path in cur_assets.items():
+            if k == cur_internal.lower():
+                cur_img = ASSET_ROOT + path + ".webp"
+                break
 
     # ── what you actually get ────────────────────────────────────────────
     gets = []
@@ -200,10 +219,12 @@ for p in items["packages"]:
     if not gets:
         continue
 
-    raw_shop = str(p.get("comment1", "")).strip()
+    label, family = SHOP_LABELS[raw_shop]
     entries.append({
         "id": int(p["packageID"]),
-        "shop": SHOP_LABELS.get(raw_shop, raw_shop or "Rift shop"),
+        "shop": label,
+        "family": family,
+        "new": raw_shop in NEW_SINCE or None,
         "currency": cur_name,
         "currencyImg": cur_img,
         "cost": int(p[cur_key]),

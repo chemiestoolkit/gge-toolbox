@@ -504,7 +504,7 @@ window.TOOLS = [
     img: "assets/img/event-icons/riftraid.webp",
     cat: "overviews",
     name: "Rift Event Shop",
-    desc: "Every Rift Raid shop stall and its full stock — Rift Coin, Rift Shard, Legendary Rift Coin and Ducat prices for all 100 packages.",
+    desc: "Every Rift Raid blacksmith stall and its stock — Rift Coin, Rift Shard, ruby and Legendary Rift Coin prices, plus the separate Ducat Shop. 141 packages.",
     icon: "🪙",
     status: "live",
     tags: ["rift", "shop", "event shop", "blacksmith", "ducat", "rift coin", "rift shard", "prices", "stock", "tools", "boxes"],
