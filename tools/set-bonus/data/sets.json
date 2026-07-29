@@ -1,5 +1,5 @@
 {
-  "generated": "2026-07-28T20:12:08Z",
+  "generated": "2026-07-29T09:44:58Z",
   "sets": [
     {
       "setID": "1063",
@@ -6516,54 +6516,85 @@
         {
           "need": 2,
           "effects": [
-            "-45% of zombie infection rate on wall area"
+            "+513+5#514+5#515+5#516+5#517+5#518+5#519+5#520+5#521+5#522+5#523+5#524+5#525+5#526+5#527+5#528+5#529+5#530+5#531+5#532+5#533+5#534+5#535+5#536+5#537+5#538+5#539+5#540+5#541+5#542+5#543+5#544+5#545+5#546+5#547+5#548+5#549+5#550+5#551+5#552+5#553+5#554+5#555+5#556+5% attack strength for beef units when attacking against Samurai"
           ]
         },
         {
           "need": 3,
           "effects": [
-            "-45% of zombie infection rate for melee units"
+            "+513+5#514+5#515+5#516+5#517+5#518+5#519+5#520+5#521+5#522+5#523+5#524+5#525+5#526+5#527+5#528+5#529+5#530+5#531+5#532+5#533+5#534+5#535+5#536+5#537+5#538+5#539+5#540+5#541+5#542+5#543+5#544+5#545+5#546+5#547+5#548+5#549+5#550+5#551+5#552+5#553+5#554+5#555+5#556+5% attack strength for beef units when attacking against Samurai"
           ]
         },
         {
           "need": 4,
           "effects": [
-            "-45% of zombie infection rate for ranged units"
+            "+195+5#196+5#197+5#198+5#199+5#200+5#201+5#202+5#203+5#204+5#215+5#205+5#206+5#207+5#208+5#209+5#210+5#211+5#212+5#213+5#214+5#216+5#217+5#218+5#219+5#220+5#221+5#222+5#223+5#224+5#225+5#226+5#227+5#489+5#228+5#229+5#230+5#231+5#232+5#233+5#234+5#235+5#236+5#237+5#238+5#493+5#472+5#473+5#477+5#478+5#288+5#299+5#336+5#347+5#15+5#358+5#369+5#461+5#479+5#480+5#481+5#482+5#483+5#484+5#485+5#486+5#487+5#488+5#494+5#495+5#496+5#497+5#498+5#499+5#500+5#501+5#502+5#503+5#504+5#505+5#506+5#593+5#594+5#595+5#596+5#597+5#598+5% attack strength for mead units when attacking against Samurai"
           ]
         },
         {
           "need": 5,
           "effects": [
-            "-45% of zombie infection rate on courtyard area"
+            "+195+5#196+5#197+5#198+5#199+5#200+5#201+5#202+5#203+5#204+5#215+5#205+5#206+5#207+5#208+5#209+5#210+5#211+5#212+5#213+5#214+5#216+5#217+5#218+5#219+5#220+5#221+5#222+5#223+5#224+5#225+5#226+5#227+5#489+5#228+5#229+5#230+5#231+5#232+5#233+5#234+5#235+5#236+5#237+5#238+5#493+5#472+5#473+5#477+5#478+5#288+5#299+5#336+5#347+5#15+5#358+5#369+5#461+5#479+5#480+5#481+5#482+5#483+5#484+5#485+5#486+5#487+5#488+5#494+5#495+5#496+5#497+5#498+5#499+5#500+5#501+5#502+5#503+5#504+5#505+5#506+5#593+5#594+5#595+5#596+5#597+5#598+5% attack strength for mead units when attacking against Samurai"
           ]
         },
         {
           "need": 6,
           "effects": [
-            "+300% gate reduction in the Rift Raid Event"
+            "+216+330 mead ranged units for final assault against Samurai"
           ]
         },
         {
           "need": 7,
           "effects": [
-            "-45% of zombie infection rate for ranged units"
+            "+216+330 mead ranged units for final assault against Samurai"
           ]
         },
         {
           "need": 8,
           "effects": [
-            "-45% of zombie infection rate on courtyard area"
+            "+216+340 mead ranged units for final assault against Samurai"
           ]
         },
         {
           "need": 9,
           "effects": [
-            "+300% gate reduction in the Rift Raid Event"
+            "+1 additional wave(s) against Samurai"
           ]
         }
       ],
-      "pieces": [],
-      "wearer": "",
+      "pieces": [
+        {
+          "name": "Muramasa dou",
+          "slot": "Armor",
+          "might": 3750,
+          "wearer": "General"
+        },
+        {
+          "name": "Face of Okami",
+          "slot": "Artifact",
+          "might": 3150,
+          "wearer": "General"
+        },
+        {
+          "name": "Ornamental Kabuto of the Muramasa",
+          "slot": "Helmet",
+          "might": 3150,
+          "wearer": "General"
+        },
+        {
+          "name": "Neikan Yoshiro",
+          "slot": "Hero",
+          "might": 3300,
+          "wearer": "General"
+        },
+        {
+          "name": "Sai of Yoshiro",
+          "slot": "Weapon",
+          "might": 3450,
+          "wearer": "General"
+        }
+      ],
+      "wearer": "General",
       "maxPieces": 9
     },
     {
@@ -6573,54 +6604,85 @@
         {
           "need": 2,
           "effects": [
-            "-45% of zombie infection rate on wall area"
+            "+513+5#514+5#515+5#516+5#517+5#518+5#519+5#520+5#521+5#522+5#523+5#524+5#525+5#526+5#527+5#528+5#529+5#530+5#531+5#532+5#533+5#534+5#535+5#536+5#537+5#538+5#539+5#540+5#541+5#542+5#543+5#544+5#545+5#546+5#547+5#548+5#549+5#550+5#551+5#552+5#553+5#554+5#555+5#556+5% attack strength for beef units when attacking against Nomads"
           ]
         },
         {
           "need": 3,
           "effects": [
-            "-45% of zombie infection rate for melee units"
+            "+513+5#514+5#515+5#516+5#517+5#518+5#519+5#520+5#521+5#522+5#523+5#524+5#525+5#526+5#527+5#528+5#529+5#530+5#531+5#532+5#533+5#534+5#535+5#536+5#537+5#538+5#539+5#540+5#541+5#542+5#543+5#544+5#545+5#546+5#547+5#548+5#549+5#550+5#551+5#552+5#553+5#554+5#555+5#556+5% attack strength for beef units when attacking against Nomads"
           ]
         },
         {
           "need": 4,
           "effects": [
-            "-45% of zombie infection rate for ranged units"
+            "+195+5#196+5#197+5#198+5#199+5#200+5#201+5#202+5#203+5#204+5#215+5#205+5#206+5#207+5#208+5#209+5#210+5#211+5#212+5#213+5#214+5#216+5#217+5#218+5#219+5#220+5#221+5#222+5#223+5#224+5#225+5#226+5#227+5#489+5#228+5#229+5#230+5#231+5#232+5#233+5#234+5#235+5#236+5#237+5#238+5#493+5#472+5#473+5#477+5#478+5#288+5#299+5#336+5#347+5#15+5#358+5#369+5#461+5#479+5#480+5#481+5#482+5#483+5#484+5#485+5#486+5#487+5#488+5#494+5#495+5#496+5#497+5#498+5#499+5#500+5#501+5#502+5#503+5#504+5#505+5#506+5#593+5#594+5#595+5#596+5#597+5#598+5% attack strength for mead units when attacking against Nomads"
           ]
         },
         {
           "need": 5,
           "effects": [
-            "-45% of zombie infection rate on courtyard area"
+            "+195+5#196+5#197+5#198+5#199+5#200+5#201+5#202+5#203+5#204+5#215+5#205+5#206+5#207+5#208+5#209+5#210+5#211+5#212+5#213+5#214+5#216+5#217+5#218+5#219+5#220+5#221+5#222+5#223+5#224+5#225+5#226+5#227+5#489+5#228+5#229+5#230+5#231+5#232+5#233+5#234+5#235+5#236+5#237+5#238+5#493+5#472+5#473+5#477+5#478+5#288+5#299+5#336+5#347+5#15+5#358+5#369+5#461+5#479+5#480+5#481+5#482+5#483+5#484+5#485+5#486+5#487+5#488+5#494+5#495+5#496+5#497+5#498+5#499+5#500+5#501+5#502+5#503+5#504+5#505+5#506+5#593+5#594+5#595+5#596+5#597+5#598+5% attack strength for mead units when attacking against Nomads"
           ]
         },
         {
           "need": 6,
           "effects": [
-            "+300% gate reduction in the Rift Raid Event"
+            "+216+330 mead ranged units for final assault against Nomads"
           ]
         },
         {
           "need": 7,
           "effects": [
-            "-45% of zombie infection rate for ranged units"
+            "+216+330 mead ranged units for final assault against Nomads"
           ]
         },
         {
           "need": 8,
           "effects": [
-            "-45% of zombie infection rate on courtyard area"
+            "+216+340 mead ranged units for final assault against Nomads"
           ]
         },
         {
           "need": 9,
           "effects": [
-            "+300% gate reduction in the Rift Raid Event"
+            "+1 additional wave(s) against Nomads"
           ]
         }
       ],
-      "pieces": [],
-      "wearer": "",
+      "pieces": [
+        {
+          "name": "Lamellar armor of the Eastern Raiders",
+          "slot": "Armor",
+          "might": 3750,
+          "wearer": "General"
+        },
+        {
+          "name": "Tablet of the Warlord",
+          "slot": "Artifact",
+          "might": 3150,
+          "wearer": "General"
+        },
+        {
+          "name": "Toortsog of the Eastern Raiders",
+          "slot": "Helmet",
+          "might": 3150,
+          "wearer": "General"
+        },
+        {
+          "name": "General of the Eastern Raiders",
+          "slot": "Hero",
+          "might": 3300,
+          "wearer": "General"
+        },
+        {
+          "name": "Blade of the Eastern Raiders",
+          "slot": "Weapon",
+          "might": 3450,
+          "wearer": "General"
+        }
+      ],
+      "wearer": "General",
       "maxPieces": 9
     },
     {
@@ -6630,54 +6692,85 @@
         {
           "need": 2,
           "effects": [
-            "-45% of zombie infection rate on wall area"
+            "+513+5#514+5#515+5#516+5#517+5#518+5#519+5#520+5#521+5#522+5#523+5#524+5#525+5#526+5#527+5#528+5#529+5#530+5#531+5#532+5#533+5#534+5#535+5#536+5#537+5#538+5#539+5#540+5#541+5#542+5#543+5#544+5#545+5#546+5#547+5#548+5#549+5#550+5#551+5#552+5#553+5#554+5#555+5#556+5% attack strength for beef units when attacking against Berimond"
           ]
         },
         {
           "need": 3,
           "effects": [
-            "-45% of zombie infection rate for melee units"
+            "+513+5#514+5#515+5#516+5#517+5#518+5#519+5#520+5#521+5#522+5#523+5#524+5#525+5#526+5#527+5#528+5#529+5#530+5#531+5#532+5#533+5#534+5#535+5#536+5#537+5#538+5#539+5#540+5#541+5#542+5#543+5#544+5#545+5#546+5#547+5#548+5#549+5#550+5#551+5#552+5#553+5#554+5#555+5#556+5% attack strength for beef units when attacking against Berimond"
           ]
         },
         {
           "need": 4,
           "effects": [
-            "-45% of zombie infection rate for ranged units"
+            "+195+5#196+5#197+5#198+5#199+5#200+5#201+5#202+5#203+5#204+5#215+5#205+5#206+5#207+5#208+5#209+5#210+5#211+5#212+5#213+5#214+5#216+5#217+5#218+5#219+5#220+5#221+5#222+5#223+5#224+5#225+5#226+5#227+5#489+5#228+5#229+5#230+5#231+5#232+5#233+5#234+5#235+5#236+5#237+5#238+5#493+5#472+5#473+5#477+5#478+5#288+5#299+5#336+5#347+5#15+5#358+5#369+5#461+5#479+5#480+5#481+5#482+5#483+5#484+5#485+5#486+5#487+5#488+5#494+5#495+5#496+5#497+5#498+5#499+5#500+5#501+5#502+5#503+5#504+5#505+5#506+5#593+5#594+5#595+5#596+5#597+5#598+5% attack strength for mead units when attacking against Berimond"
           ]
         },
         {
           "need": 5,
           "effects": [
-            "-45% of zombie infection rate on courtyard area"
+            "+195+5#196+5#197+5#198+5#199+5#200+5#201+5#202+5#203+5#204+5#215+5#205+5#206+5#207+5#208+5#209+5#210+5#211+5#212+5#213+5#214+5#216+5#217+5#218+5#219+5#220+5#221+5#222+5#223+5#224+5#225+5#226+5#227+5#489+5#228+5#229+5#230+5#231+5#232+5#233+5#234+5#235+5#236+5#237+5#238+5#493+5#472+5#473+5#477+5#478+5#288+5#299+5#336+5#347+5#15+5#358+5#369+5#461+5#479+5#480+5#481+5#482+5#483+5#484+5#485+5#486+5#487+5#488+5#494+5#495+5#496+5#497+5#498+5#499+5#500+5#501+5#502+5#503+5#504+5#505+5#506+5#593+5#594+5#595+5#596+5#597+5#598+5% attack strength for mead units when attacking against Berimond"
           ]
         },
         {
           "need": 6,
           "effects": [
-            "+300% gate reduction in the Rift Raid Event"
+            "+216+330 mead ranged units for final assault against Berimond"
           ]
         },
         {
           "need": 7,
           "effects": [
-            "-45% of zombie infection rate for ranged units"
+            "+216+330 mead ranged units for final assault against Berimond"
           ]
         },
         {
           "need": 8,
           "effects": [
-            "-45% of zombie infection rate on courtyard area"
+            "+216+340 mead ranged units for final assault against Berimond"
           ]
         },
         {
           "need": 9,
           "effects": [
-            "+300% gate reduction in the Rift Raid Event"
+            "+1 additional wave(s) against Berimond"
           ]
         }
       ],
-      "pieces": [],
-      "wearer": "",
+      "pieces": [
+        {
+          "name": "Breastplate of the Golden Lion",
+          "slot": "Armor",
+          "might": 3750,
+          "wearer": "General"
+        },
+        {
+          "name": "Crown of the wilderness",
+          "slot": "Artifact",
+          "might": 3150,
+          "wearer": "General"
+        },
+        {
+          "name": "Helmet of the Golden Lion",
+          "slot": "Helmet",
+          "might": 3150,
+          "wearer": "General"
+        },
+        {
+          "name": "Lion of Gerbrandt",
+          "slot": "Hero",
+          "might": 3300,
+          "wearer": "General"
+        },
+        {
+          "name": "Blade of Gerbrandt",
+          "slot": "Weapon",
+          "might": 3450,
+          "wearer": "General"
+        }
+      ],
+      "wearer": "General",
       "maxPieces": 9
     },
     {
@@ -6687,54 +6780,85 @@
         {
           "need": 2,
           "effects": [
-            "-45% of zombie infection rate on wall area"
+            "+513+5#514+5#515+5#516+5#517+5#518+5#519+5#520+5#521+5#522+5#523+5#524+5#525+5#526+5#527+5#528+5#529+5#530+5#531+5#532+5#533+5#534+5#535+5#536+5#537+5#538+5#539+5#540+5#541+5#542+5#543+5#544+5#545+5#546+5#547+5#548+5#549+5#550+5#551+5#552+5#553+5#554+5#555+5#556+5% attack strength for beef units when attacking against Bloodcrow"
           ]
         },
         {
           "need": 3,
           "effects": [
-            "-45% of zombie infection rate for melee units"
+            "+513+5#514+5#515+5#516+5#517+5#518+5#519+5#520+5#521+5#522+5#523+5#524+5#525+5#526+5#527+5#528+5#529+5#530+5#531+5#532+5#533+5#534+5#535+5#536+5#537+5#538+5#539+5#540+5#541+5#542+5#543+5#544+5#545+5#546+5#547+5#548+5#549+5#550+5#551+5#552+5#553+5#554+5#555+5#556+5% attack strength for beef units when attacking against Bloodcrow"
           ]
         },
         {
           "need": 4,
           "effects": [
-            "-45% of zombie infection rate for ranged units"
+            "+195+5#196+5#197+5#198+5#199+5#200+5#201+5#202+5#203+5#204+5#215+5#205+5#206+5#207+5#208+5#209+5#210+5#211+5#212+5#213+5#214+5#216+5#217+5#218+5#219+5#220+5#221+5#222+5#223+5#224+5#225+5#226+5#227+5#489+5#228+5#229+5#230+5#231+5#232+5#233+5#234+5#235+5#236+5#237+5#238+5#493+5#472+5#473+5#477+5#478+5#288+5#299+5#336+5#347+5#15+5#358+5#369+5#461+5#479+5#480+5#481+5#482+5#483+5#484+5#485+5#486+5#487+5#488+5#494+5#495+5#496+5#497+5#498+5#499+5#500+5#501+5#502+5#503+5#504+5#505+5#506+5#593+5#594+5#595+5#596+5#597+5#598+5% attack strength for mead units when attacking against Bloodcrow"
           ]
         },
         {
           "need": 5,
           "effects": [
-            "-45% of zombie infection rate on courtyard area"
+            "+195+5#196+5#197+5#198+5#199+5#200+5#201+5#202+5#203+5#204+5#215+5#205+5#206+5#207+5#208+5#209+5#210+5#211+5#212+5#213+5#214+5#216+5#217+5#218+5#219+5#220+5#221+5#222+5#223+5#224+5#225+5#226+5#227+5#489+5#228+5#229+5#230+5#231+5#232+5#233+5#234+5#235+5#236+5#237+5#238+5#493+5#472+5#473+5#477+5#478+5#288+5#299+5#336+5#347+5#15+5#358+5#369+5#461+5#479+5#480+5#481+5#482+5#483+5#484+5#485+5#486+5#487+5#488+5#494+5#495+5#496+5#497+5#498+5#499+5#500+5#501+5#502+5#503+5#504+5#505+5#506+5#593+5#594+5#595+5#596+5#597+5#598+5% attack strength for mead units when attacking against Bloodcrow"
           ]
         },
         {
           "need": 6,
           "effects": [
-            "+300% gate reduction in the Rift Raid Event"
+            "+216+330 mead ranged units for final assault against Bloodcrow"
           ]
         },
         {
           "need": 7,
           "effects": [
-            "-45% of zombie infection rate for ranged units"
+            "+216+330 mead ranged units for final assault against Bloodcrow"
           ]
         },
         {
           "need": 8,
           "effects": [
-            "-45% of zombie infection rate on courtyard area"
+            "+216+340 mead ranged units for final assault against Bloodcrow"
           ]
         },
         {
           "need": 9,
           "effects": [
-            "+300% gate reduction in the Rift Raid Event"
+            "+1 additional wave(s) against Bloodcrow"
           ]
         }
       ],
-      "pieces": [],
-      "wearer": "",
+      "pieces": [
+        {
+          "name": "Blood gilded breastplate",
+          "slot": "Armor",
+          "might": 3750,
+          "wearer": "General"
+        },
+        {
+          "name": "Talon of fate",
+          "slot": "Artifact",
+          "might": 3150,
+          "wearer": "General"
+        },
+        {
+          "name": "Blood winged galea",
+          "slot": "Helmet",
+          "might": 3150,
+          "wearer": "General"
+        },
+        {
+          "name": "Bloodcrow Caesar",
+          "slot": "Hero",
+          "might": 3300,
+          "wearer": "General"
+        },
+        {
+          "name": "Crow mace",
+          "slot": "Weapon",
+          "might": 3450,
+          "wearer": "General"
+        }
+      ],
+      "wearer": "General",
       "maxPieces": 9
     },
     {
