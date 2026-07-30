@@ -71,7 +71,8 @@ def unnamed_rift_gear():
 # label -> (value, "note shown when it changes")
 now = {
     "items version": (version, "new game build"),
-    "alliance buffs": (rows("allianceBuffs"), "**Alliance Combat Boosters** — the booster table filled in"),
+    # Note the game-data key is lowercase `alliancebuffs`, not `allianceBuffs`.
+    "alliance buffs": (rows("alliancebuffs"), "**Alliance Combat Boosters** — the booster table changed"),
     "ARME quests": (arme_quests(), "Tournament quest pool changed (1,500+ expected)"),
     "rift shop packages": (rift_shop_packages(), "event shop stock changed"),
     "raid bosses": (rows("raidBosses"), "boss roster changed"),
