@@ -156,6 +156,11 @@
   ],
   "news": [
     {
+      "date": "9 Jul 2026",
+      "title": "Delayed Rift Raid Event Start",
+      "url": "https://communityhub.goodgamestudios.com/2026/07/09/delayed-rift-raid-event-start/"
+    },
+    {
       "date": "7 Jul 2026",
       "title": "Important Update about the Berimond Advisor",
       "url": "https://communityhub.goodgamestudios.com/2026/07/07/important-update-about-the-berimond-advisor/"
@@ -189,11 +194,6 @@
       "date": "11 Jun 2026",
       "title": "The Summer of Conquest!",
       "url": "https://communityhub.goodgamestudios.com/2026/06/11/the-summer-of-conquest/"
-    },
-    {
-      "date": "11 Jun 2026",
-      "title": "The News Hub is finally here!",
-      "url": "https://communityhub.goodgamestudios.com/2026/06/11/elementor-12857/"
     }
   ],
   "newsUrl": "https://communityhub.goodgamestudios.com/newshube4k/",
