@@ -1,11 +1,19 @@
 #!/usr/bin/env python3
-"""Poll gge-tracker for an alliance's joins/leaves and ping a Discord webhook.
+"""Watch an alliance on gge-tracker and ping a Discord webhook on activity.
 
-Runs from GitHub Actions on a schedule. State (the timestamp of the newest
-movement we've already posted) lives in a small JSON file that the workflow
-restores/saves via actions/cache — so we never commit anything to main and the
-history stays clean. On the very first run (no state) we record the current
-high-water mark and post nothing, so we don't dump the whole back-catalogue.
+Four feeds, each independent:
+  • member arrivals / departures  (📥 / 📤)
+  • castle movements — placements, removals, relocations  (🏰 / 💥 / ↗️)
+  • player renames  (✏️)
+  • members going shielded  (🛡️)
+
+Runs from GitHub Actions on a schedule. State (per-feed high-water marks + the
+last-seen shield map) lives in a small JSON file that the workflow restores/saves
+via actions/cache — so we never commit anything to main and the history stays
+clean. On a feed's first run (no state) we record a baseline and post nothing, so
+we don't dump the whole back-catalogue. Each feed advances only after Discord has
+accepted the post, and a transient upstream error skips just that feed for the
+cycle.
 
 Env:
   DISCORD_ALLIANCE_HOOK    Primary Discord webhook URL (required; Actions secret).
@@ -48,8 +56,18 @@ def collect_hooks():
                 hooks.append(url)
     return hooks
 
-GREEN = 0x4ade80   # join
-RED   = 0xf87171   # leave
+GREEN  = 0x4ade80   # join
+RED    = 0xf87171   # leave
+BLUE   = 0x60a5fa   # castle movement
+PURPLE = 0xc084fc   # rename
+GOLD   = 0xfbbf24   # shield up
+
+CASTLE_TYPES = {1: "Main castle", 4: "Outpost", 22: "Capital", 23: "Metropolis",
+                26: "Kingdom castle", 3: "Royal tower"}
+
+
+def castle_name(t):
+    return CASTLE_TYPES.get(t, f"castle (type {t})")
 
 # Cloudflare/origin transient statuses — retry these, never hard-fail on them.
 TRANSIENT_CODES = {429, 500, 502, 503, 504, 520, 521, 522, 523, 524}
@@ -186,6 +204,127 @@ def parse_ts(s):
     return datetime.fromisoformat(s.replace("Z", "+00:00"))
 
 
+# --- movement / rename embeds -----------------------------------------------
+def to_movement_embed(r):
+    name = r.get("player_name") or ("#" + str(r.get("player_id")))
+    ct = castle_name(r.get("castle_type"))
+    mt = str(r.get("movement_type", "")).lower()
+    ox, oy = r.get("position_x_old"), r.get("position_y_old")
+    nx, ny = r.get("position_x_new"), r.get("position_y_new")
+    old = f"{ox}:{oy}" if ox is not None else "?"
+    new = f"{nx}:{ny}" if nx is not None else "?"
+    if mt in ("relocate", "relocation", "move"):
+        title, desc, color = f"↗️ {name} relocated a {ct}", f"{old} → **{new}**", BLUE
+    elif mt in ("remove", "delete"):
+        title, desc, color = f"💥 {name} removed a {ct}", f"was at {old}", RED
+    elif mt in ("add", "create", "place"):
+        title, desc, color = f"🏰 {name} placed a {ct}", f"at **{new}**", GREEN
+    else:
+        title, desc, color = f"🏰 {name} — {ct} ({mt})", f"{old} → {new}", BLUE
+    return {"title": title, "description": desc, "color": color,
+            "fields": [{"name": "Might", "value": fmt_might(r.get("player_might")), "inline": True}]}
+
+
+def to_rename_embed(r):
+    old = r.get("old_player_name") or "?"
+    new = r.get("new_player_name") or r.get("player_name") or "?"
+    return {"title": f"✏️ Rename in {ALLIANCE_NAME}",
+            "description": f"**{old}** → **{new}**", "color": PURPLE,
+            "fields": [{"name": "Might", "value": fmt_might(r.get("player_might")), "inline": True}]}
+
+
+def to_shield_embed(p):
+    name = p.get("player_name") or ("#" + str(p.get("player_id")))
+    until = p.get("peace_disabled_at")
+    try:
+        until_str = f"<t:{int(parse_ts(until).timestamp())}:R>"   # Discord relative time
+    except Exception:
+        until_str = str(until)
+    return {"title": f"🛡️ {name} went shielded",
+            "description": f"Protection ends {until_str}", "color": GOLD,
+            "fields": [{"name": "Might", "value": fmt_might(p.get("might_current")), "inline": True}]}
+
+
+# --- feeds: each returns (embeds, commit_fn). commit_fn advances that feed's
+#     slice of state, and is only called once Discord has accepted the post. A
+#     feed that hits a transient upstream error just raises and is skipped this
+#     cycle. First run for a feed records a baseline and posts nothing. ---------
+def _watermarked(state, key, rows, ts_of, embed_of):
+    rows.sort(key=lambda r: parse_ts(ts_of(r)))
+    newest = ts_of(rows[-1]) if rows else state.get(key)
+
+    def commit(st):
+        if newest:
+            st[key] = newest
+
+    if key not in state:                        # first run — baseline only
+        return [], commit
+    since = parse_ts(state.get(key))
+    fresh = [r for r in rows if parse_ts(ts_of(r)) > since]
+    return [embed_of(r) for r in fresh], commit
+
+
+def feed_members(state):
+    data = api_get(f"updates/alliances/{ALLIANCE_ID}/players")
+    return _watermarked(state, "watermark", data.get("updates", []) or [],
+                        lambda u: u.get("created_at"), to_embed)
+
+
+def feed_movements(state):
+    since = parse_ts(state.get("mv_watermark"))
+    rows = []
+    for page in range(1, 6):                    # a few pages of headroom per hour
+        data = api_get(f"server/movements?allianceId={ALLIANCE_ID}&page={page}")
+        chunk = data.get("movements", []) or []
+        if not chunk:
+            break
+        rows += chunk
+        if len(chunk) < 10 or min(parse_ts(r.get("created_at")) for r in chunk) <= since:
+            break
+    return _watermarked(state, "mv_watermark", rows,
+                        lambda r: r.get("created_at"), to_movement_embed)
+
+
+def feed_renames(state):
+    data = api_get("server/renames?page=1")      # global feed — filter to us
+    rows = [r for r in (data.get("renames", []) or [])
+            if str(r.get("alliance_name")) == ALLIANCE_NAME]
+    return _watermarked(state, "rn_watermark", rows,
+                        lambda r: r.get("date"), to_rename_embed)
+
+
+def feed_shields(state):
+    # No shield event feed — poll the roster and diff peace_disabled_at ourselves.
+    data = api_get(f"alliances/id/{ALLIANCE_ID}")
+    roster = data.get("players", data.get("members", [])) or []
+    now = datetime.now(timezone.utc)
+
+    def future(v):
+        try:
+            return bool(v) and parse_ts(v) > now
+        except Exception:
+            return False
+
+    current = {str(p.get("player_id")): p.get("peace_disabled_at")
+               for p in roster if future(p.get("peace_disabled_at"))}
+
+    def commit(st):
+        st["shields"] = current
+
+    if "shields" not in state:                  # first run — baseline only
+        return [], commit
+    prev = state.get("shields") or {}
+    by_id = {str(p.get("player_id")): p for p in roster}
+    # A new or refreshed shield = a future peace time we hadn't already recorded.
+    fresh = [by_id[pid] for pid, pat in current.items()
+             if prev.get(pid) != pat and pid in by_id]
+    return [to_shield_embed(p) for p in fresh], commit
+
+
+FEEDS = [("members", feed_members), ("castle movements", feed_movements),
+         ("renames", feed_renames), ("shields", feed_shields)]
+
+
 def main():
     hooks = collect_hooks()
     if not hooks:
@@ -193,49 +332,42 @@ def main():
         print("No DISCORD_ALLIANCE_HOOK configured — nothing to do.", file=sys.stderr)
         return 0
 
-    try:
-        data = api_get(f"updates/alliances/{ALLIANCE_ID}/players")
-    except TransientError as e:
-        print(f"Skipping this cycle — {e}", file=sys.stderr)
-        return 0                            # transient upstream: no crash, no email
-
-    updates = data.get("updates", []) or []
-    # Oldest → newest so Discord shows them in chronological order.
-    updates.sort(key=lambda u: parse_ts(u.get("created_at")))
-
     state = load_state()
-    since = parse_ts(state.get("watermark"))
-    first_run = "watermark" not in state
-    fresh = [u for u in updates if parse_ts(u.get("created_at")) > since]
+    embeds, commits = [], []
+    for label, feed in FEEDS:
+        try:
+            e, commit = feed(state)
+        except TransientError as ex:
+            print(f"{label}: transient upstream ({ex}) — skip this cycle", file=sys.stderr)
+            continue                            # don't advance this feed; retry next run
+        except urllib.error.HTTPError as ex:
+            print(f"{label}: HTTP {ex.code} — skip this feed", file=sys.stderr)
+            continue
+        embeds += e
+        commits.append(commit)
 
-    if first_run:
-        if updates:
-            state["watermark"] = updates[-1]["created_at"]
+    if not embeds:
+        # Nothing to post; still save baselines / no-op watermarks that polled OK.
+        for c in commits:
+            c(state)
         save_state(state)
-        print(f"First run — baseline set at {state.get('watermark')}, posted nothing.")
+        print("No new events.")
         return 0
 
-    if not fresh:
-        if updates:
-            state["watermark"] = updates[-1]["created_at"]
-        save_state(state)
-        print("No new joins/leaves.")
-        return 0
-
-    # The primary hook gates the watermark; extras are best-effort mirrors, so a
-    # dead/slow mirror can never hold up the primary or cause duplicate posts.
-    embeds = [to_embed(u) for u in fresh]
+    # Oldest → newest across all feeds so Discord reads chronologically.
+    # The primary hook gates the state save; extras are best-effort mirrors.
     primary_ok = post_discord(embeds, hooks[0])
     for mirror in hooks[1:]:
         if not post_discord(embeds, mirror):
             print("Mirror webhook post failed (best-effort) — continuing.", file=sys.stderr)
 
     if primary_ok:
-        state["watermark"] = updates[-1]["created_at"]
+        for c in commits:
+            c(state)
         save_state(state)
-        print(f"Posted {len(fresh)} movement(s) to {len(hooks)} webhook(s).")
+        print(f"Posted {len(embeds)} event(s) to {len(hooks)} webhook(s).")
     else:
-        print("Primary Discord post failed — keeping watermark, will retry next run.", file=sys.stderr)
+        print("Primary Discord post failed — keeping state, will retry next run.", file=sys.stderr)
     return 0
 
 
