@@ -8,8 +8,13 @@ history stays clean. On the very first run (no state) we record the current
 high-water mark and post nothing, so we don't dump the whole back-catalogue.
 
 Env:
-  DISCORD_ALLIANCE_HOOK  Discord webhook URL (required; set as an Actions secret)
-  WATCH_STATE            path to the state file (default: cache/alliance-watch-state.json)
+  DISCORD_ALLIANCE_HOOK    Primary Discord webhook URL (required; Actions secret).
+  DISCORD_ALLIANCE_HOOK_2  Optional second webhook — the same arrivals/departures
+                           feed is mirrored here (e.g. a second Anti Black Souls
+                           channel). Best-effort: a dead mirror never blocks the
+                           primary or causes duplicate posts. Also an Actions secret.
+                           (Either var may hold a comma-separated list of URLs.)
+  WATCH_STATE              path to the state file (default: cache/alliance-watch-state.json)
 No third-party deps — stdlib urllib only, so there's nothing to pip install.
 """
 
@@ -29,7 +34,19 @@ ALLIANCE_NAME = "Black Souls"
 
 STATE_PATH = os.environ.get("WATCH_STATE",
     os.path.join(os.path.dirname(__file__), "cache", "alliance-watch-state.json"))
-HOOK = os.environ.get("DISCORD_ALLIANCE_HOOK", "").strip()
+
+
+def collect_hooks():
+    """All configured webhook URLs, primary first. The primary is required and
+    gates the watermark; any extras are best-effort mirrors. Each env var may
+    also carry a comma-separated list, so you can add more without code changes."""
+    hooks = []
+    for var in ("DISCORD_ALLIANCE_HOOK", "DISCORD_ALLIANCE_HOOK_2"):
+        for url in os.environ.get(var, "").replace("\n", ",").split(","):
+            url = url.strip()
+            if url and url not in hooks:
+                hooks.append(url)
+    return hooks
 
 GREEN = 0x4ade80   # join
 RED   = 0xf87171   # leave
@@ -124,17 +141,17 @@ def to_embed(u):
     }
 
 
-def post_discord(embeds):
-    """Post embeds in chunks of 10. Returns True if everything posted, False if we
-    gave up on a transient/dead-webhook error (caller then keeps the watermark
-    unsaved so we retry next run instead of failing the job)."""
+def post_discord(embeds, hook):
+    """Post embeds to one webhook in chunks of 10. Returns True if everything
+    posted, False if we gave up on a transient/dead-webhook error (the caller
+    decides what that means for the watermark)."""
     for i in range(0, len(embeds), 10):
         payload = {"username": "Anti Black Souls", "embeds": embeds[i:i + 10]}
         data = json.dumps(payload).encode("utf-8")
         for attempt in range(4):
             # Discord sits behind Cloudflare, which 403s the default Python-urllib
             # User-Agent (error 1010) — set an explicit UA or the POST is blocked.
-            req = urllib.request.Request(HOOK, data=data,
+            req = urllib.request.Request(hook, data=data,
                 headers={"Content-Type": "application/json",
                          "User-Agent": "gge-toolbox-alliance-watch/1.0 (+https://github.com/chemiestoolkit/gge-toolbox)"},
                 method="POST")
@@ -170,9 +187,10 @@ def parse_ts(s):
 
 
 def main():
-    if not HOOK:
+    hooks = collect_hooks()
+    if not hooks:
         # Misconfig, but don't fail the job (and email) every hour over it.
-        print("DISCORD_ALLIANCE_HOOK not set — nothing to do.", file=sys.stderr)
+        print("No DISCORD_ALLIANCE_HOOK configured — nothing to do.", file=sys.stderr)
         return 0
 
     try:
@@ -204,13 +222,20 @@ def main():
         print("No new joins/leaves.")
         return 0
 
-    # Only advance the watermark once Discord has actually accepted the posts.
-    if post_discord([to_embed(u) for u in fresh]):
+    # The primary hook gates the watermark; extras are best-effort mirrors, so a
+    # dead/slow mirror can never hold up the primary or cause duplicate posts.
+    embeds = [to_embed(u) for u in fresh]
+    primary_ok = post_discord(embeds, hooks[0])
+    for mirror in hooks[1:]:
+        if not post_discord(embeds, mirror):
+            print("Mirror webhook post failed (best-effort) — continuing.", file=sys.stderr)
+
+    if primary_ok:
         state["watermark"] = updates[-1]["created_at"]
         save_state(state)
-        print(f"Posted {len(fresh)} movement(s) to Discord.")
+        print(f"Posted {len(fresh)} movement(s) to {len(hooks)} webhook(s).")
     else:
-        print("Discord post failed — keeping watermark, will retry next run.", file=sys.stderr)
+        print("Primary Discord post failed — keeping watermark, will retry next run.", file=sys.stderr)
     return 0
 
 

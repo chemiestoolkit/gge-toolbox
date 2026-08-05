@@ -42,4 +42,6 @@ jobs:
       - name: Poll movements and notify Discord
         env:
           DISCORD_ALLIANCE_HOOK: ${{ secrets.DISCORD_ALLIANCE_HOOK }}
+          # Optional mirror — same arrivals/departures feed to a second channel.
+          DISCORD_ALLIANCE_HOOK_2: ${{ secrets.DISCORD_ALLIANCE_HOOK_2 }}
         run: python3 tools/_srcdata/alliance-watch.py
