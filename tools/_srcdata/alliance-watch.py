@@ -61,6 +61,7 @@ RED    = 0xf87171   # leave
 BLUE   = 0x60a5fa   # castle movement
 PURPLE = 0xc084fc   # rename
 GOLD   = 0xfbbf24   # shield up
+ORANGE = 0xf59e0b   # shield ending within 24h
 
 CASTLE_TYPES = {1: "Main castle", 4: "Outpost", 22: "Capital", 23: "Metropolis",
                 26: "Kingdom castle", 3: "Royal tower"}
@@ -233,16 +234,31 @@ def to_rename_embed(r):
             "fields": [{"name": "Might", "value": fmt_might(r.get("player_might")), "inline": True}]}
 
 
-def to_shield_embed(p):
-    name = p.get("player_name") or ("#" + str(p.get("player_id")))
-    until = p.get("peace_disabled_at")
+def _rel(until):
     try:
-        until_str = f"<t:{int(parse_ts(until).timestamp())}:R>"   # Discord relative time
+        return f"<t:{int(parse_ts(until).timestamp())}:R>"        # Discord relative time
     except Exception:
-        until_str = str(until)
+        return str(until)
+
+
+def shield_up_embed(p, until):
+    name = p.get("player_name") or ("#" + str(p.get("player_id")))
     return {"title": f"🛡️ {name} went shielded",
-            "description": f"Protection ends {until_str}", "color": GOLD,
+            "description": f"Attackable again {_rel(until)}", "color": GOLD,
             "fields": [{"name": "Might", "value": fmt_might(p.get("might_current")), "inline": True}]}
+
+
+def shield_expiring_embed(p, until):
+    name = p.get("player_name") or ("#" + str(p.get("player_id")))
+    return {"title": f"⏳ {name}'s shield ends within 24h",
+            "description": f"Attackable {_rel(until)} — line up the hit.", "color": ORANGE,
+            "fields": [{"name": "Might", "value": fmt_might(p.get("might_current")), "inline": True}]}
+
+
+def shield_dropped_embed(name, might=None):
+    fields = [{"name": "Might", "value": fmt_might(might), "inline": True}] if might else []
+    return {"title": f"🔓 {name}'s shield dropped",
+            "description": "Now attackable.", "color": GREEN, "fields": fields}
 
 
 # --- feeds: each returns (embeds, commit_fn). commit_fn advances that feed's
@@ -295,30 +311,61 @@ def feed_renames(state):
 
 def feed_shields(state):
     # No shield event feed — poll the roster and diff peace_disabled_at ourselves.
+    # We only ever fire on three transitions, each at most once per shield:
+    #   • new shield       (member becomes protected)
+    #   • last 24h         (protection now ends within a day — line up the hit)
+    #   • shield dropped   (protection gone — attackable, reported next poll = ASAP)
+    # Extends / top-ups while >24h out are deliberately silent (that was the spam).
     data = api_get(f"alliances/id/{ALLIANCE_ID}")
     roster = data.get("players", data.get("members", [])) or []
     now = datetime.now(timezone.utc)
+    by_id = {str(p.get("player_id")): p for p in roster}
 
-    def future(v):
+    def hours_left(v):
         try:
-            return bool(v) and parse_ts(v) > now
+            return (parse_ts(v) - now).total_seconds() / 3600.0
         except Exception:
-            return False
+            return -1
 
     current = {str(p.get("player_id")): p.get("peace_disabled_at")
-               for p in roster if future(p.get("peace_disabled_at"))}
+               for p in roster if hours_left(p.get("peace_disabled_at")) > 0}
+
+    raw_prev = state.get("shields")
+    first = raw_prev is None
+    # Normalise (older builds stored a bare timestamp string per player).
+    prev = {}
+    for pid, v in (raw_prev or {}).items():
+        prev[pid] = v if isinstance(v, dict) else {"until": v, "warned24": False, "name": None}
+
+    embeds, new_shields = [], {}
+    for pid, until in current.items():
+        p = by_id[pid]
+        hl = hours_left(until)
+        pe = prev.get(pid)
+        if pe is None:                                  # ── new shield ──
+            if not first:
+                embeds.append(shield_up_embed(p, until))
+            warned = hl <= 24                           # already <24h? count it warned
+        else:
+            warned = pe.get("warned24", False)
+            if until != pe.get("until") and hl > 24:    # extended well out → re-arm
+                warned = False
+            if hl <= 24 and not warned and not first:   # ── entered last 24h ──
+                embeds.append(shield_expiring_embed(p, until))
+                warned = True
+        new_shields[pid] = {"until": until, "warned24": warned,
+                            "name": p.get("player_name") or ("#" + pid)}
+
+    if not first:                                       # ── shield dropped ──
+        for pid, pe in prev.items():
+            if pid not in current:
+                nm = (by_id.get(pid, {}).get("player_name")) or pe.get("name") or ("#" + pid)
+                embeds.append(shield_dropped_embed(nm, by_id.get(pid, {}).get("might_current")))
 
     def commit(st):
-        st["shields"] = current
+        st["shields"] = new_shields
 
-    if "shields" not in state:                  # first run — baseline only
-        return [], commit
-    prev = state.get("shields") or {}
-    by_id = {str(p.get("player_id")): p for p in roster}
-    # A new or refreshed shield = a future peace time we hadn't already recorded.
-    fresh = [by_id[pid] for pid, pat in current.items()
-             if prev.get(pid) != pat and pid in by_id]
-    return [to_shield_embed(p) for p in fresh], commit
+    return embeds, commit
 
 
 FEEDS = [("members", feed_members), ("castle movements", feed_movements),
