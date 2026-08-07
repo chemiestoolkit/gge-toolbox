@@ -156,6 +156,11 @@
   ],
   "news": [
     {
+      "date": "4 Aug 2026",
+      "title": "The Empire Turns 15: A Celebration of Choices",
+      "url": "https://communityhub.goodgamestudios.com/2026/08/04/elementor-13353/"
+    },
+    {
       "date": "9 Jul 2026",
       "title": "Delayed Rift Raid Event Start",
       "url": "https://communityhub.goodgamestudios.com/2026/07/09/delayed-rift-raid-event-start/"
@@ -189,11 +194,6 @@
       "date": "12 Jun 2026",
       "title": "DE1 – Server Issues & Upcoming Compensation",
       "url": "https://communityhub.goodgamestudios.com/2026/06/12/de1-server-issues-upcoming-compensation/"
-    },
-    {
-      "date": "11 Jun 2026",
-      "title": "The Summer of Conquest!",
-      "url": "https://communityhub.goodgamestudios.com/2026/06/11/the-summer-of-conquest/"
     }
   ],
   "newsUrl": "https://communityhub.goodgamestudios.com/newshube4k/",
@@ -275,6 +275,6 @@
       }
     ]
   },
-  "newsUpdated": "2026-08-06",
-  "eventsUpdated": "2026-08-06"
+  "newsUpdated": "2026-08-07",
+  "eventsUpdated": "2026-08-07"
 }
