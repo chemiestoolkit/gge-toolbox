@@ -1,5 +1,5 @@
 {
-  "generated": "2026-08-11T08:13:00Z",
+  "generated": "2026-08-11T19:55:20Z",
   "events": [
     {
       "eventID": 36,
@@ -6761,27 +6761,27 @@
           "milestones": [
             {
               "points": 5,
-              "name": "Lucky Slice",
-              "type": "Resource",
-              "amount": 100
+              "name": "Anniversary Barracks",
+              "type": "Construction",
+              "amount": 1
             },
             {
               "points": 10,
-              "name": "Anniversary Dwelling",
-              "type": "Construction",
-              "amount": 1
+              "name": "Lucky Slice",
+              "type": "Resource",
+              "amount": 300
             },
             {
               "points": 15,
               "name": "15,000 generals XP",
               "type": "Resource",
-              "amount": 20
+              "amount": 10
             },
             {
               "points": 30,
-              "name": "Lucky Slice",
-              "type": "Resource",
-              "amount": 100
+              "name": "Exalted Green Triumphal Arch",
+              "type": "Decoration",
+              "amount": 1
             }
           ]
         }
