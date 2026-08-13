@@ -7,30 +7,84 @@
   <meta property="og:type" content="website" />
   <meta property="og:site_name" content="Maxy's Empire Toolkit" />
   <meta property="og:title" content="Rift Courtyard Calculator — Maxy's Empire Toolkit" />
-  <meta property="og:description" content="Will your courtyard hit clear the rift boss&#x27;s CY — and what will it cost? Losses, min troops and per-level verdicts, calibrated on real battle reports. In calibration." />
+  <meta property="og:description" content="Set up your courtyard hit like the in-game attack screen — commander, troops and tools — and see if it clears the rift boss's CY and what it costs, per level." />
   <meta property="og:url" content="https://chemiestoolkit.github.io/gge-toolbox/tools/rift-cy-hits/" />
   <meta property="og:image" content="https://chemiestoolkit.github.io/gge-toolbox/assets/img/event-icons/riftraid.webp" />
   <meta name="twitter:card" content="summary" />
-  <meta name="description" content="Will your rift courtyard hit clear the boss's CY — and what will it cost? Calibrated against real battle reports across three boss levels." />
+  <meta name="description" content="Rift courtyard hit calculator with an in-game attack-screen layout: commander stats, troop tiles and tools, with per-level clear/loss verdicts calibrated on real reports." />
   <link rel="stylesheet" href="../../assets/css/theme.css?v=15" />
   <link rel="icon" type="image/png" href="../../assets/img/favicon.png" />
   <style>
-    .rc-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
-    @media (max-width: 760px) { .rc-grid { grid-template-columns: 1fr; } }
-    h2.rc-h { font-size: 1.02rem; color: var(--gold); margin: 0 0 12px; font-family: var(--font-display); }
-    .rc-field { display: flex; flex-direction: column; gap: 4px; margin-bottom: 12px; }
-    .rc-field label { font-size: .78rem; color: var(--text-dim); }
-    .rc-field select, .rc-field input { width: 100%; padding: 9px 11px; font: inherit; background: var(--bg-elev);
+    /* ---- defender panel ---- */
+    .def-head { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; margin-bottom: 12px; }
+    .def-head h2 { margin: 0; font-size: 1.02rem; color: var(--bad, #f87171); font-family: var(--font-display); }
+    .def-head select { padding: 7px 10px; font: inherit; background: var(--bg-elev); border: 1px solid var(--border);
+      border-radius: var(--radius-sm); color: var(--text); }
+    .def-head select:focus { outline: none; border-color: var(--gold); }
+    .def-cy { display: flex; align-items: flex-end; gap: 12px; flex-wrap: wrap; }
+    .def-cy .fld { display: flex; flex-direction: column; gap: 4px; }
+    .def-cy label { font-size: .74rem; color: var(--text-dim); }
+    .def-cy input { width: 140px; padding: 8px 10px; font: inherit; background: var(--bg-elev);
       border: 1px solid var(--border); border-radius: var(--radius-sm); color: var(--text); }
-    .rc-field select:focus, .rc-field input:focus { outline: none; border-color: var(--gold); }
-    .rc-row { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
-    .rc-bossfx { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 4px; }
-    .rc-chip { font-size: .76rem; padding: 3px 9px; border-radius: 999px; border: 1px solid var(--border); color: var(--text-dim); }
+    .rc-bossfx { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 12px; }
+    .rc-chip { font-size: .74rem; padding: 3px 9px; border-radius: 999px; border: 1px solid var(--border); color: var(--text-dim); }
     .rc-chip.prot { border-color: rgba(248,81,73,.4); color: #e8a09a; }
     .rc-chip.warn { border-color: var(--gold-dim); color: var(--gold-bright); }
-    .rc-toggle { display: flex; align-items: center; gap: 8px; font-size: .9rem; color: var(--text-dim); cursor: pointer; margin-bottom: 10px; }
-    .rc-toggle input { accent-color: var(--gold); width: 16px; height: 16px; }
 
+    /* ---- attack board (mimics the in-game attack setup) ---- */
+    .atk-head { font-size: 1.02rem; color: var(--gold); margin: 0 0 14px; font-family: var(--font-display); }
+    .atk-layout { display: grid; grid-template-columns: 210px 1fr; gap: 16px; }
+    @media (max-width: 720px) { .atk-layout { grid-template-columns: 1fr; } }
+
+    /* commander card — the custom general + commander stats */
+    .cmd-card { background: linear-gradient(180deg, rgba(217,178,90,.10), rgba(217,178,90,.02));
+      border: 1px solid var(--gold-dim); border-radius: var(--radius); padding: 14px; text-align: center; }
+    .cmd-portrait { width: 76px; height: 76px; margin: 0 auto 8px; border-radius: 12px; overflow: hidden;
+      border: 2px solid var(--gold-dim); box-shadow: 0 2px 10px rgba(0,0,0,.35); }
+    .cmd-portrait img { width: 100%; height: 100%; object-fit: cover; }
+    .cmd-title { font-size: .82rem; font-weight: 700; color: var(--text); }
+    .cmd-total { font-size: 1.9rem; font-weight: 800; color: var(--gold-bright); line-height: 1.1; font-variant-numeric: tabular-nums; }
+    .cmd-total small { display: block; font-size: .64rem; font-weight: 600; color: var(--text-dim); letter-spacing: .04em; text-transform: uppercase; }
+    .cmd-breakdown { margin-top: 12px; display: flex; flex-direction: column; gap: 7px; text-align: left; }
+    .cmd-breakdown label { font-size: .7rem; color: var(--text-dim); display: flex; align-items: center; justify-content: space-between; gap: 6px; }
+    .cmd-breakdown input { width: 68px; padding: 5px 7px; font: inherit; text-align: right; background: var(--bg-elev);
+      border: 1px solid var(--border); border-radius: 6px; color: var(--text); font-variant-numeric: tabular-nums; }
+    .cmd-breakdown input:focus { outline: none; border-color: var(--gold); }
+
+    /* wave: troop + tool tiles */
+    .wave-label { font-size: .68rem; text-transform: uppercase; letter-spacing: .06em; color: var(--text-faint, #8a8372); margin: 0 0 6px; }
+    .tiles-row { display: flex; flex-wrap: wrap; gap: 10px; margin-bottom: 14px; }
+    .tile { background: var(--bg-elev-2); border: 1px solid var(--border); border-radius: 10px;
+      padding: 9px; display: flex; flex-direction: column; align-items: center; gap: 5px; min-width: 96px; }
+    .tile img.tico { width: 34px; height: 34px; object-fit: contain; }
+    .tile .tlab { font-size: .68rem; color: var(--text-dim); text-transform: uppercase; letter-spacing: .04em; }
+    .tile.troop input { width: 88px; padding: 6px 8px; font: inherit; text-align: center; background: var(--bg-elev);
+      border: 1px solid var(--border); border-radius: 6px; color: var(--text); font-variant-numeric: tabular-nums; }
+    .tile.troop input:focus { outline: none; border-color: var(--gold); }
+    .tile .tstr { font-size: .62rem; color: var(--text-faint, #8a8372); }
+
+    /* tool tiles: click to toggle (label wraps a hidden checkbox) */
+    .tile.tool { cursor: pointer; min-width: 84px; user-select: none; transition: .12s; position: relative; }
+    .tile.tool input[type=checkbox] { position: absolute; opacity: 0; pointer-events: none; }
+    .tile.tool .tglyph { font-size: 1.5rem; filter: grayscale(1) opacity(.5); transition: .12s; }
+    .tile.tool:has(:checked) { border-color: var(--gold); background: rgba(217,178,90,.10); }
+    .tile.tool:has(:checked) .tglyph { filter: none; }
+    .tile.tool .tbonus { font-size: .62rem; color: var(--text-faint, #8a8372); }
+    .tile.tool:has(:checked) .tbonus { color: var(--gold-bright); }
+    .tile.tool.flame { cursor: default; }
+    .tile.tool.flame select { width: 96px; padding: 4px 6px; font: inherit; font-size: .74rem; background: var(--bg-elev);
+      border: 1px solid var(--border); border-radius: 6px; color: var(--text); }
+    .tile.tool.flame select:focus { outline: none; border-color: var(--gold); }
+
+    .rc-adv { margin-top: 14px; border: 1px solid var(--border-soft, var(--border)); border-radius: var(--radius-sm); padding: 2px 12px; }
+    .rc-adv > summary { cursor: pointer; font-size: .8rem; color: var(--text-dim); padding: 8px 0; }
+    .rc-adv .rc-row { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 8px; }
+    .rc-adv label { font-size: .74rem; color: var(--text-dim); display: block; margin-bottom: 4px; }
+    .rc-adv input { width: 100%; padding: 8px 10px; font: inherit; background: var(--bg-elev); border: 1px solid var(--border);
+      border-radius: var(--radius-sm); color: var(--text); }
+    .rc-mini { font-size: .74rem; color: var(--text-faint, #8a8372); line-height: 1.5; }
+
+    /* ---- verdict + table (unchanged model) ---- */
     .rc-verdict { margin: 16px 0; padding: 16px 18px; border-radius: var(--radius); border: 1px solid var(--border); }
     .rc-verdict.win { border-color: var(--good); background: rgba(63,185,80,.08); }
     .rc-verdict.lose { border-color: var(--bad); background: rgba(248,81,73,.07); }
@@ -42,7 +96,7 @@
     .rc-strbar > i { display: block; height: 100%; background: linear-gradient(90deg, var(--gold-dim), var(--gold-bright)); }
     .rc-strbar .mark { position: absolute; top: -3px; bottom: -3px; width: 2px; background: var(--bad); }
     .rc-strlbl { display: flex; justify-content: space-between; font-size: .74rem; color: var(--text-faint, #8a8372); }
-
+    h2.rc-h { font-size: 1.02rem; color: var(--gold); margin: 0 0 12px; font-family: var(--font-display); }
     table.rc { width: 100%; border-collapse: collapse; font-size: .85rem; }
     table.rc th { text-align: right; padding: 7px 9px; font-size: .66rem; text-transform: uppercase; letter-spacing: .05em; color: var(--gold-dim); border-bottom: 1px solid var(--border); white-space: nowrap; }
     table.rc th.l { text-align: left; }
@@ -52,11 +106,6 @@
     table.rc td.win { color: var(--good); } table.rc td.lose { color: var(--bad); }
     .rc-note { font-size: .8rem; color: var(--text-faint, #8a8372); margin-top: 16px; line-height: 1.55; border-left: 3px solid var(--gold-dim); padding: 8px 14px; background: rgba(217,178,90,.05); border-radius: var(--radius-sm); }
     .rc-badge { display: inline-block; font-size: .72rem; padding: 2px 10px; border-radius: 999px; border: 1px solid var(--gold-dim); color: var(--gold-bright); margin-left: 8px; vertical-align: middle; }
-    .rc-mini { font-size: .74rem; color: var(--text-faint, #8a8372); line-height: 1.5; margin: -4px 0 12px; }
-    .rc-adv { margin-top: 6px; border: 1px solid var(--border-soft, var(--border)); border-radius: var(--radius-sm); padding: 2px 12px; }
-    .rc-adv > summary { cursor: pointer; font-size: .8rem; color: var(--text-dim); padding: 8px 0; }
-    .rc-adv > summary .rc-mini { margin: 0; display: inline; }
-    .rc-adv p.rc-mini { margin: 8px 0 6px; }
   </style>
 </head>
 <body>
@@ -69,69 +118,93 @@
   <main class="wrap">
     <div class="tool-head">
       <a class="back" href="../../">← All tools</a>
-      <h1>🌀 Rift Courtyard Calculator <span class="rc-badge" title="Still calibrating — these numbers get locked in against the next live rift event." style="white-space:nowrap">⚙️ calibrating · ±13% on 12 reports</span></h1>
-      <p>Will your courtyard hit clear the boss's CY — and what will it cost? Set up
-         your wave once, toggle your pre-battle tools, and see the verdict for every
-         boss level. Calibrated against real Fungal L10/L11/L12 and Ashen reports.</p>
+      <h1>🌀 Rift Courtyard Calculator <span class="rc-badge" title="Still calibrating — locked in against the next live rift event." style="white-space:nowrap">⚙️ calibrating · ±13%</span></h1>
+      <p>Set up your courtyard hit the way the game does — <b>commander, troops and tools</b> — and see if it
+         clears the boss's CY and what it costs, for every level. Calibrated on real Fungal &amp; Ashen reports.</p>
     </div>
 
-    <div class="rc-grid">
-      <section class="panel">
-        <h2 class="rc-h">🎯 Target</h2>
-        <div class="rc-row">
-          <div class="rc-field">
-            <label for="rc-boss">Boss</label>
-            <select id="rc-boss"></select>
-          </div>
-          <div class="rc-field">
-            <label for="rc-level">Level</label>
-            <select id="rc-level"></select>
-          </div>
-        </div>
-        <div class="rc-field">
-          <label for="rc-cycount">Courtyard size right now (from scouting / last report — dormant spores stack on top of the base)</label>
+    <!-- Defender -->
+    <section class="panel">
+      <div class="def-head">
+        <h2>🛡️ Defender</h2>
+        <select id="rc-boss"></select>
+        <select id="rc-level"></select>
+      </div>
+      <div class="def-cy">
+        <div class="fld">
+          <label for="rc-cycount">Courtyard size right now <span class="rc-mini">(scout / last report — dormant spores stack on the base)</span></label>
           <input type="number" id="rc-cycount" min="0" />
         </div>
-        <div class="rc-bossfx" id="rc-bossfx"></div>
-      </section>
+      </div>
+      <div class="rc-bossfx" id="rc-bossfx"></div>
+    </section>
 
-      <section class="panel">
-        <h2 class="rc-h">⚔️ Your hit</h2>
-        <div class="rc-row">
-          <div class="rc-field">
-            <label for="rc-rn">Ranged troops in the hit</label>
-            <input type="number" id="rc-rn" min="0" value="15000" />
-          </div>
-          <div class="rc-field">
-            <label for="rc-mn">Melee troops in the hit</label>
-            <input type="number" id="rc-mn" min="0" value="7500" />
+    <!-- Attack board -->
+    <section class="panel">
+      <div class="atk-head">⚔️ Your attack</div>
+      <div class="atk-layout">
+
+        <!-- Commander card (custom general + commander stats) -->
+        <div class="cmd-card">
+          <div class="cmd-portrait"><img src="../../assets/img/tool-art/victorious-captain.webp" alt="" onerror="this.parentNode.textContent='🎖️'"></div>
+          <div class="cmd-title">Attack Commander</div>
+          <div class="cmd-total"><span id="cmd-total">250</span>%<small>Courtyard attack</small></div>
+          <div class="cmd-breakdown">
+            <label>🛡️ Equipment <input type="number" id="rc-eq-gear" min="0" value="180" /></label>
+            <label>🎖️ Skills / legend <input type="number" id="rc-eq-skill" min="0" value="50" /></label>
+            <label>📜 Research / other <input type="number" id="rc-eq-research" min="0" value="20" /></label>
           </div>
         </div>
-        <p class="rc-mini">Enter the actual troop <b>totals</b> you send — e.g. 15,000 ranged + 7,500 melee level-10 mead-fed elites. Splitting the lanes matters because some bosses cut <b>ranged</b> or <b>melee</b> attack by 60% (see the boss's tags).</p>
-        <div class="rc-field">
-          <label for="rc-equip">Commander courtyard attack % (the "+X% when attacking enemy courtyards" total)</label>
-          <input type="number" id="rc-equip" min="0" value="250" />
-        </div>
-        <label class="rc-toggle"><input type="checkbox" id="rc-gs" checked /> Giant Slayer (9% of boss CY strength, cap 3× yours)</label>
-        <label class="rc-toggle"><input type="checkbox" id="rc-wagon" checked /> War Wagon (+5% attack strength)</label>
-        <div class="rc-field">
-          <label for="rc-flame">Assault flame thrower (CY attack boost)</label>
-          <select id="rc-flame">
-            <option value="0">None</option>
-            <option value="22">Silver — +22%</option>
-            <option value="30" selected>Gold — +30%</option>
-          </select>
-        </div>
-        <details class="rc-adv">
-          <summary>⚙️ Advanced — per-troop strength <span class="rc-mini">(default is calibrated for L10 mead-fed elites)</span></summary>
-          <div class="rc-row" style="margin-top:8px">
-            <div class="rc-field"><label for="rc-rstr">Ranged unit strength</label><input type="number" id="rc-rstr" min="1" value="2440" /></div>
-            <div class="rc-field"><label for="rc-mstr">Melee unit strength</label><input type="number" id="rc-mstr" min="1" value="2440" /></div>
+
+        <!-- Wave: troops + tools -->
+        <div class="wave">
+          <p class="wave-label">Troops in the hit</p>
+          <div class="tiles-row">
+            <div class="tile troop">
+              <img class="tico" src="../../assets/icons/crossbowman.png" alt="" onerror="this.replaceWith(document.createTextNode('🏹'))">
+              <span class="tlab">Ranged</span>
+              <input type="number" id="rc-rn" min="0" value="15000" />
+              <span class="tstr" id="rc-rn-str"></span>
+            </div>
+            <div class="tile troop">
+              <img class="tico" src="../../assets/icons/maceman.png" alt="" onerror="this.replaceWith(document.createTextNode('⚔️'))">
+              <span class="tlab">Melee</span>
+              <input type="number" id="rc-mn" min="0" value="7500" />
+              <span class="tstr" id="rc-mn-str"></span>
+            </div>
           </div>
-          <p class="rc-mini">Effective attack <b>per troop</b>, already including your research / tome / commander troop boosts. The 2,440 default is calibrated for a maxed <b>Level-10 mead-fed elite</b>. Raise it if your boosts are stronger, or tweak it to match a real battle report.</p>
-        </details>
-      </section>
-    </div>
+
+          <p class="wave-label">Support tools</p>
+          <div class="tiles-row">
+            <label class="tile tool">
+              <input type="checkbox" id="rc-wagon" checked />
+              <span class="tglyph">🛞</span><span class="tlab">War Wagon</span><span class="tbonus">+5%</span>
+            </label>
+            <label class="tile tool">
+              <input type="checkbox" id="rc-gs" checked />
+              <span class="tglyph">🐲</span><span class="tlab">Giant Slayer</span><span class="tbonus">9% of CY</span>
+            </label>
+            <div class="tile tool flame">
+              <span class="tglyph" style="filter:none">🔥</span><span class="tlab">Flame Thrower</span>
+              <select id="rc-flame">
+                <option value="0">None</option>
+                <option value="22">Silver +22%</option>
+                <option value="30" selected>Gold +30%</option>
+              </select>
+            </div>
+          </div>
+
+          <details class="rc-adv">
+            <summary>⚙️ Advanced — per-troop strength <span class="rc-mini">(calibrated for L10 mead-fed elites)</span></summary>
+            <div class="rc-row">
+              <div><label for="rc-rstr">Ranged unit strength</label><input type="number" id="rc-rstr" min="1" value="2440" /></div>
+              <div><label for="rc-mstr">Melee unit strength</label><input type="number" id="rc-mstr" min="1" value="2440" /></div>
+            </div>
+            <p class="rc-mini" style="margin:8px 0 6px">Effective attack <b>per troop</b>, already including your research / tome / commander troop boosts. 2,440 is a maxed L10 mead-fed elite — tweak to match a real battle report.</p>
+          </details>
+        </div>
+      </div>
+    </section>
 
     <div id="rc-verdict"></div>
 
@@ -143,19 +216,17 @@
     <div class="rc-note">
       <b>How it works:</b> your strength = (ranged troops × ranged strength × ranged malus + melee troops ×
       melee strength × melee malus) × (1 + commander CY% + tools + the fixed +60% courtyard-assault bonus)
-      + Giant Slayer. Per-troop strength already bakes in your troop boosts (calibrated default 2,440 for an
-      L10 mead-fed elite — tweak it under Advanced). The boss's strength = its <i>real</i> CY units ×
-      their defence × (1 + its CY defence bonus) — <b>dormant spores and rift-eggs add zero defence</b>
-      (proven via Giant Slayer maths) but still count toward the kill total. If you out-muscle the boss you
-      clear the whole courtyard and losses follow the (boss ÷ you)<sup>1.5</sup> curve; if not, your wave wipes
-      and kills only (you ÷ boss)<sup>1.5</sup> of the real spores. Fungal is calibrated on 10 reports across
-      L10/L11/L12 (rms 13%); Ashen on 1 report; Necromancer is <b>uncalibrated</b> — and watch its malus:
-      it cuts <b>ranged</b> at L11 and <b>melee</b> at L12+ by 60%.
+      + Giant Slayer. The <b>commander CY%</b> is the sum of your equipment, skill/legend and research boosts on
+      the card. Per-troop strength bakes in your troop boosts (2,440 for an L10 mead-fed elite — tweak under
+      Advanced). The boss's strength = its <i>real</i> CY units × their defence × (1 + its CY defence bonus) —
+      dormant spores and rift-eggs add zero defence but still count toward the kill total. Fungal is calibrated
+      on 10 reports (rms 13%); Ashen on 1; Necromancer is <b>uncalibrated</b> — watch its malus: it cuts
+      <b>ranged</b> at L11 and <b>melee</b> at L12+ by 60%.
     </div>
   </main>
 
   <footer class="footer">
-    <div class="wrap"><p>Boss data extracted direct from Goodgame Studios' game files; combat model calibrated on alliance battle reports (thanks Chemies). Send more reports — especially Necromancer and partial clears — to tighten it.</p></div>
+    <div class="wrap"><p>Boss data extracted direct from Goodgame Studios' game files; combat model calibrated on alliance battle reports (thanks Chemies).</p></div>
   </footer>
 
   <script>
@@ -165,23 +236,22 @@
     var esc = function (s) { return String(s == null ? "" : s).replace(/[&<>"]/g, function (c) { return ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" })[c]; }); };
     var num = function (v) { return Math.round(v).toLocaleString(); };
 
-    // Calibrated constants (tools/rift-cy-hits/calibration/) — 12 reports, rms 13.1%
-    var U_DEFAULT = 2440;      // effective attacker unit strength (L10 rift units incl. hidden buffs)
-    var CY_STEP = 0.60;        // fixed courtyard-assault bonus seen in every report
-    var WAGON = 0.05;
-    var EXP = 1.5;             // kill + loss exponent (classic GGE curve, probe-confirmed)
-    var GS_PCT = 0.09;         // Giant Slayer: 9% of defender CY strength, cap 3x own strength
+    var U_DEFAULT = 2440, CY_STEP = 0.60, WAGON = 0.05, EXP = 1.5, GS_PCT = 0.09;
     var DEF_BASE = { FungalSwarm: 56, LegendaryDragon: 298, Necromancer: 56 };
     var CALIB = { FungalSwarm: "calibrated · 10 reports", LegendaryDragon: "1 report", Necromancer: "uncalibrated" };
 
-    var BOSSES = [], KEY = "riftCy.v2";
+    var BOSSES = [], KEY = "riftCy.v3";
     var saved = {}; try { saved = JSON.parse(localStorage.getItem(KEY)) || {}; } catch (e) {}
 
     var boss  = function () { return BOSSES[+$("rc-boss").value]; };
     var level = function () { return boss().levels[+$("rc-level").value]; };
 
+    // Commander courtyard-attack % = equipment + skills + research (the card breakdown).
+    function commanderPct() {
+      return (+$("rc-eq-gear").value || 0) + (+$("rc-eq-skill").value || 0) + (+$("rc-eq-research").value || 0);
+    }
+
     function malusFor(lv, type) {
-      // attackerEffects strings like "-60% of ranged units attack strength"
       var fx = (lv.stages[0] || {}).attackerEffects || [];
       for (var i = 0; i < fx.length; i++) {
         var m = /-(\d+)% of (ranged|melee)/i.exec(fx[i]);
@@ -190,15 +260,10 @@
       return 1;
     }
     function yardStr(lv) { return ((lv.stages[0] || {}).combat || {}).yardStr || 0; }
-
-    function defStrength(lv) {
-      return lv.courtyardSize * DEF_BASE[boss().internalName] * (1 + yardStr(lv) / 100);
+    function defStrength(lv) { return lv.courtyardSize * DEF_BASE[boss().internalName] * (1 + yardStr(lv) / 100); }
+    function multM() {
+      return 1 + commanderPct() / 100 + (+$("rc-flame").value) / 100 + ($("rc-wagon").checked ? WAGON : 0) + CY_STEP;
     }
-    function multM() { // shared attack multiplier (commander CY% + tools + fixed +60% assault bonus)
-      return 1 + (+$("rc-equip").value || 0) / 100 + (+$("rc-flame").value) / 100 +
-             ($("rc-wagon").checked ? WAGON : 0) + CY_STEP;
-    }
-    // Two lanes: ranged + melee combine, each hit by its own boss malus (ranged@L11, melee@L12+).
     function atkStrength(lv, rN, mN) {
       var M = multM();
       var rStr = +$("rc-rstr").value || U_DEFAULT, mStr = +$("rc-mstr").value || U_DEFAULT;
@@ -208,15 +273,11 @@
     }
 
     function outcome(lv, rN, mN, cyNow) {
-      var N = rN + mN;
-      var def = defStrength(lv), atk = atkStrength(lv, rN, mN);
-      var realCY = Math.min(lv.courtyardSize, cyNow);
-      var dormant = Math.max(0, cyNow - lv.courtyardSize);
+      var N = rN + mN, def = defStrength(lv), atk = atkStrength(lv, rN, mN);
+      var realCY = Math.min(lv.courtyardSize, cyNow), dormant = Math.max(0, cyNow - lv.courtyardSize);
       if (atk > def) {
-        var losses = Math.round(N * Math.pow(def / atk, EXP));
-        return { win: true, atk: atk, def: def, losses: losses, kills: cyNow, hits: 1 };
+        return { win: true, atk: atk, def: def, losses: Math.round(N * Math.pow(def / atk, EXP)), kills: cyNow, hits: 1 };
       }
-      // losing hits: wipe, kill a share of real spores; resending same wave shrinks defence each time
       var remaining = realCY, hits = 0, totalLost = 0;
       while (remaining > 0 && hits < 99) {
         var d = remaining * DEF_BASE[boss().internalName] * (1 + yardStr(lv) / 100);
@@ -228,7 +289,6 @@
     }
 
     function minToWin(lv, rN, mN) {
-      // smallest TOTAL troops (keeping the current ranged:melee mix) with atk > def
       var tot = rN + mN; if (!tot) return null;
       var fr = rN / tot, fm = mN / tot, hi = 5e7, lo = 1;
       if (atkStrength(lv, hi * fr, hi * fm) <= defStrength(lv)) return null;
@@ -237,56 +297,51 @@
     }
 
     function render() {
+      $("cmd-total").textContent = num(commanderPct());
       var lv = level();
       var rN = Math.max(0, +$("rc-rn").value || 0), mN = Math.max(0, +$("rc-mn").value || 0), N = rN + mN;
       var cyNow = Math.max(0, +$("rc-cycount").value || lv.courtyardSize);
+      var M = multM();
+      $("rc-rn-str").textContent = "×" + num((+$("rc-rstr").value || U_DEFAULT) * M * malusFor(lv, "ranged"));
+      $("rc-mn-str").textContent = "×" + num((+$("rc-mstr").value || U_DEFAULT) * M * malusFor(lv, "melee"));
       var o = outcome(lv, rN, mN, cyNow);
       var pct = Math.min(100, 100 * o.atk / (o.atk + o.def || 1));
       var minN = minToWin(lv, rN, mN);
       var mix = num(rN) + " ranged + " + num(mN) + " melee";
 
-      var html = '<div class="rc-verdict ' + (o.win ? "win" : "lose") + '">';
+      var html;
       if (N === 0) {
-        html = '<div class="rc-verdict"><h3>Add your troops</h3><div class="rc-sub">Enter how many ranged and melee troops you\'re sending above.</div></div>';
-        $("rc-verdict").innerHTML = html;
+        html = '<div class="rc-verdict"><h3>Add your troops</h3><div class="rc-sub">Enter how many ranged and melee troops you\'re sending on the tiles above.</div></div>';
       } else {
+        html = '<div class="rc-verdict ' + (o.win ? "win" : "lose") + '">';
         if (o.win) {
-          html += '<h3>✅ Clears the courtyard</h3>' +
-            '<div class="big">~' + num(o.losses) + ' losses</div>' +
-            '<div class="rc-sub">' + mix + ' (' + num(N) + ' troops) clears all ' + num(cyNow) + ' defenders in one hit (incl. dormants). Expect ±13% on the losses. ' +
-            'A full level = up to 6 stage clears like this one (each stage refills the courtyard).</div>';
+          html += '<h3>✅ Clears the courtyard</h3><div class="big">~' + num(o.losses) + ' losses</div>' +
+            '<div class="rc-sub">' + mix + ' (' + num(N) + ' troops) clears all ' + num(cyNow) + ' defenders in one hit (incl. dormants). Expect ±13% on losses. A full level = up to 6 stage clears like this.</div>';
         } else {
-          html += '<h3>❌ Your wave wipes</h3>' +
-            '<div class="big">' + num(o.kills) + ' / ' + num(Math.min(lv.courtyardSize, cyNow)) + ' real spores killed</div>' +
+          html += '<h3>❌ Your wave wipes</h3><div class="big">' + num(o.kills) + ' / ' + num(Math.min(lv.courtyardSize, cyNow)) + ' real spores killed</div>' +
             '<div class="rc-sub">All ' + num(N) + ' troops (' + mix + ') lost this hit. Re-sending the same wave: ~<b>' + o.hits +
-            ' hits</b> to grind the courtyard down, costing ~' + num(o.totalLost) + ' troops total.' +
-            (minN ? ' Or send <b>~' + num(minN) + '</b> troops total in the same mix to clear it in one hit.' : '') + '</div>';
+            ' hits</b> to grind it down, ~' + num(o.totalLost) + ' troops total.' +
+            (minN ? ' Or send <b>~' + num(minN) + '</b> troops in the same mix to clear in one hit.' : '') + '</div>';
         }
         html += '<div class="rc-strbar"><i style="width:' + pct.toFixed(1) + '%"></i><span class="mark" style="left:50%"></span></div>' +
           '<div class="rc-strlbl"><span>You: ' + num(o.atk / 1e6) + 'M</span><span>need &gt; 50% of bar</span><span>Boss: ' + num(o.def / 1e6) + 'M</span></div></div>';
-        $("rc-verdict").innerHTML = html;
       }
+      $("rc-verdict").innerHTML = html;
 
-      // per-level table (keeps your current ranged:melee mix)
       var rows = boss().levels.map(function (l, i) {
-        var d = defStrength(l), a = atkStrength(l, rN, mN);
-        var win = N > 0 && a > d;
-        var loss = win ? Math.round(N * Math.pow(d / a, EXP)) : N;
-        var mn = minToWin(l, rN, mN);
+        var d = defStrength(l), a = atkStrength(l, rN, mN), win = N > 0 && a > d;
+        var loss = win ? Math.round(N * Math.pow(d / a, EXP)) : N, mn = minToWin(l, rN, mN);
         return '<tr class="' + (i === +$("rc-level").value ? "cur" : "") + '">' +
-          '<td class="nm">Level ' + l.level + '</td>' +
-          '<td>' + num(l.courtyardSize) + '</td>' +
-          '<td>+' + num(yardStr(l)) + '%</td>' +
+          '<td class="nm">Level ' + l.level + '</td><td>' + num(l.courtyardSize) + '</td><td>+' + num(yardStr(l)) + '%</td>' +
           '<td class="' + (N === 0 ? "" : win ? "win" : "lose") + '">' + (N === 0 ? "—" : win ? "✅ clears" : "❌ wipes") + '</td>' +
-          '<td>' + (win ? "~" + num(loss) : "—") + '</td>' +
-          '<td>' + (mn ? num(mn) : "—") + '</td></tr>';
+          '<td>' + (win ? "~" + num(loss) : "—") + '</td><td>' + (mn ? num(mn) : "—") + '</td></tr>';
       }).join("");
       $("rc-table").innerHTML = '<thead><tr><th class="l">Boss level</th><th>Base CY</th><th>CY defence</th><th>Your hit</th><th>Losses</th><th>Min troops to clear</th></tr></thead><tbody>' + rows + '</tbody>';
 
       localStorage.setItem(KEY, JSON.stringify({
-        boss: $("rc-boss").value, rn: $("rc-rn").value, mn: $("rc-mn").value, equip: $("rc-equip").value,
-        rstr: $("rc-rstr").value, mstr: $("rc-mstr").value, gs: $("rc-gs").checked, wagon: $("rc-wagon").checked,
-        flame: $("rc-flame").value
+        boss: $("rc-boss").value, rn: $("rc-rn").value, mn: $("rc-mn").value,
+        gear: $("rc-eq-gear").value, skill: $("rc-eq-skill").value, research: $("rc-eq-research").value,
+        rstr: $("rc-rstr").value, mstr: $("rc-mstr").value, gs: $("rc-gs").checked, wagon: $("rc-wagon").checked, flame: $("rc-flame").value
       }));
     }
 
@@ -294,17 +349,13 @@
       var lv = level();
       var chips = ['<span class="rc-chip prot">CY defence +' + num(yardStr(lv)) + '%</span>',
                    '<span class="rc-chip">Base CY ' + num(lv.courtyardSize) + '</span>'];
-      ((lv.stages[0] || {}).attackerEffects || []).forEach(function (e) {
-        chips.push('<span class="rc-chip warn">' + esc(e) + '</span>');
-      });
+      ((lv.stages[0] || {}).attackerEffects || []).forEach(function (e) { chips.push('<span class="rc-chip warn">' + esc(e) + '</span>'); });
       chips.push('<span class="rc-chip">' + CALIB[boss().internalName] + '</span>');
       $("rc-bossfx").innerHTML = chips.join("");
     }
 
     function fillLevels(keepLevel) {
-      $("rc-level").innerHTML = boss().levels.map(function (l, i) {
-        return '<option value="' + i + '">Level ' + l.level + "</option>";
-      }).join("");
+      $("rc-level").innerHTML = boss().levels.map(function (l, i) { return '<option value="' + i + '">Level ' + l.level + "</option>"; }).join("");
       var want = keepLevel != null ? keepLevel : boss().levels.length - 1;
       $("rc-level").value = Math.min(want, boss().levels.length - 1);
       $("rc-cycount").value = level().courtyardSize;
@@ -313,7 +364,7 @@
 
     $("rc-boss").addEventListener("change", function () { fillLevels(null); });
     $("rc-level").addEventListener("change", function () { $("rc-cycount").value = level().courtyardSize; renderBossFx(); render(); });
-    ["rc-rn", "rc-mn", "rc-equip", "rc-rstr", "rc-mstr", "rc-cycount"].forEach(function (id) { $(id).addEventListener("input", render); });
+    ["rc-rn", "rc-mn", "rc-eq-gear", "rc-eq-skill", "rc-eq-research", "rc-rstr", "rc-mstr", "rc-cycount"].forEach(function (id) { $(id).addEventListener("input", render); });
     ["rc-gs", "rc-wagon"].forEach(function (id) { $(id).addEventListener("change", render); });
     $("rc-flame").addEventListener("change", render);
 
@@ -321,15 +372,12 @@
       .then(function (r) { return r.json(); })
       .then(function (d) {
         BOSSES = d.bosses;
-        $("rc-boss").innerHTML = BOSSES.map(function (b, i) {
-          return '<option value="' + i + '">' + esc(b.name) + "</option>";
-        }).join("");
-        // restore
+        $("rc-boss").innerHTML = BOSSES.map(function (b, i) { return '<option value="' + i + '">' + esc(b.name) + "</option>"; }).join("");
         if (saved.boss != null) $("rc-boss").value = saved.boss;
-        ["rn", "mn", "equip", "rstr", "mstr", "flame"].forEach(function (k) { if (saved[k] != null) $("rc-" + k).value = saved[k]; });
+        ["rn", "mn", "rstr", "mstr", "flame"].forEach(function (k) { if (saved[k] != null) $("rc-" + k).value = saved[k]; });
+        [["gear", "rc-eq-gear"], ["skill", "rc-eq-skill"], ["research", "rc-eq-research"]].forEach(function (p) { if (saved[p[0]] != null) $(p[1]).value = saved[p[0]]; });
         if (saved.gs != null) $("rc-gs").checked = saved.gs;
         if (saved.wagon != null) $("rc-wagon").checked = saved.wagon;
-        // default to fungal L12 (index of level 12) if nothing saved
         var fungalIdx = BOSSES.findIndex(function (b) { return b.internalName === "FungalSwarm"; });
         if (saved.boss == null && fungalIdx >= 0) $("rc-boss").value = fungalIdx;
         var lvIdx = boss().levels.findIndex(function (l) { return l.level === 12; });
