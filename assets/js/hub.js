@@ -28,6 +28,7 @@
 
   // Curated strip shown on the home page (by slug, in this order).
   const POPULAR = [
+    "whats-new",                // What's New in GGE (lead with the latest patch)
     "guide-rift-raid",          // Rift Raid Basics
     "rift-cy-hits",             // Rift Courtyard Calculator
     "wall-break",               // Rift Wall-Break Simulator
