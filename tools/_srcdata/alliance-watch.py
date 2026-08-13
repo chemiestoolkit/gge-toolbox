@@ -1,11 +1,13 @@
 #!/usr/bin/env python3
 """Watch an alliance on gge-tracker and ping a Discord webhook on activity.
 
-Four feeds, each independent:
+Six feeds, each independent:
   • member arrivals / departures  (📥 / 📤)
   • castle movements — placements, removals, relocations  (🏰 / 💥 / ↗️)
   • player renames  (✏️)
-  • members going shielded  (🛡️)
+  • shields — new / last 24h / dropped  (🛡️ / ⏳ / 🔓)
+  • honour — any rise or fall  (📈 / 📉)
+  • might — swings of 4M+  (⬆️ / ⬇️)
 
 Runs from GitHub Actions on a schedule. State (per-feed high-water marks + the
 last-seen shield map) lives in a small JSON file that the workflow restores/saves
@@ -309,6 +311,24 @@ def feed_renames(state):
                         lambda r: r.get("date"), to_rename_embed)
 
 
+# Shields, honour and might all diff the same roster — fetch it once per run.
+_ROSTER = {}
+
+
+def get_roster():
+    if "v" in _ROSTER:
+        if _ROSTER["v"] is None:
+            raise TransientError("roster unavailable this cycle")
+        return _ROSTER["v"]
+    try:
+        data = api_get(f"alliances/id/{ALLIANCE_ID}")
+    except TransientError:
+        _ROSTER["v"] = None                 # remember the miss so sibling feeds skip too
+        raise
+    _ROSTER["v"] = data.get("players", data.get("members", [])) or []
+    return _ROSTER["v"]
+
+
 def feed_shields(state):
     # No shield event feed — poll the roster and diff peace_disabled_at ourselves.
     # We only ever fire on three transitions, each at most once per shield:
@@ -316,8 +336,7 @@ def feed_shields(state):
     #   • last 24h         (protection now ends within a day — line up the hit)
     #   • shield dropped   (protection gone — attackable, reported next poll = ASAP)
     # Extends / top-ups while >24h out are deliberately silent (that was the spam).
-    data = api_get(f"alliances/id/{ALLIANCE_ID}")
-    roster = data.get("players", data.get("members", [])) or []
+    roster = get_roster()
     now = datetime.now(timezone.utc)
     by_id = {str(p.get("player_id")): p for p in roster}
 
@@ -368,8 +387,71 @@ def feed_shields(state):
     return embeds, commit
 
 
+# --- honour & might: roster stat diffs, poll-to-poll ------------------------
+MIGHT_THRESHOLD = 4_000_000            # only flag might swings this big or bigger
+
+
+def _to_int(v):
+    try:
+        return int(float(v))
+    except (TypeError, ValueError):
+        return None
+
+
+def honour_embed(p, old, new):
+    name = p.get("player_name") or ("#" + str(p.get("player_id")))
+    d = new - old
+    arrow, color = ("📈", GREEN) if d > 0 else ("📉", RED)
+    return {"title": f"{arrow} {name}'s honour {'rose' if d > 0 else 'fell'} {abs(d):,}",
+            "description": f"{old:,} → **{new:,}**", "color": color}
+
+
+def might_embed(p, old, new):
+    name = p.get("player_name") or ("#" + str(p.get("player_id")))
+    d = new - old
+    arrow, color = ("⬆️", GREEN) if d > 0 else ("⬇️", RED)
+    verb = "gained" if d > 0 else "lost"
+    return {"title": f"{arrow} {name} {verb} {fmt_might(abs(d))} might",
+            "description": f"{fmt_might(old)} → **{fmt_might(new)}**", "color": color}
+
+
+def _roster_stat_feed(state, key, field, embed_of, changed):
+    """Shared skeleton: baseline the field per player on first run, then diff
+    each poll. `changed(old, new)` decides whether a delta is worth an alert."""
+    roster = get_roster()
+    by_id = {str(p.get("player_id")): p for p in roster}
+    current = {pid: _to_int(p.get(field)) for pid, p in by_id.items()
+               if _to_int(p.get(field)) is not None}
+    prev = state.get(key)
+
+    def commit(st):
+        st[key] = current
+
+    if prev is None:                    # first run — baseline only
+        return [], commit
+    embeds = []
+    for pid, new in current.items():
+        old = prev.get(pid)
+        if old is not None and changed(old, new):
+            embeds.append(embed_of(by_id[pid], old, new))
+    return embeds, commit
+
+
+def feed_honour(state):
+    # Honour barely moves on a quiet server, so any change is worth surfacing.
+    return _roster_stat_feed(state, "honour", "honor", honour_embed,
+                             lambda old, new: old != new)
+
+
+def feed_might(state):
+    # Big might swings = a mass recruit (up) or a heavy loss / getting hit (down).
+    return _roster_stat_feed(state, "might", "might_current", might_embed,
+                             lambda old, new: abs(new - old) >= MIGHT_THRESHOLD)
+
+
 FEEDS = [("members", feed_members), ("castle movements", feed_movements),
-         ("renames", feed_renames), ("shields", feed_shields)]
+         ("renames", feed_renames), ("shields", feed_shields),
+         ("honour", feed_honour), ("might", feed_might)]
 
 
 def main():
