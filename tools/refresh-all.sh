@@ -25,6 +25,7 @@ builds=(
   "hol-planner/data/build.sh"
   "rift-optimizer/data/build.sh"
   "gacha-sim/data/build.sh"
+  "whats-new/data/build.sh"
 )
 
 fail=0

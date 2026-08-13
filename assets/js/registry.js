@@ -500,6 +500,16 @@ window.TOOLS = [
     tags: ["event", "rewards", "milestones", "points", "rift raid", "nomad", "samurai"],
   },
   {
+    slug: "whats-new",
+    img: "assets/img/tool-art/guides.webp",
+    cat: "overviews",
+    name: "What's New in GGE",
+    desc: "Everything new in the latest game updates — gear, decorations, troops, construction items and gacha — linked to the tools that show them.",
+    icon: "🆕",
+    status: "live",
+    tags: ["new", "whats new", "update", "patch", "anniversary", "latest", "changelog", "content", "gear", "decorations", "gacha"],
+  },
+  {
     slug: "overview-rift-shop",
     img: "assets/img/event-icons/riftraid.webp",
     cat: "overviews",

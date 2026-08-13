@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>What's New in GGE — Maxy's Empire Toolkit</title>
+  <meta property="og:type" content="website" />
+  <meta property="og:site_name" content="Maxy's Empire Toolkit" />
+  <meta property="og:title" content="What's New in GGE — Maxy's Empire Toolkit" />
+  <meta property="og:description" content="Everything new in the latest Goodgame Empire updates — gear, decorations, troops, construction items and gacha — decoded from the game files and linked to the tools that show them." />
+  <meta property="og:url" content="https://chemiestoolkit.github.io/gge-toolbox/tools/whats-new/" />
+  <meta property="og:image" content="https://chemiestoolkit.github.io/gge-toolbox/assets/img/hero-banner.webp" />
+  <meta name="twitter:card" content="summary" />
+  <meta name="description" content="What's new in Goodgame Empire: the latest update's new gear, decorations, troops, construction items and gacha, decoded from the game data and linked to the overviews." />
+  <link rel="stylesheet" href="../../assets/css/theme.css?v=15" />
+  <link rel="icon" type="image/png" href="../../assets/img/favicon.png" />
+  <style>
+    .wn-update { margin-bottom: 30px; }
+    .wn-head { display: flex; flex-wrap: wrap; align-items: baseline; gap: 8px 14px; padding-bottom: 10px;
+      border-bottom: 1px solid var(--border); margin-bottom: 16px; }
+    .wn-headline { font-size: 1.4rem; font-weight: 800; color: var(--text); }
+    .wn-ver { font-size: .72rem; font-variant-numeric: tabular-nums; color: var(--text-faint);
+      background: var(--bg-elev-2); border: 1px solid var(--border-soft); border-radius: 99px; padding: 3px 10px; }
+    .wn-date { font-size: .78rem; color: var(--text-faint); }
+    .wn-summary { font-size: .82rem; color: var(--text-dim); flex-basis: 100%; }
+
+    .wn-group { margin-bottom: 20px; }
+    .wn-group-head { display: flex; align-items: center; gap: 8px; margin-bottom: 10px; }
+    .wn-group-head h3 { margin: 0; font-size: 1rem; }
+    .wn-group-head .cnt { font-size: .7rem; color: var(--text-faint); }
+    .wn-all { margin-left: auto; font-size: .76rem; color: var(--gold); text-decoration: none; }
+    .wn-all:hover { text-decoration: underline; }
+
+    .wn-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 10px; }
+    .wn-card { display: flex; align-items: center; gap: 10px; background: var(--bg-elev-2);
+      border: 1px solid var(--border-soft); border-radius: var(--radius-sm); padding: 9px 11px;
+      text-decoration: none; color: var(--text); transition: .12s; }
+    a.wn-card:hover { border-color: var(--gold); background: rgba(217,178,90,.06); }
+    .wn-thumb { width: 44px; height: 44px; flex: none; display: flex; align-items: center; justify-content: center;
+      background: var(--bg-elev); border-radius: 8px; overflow: hidden; font-size: 1.3rem; }
+    .wn-thumb img { width: 100%; height: 100%; object-fit: contain; }
+    .wn-name { font-size: .82rem; font-weight: 600; line-height: 1.2; }
+    .wn-note { font-size: .68rem; color: var(--text-faint); margin-top: 2px; }
+
+    .wn-loading, .wn-empty { color: var(--text-faint); padding: 30px 4px; text-align: center; }
+    .wn-foot { font-size: .76rem; color: var(--text-faint); margin-top: 8px; line-height: 1.5; }
+  </style>
+</head>
+<body>
+  <header class="topbar">
+    <div class="wrap">
+      <a class="brand" href="../../"><span class="crest">🛡️</span> Maxy's Empire <b>Toolkit</b></a>
+    </div>
+  </header>
+
+  <main class="wrap">
+    <div class="tool-head">
+      <a class="back" href="../../">← All tools</a>
+      <h1>🆕 What's New in GGE</h1>
+      <p>Everything that landed in the latest Goodgame Empire updates — new gear, decorations, troops,
+        construction items and gacha — pulled straight from the game files and linked to the tool that shows
+        each one in full. Updates itself whenever GGS ships a new build.</p>
+    </div>
+
+    <section class="panel">
+      <div id="root"><div class="wn-loading">Loading the latest update…</div></div>
+      <p class="wn-foot" id="foot"></p>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <div class="wrap"><p>New content is found by diffing consecutive game-data versions. Game data &amp; art
+      © Goodgame Studios.</p></div>
+  </footer>
+
+  <script>
+    const esc = (s) => String(s == null ? "" : s).replace(/[&<>"]/g, (c) =>
+      ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]));
+    const root = document.getElementById("root");
+
+    fetch("data/whats-new.json?v=" + Date.now())
+      .then((r) => { if (!r.ok) throw new Error("HTTP " + r.status); return r.json(); })
+      .then((d) => {
+        const ups = d.updates || [];
+        if (!ups.length) { root.innerHTML = '<div class="wn-empty">No updates recorded yet — check back after the next game patch.</div>'; return; }
+        root.innerHTML = ups.map(renderUpdate).join("");
+        document.getElementById("foot").innerHTML =
+          "Tracking from game-data version <b>v" + esc(d.version) + "</b>. Each item links to the overview or " +
+          "simulator that shows its full stats — click through to see exactly what it does.";
+      })
+      .catch((e) => { root.innerHTML = '<div class="wn-empty" style="color:var(--bad,#f87171)">Could not load: ' + esc(e.message) + "</div>"; });
+
+    function renderUpdate(u) {
+      const when = u.date ? new Date(u.date + "T00:00:00").toLocaleDateString("en-AU",
+        { day: "numeric", month: "long", year: "numeric" }) : "";
+      return '<div class="wn-update"><div class="wn-head">' +
+        '<span class="wn-headline">' + esc(u.headline || "Update") + "</span>" +
+        '<span class="wn-ver">v' + esc(u.version) + "</span>" +
+        '<span class="wn-date">' + esc(when) + "</span>" +
+        (u.summary ? '<span class="wn-summary">' + esc(u.summary) + "</span>" : "") +
+        "</div>" + (u.groups || []).map(renderGroup).join("") + "</div>";
+    }
+
+    function renderGroup(g) {
+      const cards = g.items.map((it) => {
+        const thumb = it.img
+          ? '<span class="wn-thumb"><img src="' + esc(it.img) + '" alt="" onerror="this.parentNode.textContent=\'' + (g.icon || "🎁") + '\'"></span>'
+          : '<span class="wn-thumb">' + (g.icon || "🎁") + "</span>";
+        const body = '<span><span class="wn-name">' + esc(it.name) + "</span>" +
+          (it.note ? '<span class="wn-note">' + esc(it.note) + "</span>" : "") + "</span>";
+        return it.link
+          ? '<a class="wn-card" href="' + esc(it.link) + '">' + thumb + body + "</a>"
+          : '<span class="wn-card">' + thumb + body + "</span>";
+      }).join("");
+      return '<div class="wn-group"><div class="wn-group-head">' + (g.icon || "") +
+        "<h3>" + esc(g.category) + '</h3><span class="cnt">' + g.items.length + "</span>" +
+        (g.link ? '<a class="wn-all" href="' + esc(g.link) + '">Browse all →</a>' : "") +
+        '</div><div class="wn-grid">' + cards + "</div></div>";
+    }
+  </script>
+</body>
+</html>
