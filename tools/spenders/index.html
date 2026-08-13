@@ -108,6 +108,7 @@
        verified; ?preview=1 unlocks it for work-in-progress checks. Blocking is
        the default in markup (not JS) so a script failure can't leak it. --- */
     body.sp-wip main > *:not(.tool-head):not(#sp-wip) { display: none !important; }
+    body.sp-wip .sp-live-only { display: none !important; }
     #sp-wip { display: none; }
     body.sp-wip #sp-wip { display: block; }
     #sp-wip { text-align: center; padding: 34px 22px; }
@@ -240,7 +241,7 @@
   </main>
 
   <footer class="footer">
-    <div class="wrap"><p>AUD prices from the AU1 shop (<span class="au-when">June 2026</span>). Unofficial fan tool — spend responsibly.</p></div>
+    <div class="wrap"><p><span class="sp-live-only">AUD prices from the AU1 shop (<span class="au-when">June 2026</span>). </span>Unofficial fan tool — spend responsibly.</p></div>
   </footer>
 
   <script>
