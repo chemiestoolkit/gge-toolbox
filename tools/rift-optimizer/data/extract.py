@@ -137,12 +137,18 @@ def main():
 
     nine_piece_sids = {str(s["setID"]) for s in eq_sets if str(s.get("neededItems","")) == "9"}
 
+    # Event-themed commander sets you WIN from the rift shop (Eastern Raiders /
+    # Yoshiro / Gerbrandt / Bloodcrow Caesar). They sell for Rift Shards, but they
+    # aren't rift-COMBAT gear — their bonuses apply to other events, so they don't
+    # belong in a rift commander optimiser. Exclude by setID.
+    EXCLUDE_SIDS = {"1087", "1088", "1089", "1090"}
+
     # True Rift sets sell for Rift Shards. Sets that sell for Offering Shards are
     # the Victorious (PvP) and Stalwart (castellan) sets — exclude those here.
     rift_gem_sids = set()
     for g in gems_data:
         sid = str(g.get("setID",""))
-        if sid in nine_piece_sids and g.get("sellRiftShard"):
+        if sid in nine_piece_sids and sid not in EXCLUDE_SIDS and g.get("sellRiftShard"):
             rift_gem_sids.add(sid)
 
     print(f"  Found {len(rift_gem_sids)} rift set IDs.", file=sys.stderr)
