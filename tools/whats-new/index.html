@@ -125,7 +125,9 @@
       // older = further back in time = higher index; newer = lower index
       document.getElementById("older").disabled = cur >= UPDATES.length - 1;
       document.getElementById("newer").disabled = cur <= 0;
-      document.getElementById("dots").innerHTML = UPDATES.map((_, i) =>
+      // Dots run oldest → newest (left → right) so the ‹ older / newer › arrows
+      // move the active dot the same direction they point.
+      document.getElementById("dots").innerHTML = UPDATES.map((_, i) => i).reverse().map((i) =>
         '<button class="wn-dot' + (i === cur ? " on" : "") + '" data-i="' + i + '" title="v' + esc(UPDATES[i].version) + '"></button>').join("");
       document.querySelectorAll(".wn-dot").forEach((b) =>
         b.addEventListener("click", () => { cur = +b.dataset.i; renderCurrent(); }));
