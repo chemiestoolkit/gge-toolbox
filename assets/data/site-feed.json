@@ -1,5 +1,5 @@
 {
-  "updated": "2026-07-30",
+  "updated": "2026-08-13",
   "maxyNotes": [
     {
       "date": "Jun 2026",
@@ -19,14 +19,14 @@
   ],
   "changelog": [
     {
-      "date": "Jul 2026",
-      "title": "Rift rework is LIVE (v781.02) — real booster numbers, 4 new gear sets",
-      "body": "The 29 Jul Rift Raid rework shipped. Data across the site auto-refreshed to v781.02, and the guides now carry the real details instead of placeholders: the three alliance combat-booster tiers with actual costs (Common +100%, Rare +250%, Legendary +350% attack; 500 up to 81,000 Rift Coins), and the four new CROSS-EVENT gear sets that dropped — Eastern Raiders (front/flank attack), Samurai (travel speed + survivors), Berimond (XP/plunder), and Glory (Necromancer infection-rate), bought with Rift Shards in the event shop. The quest pool tripled (720 to 2,256). Value rule of thumb added to the guide: everyone hit 250 points per boss level, ride the level track to your division cap, boosters up to Rare, then coast."
+      "date": "Aug 2026",
+      "title": "Spenders Corner is back to “coming soon”",
+      "body": "Pulled it from the archive on purpose. It reads the game's own offer data fine, but the step that turns that into a “this is good value” verdict hasn't been checked against what's really in the shop — and a money tool that's only probably right is worse than no tool. It'll return once the value maths is verified. The Item Value Finder is unaffected: its token-shop prices come straight from the game's package data."
     },
     {
       "date": "Jul 2026",
-      "title": "Spenders Corner — back on the auto-refresh, and honest about price age",
-      "body": "Root cause of the staleness found: Spenders Corner was the one tool never wired into the daily data refresh, so its offer catalogue only updated when someone ran the build by hand. It's now part of refresh-all (which also keeps Item Value Finder current). The hand-captured AUD shop prices can't be automated — they need someone with the in-game shop open — so the page now reads the real capture date from the data instead of a hardcoded 'June 2026', and shows a clear warning once it's over a month old. Right now it's flagging 45 days."
+      "title": "Rift rework is LIVE (v781.02) — real booster numbers, 4 new gear sets",
+      "body": "The 29 Jul Rift Raid rework shipped. Data across the site auto-refreshed to v781.02, and the guides now carry the real details instead of placeholders: the three alliance combat-booster tiers with actual costs (Common +100%, Rare +250%, Legendary +350% attack; 500 up to 81,000 Rift Coins), and the four new CROSS-EVENT gear sets that dropped — Eastern Raiders (front/flank attack), Samurai (travel speed + survivors), Berimond (XP/plunder), and Glory (Necromancer infection-rate), bought with Rift Shards in the event shop. The quest pool tripled (720 to 2,256). Value rule of thumb added to the guide: everyone hit 250 points per boss level, ride the level track to your division cap, boosters up to Rare, then coast."
     },
     {
       "date": "Jul 2026",
@@ -45,13 +45,8 @@
     },
     {
       "date": "Jul 2026",
-      "title": "Spenders Corner — offer classes, honest bonuses & the spender-tier ladder",
-      "body": "Deep dive into the game's own offer tables. Every sale is now classed 🛒 shop rotation / ⚡ pop-up engine / 🕰️ retired, straight from the client data. Pop-up offers show the REAL contents-worth bonus next to the splashed one (the +500% banner is usually +400% by the game's own numbers — 1,467 of 1,524 pop-ups overstate). And the new spender-tier ladder exposes offer targeting: 20 tiers of deals gated by your lifetime rubies bought, from A$2.77 starter hooks to A$179.99 whale bundles."
-    },
-    {
-      "date": "Jul 2026",
-      "title": "Images everywhere, clickable rewards & a smarter Spenders Corner",
-      "body": "Buildings overview got real building art (105/112) and the rift bosses their portraits — all straight from the game's own files. Any catalogued reward in the Gacha Simulator and Item Value Finder is now clickable and jumps to its overview entry. Spenders Corner rebuilt its relevance logic: the sale search now cross-checks the game's own shop catalogue, so by default you see the bundles actually on sale right now instead of the retired back-catalogue."
+      "title": "Images everywhere & clickable rewards",
+      "body": "Buildings overview got real building art (105/112) and the rift bosses their portraits — all straight from the game's own files. Any catalogued reward in the Gacha Simulator and Item Value Finder is now clickable and jumps to its overview entry, so you can see what a construction item or deco actually does without hunting for it."
     },
     {
       "date": "Jul 2026",

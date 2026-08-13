@@ -3,15 +3,16 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Spenders Corner (AU1) — Maxy's Empire Toolkit</title>
+  <title>Spenders Corner — coming soon — Maxy's Empire Toolkit</title>
+  <meta name="robots" content="noindex, nofollow" />
   <meta property="og:type" content="website" />
   <meta property="og:site_name" content="Maxy's Empire Toolkit" />
-  <meta property="og:title" content="Spenders Corner (AU1) — Maxy's Empire Toolkit" />
-  <meta property="og:description" content="Real money value on AU1: the pure ruby-pack board (rubies per AUD with the doubler &amp; Prime Time) plus a sale-value search that ranks every money offer by how much of any reward — troops, currencies, gems, gear — you get per dollar." />
+  <meta property="og:title" content="Spenders Corner — coming soon" />
+  <meta property="og:description" content="A real-money value tool for Goodgame Empire — currently being reworked, and offline until the numbers are verified." />
   <meta property="og:url" content="https://chemiestoolkit.github.io/gge-toolbox/tools/spenders/" />
   <meta property="og:image" content="https://chemiestoolkit.github.io/gge-toolbox/assets/img/tool-art/lootbox.webp" />
   <meta name="twitter:card" content="summary" />
-  <meta name="description" content="Best-value ruby buying on Australia 1: every real-money pack, bundle and the 7-day daily chain ranked in rubies per AUD, with the 2x doubler and +300% Prime Time factored in." />
+  <meta name="description" content="Spenders Corner is being reworked and is temporarily offline — it'll be back once its value numbers are verified." />
   <link rel="stylesheet" href="../../assets/css/theme.css?v=15" />
   <link rel="icon" type="image/png" href="../../assets/img/favicon.png" />
   <style>
@@ -102,9 +103,29 @@
       color: var(--text-dim); font-size: .88rem; line-height: 1.6; }
     .ss-empty b { color: var(--gold); }
     .ss-sizes { color: var(--text-faint, #8a8372); font-style: italic; padding-left: 38px; }
+
+    /* --- Coming-soon gate. The tool is hidden until its value numbers are
+       verified; ?preview=1 unlocks it for work-in-progress checks. Blocking is
+       the default in markup (not JS) so a script failure can't leak it. --- */
+    body.sp-wip main > *:not(.tool-head):not(#sp-wip) { display: none !important; }
+    #sp-wip { display: none; }
+    body.sp-wip #sp-wip { display: block; }
+    #sp-wip { text-align: center; padding: 34px 22px; }
+    #sp-wip .ico { font-size: 2.6rem; line-height: 1; }
+    #sp-wip h2 { font-family: var(--font-display); color: var(--gold); margin: 12px 0 6px; font-size: 1.3rem; }
+    #sp-wip p { color: var(--text-dim); max-width: 56ch; margin: 0 auto 10px; line-height: 1.6; font-size: .9rem; }
+    #sp-wip .sp-wip-back { display: inline-block; margin-top: 12px; padding: 8px 16px; border-radius: 99px;
+      border: 1px solid rgba(217,178,90,.5); color: var(--gold); text-decoration: none; font-size: .85rem; }
+    #sp-wip .sp-wip-back:hover { background: rgba(217,178,90,.12); }
   </style>
 </head>
-<body>
+<body class="sp-wip">
+  <script>
+    // Unlock the work-in-progress tool with ?preview=1 (see the gate CSS above).
+    if (new URLSearchParams(location.search).get("preview") === "1") {
+      document.body.classList.remove("sp-wip");
+    }
+  </script>
   <header class="topbar">
     <div class="wrap">
       <a class="brand" href="../../"><span class="crest">🛡️</span> Maxy's Empire <b>Toolkit</b></a>
@@ -115,10 +136,20 @@
     <div class="tool-head">
       <a class="back" href="../../">← All tools</a>
       <h1>💸 Spenders Corner <span style="font-size:.6em;color:var(--text-dim)">(Australia 1)</span></h1>
-      <p>If you're going to spend, spend well. Every way to turn <b>real money into rubies</b> on AU1,
-         ranked by <b>rubies per dollar</b> — packs, Ruby Rush bundles and the 7-day daily chain — with the
-         2× Payment Doubler and the +300% Prime Time offer factored in.</p>
+      <p>Working out which real-money offers actually pay — and which just look like they do.</p>
     </div>
+
+    <section class="panel" id="sp-wip">
+      <div class="ico">🚧</div>
+      <h2>Coming soon — back when the numbers are right</h2>
+      <p>This one's being reworked. It reads the game's own offer data, but the way it turns that into
+        a <b>“this is good value”</b> verdict still needs checking against what's really in the shop —
+        and a money tool that's only <em>probably</em> right is worse than no tool at all.</p>
+      <p>It'll be back once the value maths is verified. In the meantime the
+        <b>Item Value Finder</b> covers the in-game token shops, where the prices are exact.</p>
+      <a class="sp-wip-back" href="../item-value/">🏷️ Item Value Finder →</a>
+      <a class="sp-wip-back" href="../../">← All tools</a>
+    </section>
 
     <div id="au-stale" class="sp-note" hidden></div>
 

@@ -23,7 +23,7 @@ window.TOOLS = [
   {
     slug: "guide-fungal-rift",
     img: "assets/img/event-icons/riftraid.webp",
-    cat: "guides",
+    cat: "featured",
     name: "Fungal Rift (Mycelial Sovereign)",
     desc: "Beat the Fungal boss: dormant spores, the flintlock gun & grenade flask, Chrono-Vial timers, and the 32-wolf free-timer trick.",
     icon: "🍄",
@@ -34,7 +34,7 @@ window.TOOLS = [
   {
     slug: "guide-dragon-rift",
     img: "assets/img/event-icons/riftraid.webp",
-    cat: "guides",
+    cat: "featured",
     name: "Dragon Rift (Ashen Tyrant)",
     desc: "Beat the Dragon boss: egg spawns, post-battle evolution (why the bar goes up first), -range%/-melee% wall tools, and the level-5 full-negate secret.",
     icon: "🐉",
@@ -45,7 +45,7 @@ window.TOOLS = [
   {
     slug: "guide-rift-tournament",
     img: "assets/img/event-icons/riftraid.webp",
-    cat: "guides",
+    cat: "featured",
     name: "Rift Tournament",
     desc: "The reworked Rift Raid's alliance meta-layer: the six divisions (Copper to Diamond), the Quest Board, Rift Tournament Levels, and the level + ranking reward tracks. Mechanics confirmed; reward amounts pending.",
     icon: "🏆",
@@ -56,7 +56,7 @@ window.TOOLS = [
   {
     slug: "guide-getting-started",
     img: "assets/img/tool-art/guides.webp",
-    cat: "featured",
+    cat: "guides",
     name: "Getting Started",
     desc: "A no-nonsense first-week guide for new players: what to build, what to spend rubies on, and what to safely ignore.",
     icon: "🚀",
@@ -67,7 +67,7 @@ window.TOOLS = [
   {
     slug: "guide-combat-basics",
     img: "assets/img/tool-art/guides.webp",
-    cat: "featured",
+    cat: "guides",
     name: "Combat Basics",
     desc: "How Goodgame Empire battles actually resolve — front vs flanks, melee vs ranged, waves, tools and the wall. Read this before any PvP guide.",
     icon: "⚔️",
@@ -246,9 +246,9 @@ window.TOOLS = [
     img: "assets/img/tool-art/lootbox.webp",
     cat: "misc",
     name: "Spenders Corner (AU1)",
-    desc: "Real money value on AU1: the pure ruby-pack board (rubies per AUD with the doubler & Prime Time) plus a sale-value search that ranks every money offer by how much of any reward — troops, currencies, gems, gear — you get per dollar.",
+    desc: "Which real-money offers actually pay, on AU1 — ruby packs, bundles and the daily chain ranked per dollar. Being reworked: it's offline until the value maths is checked against the live shop.",
     icon: "💸",
-    status: "live",
+    status: "soon",
     url: "tools/spenders/",
     tags: ["spending", "rubies", "value", "packs", "sales", "offers", "bundles", "daily", "prime", "doubler", "aud", "au1", "money", "search"],
   },
