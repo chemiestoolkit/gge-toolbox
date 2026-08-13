@@ -15,14 +15,25 @@
   <link rel="stylesheet" href="../../assets/css/theme.css?v=15" />
   <link rel="icon" type="image/png" href="../../assets/img/favicon.png" />
   <style>
-    .wn-update { margin-bottom: 30px; }
-    .wn-head { display: flex; flex-wrap: wrap; align-items: baseline; gap: 8px 14px; padding-bottom: 10px;
-      border-bottom: 1px solid var(--border); margin-bottom: 16px; }
-    .wn-headline { font-size: 1.4rem; font-weight: 800; color: var(--text); }
+    /* update nav bar (cycle through the last few patches) */
+    .wn-nav { display: flex; align-items: center; gap: 10px; margin-bottom: 16px; }
+    .wn-navbtn { flex: none; width: 38px; height: 38px; border-radius: 50%; border: 1px solid var(--border);
+      background: var(--bg-elev-2); color: var(--text); font-size: 1.1rem; cursor: pointer; transition: .12s;
+      display: flex; align-items: center; justify-content: center; }
+    .wn-navbtn:hover:not(:disabled) { border-color: var(--gold); color: var(--gold-bright); }
+    .wn-navbtn:disabled { opacity: .3; cursor: default; }
+    .wn-nav-mid { flex: 1; text-align: center; }
+    .wn-nav-title { display: flex; flex-wrap: wrap; align-items: baseline; justify-content: center; gap: 6px 12px; }
+    .wn-headline { font-size: 1.3rem; font-weight: 800; color: var(--text); }
     .wn-ver { font-size: .72rem; font-variant-numeric: tabular-nums; color: var(--text-faint);
       background: var(--bg-elev-2); border: 1px solid var(--border-soft); border-radius: 99px; padding: 3px 10px; }
     .wn-date { font-size: .78rem; color: var(--text-faint); }
-    .wn-summary { font-size: .82rem; color: var(--text-dim); flex-basis: 100%; }
+    .wn-dots { display: flex; justify-content: center; gap: 6px; margin-top: 8px; }
+    .wn-dot { width: 8px; height: 8px; border-radius: 50%; border: 0; padding: 0; cursor: pointer;
+      background: var(--border); transition: .12s; }
+    .wn-dot.on { background: var(--gold); transform: scale(1.25); }
+    .wn-dot:hover { background: var(--gold-dim); }
+    .wn-summary { font-size: .82rem; color: var(--text-dim); margin: 8px 0 16px; text-align: center; }
 
     .wn-group { margin-bottom: 20px; }
     .wn-group-head { display: flex; align-items: center; gap: 8px; margin-bottom: 10px; }
@@ -63,6 +74,15 @@
     </div>
 
     <section class="panel">
+      <div class="wn-nav" id="nav" hidden>
+        <button class="wn-navbtn" id="older" title="Previous update">‹</button>
+        <div class="wn-nav-mid">
+          <div class="wn-nav-title" id="nav-title"></div>
+          <div class="wn-dots" id="dots"></div>
+        </div>
+        <button class="wn-navbtn" id="newer" title="Newer update">›</button>
+      </div>
+      <div class="wn-summary" id="summary"></div>
       <div id="root"><div class="wn-loading">Loading the latest update…</div></div>
       <p class="wn-foot" id="foot"></p>
     </section>
@@ -77,29 +97,48 @@
     const esc = (s) => String(s == null ? "" : s).replace(/[&<>"]/g, (c) =>
       ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]));
     const root = document.getElementById("root");
+    const nav = document.getElementById("nav");
+    let UPDATES = [], cur = 0;   // cur 0 = newest
 
     fetch("data/whats-new.json?v=" + Date.now())
       .then((r) => { if (!r.ok) throw new Error("HTTP " + r.status); return r.json(); })
       .then((d) => {
-        const ups = d.updates || [];
-        if (!ups.length) { root.innerHTML = '<div class="wn-empty">No updates recorded yet — check back after the next game patch.</div>'; return; }
-        root.innerHTML = ups.map(renderUpdate).join("");
+        UPDATES = d.updates || [];
+        if (!UPDATES.length) { root.innerHTML = '<div class="wn-empty">No updates recorded yet — check back after the next game patch.</div>'; return; }
+        cur = 0; renderCurrent();
         document.getElementById("foot").innerHTML =
-          "Tracking from game-data version <b>v" + esc(d.version) + "</b>. Each item links to the overview or " +
-          "simulator that shows its full stats — click through to see exactly what it does.";
+          "Showing the last " + UPDATES.length + " game updates (newest first). Each item links to the overview " +
+          "or simulator that shows its full stats — click through to see exactly what it does.";
       })
       .catch((e) => { root.innerHTML = '<div class="wn-empty" style="color:var(--bad,#f87171)">Could not load: ' + esc(e.message) + "</div>"; });
 
-    function renderUpdate(u) {
+    function renderCurrent() {
+      const u = UPDATES[cur];
       const when = u.date ? new Date(u.date + "T00:00:00").toLocaleDateString("en-AU",
         { day: "numeric", month: "long", year: "numeric" }) : "";
-      return '<div class="wn-update"><div class="wn-head">' +
+      nav.hidden = false;
+      document.getElementById("nav-title").innerHTML =
         '<span class="wn-headline">' + esc(u.headline || "Update") + "</span>" +
         '<span class="wn-ver">v' + esc(u.version) + "</span>" +
-        '<span class="wn-date">' + esc(when) + "</span>" +
-        (u.summary ? '<span class="wn-summary">' + esc(u.summary) + "</span>" : "") +
-        "</div>" + (u.groups || []).map(renderGroup).join("") + "</div>";
+        '<span class="wn-date">' + esc(when) + "</span>";
+      document.getElementById("summary").textContent = u.summary || "";
+      // older = further back in time = higher index; newer = lower index
+      document.getElementById("older").disabled = cur >= UPDATES.length - 1;
+      document.getElementById("newer").disabled = cur <= 0;
+      document.getElementById("dots").innerHTML = UPDATES.map((_, i) =>
+        '<button class="wn-dot' + (i === cur ? " on" : "") + '" data-i="' + i + '" title="v' + esc(UPDATES[i].version) + '"></button>').join("");
+      document.querySelectorAll(".wn-dot").forEach((b) =>
+        b.addEventListener("click", () => { cur = +b.dataset.i; renderCurrent(); }));
+      root.innerHTML = (u.groups || []).map(renderGroup).join("");
     }
+
+    document.getElementById("older").addEventListener("click", () => { if (cur < UPDATES.length - 1) { cur++; renderCurrent(); } });
+    document.getElementById("newer").addEventListener("click", () => { if (cur > 0) { cur--; renderCurrent(); } });
+    document.addEventListener("keydown", (e) => {
+      if (!UPDATES.length) return;
+      if (e.key === "ArrowLeft" && cur < UPDATES.length - 1) { cur++; renderCurrent(); }
+      if (e.key === "ArrowRight" && cur > 0) { cur--; renderCurrent(); }
+    });
 
     function renderGroup(g) {
       const cards = g.items.map((it) => {

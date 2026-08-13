@@ -112,13 +112,17 @@ def is_deco(b):
 CATS = []
 
 
-def new_ids(table, idkey, prev):
+def new_ids(table, idkey, prev, src=None):
+    src = items if src is None else src
     have = set(prev.get(table, []))
-    cur = [str(r.get(idkey)) for r in items.get(table, [])]
-    return have, cur, [r for r in items.get(table, []) if str(r.get(idkey)) not in have]
+    cur = [str(r.get(idkey)) for r in src.get(table, [])]
+    return have, cur, [r for r in src.get(table, []) if str(r.get(idkey)) not in have]
 
 
-def build_groups(prev):
+def build_groups(prev, src=None):
+    """New-content groups for `src` (defaults to the live cache) vs a prev-id map.
+    Passing an explicit `src` lets the backfill diff any two versions."""
+    src = items if src is None else src
     groups = []
 
     def group(title, icon, link, rows, bucket, name_fn, note_fn=None, img_fn=None):
@@ -136,25 +140,25 @@ def build_groups(prev):
             groups.append({"category": title, "icon": icon, "link": link, "items": out})
 
     # Equipment (overview art, else the client asset by id)
-    _, _, eq = new_ids("equipments", "equipmentID", prev)
+    _, _, eq = new_ids("equipments", "equipmentID", prev, src)
     group("Equipment & Gear", "🛡️", "../overview-equipment/", eq, "equipment", eq_name,
           img_fn=lambda r: eq_img(r.get("equipmentID")))
 
     # Buildings split into decorations vs functional
-    _, _, bl = new_ids("buildings", "wodID", prev)
+    _, _, bl = new_ids("buildings", "wodID", prev, src)
     group("Decorations", "🎴", "../overview-decorations/", [b for b in bl if is_deco(b)], "deco", deco_name)
     group("Buildings", "🏛️", "../overview-buildings/", [b for b in bl if not is_deco(b)], "building", bld_name)
 
     # Construction items
-    _, _, ci = new_ids("constructionItems", "constructionItemID", prev)
+    _, _, ci = new_ids("constructionItems", "constructionItemID", prev, src)
     group("Construction Items", "🧩", "../overview-construction-items/", ci, "ci", ci_name)
 
     # Troops & tools
-    _, _, un = new_ids("units", "wodID", prev)
+    _, _, un = new_ids("units", "wodID", prev, src)
     group("Troops & Tools", "⚔️", "../overview-troops-tools/", un, "troops", unit_name)
 
     # Gacha events → the spin sim (group by base name)
-    _, _, ga = new_ids("gachaEvents", "gachaID", prev)
+    _, _, ga = new_ids("gachaEvents", "gachaID", prev, src)
     ga_names = {}
     for g in ga:
         nm = (g.get("comment1") or "Gacha").split(" - ")[0].strip()
@@ -166,7 +170,7 @@ def build_groups(prev):
                                   "note": f"{n} pull pools"} for nm, n in sorted(ga_names.items())]})
 
     # World-map skins (no overview to link to)
-    _, _, sk = new_ids("worldmapskins", "worldmapskinID", prev)
+    _, _, sk = new_ids("worldmapskins", "worldmapskinID", prev, src)
     sk_names = [s.get("comment1") or s.get("name") for s in sk if (s.get("comment1") or s.get("name"))]
     if sk_names:
         groups.append({"category": "Map Skins", "icon": "🗺️", "link": None,
@@ -183,8 +187,12 @@ def _q(s):
 def headline(groups):
     blob = json.dumps(groups).lower()
     total = sum(len(g["items"]) for g in groups)
-    if "anniversary" in blob or "festive" in blob or "firework" in blob:
+    # "festive"/"firework" are unique to the 2026 anniversary; bare "anniversary"
+    # also matches legacy year-N decos, so don't tag on that alone.
+    if "firework" in blob or "festive" in blob or "anniversary gateway" in blob or "anniversary gacha" in blob:
         return "🎉 Anniversary update", total
+    if "riftsliver" in blob or "riftshiver" in blob:
+        return "🌀 Rift update", total
     return "✨ Game update", total
 
 
