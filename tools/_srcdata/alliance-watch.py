@@ -65,8 +65,22 @@ PURPLE = 0xc084fc   # rename
 GOLD   = 0xfbbf24   # shield up
 ORANGE = 0xf59e0b   # shield ending within 24h
 
-CASTLE_TYPES = {1: "Main castle", 4: "Outpost", 22: "Capital", 23: "Metropolis",
-                26: "Kingdom castle", 3: "Royal tower"}
+# gge-tracker passes the game's own areaType straight through, so these ids are
+# the client's AREA_TYPE_* enum (ggs.dll) and the names are the English lang
+# bundle's. Verified 2026-08-16 against a live sighting: Noob on Crack dropped a
+# Royal tower and the feed reported 23 = AREA_TYPE_KINGS_TOWER.
+# Capital / Metropolis / Royal tower used to be rotated among 3, 22 and 23, and
+# 26 was labelled Kingdom castle when that's 12 — 26 is a Monument.
+CASTLE_TYPES = {
+    1:  "Main castle",       # AREA_TYPE_CASTLE
+    3:  "Capital",           # AREA_TYPE_CAPITAL
+    4:  "Outpost",           # AREA_TYPE_OUTPOST
+    12: "Kingdom castle",    # AREA_TYPE_KINGDOM_CASTLE
+    22: "Metropolis",        # AREA_TYPE_METROPOL
+    23: "Royal tower",       # AREA_TYPE_KINGS_TOWER
+    26: "Monument",          # AREA_TYPE_MONUMENT
+    28: "Laboratory",        # AREA_TYPE_LABORATORY
+}
 
 
 def castle_name(t):
@@ -216,12 +230,13 @@ def to_movement_embed(r):
     nx, ny = r.get("position_x_new"), r.get("position_y_new")
     old = f"{ox}:{oy}" if ox is not None else "?"
     new = f"{nx}:{ny}" if nx is not None else "?"
+    a = "an" if ct[:1].lower() in "aeiou" else "a"      # "an Outpost", not "a Outpost"
     if mt in ("relocate", "relocation", "move"):
-        title, desc, color = f"↗️ {name} relocated a {ct}", f"{old} → **{new}**", BLUE
+        title, desc, color = f"↗️ {name} relocated {a} {ct}", f"{old} → **{new}**", BLUE
     elif mt in ("remove", "delete"):
-        title, desc, color = f"💥 {name} removed a {ct}", f"was at {old}", RED
+        title, desc, color = f"💥 {name} removed {a} {ct}", f"was at {old}", RED
     elif mt in ("add", "create", "place"):
-        title, desc, color = f"🏰 {name} placed a {ct}", f"at **{new}**", GREEN
+        title, desc, color = f"🏰 {name} placed {a} {ct}", f"at **{new}**", GREEN
     else:
         title, desc, color = f"🏰 {name} — {ct} ({mt})", f"{old} → {new}", BLUE
     return {"title": title, "description": desc, "color": color,
@@ -269,7 +284,15 @@ def shield_dropped_embed(name, might=None):
 #     cycle. First run for a feed records a baseline and posts nothing. ---------
 def _watermarked(state, key, rows, ts_of, embed_of):
     rows.sort(key=lambda r: parse_ts(ts_of(r)))
-    newest = ts_of(rows[-1]) if rows else state.get(key)
+    prev = state.get(key)
+    newest = ts_of(rows[-1]) if rows else prev
+    # A watermark must only ever move forward. These feeds are filtered by the
+    # player's *current* alliance, so when someone leaves, their rows leave the
+    # feed with them — and the newest row we can still see drops back to an
+    # older one. Letting that rewind the watermark means everything above it
+    # re-posts the moment they rejoin and their history reappears.
+    if prev and newest and parse_ts(newest) < parse_ts(prev):
+        newest = prev
 
     def commit(st):
         if newest:
@@ -303,12 +326,52 @@ def feed_movements(state):
                         lambda r: r.get("created_at"), to_movement_embed)
 
 
+RENAME_SEEN_CAP = 400            # ~2 years of this feed; state stays a few KB
+
+
+def _rename_key(r):
+    """Stable identity for one rename row — the feed gives us no id of its own."""
+    return "|".join(str(r.get(k) or "")
+                    for k in ("date", "old_player_name", "new_player_name"))
+
+
 def feed_renames(state):
-    data = api_get("server/renames?page=1")      # global feed — filter to us
-    rows = [r for r in (data.get("renames", []) or [])
-            if str(r.get("alliance_name")) == ALLIANCE_NAME]
-    return _watermarked(state, "rn_watermark", rows,
-                        lambda r: r.get("date"), to_rename_embed)
+    """Renames of our members — but only ones that happen *while* they're ours.
+
+    The upstream feed's `alliance_name` is the player's alliance right now, not
+    the one they were in when they renamed. So the day someone joins us, their
+    entire rename history retroactively lands in our slice of the feed at once —
+    which is why a serial rejoiner (Krakatoa, whose chain runs BiggieOFC →
+    ZARVYX → ANDRE THE GIANT → Krakatoa) used to re-announce every old name.
+
+    A timestamp watermark can't fix that on its own, because those rows are
+    genuinely new *to us* each time. So we remember rows by identity instead,
+    and we mark the whole global feed seen rather than just our slice: a rename
+    that happened while the player was somewhere else is already on the list by
+    the time they walk in the door, and stays quiet. Only a rename we've never
+    seen before, on someone already flying our tag, pings.
+    """
+    data = api_get("server/renames?page=1")      # global feed — sparse; one page
+    rows = data.get("renames", []) or []
+    seen = set(state.get("rn_seen") or [])
+    first = "rn_seen" not in state               # first run — baseline only
+
+    ours = [r for r in rows if str(r.get("alliance_name")) == ALLIANCE_NAME]
+    ours.sort(key=lambda r: parse_ts(r.get("date")))
+    fresh = [] if first else [r for r in ours if _rename_key(r) not in seen]
+
+    # Newest first, so the cap prunes from the far end of history. The feed
+    # turns over a handful of rows a month, so a cap this far above one page
+    # can never evict something still visible upstream.
+    keys = [_rename_key(r) for r in sorted(rows, key=lambda r: parse_ts(r.get("date")),
+                                           reverse=True)]
+    kept = keys + [k for k in (state.get("rn_seen") or []) if k not in set(keys)]
+
+    def commit(st):
+        st["rn_seen"] = kept[:RENAME_SEEN_CAP]
+        st.pop("rn_watermark", None)             # superseded by rn_seen
+
+    return [to_rename_embed(r) for r in fresh], commit
 
 
 # Shields, honour and might all diff the same roster — fetch it once per run.
