@@ -4,9 +4,19 @@ name: Anti Black Souls — joins/leaves watch
 # webhook on any new join/leave. State (the last-posted timestamp) is kept in
 # the Actions cache, so this never commits to main and adds no history noise.
 on:
-  # Hourly. GitHub's free cron can drift a few minutes under load — fine here.
+  # Timed against gge-tracker, not against the clock. Its crawler publishes once
+  # an hour at ~:20 — every event timestamp in the movements and renames feeds
+  # lands at :20 or :21, around the clock — so polling more often than hourly
+  # just re-reads the same rows. What DID cost us was polling at :05, 45 minutes
+  # after the crawl we were reading; :30 collects the same data ~9 minutes after
+  # it lands, and dodges the top-of-hour queue that delays scheduled jobs.
+  #
+  # The :50 run is a backstop, not extra freshness: transient upstream 522s make
+  # a feed skip its cycle, and GitHub drops scheduled runs under load, so this
+  # retries within the hour instead of leaving a 60-minute hole. It posts
+  # nothing when the :30 run already succeeded — state is per-row, not per-run.
   schedule:
-    - cron: "5 * * * *"
+    - cron: "30,50 * * * *"
   # Manual button in the Actions tab for testing.
   workflow_dispatch:
 
