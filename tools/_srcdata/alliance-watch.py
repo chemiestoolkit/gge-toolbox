@@ -35,6 +35,11 @@ import time
 import urllib.request
 import urllib.error
 from datetime import datetime, timezone
+try:
+    from zoneinfo import ZoneInfo
+    _SYD, _UK = ZoneInfo("Australia/Sydney"), ZoneInfo("Europe/London")
+except Exception:                       # no tzdata — fall back to Discord's local render only
+    _SYD = _UK = None
 
 # --- what we watch -----------------------------------------------------------
 API = "https://api.gge-tracker.com/api/v1/"
@@ -145,19 +150,24 @@ def fmt_might(v):
     return str(int(n))
 
 
-def to_embed(u):
-    """One Discord embed per movement. Green = joined us, red = left us."""
+def to_embed(u, hitlist=None):
+    """One Discord embed per movement. Green = joined us, red = left us.
+    A departure by a hit-list member (someone on the roster when we snapshotted
+    it) is flagged — they stay a target wherever they go."""
     left = str(u.get("old_alliance_id")) == ALLIANCE_ID
     name = u.get("player_name") or ("#" + str(u.get("player_id")))
     might = fmt_might(u.get("might_current"))
     lvl = u.get("level")
     leg = u.get("legendary_level")
     lvl_str = f"{lvl}" + (f" / L{leg}" if leg else "")
+    on_hitlist = left and hitlist and str(u.get("player_id")) in hitlist
     if left:
         dest = u.get("new_alliance_name") or "no alliance"
-        title = f"📤 {name} left {ALLIANCE_NAME}"
+        title = ("🎯 HIT LIST — " if on_hitlist else "📤 ") + f"{name} left {ALLIANCE_NAME}"
         desc = f"→ joined **{dest}**"
-        color = RED
+        if on_hitlist:
+            desc += "\n_On the hit list — still a target._"
+        color = 0xef4444 if on_hitlist else RED
     else:
         src = u.get("old_alliance_name") or "no alliance"
         title = f"📥 {name} joined {ALLIANCE_NAME}"
@@ -258,17 +268,33 @@ def _rel(until):
         return str(until)
 
 
+def local_times(until):
+    """'6:30 pm AEST · 9:30 am BST' for a timestamp, so the exact drop time reads
+    in both the alliance's zones. Empty string if tzdata isn't available."""
+    if not (_SYD and _UK):
+        return ""
+    try:
+        dt = parse_ts(until)
+        fmt = "%-I:%M %p %Z"
+        return f"{dt.astimezone(_SYD).strftime(fmt)} · {dt.astimezone(_UK).strftime(fmt)} UK"
+    except Exception:
+        return ""
+
+
 def shield_up_embed(p, until):
     name = p.get("player_name") or ("#" + str(p.get("player_id")))
+    lt = local_times(until)
     return {"title": f"🛡️ {name} went shielded",
-            "description": f"Attackable again {_rel(until)}", "color": GOLD,
+            "description": f"Attackable again {_rel(until)}" + (f"\n🕐 {lt}" if lt else ""), "color": GOLD,
             "fields": [{"name": "Might", "value": fmt_might(p.get("might_current")), "inline": True}]}
 
 
 def shield_expiring_embed(p, until):
     name = p.get("player_name") or ("#" + str(p.get("player_id")))
+    lt = local_times(until)
     return {"title": f"⏳ {name}'s shield ends within 24h",
-            "description": f"Attackable {_rel(until)} — line up the hit.", "color": ORANGE,
+            "description": f"Attackable {_rel(until)} — line up the hit." + (f"\n🕐 {lt}" if lt else ""),
+            "color": ORANGE,
             "fields": [{"name": "Might", "value": fmt_might(p.get("might_current")), "inline": True}]}
 
 
@@ -306,9 +332,25 @@ def _watermarked(state, key, rows, ts_of, embed_of):
 
 
 def feed_members(state):
+    hitlist = state.get("hitlist") or {}
     data = api_get(f"updates/alliances/{ALLIANCE_ID}/players")
     return _watermarked(state, "watermark", data.get("updates", []) or [],
-                        lambda u: u.get("created_at"), to_embed)
+                        lambda u: u.get("created_at"), lambda u: to_embed(u, hitlist))
+
+
+def feed_hitlist(state):
+    # Snapshot the CURRENT roster once as the permanent hit list: everyone in the
+    # alliance at this moment stays a target if they ever leave, wherever they go.
+    # Captured on the first run and never changed (later joiners aren't on it).
+    if state.get("hitlist"):
+        return [], (lambda st: None)
+    roster = get_roster()
+    snap = {str(p.get("player_id")): (p.get("player_name") or "")
+            for p in roster if p.get("player_id")}
+
+    def commit(st):
+        st["hitlist"] = snap
+    return [], commit
 
 
 def feed_movements(state):
@@ -512,9 +554,9 @@ def feed_might(state):
                              lambda old, new: abs(new - old) >= MIGHT_THRESHOLD)
 
 
-FEEDS = [("members", feed_members), ("castle movements", feed_movements),
-         ("renames", feed_renames), ("shields", feed_shields),
-         ("honour", feed_honour), ("might", feed_might)]
+FEEDS = [("hit list", feed_hitlist), ("members", feed_members),
+         ("castle movements", feed_movements), ("renames", feed_renames),
+         ("shields", feed_shields), ("honour", feed_honour), ("might", feed_might)]
 
 
 def main():
