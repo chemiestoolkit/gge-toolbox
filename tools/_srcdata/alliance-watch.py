@@ -34,6 +34,7 @@ import sys
 import time
 import urllib.request
 import urllib.error
+from urllib.parse import quote
 from datetime import datetime, timezone
 try:
     from zoneinfo import ZoneInfo
@@ -46,6 +47,11 @@ API = "https://api.gge-tracker.com/api/v1/"
 SERVER = "AU1"
 ALLIANCE_ID = "3069045"          # Black Souls (the big one, merged w/ Renegades)
 ALLIANCE_NAME = "Black Souls"
+
+# Named hit-list targets tracked individually wherever they roam (any alliance).
+# Add a player's exact in-game name here to watch their shields, alliance moves
+# and big might swings even though they're not in Black Souls.
+MANUAL_TARGETS = ["Trotsky", "Halt Arratay", "MementoAS"]
 
 STATE_PATH = os.environ.get("WATCH_STATE",
     os.path.join(os.path.dirname(__file__), "cache", "alliance-watch-state.json"))
@@ -304,6 +310,14 @@ def shield_dropped_embed(name, might=None):
             "description": "Now attackable.", "color": GREEN, "fields": fields}
 
 
+def target_moved_embed(p, old_ally):
+    name = p.get("player_name") or "?"
+    new = p.get("alliance_name") or "no alliance"
+    return {"title": f"🎯 {name} switched alliance",
+            "description": f"**{old_ally or '—'}** → **{new}**", "color": PURPLE,
+            "fields": [{"name": "Might", "value": fmt_might(p.get("might_current")), "inline": True}]}
+
+
 # --- feeds: each returns (embeds, commit_fn). commit_fn advances that feed's
 #     slice of state, and is only called once Discord has accepted the post. A
 #     feed that hits a transient upstream error just raises and is skipped this
@@ -554,9 +568,76 @@ def feed_might(state):
                              lambda old, new: abs(new - old) >= MIGHT_THRESHOLD)
 
 
+def feed_manual_targets(state):
+    # Poll each named target individually (any alliance) and report hit-list
+    # signals: alliance moves, shields (new / last 24h / dropped) and 4M+ might
+    # swings. Per-target state {alliance, might, until, warned24}; first run
+    # baselines silently.
+    if not MANUAL_TARGETS:
+        return [], (lambda st: None)
+    now = datetime.now(timezone.utc)
+    prev = state.get("targets") or {}
+    first = "targets" not in state
+
+    def future(v):
+        try:
+            return bool(v) and parse_ts(v) > now
+        except Exception:
+            return False
+
+    def hours_left(v):
+        try:
+            return (parse_ts(v) - now).total_seconds() / 3600.0
+        except Exception:
+            return -1
+
+    cur, embeds = {}, []
+    for nm in MANUAL_TARGETS:
+        try:
+            p = api_get("players/" + quote(nm))
+        except urllib.error.HTTPError as e:
+            if e.code == 404:
+                continue                      # not tracked / renamed — skip quietly
+            raise
+        if not isinstance(p, dict) or p.get("error"):
+            continue
+        key = nm.lower()
+        pe = prev.get(key) or {}
+        ally = p.get("alliance_name")
+        might = _to_int(p.get("might_current"))
+        until = p.get("peace_disabled_at")
+        shielded = future(until)
+        warned = pe.get("warned24", False)
+
+        if not first:
+            if pe.get("alliance") is not None and ally != pe.get("alliance"):
+                embeds.append(target_moved_embed(p, pe.get("alliance")))
+            om = pe.get("might")
+            if om is not None and might is not None and abs(might - om) >= MIGHT_THRESHOLD:
+                embeds.append(might_embed(p, om, might))
+            was_shielded = future(pe.get("until"))
+            if shielded and not was_shielded:
+                embeds.append(shield_up_embed(p, until)); warned = hours_left(until) <= 24
+            elif shielded and was_shielded:
+                if until != pe.get("until") and hours_left(until) > 24:
+                    warned = False
+                if hours_left(until) <= 24 and not warned:
+                    embeds.append(shield_expiring_embed(p, until)); warned = True
+            elif was_shielded and not shielded:
+                embeds.append(shield_dropped_embed(p.get("player_name") or nm, might))
+
+        cur[key] = {"alliance": ally, "might": might,
+                    "until": until if shielded else None, "warned24": warned if shielded else False}
+
+    def commit(st):
+        st["targets"] = cur
+    return embeds, commit
+
+
 FEEDS = [("hit list", feed_hitlist), ("members", feed_members),
          ("castle movements", feed_movements), ("renames", feed_renames),
-         ("shields", feed_shields), ("honour", feed_honour), ("might", feed_might)]
+         ("shields", feed_shields), ("honour", feed_honour), ("might", feed_might),
+         ("manual targets", feed_manual_targets)]
 
 
 def main():
