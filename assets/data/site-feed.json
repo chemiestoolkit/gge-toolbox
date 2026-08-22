@@ -151,6 +151,11 @@
   ],
   "news": [
     {
+      "date": "11 Aug 2026",
+      "title": "Upcoming Changes to the Rift Raid Leaderboard",
+      "url": "https://communityhub.goodgamestudios.com/2026/08/11/upcoming-changes-to-the-rift-raid-leaderboard/"
+    },
+    {
       "date": "10 Aug 2026",
       "title": "Chamber of Choices",
       "url": "https://communityhub.goodgamestudios.com/2026/08/10/elementor-13458/"
@@ -184,11 +189,6 @@
       "date": "2 Jul 2026",
       "title": "Rise Through the Divisions: The Biggest Rift Raid Update Yet",
       "url": "https://communityhub.goodgamestudios.com/2026/07/02/rise-through-the-divisions-the-biggest-rift-raid-update-yet/"
-    },
-    {
-      "date": "23 Jun 2026",
-      "title": "Bug: Castellan Set – Mead Unit Spawn Effect",
-      "url": "https://communityhub.goodgamestudios.com/2026/06/23/bug-castellan-set-mead-unit-spawn-effect/"
     }
   ],
   "newsUrl": "https://communityhub.goodgamestudios.com/newshube4k/",
@@ -270,6 +270,6 @@
       }
     ]
   },
-  "newsUpdated": "2026-08-21",
-  "eventsUpdated": "2026-08-21"
+  "newsUpdated": "2026-08-22",
+  "eventsUpdated": "2026-08-22"
 }
