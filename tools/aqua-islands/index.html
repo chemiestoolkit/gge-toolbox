@@ -20,16 +20,28 @@
     .ai-links a:hover { text-decoration: underline; }
     h2.ai-h { font-size: 1.05rem; margin: 22px 0 12px; display: flex; align-items: center; gap: 8px; }
 
-    .ai-vill { display: grid; grid-template-columns: repeat(auto-fill, minmax(210px, 1fr)); gap: 12px; }
-    .ai-v { background: var(--bg-elev-2); border: 1px solid var(--border-soft); border-radius: var(--radius);
-      padding: 12px 13px; }
-    .ai-v.aqua { border-color: rgba(90,169,217,.4); }
-    .ai-v-top { display: flex; align-items: center; gap: 9px; margin-bottom: 9px; }
-    .ai-v-top img { width: 30px; height: 30px; object-fit: contain; }
-    .ai-v-kind { font-weight: 700; color: var(--text); }
-    .ai-v-haul { font-size: 1.15rem; font-weight: 800; color: var(--gold-bright); }
-    .ai-v-rows { display: grid; grid-template-columns: auto 1fr; gap: 3px 10px; font-size: .76rem; margin-top: 7px; }
-    .ai-v-rows dt { color: var(--text-faint); } .ai-v-rows dd { margin: 0; text-align: right; color: var(--text-dim); }
+    /* Column-aligned village list — same scannable rows as the Storm Fort tracker. */
+    .ai-vill { display: flex; flex-direction: column; gap: 6px; }
+    .ai-vcols { display: grid; grid-template-columns: 1.4fr 1fr 1fr 1fr .7fr; gap: 14px; align-items: center; }
+    .ai-vhead { padding: 0 14px 6px; font-size: .64rem; letter-spacing: .04em; text-transform: uppercase; color: var(--text-faint); }
+    .ai-vhead .r { text-align: right; }
+    .ai-v { background: var(--bg-elev-2); border: 1px solid var(--border-soft); border-radius: var(--radius-sm);
+      padding: 11px 14px; transition: .12s; }
+    .ai-v:hover { border-color: var(--gold-dim); background: rgba(217,178,90,.04); }
+    .ai-v.aqua { border-left: 3px solid rgba(90,169,217,.6); }
+    .ai-v-top { display: flex; align-items: center; gap: 9px; }
+    .ai-v-top img { width: 28px; height: 28px; object-fit: contain; flex: none; }
+    .ai-v-kind { font-weight: 700; color: var(--text); font-size: .92rem; }
+    .ai-v-haul { font-size: 1.02rem; font-weight: 800; color: var(--gold-bright); font-variant-numeric: tabular-nums; }
+    .ai-v-haul .sub { display: block; font-size: .64rem; color: var(--text-faint); font-weight: 400; }
+    .ai-cell { font-size: .82rem; color: var(--text-dim); font-variant-numeric: tabular-nums; }
+    .ai-cell .sub { display: block; font-size: .64rem; color: var(--text-faint); }
+    .ai-cell.r { text-align: right; }
+    @media (max-width: 680px) {
+      .ai-vhead { display: none; }
+      .ai-vcols { grid-template-columns: 1fr 1fr; gap: 8px 14px; }
+      .ai-vcols > .ai-v-top { grid-column: 1 / -1; }
+    }
 
     .ai-toggle { display: inline-flex; border: 1px solid var(--border); border-radius: 99px; overflow: hidden; margin-left: auto; }
     .ai-toggle button { border: 0; background: var(--bg-elev-2); color: var(--text-dim); font-size: .74rem;
@@ -121,21 +133,22 @@
       });
 
     function renderVillages() {
+      const head = '<div class="ai-vcols ai-vhead"><span>Village</span><span>Haul</span>' +
+        '<span>Cargo pts</span><span>Occupation</span><span class="r">Cooldown</span></div>';
       const html = DATA.villages.map((v) => {
         const isAqua = v.kind === "Aquamarine";
-        const haul = isAqua ? num(v.aquamarine) + " aqua" : num(v.wood || v.stone) + " " + v.kind.toLowerCase();
+        const amt = isAqua ? num(v.aquamarine) : num(v.wood || v.stone);
+        const unit = isAqua ? "aquamarine" : v.kind.toLowerCase();
         const img = isAqua && DATA.icons.aquamarine ? '<img src="' + DATA.icons.aquamarine + '" alt="">' : "";
-        return '<div class="ai-v' + (isAqua ? " aqua" : "") + '">' +
+        return '<div class="ai-v ai-vcols' + (isAqua ? " aqua" : "") + '">' +
           '<div class="ai-v-top">' + img + '<span class="ai-v-kind">' + esc(v.kind) + " village</span></div>" +
-          '<div class="ai-v-haul">' + haul + "</div>" +
-          '<dl class="ai-v-rows">' +
-            (isAqua ? "<dt>Cargo pts</dt><dd>" + num(v.cargo) + " (±" + num(v.cargoVar) + ")</dd>" : "") +
-            "<dt>Occupation</dt><dd>" + hrs(v.occupation) + "</dd>" +
-            "<dt>Cooldown</dt><dd>" + hrs(v.cooldown) + "</dd>" +
-            "<dt>Guards</dt><dd>" + num(v.guards) + "</dd>" +
-          "</dl></div>";
+          '<div class="ai-v-haul">' + amt + '<span class="sub">' + unit + "</span></div>" +
+          '<div class="ai-cell">' + (isAqua ? num(v.cargo) + '<span class="sub">±' + num(v.cargoVar) + "</span>" : "—") + "</div>" +
+          '<div class="ai-cell">' + hrs(v.occupation) + '<span class="sub">' + num(v.guards) + " guards</span></div>" +
+          '<div class="ai-cell r">' + hrs(v.cooldown) + "</div>" +
+          "</div>";
       }).join("");
-      document.getElementById("villages").innerHTML = '<div class="ai-vill">' + html + "</div>";
+      document.getElementById("villages").innerHTML = head + '<div class="ai-vill">' + html + "</div>";
     }
 
     function rw(r) {

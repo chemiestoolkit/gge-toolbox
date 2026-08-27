@@ -15,30 +15,43 @@
   <link rel="stylesheet" href="../../assets/css/theme.css?v=15" />
   <link rel="icon" type="image/png" href="../../assets/img/favicon.png" />
   <style>
-    .sf-intro { display: flex; flex-wrap: wrap; gap: 10px; margin-bottom: 14px; }
+    .sf-intro { display: flex; flex-wrap: wrap; gap: 10px; margin-bottom: 16px; }
     .sf-intro .stat { flex: 1 1 150px; }
-    .sf-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 14px; }
-    .sf-fort { background: var(--bg-elev-2); border: 1px solid var(--border-soft);
-      border-radius: var(--radius); padding: 14px 15px; }
-    .sf-top { display: flex; align-items: baseline; justify-content: space-between; gap: 8px; margin-bottom: 10px; }
-    .sf-tier { font-size: 1.05rem; font-weight: 800; color: var(--text); }
-    .sf-vic { font-size: .68rem; font-variant-numeric: tabular-nums; color: var(--gold-bright);
-      background: rgba(217,178,90,.1); border: 1px solid var(--border-soft); border-radius: 99px; padding: 3px 9px; }
-    .sf-haul { display: flex; align-items: center; gap: 10px; padding: 9px 10px; margin-bottom: 11px;
-      background: var(--bg-elev); border-radius: var(--radius-sm); }
-    .sf-haul img { width: 34px; height: 34px; object-fit: contain; flex: none; }
-    .sf-haul .big { font-size: 1.15rem; font-weight: 800; color: var(--text); line-height: 1; }
-    .sf-haul .sub { font-size: .7rem; color: var(--text-faint); margin-top: 3px; }
-    .sf-cargo { margin-left: auto; text-align: right; }
-    .sf-cargo .big { font-size: 1rem; color: var(--gold-bright); }
-    .sf-rows { display: grid; grid-template-columns: auto 1fr; gap: 4px 12px; font-size: .8rem; }
-    .sf-rows dt { color: var(--text-faint); }
-    .sf-rows dd { margin: 0; color: var(--text-dim); text-align: right; font-variant-numeric: tabular-nums; }
-    .sf-def { display: flex; flex-wrap: wrap; gap: 5px; margin-top: 10px; }
-    .sf-def .pill { font-size: .68rem; background: var(--bg-elev); border: 1px solid var(--border-soft);
-      border-radius: 99px; padding: 3px 8px; color: var(--text-dim); }
+
+    /* Column-aligned list — reads like the Fortress Tracker table, one fort per row. */
+    .sf-list { display: flex; flex-direction: column; gap: 6px; }
+    .sf-cols { display: grid; grid-template-columns: 96px 1.3fr 1fr 1.9fr 96px; gap: 14px; align-items: center; }
+    .sf-head { padding: 0 14px 6px; font-size: .64rem; letter-spacing: .04em; text-transform: uppercase;
+      color: var(--text-faint); }
+    .sf-head span { display: block; }
+    .sf-head .r { text-align: right; }
+    .sf-row { background: var(--bg-elev-2); border: 1px solid var(--border-soft); border-radius: var(--radius-sm);
+      padding: 11px 14px; transition: .12s; }
+    .sf-row:hover { border-color: var(--gold-dim); background: rgba(217,178,90,.04); }
+
+    .sf-lv { font-size: 1rem; font-weight: 800; color: var(--text); line-height: 1.15; }
+    .sf-vic { font-size: .64rem; font-variant-numeric: tabular-nums; color: var(--gold-bright); }
+    .sf-metric { display: flex; align-items: center; gap: 8px; }
+    .sf-metric img { width: 30px; height: 30px; object-fit: contain; flex: none; }
+    .sf-metric .big { font-size: 1.02rem; font-weight: 800; color: var(--text); line-height: 1.1;
+      font-variant-numeric: tabular-nums; }
+    .sf-metric .sub { font-size: .66rem; color: var(--text-faint); margin-top: 2px; }
+    .sf-metric.cargo .big { color: var(--gold-bright); }
+    .sf-def { display: flex; flex-wrap: wrap; gap: 5px; }
+    .sf-def .pill { font-size: .67rem; background: var(--bg-elev); border: 1px solid var(--border-soft);
+      border-radius: 99px; padding: 2px 8px; color: var(--text-dim); white-space: nowrap; }
     .sf-def .pill b { color: var(--text); font-variant-numeric: tabular-nums; }
-    .sf-cd { margin-top: 10px; font-size: .72rem; color: var(--text-faint); display: flex; gap: 14px; }
+    .sf-cd { text-align: right; font-size: .74rem; font-variant-numeric: tabular-nums; }
+    .sf-cd b { color: var(--text); } .sf-cd .sub { font-size: .64rem; color: var(--text-faint); }
+
+    @media (max-width: 680px) {
+      .sf-head { display: none; }
+      .sf-cols { grid-template-columns: 1fr 1fr; gap: 10px 14px; }
+      .sf-cols > .sf-c-lv { grid-column: 1 / -1; display: flex; align-items: baseline; gap: 8px; }
+      .sf-cols > .sf-c-def { grid-column: 1 / -1; }
+      .sf-cd { text-align: left; }
+    }
+
     .sf-loading, .sf-empty { color: var(--text-faint); padding: 30px 4px; text-align: center; }
     .sf-links { margin: 4px 0 18px; font-size: .84rem; }
     .sf-links a { color: var(--gold); text-decoration: none; }
@@ -107,9 +120,13 @@
           stat(forts.length, "storm forts") +
           stat(num(Math.max(...forts.map((f) => f.loot.aquamarine))), "top aquamarine haul") +
           stat(num(Math.max(...forts.map((f) => f.loot.cargo))), "top cargo pts / hit");
-        root.innerHTML = '<div class="sf-grid">' + forts.map((f) => card(f, d.icons)).join("") + "</div>";
+        const head = '<div class="sf-cols sf-head">' +
+          '<span>Fort</span><span>Aquamarine</span><span>Cargo pts</span>' +
+          '<span>Defence · guards</span><span class="r">Cooldown</span></div>';
+        root.innerHTML = head + '<div class="sf-list">' + forts.map((f) => card(f, d.icons)).join("") + "</div>";
         document.getElementById("foot").textContent =
-          "Game data v" + (d.version || "?") + " · loot shown as base ± the roll variance the game applies.";
+          "Game data v" + (d.version || "?") + " · loot shown as base ± the roll variance the game applies. " +
+          "Global cooldown is shared by everyone; the shorter timer is your own re-hit wait.";
       })
       .catch((e) => { root.innerHTML = '<div class="sf-empty" style="color:var(--bad,#f87171)">Could not load: ' + esc(e.message) + "</div>"; });
 
@@ -121,33 +138,31 @@
     function card(f, icons) {
       const vic = f.victoryFrom != null ? "victories " + f.victoryFrom + "–" + f.victoryTo : "";
       const aquaImg = icons.aquamarine ? '<img src="' + icons.aquamarine + '" alt="">' : "";
-      const cargoImg = icons.cargo ? '<img src="' + icons.cargo + '" alt="" style="width:20px;height:20px;vertical-align:-4px">' : "";
-      return '<div class="sf-fort">' +
-        '<div class="sf-top"><span class="sf-tier">Fort · Lv ' + f.level + '</span>' +
-          (vic ? '<span class="sf-vic">' + vic + "</span>" : "") + "</div>" +
-        '<div class="sf-haul">' + aquaImg +
-          '<div><div class="big">' + band(f.loot.aquamarine, f.loot.aquamarineVar) + '</div>' +
-          '<div class="sub">aquamarine</div></div>' +
-          '<div class="sf-cargo"><div class="big">' + cargoImg + " " + band(f.loot.cargo, f.loot.cargoVar) + '</div>' +
-          '<div class="sub">cargo pts</div></div></div>' +
-        '<dl class="sf-rows">' +
-          row("Guards", num(f.guards)) +
-          row("Wood / Stone", num(f.loot.wood) + " / " + num(f.loot.stone)) +
-          row("Food", num(f.loot.food) + (f.loot.resVariancePct ? " (±" + f.loot.resVariancePct + "%)" : "")) +
-        "</dl>" +
-        '<div class="sf-def">' +
+      const cargoImg = icons.cargo ? '<img src="' + icons.cargo + '" alt="">' : "";
+      return '<div class="sf-row sf-cols">' +
+        // Fort id
+        '<div class="sf-c-lv"><div class="sf-lv">Lv ' + f.level + '</div>' +
+          (vic ? '<div class="sf-vic">' + vic + "</div>" : "") + "</div>" +
+        // Aquamarine (hero) + guards sub
+        '<div class="sf-metric">' + aquaImg + '<div><div class="big">' + band(f.loot.aquamarine, f.loot.aquamarineVar) +
+          '</div><div class="sub">' + num(f.guards) + ' guards</div></div></div>' +
+        // Cargo + food sub
+        '<div class="sf-metric cargo">' + cargoImg + '<div><div class="big">' + band(f.loot.cargo, f.loot.cargoVar) +
+          '</div><div class="sub">' + num(f.loot.wood) + ' wd · ' + num(f.loot.stone) + ' st</div></div></div>' +
+        // Defence pills
+        '<div class="sf-c-def sf-def">' +
           pill("Wall", f.wall.level, f.wall.bonus) +
           pill("Gate", f.gate.level, f.gate.bonus) +
           pill("Moat", f.moat.level, f.moat.bonus) +
           pill("Tower", f.tower.level, null) +
         "</div>" +
-        '<div class="sf-cd"><span>⏳ Global CD <b style="color:var(--text-dim)">' + hrs(f.cooldown.global) + "</b></span>" +
-          (f.cooldown.local ? '<span>You <b style="color:var(--text-dim)">' + hrs(f.cooldown.local) + "</b></span>" : "") + "</div>" +
+        // Cooldown
+        '<div class="sf-cd"><b>' + hrs(f.cooldown.global) + "</b>" +
+          (f.cooldown.local ? '<div class="sub">you ' + hrs(f.cooldown.local) + "</div>" : "") + "</div>" +
         "</div>";
     }
-    function row(k, v) { return "<dt>" + k + "</dt><dd>" + v + "</dd>"; }
     function pill(k, lvl, bonus) {
-      return '<span class="pill">' + k + " <b>L" + lvl + "</b>" + (bonus ? " · <b>+" + bonus + "%</b>" : "") + "</span>";
+      return '<span class="pill">' + k + " <b>L" + lvl + "</b>" + (bonus ? " +" + bonus + "%" : "") + "</span>";
     }
   </script>
 </body>
