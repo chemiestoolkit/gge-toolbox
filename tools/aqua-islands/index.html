@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Aqua Island Tracker — Maxy's Empire Toolkit</title>
+  <meta property="og:type" content="website" />
+  <meta property="og:site_name" content="Maxy's Empire Toolkit" />
+  <meta property="og:title" content="Aqua Island Tracker — Maxy's Empire Toolkit" />
+  <meta property="og:description" content="The Storm Islands aquamarine villages and the full cargo-point reward ladder — alliance and personal — decoded from the game files, with every deco, token and ruby payout." />
+  <meta property="og:url" content="https://chemiestoolkit.github.io/gge-toolbox/tools/aqua-islands/" />
+  <meta property="og:image" content="https://chemiestoolkit.github.io/gge-toolbox/assets/img/hero-banner.webp" />
+  <meta name="twitter:card" content="summary" />
+  <meta name="description" content="Goodgame Empire Storm Islands aquamarine villages plus the alliance and personal cargo-point reward ladders, decoded from the game data." />
+  <link rel="stylesheet" href="../../assets/css/theme.css?v=15" />
+  <link rel="icon" type="image/png" href="../../assets/img/favicon.png" />
+  <style>
+    .ai-links { margin: 4px 0 18px; font-size: .84rem; }
+    .ai-links a { color: var(--gold); text-decoration: none; }
+    .ai-links a:hover { text-decoration: underline; }
+    h2.ai-h { font-size: 1.05rem; margin: 22px 0 12px; display: flex; align-items: center; gap: 8px; }
+
+    .ai-vill { display: grid; grid-template-columns: repeat(auto-fill, minmax(210px, 1fr)); gap: 12px; }
+    .ai-v { background: var(--bg-elev-2); border: 1px solid var(--border-soft); border-radius: var(--radius);
+      padding: 12px 13px; }
+    .ai-v.aqua { border-color: rgba(90,169,217,.4); }
+    .ai-v-top { display: flex; align-items: center; gap: 9px; margin-bottom: 9px; }
+    .ai-v-top img { width: 30px; height: 30px; object-fit: contain; }
+    .ai-v-kind { font-weight: 700; color: var(--text); }
+    .ai-v-haul { font-size: 1.15rem; font-weight: 800; color: var(--gold-bright); }
+    .ai-v-rows { display: grid; grid-template-columns: auto 1fr; gap: 3px 10px; font-size: .76rem; margin-top: 7px; }
+    .ai-v-rows dt { color: var(--text-faint); } .ai-v-rows dd { margin: 0; text-align: right; color: var(--text-dim); }
+
+    .ai-toggle { display: inline-flex; border: 1px solid var(--border); border-radius: 99px; overflow: hidden; margin-left: auto; }
+    .ai-toggle button { border: 0; background: var(--bg-elev-2); color: var(--text-dim); font-size: .74rem;
+      padding: 5px 13px; cursor: pointer; }
+    .ai-toggle button.on { background: var(--gold); color: #1a1206; font-weight: 700; }
+
+    .ai-cols { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+    @media (max-width: 720px) { .ai-cols { grid-template-columns: 1fr; } }
+    .ai-ladder h3 { font-size: .9rem; margin: 0 0 10px; color: var(--text); }
+    .ai-rung { display: flex; gap: 11px; padding: 10px 0; border-top: 1px solid var(--border-soft); }
+    .ai-rung:first-of-type { border-top: 0; }
+    .ai-req { flex: none; width: 78px; text-align: right; }
+    .ai-req .cp { font-weight: 800; color: var(--gold-bright); font-variant-numeric: tabular-nums; font-size: .92rem; }
+    .ai-req .cp small { display: block; font-size: .62rem; color: var(--text-faint); font-weight: 400; }
+    .ai-req .top { font-size: .72rem; color: var(--gold-bright); font-weight: 700; }
+    .ai-rewards { display: flex; flex-wrap: wrap; gap: 6px; }
+    .ai-rw { display: flex; align-items: center; gap: 6px; background: var(--bg-elev-2);
+      border: 1px solid var(--border-soft); border-radius: var(--radius-sm); padding: 4px 9px 4px 5px; font-size: .78rem; }
+    .ai-rw img { width: 22px; height: 22px; object-fit: contain; flex: none; }
+    .ai-rw .em { width: 22px; text-align: center; font-size: 1rem; flex: none; }
+    .ai-rw b { color: var(--text); font-variant-numeric: tabular-nums; }
+    .ai-rw.deco { border-color: rgba(217,178,90,.4); }
+    .ai-rw small { color: var(--text-faint); font-size: .64rem; }
+    .ai-loading, .ai-empty { color: var(--text-faint); padding: 30px 4px; text-align: center; }
+  </style>
+</head>
+<body>
+  <header class="topbar">
+    <div class="wrap">
+      <a class="brand" href="../../"><span class="crest">🛡️</span> Maxy's Empire <b>Toolkit</b></a>
+    </div>
+  </header>
+
+  <main class="wrap">
+    <div class="tool-head">
+      <a class="back" href="../../">← All tools</a>
+      <h1>🌊 Aqua Island Tracker</h1>
+      <p>The Storm Islands aquamarine run — the occupiable <b>villages</b> you plunder for aquamarine
+        and cargo points, plus the full <b>cargo-point reward ladder</b> for both your alliance and you
+        personally, every deco, token and ruby payout decoded from the game files. Reworked ladder shown
+        by default; flip to the legacy one. Updates itself when GGS re-tunes the event.</p>
+    </div>
+
+    <p class="ai-links">
+      🌩️ <a href="../storm-forts/">Storm Fort tracker</a> ·
+      📊 <a href="../storm-islands/">Storm Islands leaderboard</a>
+    </p>
+
+    <section class="panel">
+      <h2 class="ai-h">🏝️ Aquamarine villages</h2>
+      <div id="villages"><div class="ai-loading">Loading…</div></div>
+    </section>
+
+    <section class="panel" style="margin-top:18px">
+      <h2 class="ai-h">🎁 Cargo-point reward ladder
+        <span class="ai-toggle" id="toggle">
+          <button data-set="current" class="on">Reworked</button>
+          <button data-set="legacy">Legacy</button>
+        </span>
+      </h2>
+      <div class="ai-cols">
+        <div class="ai-ladder"><h3>🤝 Alliance ladder</h3><div id="alliance"></div></div>
+        <div class="ai-ladder"><h3>👤 Personal ladder</h3><div id="personal"></div></div>
+      </div>
+      <p id="foot" style="color:var(--text-faint);font-size:.74rem;margin-top:14px"></p>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <div class="wrap"><p>Villages &amp; reward ladders decoded from the Goodgame Empire game data
+      (<code>isles</code>, <code>islandrewardranks</code>, <code>islandPlayerRewards</code>).
+      Game data &amp; art © Goodgame Studios.</p></div>
+  </footer>
+
+  <script>
+    const esc = (s) => String(s == null ? "" : s).replace(/[&<>"]/g, (c) =>
+      ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]));
+    const num = (v) => (v == null ? "—" : Number(v).toLocaleString());
+    const hrs = (sec) => { const h = sec / 3600; return (h % 1 === 0 ? h : h.toFixed(1)) + "h"; };
+    const EMOJI = { coins: "🪙", rubies: "💎" };
+    let DATA = null, curSet = "current";
+
+    fetch("data/aqua-islands.json?v=" + Date.now())
+      .then((r) => { if (!r.ok) throw new Error("HTTP " + r.status); return r.json(); })
+      .then((d) => { DATA = d; renderVillages(); renderLadder(); })
+      .catch((e) => {
+        document.getElementById("villages").innerHTML =
+          '<div class="ai-empty" style="color:var(--bad,#f87171)">Could not load: ' + esc(e.message) + "</div>";
+      });
+
+    function renderVillages() {
+      const html = DATA.villages.map((v) => {
+        const isAqua = v.kind === "Aquamarine";
+        const haul = isAqua ? num(v.aquamarine) + " aqua" : num(v.wood || v.stone) + " " + v.kind.toLowerCase();
+        const img = isAqua && DATA.icons.aquamarine ? '<img src="' + DATA.icons.aquamarine + '" alt="">' : "";
+        return '<div class="ai-v' + (isAqua ? " aqua" : "") + '">' +
+          '<div class="ai-v-top">' + img + '<span class="ai-v-kind">' + esc(v.kind) + " village</span></div>" +
+          '<div class="ai-v-haul">' + haul + "</div>" +
+          '<dl class="ai-v-rows">' +
+            (isAqua ? "<dt>Cargo pts</dt><dd>" + num(v.cargo) + " (±" + num(v.cargoVar) + ")</dd>" : "") +
+            "<dt>Occupation</dt><dd>" + hrs(v.occupation) + "</dd>" +
+            "<dt>Cooldown</dt><dd>" + hrs(v.cooldown) + "</dd>" +
+            "<dt>Guards</dt><dd>" + num(v.guards) + "</dd>" +
+          "</dl></div>";
+      }).join("");
+      document.getElementById("villages").innerHTML = '<div class="ai-vill">' + html + "</div>";
+    }
+
+    function rw(r) {
+      const icon = r.img ? '<img src="' + esc(r.img) + '" alt="">'
+        : '<span class="em">' + (EMOJI[r.icon] || "🎁") + "</span>";
+      const amt = r.amount != null ? " <b>×" + num(r.amount) + "</b>" : "";
+      const note = r.note ? ' <small>' + esc(r.note) + "</small>" : "";
+      return '<span class="ai-rw' + (r.kind === "deco" ? " deco" : "") + '">' + icon +
+        "<span>" + esc(r.label) + amt + note + "</span></span>";
+    }
+    function rung(x) {
+      const req = x.topX ? '<span class="top">Top ' + x.topX + "</span>"
+        : '<span class="cp">' + num(x.req) + "<small>cargo pts</small></span>";
+      return '<div class="ai-rung"><div class="ai-req">' + req + "</div>" +
+        '<div class="ai-rewards">' + x.rewards.map(rw).join("") + "</div></div>";
+    }
+    function renderLadder() {
+      const L = DATA.ladders[curSet] || { alliance: [], personal: [] };
+      const empty = '<div class="ai-empty">No ladder in this set.</div>';
+      document.getElementById("alliance").innerHTML = L.alliance.length ? L.alliance.map(rung).join("") : empty;
+      document.getElementById("personal").innerHTML = L.personal.length ? L.personal.map(rung).join("") : empty;
+      document.getElementById("foot").textContent =
+        "Game data v" + (DATA.version || "?") + " · " +
+        (curSet === "current" ? "Reworked ladder (per-member + alliance-funds split)." : "Legacy ladder.");
+    }
+
+    document.getElementById("toggle").addEventListener("click", (e) => {
+      const b = e.target.closest("button"); if (!b) return;
+      curSet = b.dataset.set;
+      document.querySelectorAll("#toggle button").forEach((x) => x.classList.toggle("on", x === b));
+      renderLadder();
+    });
+  </script>
+</body>
+</html>

@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Storm Fort Tracker — Maxy's Empire Toolkit</title>
+  <meta property="og:type" content="website" />
+  <meta property="og:site_name" content="Maxy's Empire Toolkit" />
+  <meta property="og:title" content="Storm Fort Tracker — Maxy's Empire Toolkit" />
+  <meta property="og:description" content="Every Storm Islands NPC fort decoded from the game files — castle level, guards, wall/gate/moat/tower defence, aquamarine + cargo-point loot and cooldowns, in victory-count order." />
+  <meta property="og:url" content="https://chemiestoolkit.github.io/gge-toolbox/tools/storm-forts/" />
+  <meta property="og:image" content="https://chemiestoolkit.github.io/gge-toolbox/assets/img/hero-banner.webp" />
+  <meta name="twitter:card" content="summary" />
+  <meta name="description" content="Goodgame Empire Storm Islands fort stats — level, guards, defence bonuses, aquamarine and cargo-point loot and cooldowns for every NPC storm fort, from the game data." />
+  <link rel="stylesheet" href="../../assets/css/theme.css?v=15" />
+  <link rel="icon" type="image/png" href="../../assets/img/favicon.png" />
+  <style>
+    .sf-intro { display: flex; flex-wrap: wrap; gap: 10px; margin-bottom: 14px; }
+    .sf-intro .stat { flex: 1 1 150px; }
+    .sf-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 14px; }
+    .sf-fort { background: var(--bg-elev-2); border: 1px solid var(--border-soft);
+      border-radius: var(--radius); padding: 14px 15px; }
+    .sf-top { display: flex; align-items: baseline; justify-content: space-between; gap: 8px; margin-bottom: 10px; }
+    .sf-tier { font-size: 1.05rem; font-weight: 800; color: var(--text); }
+    .sf-vic { font-size: .68rem; font-variant-numeric: tabular-nums; color: var(--gold-bright);
+      background: rgba(217,178,90,.1); border: 1px solid var(--border-soft); border-radius: 99px; padding: 3px 9px; }
+    .sf-haul { display: flex; align-items: center; gap: 10px; padding: 9px 10px; margin-bottom: 11px;
+      background: var(--bg-elev); border-radius: var(--radius-sm); }
+    .sf-haul img { width: 34px; height: 34px; object-fit: contain; flex: none; }
+    .sf-haul .big { font-size: 1.15rem; font-weight: 800; color: var(--text); line-height: 1; }
+    .sf-haul .sub { font-size: .7rem; color: var(--text-faint); margin-top: 3px; }
+    .sf-cargo { margin-left: auto; text-align: right; }
+    .sf-cargo .big { font-size: 1rem; color: var(--gold-bright); }
+    .sf-rows { display: grid; grid-template-columns: auto 1fr; gap: 4px 12px; font-size: .8rem; }
+    .sf-rows dt { color: var(--text-faint); }
+    .sf-rows dd { margin: 0; color: var(--text-dim); text-align: right; font-variant-numeric: tabular-nums; }
+    .sf-def { display: flex; flex-wrap: wrap; gap: 5px; margin-top: 10px; }
+    .sf-def .pill { font-size: .68rem; background: var(--bg-elev); border: 1px solid var(--border-soft);
+      border-radius: 99px; padding: 3px 8px; color: var(--text-dim); }
+    .sf-def .pill b { color: var(--text); font-variant-numeric: tabular-nums; }
+    .sf-cd { margin-top: 10px; font-size: .72rem; color: var(--text-faint); display: flex; gap: 14px; }
+    .sf-loading, .sf-empty { color: var(--text-faint); padding: 30px 4px; text-align: center; }
+    .sf-links { margin: 4px 0 18px; font-size: .84rem; }
+    .sf-links a { color: var(--gold); text-decoration: none; }
+    .sf-links a:hover { text-decoration: underline; }
+  </style>
+</head>
+<body>
+  <header class="topbar">
+    <div class="wrap">
+      <a class="brand" href="../../"><span class="crest">🛡️</span> Maxy's Empire <b>Toolkit</b></a>
+    </div>
+  </header>
+
+  <main class="wrap">
+    <div class="tool-head">
+      <a class="back" href="../../">← All tools</a>
+      <h1>🌩️ Storm Fort Tracker</h1>
+      <p>Every NPC <b>storm fort</b> on the Storm Islands, decoded straight from the game files —
+        castle level, guard count, wall/gate/moat/tower defence and the full aquamarine + cargo-point
+        loot table, listed in the order they appear as your <b>victory count</b> climbs. Loot shows the
+        base value and the ± variance band the game rolls within. Updates itself whenever GGS re-tunes
+        the forts.</p>
+    </div>
+
+    <p class="sf-links">
+      🌊 <a href="../aqua-islands/">Aqua Island tracker</a> ·
+      📊 <a href="../storm-islands/">Storm Islands leaderboard</a>
+    </p>
+
+    <section class="panel">
+      <div class="sf-intro" id="intro"></div>
+      <div id="root"><div class="sf-loading">Loading storm forts…</div></div>
+      <p class="vip-credit" id="foot" style="color:var(--text-faint);font-size:.74rem;margin-top:12px"></p>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <div class="wrap"><p>Fort stats decoded from the Goodgame Empire game data (<code>isles</code>).
+      Game data &amp; art © Goodgame Studios.</p></div>
+  </footer>
+
+  <script>
+    const esc = (s) => String(s == null ? "" : s).replace(/[&<>"]/g, (c) =>
+      ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]));
+    const num = (v) => (v == null ? "—" : Number(v).toLocaleString());
+    const root = document.getElementById("root");
+
+    function hrs(sec) {
+      if (!sec) return "—";
+      const h = sec / 3600;
+      return (h % 1 === 0 ? h : h.toFixed(1)) + "h";
+    }
+    function band(base, varc) {
+      if (!base) return "—";
+      if (!varc) return num(base);
+      return num(base - varc) + "–" + num(base + varc);
+    }
+
+    fetch("data/storm-forts.json?v=" + Date.now())
+      .then((r) => { if (!r.ok) throw new Error("HTTP " + r.status); return r.json(); })
+      .then((d) => {
+        const forts = d.forts || [];
+        if (!forts.length) { root.innerHTML = '<div class="sf-empty">No storm forts in the current game data.</div>'; return; }
+        const totAqua = forts.reduce((s, f) => s + (f.loot.aquamarine || 0), 0);
+        document.getElementById("intro").innerHTML =
+          stat(forts.length, "storm forts") +
+          stat(num(Math.max(...forts.map((f) => f.loot.aquamarine))), "top aquamarine haul") +
+          stat(num(Math.max(...forts.map((f) => f.loot.cargo))), "top cargo pts / hit");
+        root.innerHTML = '<div class="sf-grid">' + forts.map((f) => card(f, d.icons)).join("") + "</div>";
+        document.getElementById("foot").textContent =
+          "Game data v" + (d.version || "?") + " · loot shown as base ± the roll variance the game applies.";
+      })
+      .catch((e) => { root.innerHTML = '<div class="sf-empty" style="color:var(--bad,#f87171)">Could not load: ' + esc(e.message) + "</div>"; });
+
+    function stat(v, label) {
+      return '<div class="stat"><div class="stat-num" style="font-size:1.3rem;font-weight:800;color:var(--gold-bright)">' +
+        v + '</div><div class="stat-label" style="font-size:.72rem;color:var(--text-faint)">' + label + "</div></div>";
+    }
+
+    function card(f, icons) {
+      const vic = f.victoryFrom != null ? "victories " + f.victoryFrom + "–" + f.victoryTo : "";
+      const aquaImg = icons.aquamarine ? '<img src="' + icons.aquamarine + '" alt="">' : "";
+      const cargoImg = icons.cargo ? '<img src="' + icons.cargo + '" alt="" style="width:20px;height:20px;vertical-align:-4px">' : "";
+      return '<div class="sf-fort">' +
+        '<div class="sf-top"><span class="sf-tier">Fort · Lv ' + f.level + '</span>' +
+          (vic ? '<span class="sf-vic">' + vic + "</span>" : "") + "</div>" +
+        '<div class="sf-haul">' + aquaImg +
+          '<div><div class="big">' + band(f.loot.aquamarine, f.loot.aquamarineVar) + '</div>' +
+          '<div class="sub">aquamarine</div></div>' +
+          '<div class="sf-cargo"><div class="big">' + cargoImg + " " + band(f.loot.cargo, f.loot.cargoVar) + '</div>' +
+          '<div class="sub">cargo pts</div></div></div>' +
+        '<dl class="sf-rows">' +
+          row("Guards", num(f.guards)) +
+          row("Wood / Stone", num(f.loot.wood) + " / " + num(f.loot.stone)) +
+          row("Food", num(f.loot.food) + (f.loot.resVariancePct ? " (±" + f.loot.resVariancePct + "%)" : "")) +
+        "</dl>" +
+        '<div class="sf-def">' +
+          pill("Wall", f.wall.level, f.wall.bonus) +
+          pill("Gate", f.gate.level, f.gate.bonus) +
+          pill("Moat", f.moat.level, f.moat.bonus) +
+          pill("Tower", f.tower.level, null) +
+        "</div>" +
+        '<div class="sf-cd"><span>⏳ Global CD <b style="color:var(--text-dim)">' + hrs(f.cooldown.global) + "</b></span>" +
+          (f.cooldown.local ? '<span>You <b style="color:var(--text-dim)">' + hrs(f.cooldown.local) + "</b></span>" : "") + "</div>" +
+        "</div>";
+    }
+    function row(k, v) { return "<dt>" + k + "</dt><dd>" + v + "</dd>"; }
+    function pill(k, lvl, bonus) {
+      return '<span class="pill">' + k + " <b>L" + lvl + "</b>" + (bonus ? " · <b>+" + bonus + "%</b>" : "") + "</span>";
+    }
+  </script>
+</body>
+</html>
