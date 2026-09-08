@@ -1,5 +1,5 @@
 {
-  "generated": "2026-09-07T21:51:00Z",
+  "generated": "2026-09-08T12:05:30Z",
   "events": [
     {
       "eventID": 36,
@@ -8674,1102 +8674,904 @@
           "maxLevel": 1020,
           "milestones": [
             {
-              "points": 200,
+              "points": 10,
               "name": "Raid Ladder 60%",
               "type": "Units",
               "amount": null
             },
             {
-              "points": 400,
+              "points": 20,
+              "name": "Rift Coin",
+              "type": "Resource",
+              "amount": 84
+            },
+            {
+              "points": 30,
               "name": "Shield-maiden",
+              "type": "Units",
+              "amount": null
+            },
+            {
+              "points": 40,
+              "name": "Rift Coin",
+              "type": "Resource",
+              "amount": 100
+            },
+            {
+              "points": 50,
+              "name": "Sundial of the cunning",
+              "type": "Equipment",
+              "amount": 1
+            },
+            {
+              "points": 75,
+              "name": "Raid Ladder 60%",
+              "type": "Units",
+              "amount": null
+            },
+            {
+              "points": 100,
+              "name": "Rift Coin",
+              "type": "Resource",
+              "amount": 84
+            },
+            {
+              "points": 125,
+              "name": "Shield-maiden",
+              "type": "Units",
+              "amount": null
+            },
+            {
+              "points": 150,
+              "name": "Rift Coin",
+              "type": "Resource",
+              "amount": 100
+            },
+            {
+              "points": 170,
+              "name": "Bronze Sporeguard Chrono-Vial (All Sides)",
+              "type": "Units",
+              "amount": null
+            },
+            {
+              "points": 250,
+              "name": "Raid Ram 60%",
+              "type": "Units",
+              "amount": 10
+            },
+            {
+              "points": 300,
+              "name": "Shield-maiden",
+              "type": "Units",
+              "amount": 600
+            },
+            {
+              "points": 350,
+              "name": "Valkyrie ranger",
+              "type": "Units",
+              "amount": 600
+            },
+            {
+              "points": 400,
+              "name": "Bronze Sporeguard Chrono-Vial (All Sides)",
+              "type": "Units",
+              "amount": 1
+            },
+            {
+              "points": 450,
+              "name": "Raid Ladder 60%",
               "type": "Units",
               "amount": null
             },
             {
               "points": 600,
-              "name": "Sundial of the cunning",
-              "type": "Equipment",
-              "amount": 1
+              "name": "Rift Coin",
+              "type": "Resource",
+              "amount": 83
             },
             {
-              "points": 2000,
-              "name": "Raid Ladder 80%",
-              "type": "Units",
-              "amount": null
-            },
-            {
-              "points": 3300,
-              "name": "Graveguard Potion",
-              "type": "Units",
-              "amount": 4
-            },
-            {
-              "points": 4700,
+              "points": 750,
               "name": "Shield-maiden",
               "type": "Units",
               "amount": null
             },
             {
-              "points": 6000,
-              "name": "Silver Sporeguard Chrono-Vial (All Sides)",
-              "type": "Units",
-              "amount": 5
-            },
-            {
-              "points": 7500,
+              "points": 900,
               "name": "Rift Coin",
               "type": "Resource",
               "amount": 100
             },
             {
-              "points": 9000,
-              "name": "Construction Item",
-              "type": "Construction",
+              "points": 1100,
+              "name": "Raid Ladder 60%",
+              "type": "Units",
+              "amount": 28
+            },
+            {
+              "points": 1200,
+              "name": "Raid Ram 60%",
+              "type": "Units",
+              "amount": 10
+            },
+            {
+              "points": 1500,
+              "name": "Shield-maiden",
+              "type": "Units",
+              "amount": 600
+            },
+            {
+              "points": 1700,
+              "name": "Valkyrie ranger",
+              "type": "Units",
+              "amount": 600
+            },
+            {
+              "points": 2000,
+              "name": "Bronze Sporeguard Chrono-Vial (All Sides)",
+              "type": "Units",
               "amount": 1
             },
             {
-              "points": 10500,
+              "points": 2200,
+              "name": "Raid Ladder 60%",
+              "type": "Units",
+              "amount": null
+            },
+            {
+              "points": 2500,
+              "name": "Rift Coin",
+              "type": "Resource",
+              "amount": 83
+            },
+            {
+              "points": 2900,
+              "name": "Raid Ladder 80%",
+              "type": "Units",
+              "amount": null
+            },
+            {
+              "points": 3200,
               "name": "Rift Coin",
               "type": "Resource",
               "amount": 100
             },
             {
-              "points": 12000,
+              "points": 3600,
+              "name": "Shield-maiden",
+              "type": "Units",
+              "amount": null
+            },
+            {
+              "points": 4000,
+              "name": "Rift Coin",
+              "type": "Resource",
+              "amount": 120
+            },
+            {
+              "points": 4400,
+              "name": "Graveguard Potion",
+              "type": "Units",
+              "amount": 1
+            },
+            {
+              "points": 5000,
+              "name": "Raid Ladder 80%",
+              "type": "Units",
+              "amount": null
+            },
+            {
+              "points": 5600,
+              "name": "Rift Coin",
+              "type": "Resource",
+              "amount": 100
+            },
+            {
+              "points": 6300,
+              "name": "Shield-maiden",
+              "type": "Units",
+              "amount": null
+            },
+            {
+              "points": 6900,
+              "name": "Rift Coin",
+              "type": "Resource",
+              "amount": 120
+            },
+            {
+              "points": 7500,
+              "name": "Graveguard Potion",
+              "type": "Units",
+              "amount": 1
+            },
+            {
+              "points": 8400,
+              "name": "Raid Ladder 80%",
+              "type": "Units",
+              "amount": null
+            },
+            {
+              "points": 9400,
+              "name": "Rift Coin",
+              "type": "Resource",
+              "amount": 100
+            },
+            {
+              "points": 10300,
+              "name": "Shield-maiden",
+              "type": "Units",
+              "amount": null
+            },
+            {
+              "points": 11200,
+              "name": "Rift Coin",
+              "type": "Resource",
+              "amount": 120
+            },
+            {
+              "points": 12200,
+              "name": "Graveguard Potion",
+              "type": "Units",
+              "amount": null
+            },
+            {
+              "points": 13400,
+              "name": "Raid Ram 80%",
+              "type": "Units",
+              "amount": 50
+            },
+            {
+              "points": 14600,
+              "name": "Shield-maiden",
+              "type": "Units",
+              "amount": 1200
+            },
+            {
+              "points": 15800,
+              "name": "Valkyrie ranger",
+              "type": "Units",
+              "amount": 1200
+            },
+            {
+              "points": 17000,
+              "name": "Graveguard Potion",
+              "type": "Units",
+              "amount": 1
+            },
+            {
+              "points": 18200,
+              "name": "Raid Ladder 80%",
+              "type": "Units",
+              "amount": null
+            },
+            {
+              "points": 19800,
+              "name": "Rift Coin",
+              "type": "Resource",
+              "amount": 100
+            },
+            {
+              "points": 21400,
+              "name": "Shield-maiden",
+              "type": "Units",
+              "amount": null
+            },
+            {
+              "points": 23000,
+              "name": "Rift Coin",
+              "type": "Resource",
+              "amount": 120
+            },
+            {
+              "points": 24600,
+              "name": "Raid Ladder 80%",
+              "type": "Units",
+              "amount": null
+            },
+            {
+              "points": 26200,
+              "name": "Rift Coin",
+              "type": "Resource",
+              "amount": 100
+            },
+            {
+              "points": 28500,
               "name": "Great Graveguard Potion",
               "type": "Units",
-              "amount": 35
+              "amount": 6
             },
             {
-              "points": 21000,
-              "name": "Rift Coin",
-              "type": "Resource",
-              "amount": 100
+              "points": 30700,
+              "name": "Huge Nomad tablet chest",
+              "type": "Units",
+              "amount": 1667
             },
             {
-              "points": 30000,
+              "points": 33000,
+              "name": "Silver Sporeguard Chrono-Vial (All Sides)",
+              "type": "Units",
+              "amount": 1
+            },
+            {
+              "points": 35200,
               "name": "Bronze Obsidian Weighted Net",
               "type": "Units",
               "amount": null
             },
             {
-              "points": 39000,
-              "name": "Rift Coin",
-              "type": "Resource",
-              "amount": 100
+              "points": 37500,
+              "name": "Enormous Samurai Token Chest",
+              "type": "Units",
+              "amount": 1667
             },
             {
-              "points": 48000,
+              "points": 40400,
+              "name": "Great Graveguard Potion",
+              "type": "Units",
+              "amount": 6
+            },
+            {
+              "points": 43300,
+              "name": "Huge Nomad tablet chest",
+              "type": "Units",
+              "amount": 1667
+            },
+            {
+              "points": 46200,
+              "name": "Silver Sporeguard Chrono-Vial (All Sides)",
+              "type": "Units",
+              "amount": 1
+            },
+            {
+              "points": 49100,
+              "name": "Bronze Obsidian Weighted Net",
+              "type": "Units",
+              "amount": null
+            },
+            {
+              "points": 52000,
+              "name": "Enormous Samurai Token Chest",
+              "type": "Units",
+              "amount": 1667
+            },
+            {
+              "points": 55600,
+              "name": "Great Graveguard Potion",
+              "type": "Units",
+              "amount": 6
+            },
+            {
+              "points": 59200,
+              "name": "Huge Nomad tablet chest",
+              "type": "Units",
+              "amount": 1667
+            },
+            {
+              "points": 62800,
+              "name": "Bronze Obsidian Weighted Net",
+              "type": "Units",
+              "amount": null
+            },
+            {
+              "points": 66500,
+              "name": "Enormous Samurai Token Chest",
+              "type": "Units",
+              "amount": 1667
+            },
+            {
+              "points": 70100,
+              "name": "Great Graveguard Potion",
+              "type": "Units",
+              "amount": 6
+            },
+            {
+              "points": 74500,
+              "name": "Huge Nomad tablet chest",
+              "type": "Units",
+              "amount": 1667
+            },
+            {
+              "points": 79000,
+              "name": "Bronze Obsidian Weighted Net",
+              "type": "Units",
+              "amount": null
+            },
+            {
+              "points": 83500,
+              "name": "Enormous Samurai Token Chest",
+              "type": "Units",
+              "amount": 1667
+            },
+            {
+              "points": 87900,
+              "name": "Great Graveguard Potion",
+              "type": "Units",
+              "amount": 6
+            },
+            {
+              "points": 92400,
+              "name": "Huge Nomad tablet chest",
+              "type": "Units",
+              "amount": 1666
+            },
+            {
+              "points": 97800,
+              "name": "Bronze Obsidian Weighted Net",
+              "type": "Units",
+              "amount": null
+            },
+            {
+              "points": 103300,
+              "name": "Enormous Samurai Token Chest",
+              "type": "Units",
+              "amount": 1666
+            },
+            {
+              "points": 108800,
+              "name": "Great Graveguard Potion",
+              "type": "Units",
+              "amount": 5
+            },
+            {
+              "points": 114300,
+              "name": "Huge Nomad tablet chest",
+              "type": "Units",
+              "amount": null
+            },
+            {
+              "points": 119700,
+              "name": "Bronze Obsidian Siege Shield",
+              "type": "Units",
+              "amount": null
+            },
+            {
+              "points": 126200,
+              "name": "Great Graveguard Potion",
+              "type": "Units",
+              "amount": 5
+            },
+            {
+              "points": 132600,
+              "name": "Rift Coin",
+              "type": "Resource",
+              "amount": 229
+            },
+            {
+              "points": 139100,
               "name": "Silver Obsidian Weighted Net",
               "type": "Units",
               "amount": null
             },
             {
-              "points": 64000,
-              "name": "Rift Coin",
-              "type": "Resource",
-              "amount": 150
+              "points": 145500,
+              "name": "Construction Item",
+              "type": "Construction",
+              "amount": 1
             },
             {
-              "points": 79000,
-              "name": "Rift Coin",
-              "type": "Resource",
-              "amount": 150
-            },
-            {
-              "points": 95000,
+              "points": 152000,
               "name": "Pirates' drillground",
               "type": "Construction",
               "amount": 1
             },
             {
-              "points": 130000,
-              "name": "Rift Coin",
-              "type": "Resource",
-              "amount": 150
+              "points": 159600,
+              "name": "Great Graveguard Potion",
+              "type": "Units",
+              "amount": 5
             },
             {
-              "points": 160000,
+              "points": 167200,
               "name": "Rift Coin",
               "type": "Resource",
-              "amount": 150
+              "amount": 229
             },
             {
-              "points": 190000,
+              "points": 174900,
+              "name": "Silver Obsidian Weighted Net",
+              "type": "Units",
+              "amount": null
+            },
+            {
+              "points": 182500,
+              "name": "Construction Item",
+              "type": "Construction",
+              "amount": 1
+            },
+            {
+              "points": 190200,
+              "name": "Great Graveguard Potion",
+              "type": "Units",
+              "amount": 5
+            },
+            {
+              "points": 199100,
+              "name": "Rift Coin",
+              "type": "Resource",
+              "amount": 229
+            },
+            {
+              "points": 207900,
+              "name": "Silver Obsidian Weighted Net",
+              "type": "Units",
+              "amount": null
+            },
+            {
+              "points": 216800,
+              "name": "Ashira's Offering to Ulrich",
+              "type": "Resource",
+              "amount": 5
+            },
+            {
+              "points": 225700,
+              "name": "Great Graveguard Potion",
+              "type": "Units",
+              "amount": 5
+            },
+            {
+              "points": 234600,
+              "name": "Silver Obsidian Weighted Net",
+              "type": "Units",
+              "amount": 10
+            },
+            {
+              "points": 244800,
+              "name": "Silver Obsidian Siege Shield",
+              "type": "Units",
+              "amount": 10
+            },
+            {
+              "points": 255100,
+              "name": "Great Graveguard Potion",
+              "type": "Units",
+              "amount": 5
+            },
+            {
+              "points": 265300,
+              "name": "Rift Coin",
+              "type": "Resource",
+              "amount": 228
+            },
+            {
+              "points": 275500,
+              "name": "Silver Obsidian Weighted Net",
+              "type": "Units",
+              "amount": null
+            },
+            {
+              "points": 285700,
+              "name": "Ashira's Offering to Ulrich",
+              "type": "Resource",
+              "amount": 5
+            },
+            {
+              "points": 297500,
+              "name": "Great Graveguard Potion",
+              "type": "Units",
+              "amount": 5
+            },
+            {
+              "points": 309200,
+              "name": "Silver Obsidian Weighted Net",
+              "type": "Units",
+              "amount": 10
+            },
+            {
+              "points": 321000,
+              "name": "Silver Obsidian Siege Shield",
+              "type": "Units",
+              "amount": 10
+            },
+            {
+              "points": 332700,
+              "name": "Great Graveguard Potion",
+              "type": "Units",
+              "amount": 5
+            },
+            {
+              "points": 344400,
+              "name": "Rift Coin",
+              "type": "Resource",
+              "amount": 228
+            },
+            {
+              "points": 357400,
+              "name": "15,000 generals XP",
+              "type": "Resource",
+              "amount": 5
+            },
+            {
+              "points": 370400,
+              "name": "Rift Coin",
+              "type": "Resource",
+              "amount": 167
+            },
+            {
+              "points": 383400,
               "name": "Pirates' sawmill",
               "type": "Construction",
               "amount": 1
             },
             {
-              "points": 230000,
+              "points": 396300,
+              "name": "15,000 generals XP",
+              "type": "Resource",
+              "amount": 7
+            },
+            {
+              "points": 409300,
               "name": "Rift Coin",
               "type": "Resource",
-              "amount": 150
+              "amount": 167
             },
             {
-              "points": 280000,
-              "name": "Rift Coin",
+              "points": 422300,
+              "name": "15,000 generals XP",
               "type": "Resource",
-              "amount": 150
-            },
-            {
-              "points": 320000,
-              "name": "Ashira's Offering to Ulrich",
-              "type": "Resource",
-              "amount": 20
-            },
-            {
-              "points": 360000,
-              "name": "Rift Coin",
-              "type": "Resource",
-              "amount": 235
-            },
-            {
-              "points": 400000,
-              "name": "Rift Coin",
-              "type": "Resource",
-              "amount": 235
-            },
-            {
-              "points": 440000,
-              "name": "Rift Coin",
-              "type": "Resource",
-              "amount": 235
-            },
-            {
-              "points": 480000,
-              "name": "Ashira's Offering to Ulrich",
-              "type": "Resource",
-              "amount": 30
-            },
-            {
-              "points": 510000,
-              "name": "Rift Coin",
-              "type": "Resource",
-              "amount": 235
-            },
-            {
-              "points": 540000,
-              "name": "Rift Coin",
-              "type": "Resource",
-              "amount": 235
-            },
-            {
-              "points": 570000,
-              "name": "Rift Coin",
-              "type": "Resource",
-              "amount": 235
-            },
-            {
-              "points": 600000,
-              "name": "Sceat",
-              "type": "Resource",
-              "amount": 1000
-            },
-            {
-              "points": 680000,
-              "name": "Rift Coin",
-              "type": "Resource",
-              "amount": 235
-            },
-            {
-              "points": 760000,
-              "name": "Rift Coin",
-              "type": "Resource",
-              "amount": 235
-            },
-            {
-              "points": 840000,
-              "name": "Rift Coin",
-              "type": "Resource",
-              "amount": 235
-            },
-            {
-              "points": 920000,
-              "name": "Rift Coin",
-              "type": "Resource",
-              "amount": 235
-            },
-            {
-              "points": 1000000,
-              "name": "Reward",
-              "type": "Misc",
-              "amount": null
-            },
-            {
-              "points": 1100000,
-              "name": "Rift Coin",
-              "type": "Resource",
-              "amount": 100
-            },
-            {
-              "points": 1200000,
-              "name": "Rift Coin",
-              "type": "Resource",
-              "amount": 100
-            },
-            {
-              "points": 1300000,
-              "name": "Rift Coin",
-              "type": "Resource",
-              "amount": 100
-            },
-            {
-              "points": 1400000,
-              "name": "Rift Coin",
-              "type": "Resource",
-              "amount": 100
-            },
-            {
-              "points": 1500000,
-              "name": "Rift Coin",
-              "type": "Resource",
-              "amount": 100
-            },
-            {
-              "points": 1600000,
-              "name": "Rift Coin",
-              "type": "Resource",
-              "amount": 100
-            },
-            {
-              "points": 1700000,
-              "name": "Rift Coin",
-              "type": "Resource",
-              "amount": 100
-            },
-            {
-              "points": 1800000,
-              "name": "Rift Coin",
-              "type": "Resource",
-              "amount": 100
-            },
-            {
-              "points": 1900000,
-              "name": "Rift Coin",
-              "type": "Resource",
-              "amount": 100
-            },
-            {
-              "points": 2000000,
-              "name": "Rift Coin",
-              "type": "Resource",
-              "amount": 100
-            },
-            {
-              "points": 2100000,
-              "name": "Rift Coin",
-              "type": "Resource",
-              "amount": 100
-            },
-            {
-              "points": 2200000,
-              "name": "Rift Coin",
-              "type": "Resource",
-              "amount": 100
-            },
-            {
-              "points": 2300000,
-              "name": "Rift Coin",
-              "type": "Resource",
-              "amount": 100
-            },
-            {
-              "points": 2400000,
-              "name": "Rift Coin",
-              "type": "Resource",
-              "amount": 100
-            },
-            {
-              "points": 2500000,
-              "name": "Rift Coin",
-              "type": "Resource",
-              "amount": 100
-            },
-            {
-              "points": 2600000,
-              "name": "Rift Coin",
-              "type": "Resource",
-              "amount": 100
-            },
-            {
-              "points": 2700000,
-              "name": "Rift Coin",
-              "type": "Resource",
-              "amount": 100
-            },
-            {
-              "points": 2800000,
-              "name": "Rift Coin",
-              "type": "Resource",
-              "amount": 100
-            },
-            {
-              "points": 2900000,
-              "name": "Rift Coin",
-              "type": "Resource",
-              "amount": 100
-            },
-            {
-              "points": 3000000,
-              "name": "Rift Coin",
-              "type": "Resource",
-              "amount": 100
-            },
-            {
-              "points": 3100000,
-              "name": "Rift Coin",
-              "type": "Resource",
-              "amount": 100
-            },
-            {
-              "points": 3200000,
-              "name": "Rift Coin",
-              "type": "Resource",
-              "amount": 100
-            },
-            {
-              "points": 3300000,
-              "name": "Rift Coin",
-              "type": "Resource",
-              "amount": 100
-            },
-            {
-              "points": 3400000,
-              "name": "Rift Coin",
-              "type": "Resource",
-              "amount": 100
-            },
-            {
-              "points": 3500000,
-              "name": "Rift Coin",
-              "type": "Resource",
-              "amount": 100
-            },
-            {
-              "points": 3600000,
-              "name": "Rift Coin",
-              "type": "Resource",
-              "amount": 100
-            },
-            {
-              "points": 3700000,
-              "name": "Rift Coin",
-              "type": "Resource",
-              "amount": 100
-            },
-            {
-              "points": 3800000,
-              "name": "Rift Coin",
-              "type": "Resource",
-              "amount": 100
-            },
-            {
-              "points": 3900000,
-              "name": "Rift Coin",
-              "type": "Resource",
-              "amount": 100
-            },
-            {
-              "points": 4000000,
-              "name": "Rift Coin",
-              "type": "Resource",
-              "amount": 100
-            },
-            {
-              "points": 4100000,
-              "name": "Rift Coin",
-              "type": "Resource",
-              "amount": 100
-            },
-            {
-              "points": 4200000,
-              "name": "Rift Coin",
-              "type": "Resource",
-              "amount": 100
-            },
-            {
-              "points": 4300000,
-              "name": "Rift Coin",
-              "type": "Resource",
-              "amount": 100
-            },
-            {
-              "points": 4400000,
-              "name": "Rift Coin",
-              "type": "Resource",
-              "amount": 100
-            }
-          ]
-        }
-      ]
-    },
-    {
-      "eventID": 137,
-      "name": "Rift Tournament",
-      "brackets": [
-        {
-          "minLevel": 0,
-          "maxLevel": 19,
-          "milestones": [
-            {
-              "points": 2000,
-              "name": "Raid Ladder 60%",
-              "type": "Units",
-              "amount": null
-            },
-            {
-              "points": 4000,
-              "name": "Rift Coin",
-              "type": "Resource",
-              "amount": 500
-            },
-            {
-              "points": 6000,
-              "name": "Shield-maiden",
-              "type": "Units",
-              "amount": null
-            },
-            {
-              "points": 8000,
-              "name": "Rift Coin",
-              "type": "Resource",
-              "amount": 500
-            },
-            {
-              "points": 10000,
-              "name": "Sundial of the cunning",
-              "type": "Equipment",
-              "amount": 1
-            }
-          ]
-        },
-        {
-          "minLevel": 20,
-          "maxLevel": 29,
-          "milestones": [
-            {
-              "points": 2000,
-              "name": "Raid Ladder 60%",
-              "type": "Units",
-              "amount": null
-            },
-            {
-              "points": 4000,
-              "name": "Rift Coin",
-              "type": "Resource",
-              "amount": 500
-            },
-            {
-              "points": 6000,
-              "name": "Shield-maiden",
-              "type": "Units",
-              "amount": null
-            },
-            {
-              "points": 8000,
-              "name": "Rift Coin",
-              "type": "Resource",
-              "amount": 500
-            },
-            {
-              "points": 10000,
-              "name": "Sundial of the cunning",
-              "type": "Equipment",
-              "amount": 1
-            },
-            {
-              "points": 12500,
-              "name": "Raid Ladder 80%",
-              "type": "Units",
-              "amount": null
-            },
-            {
-              "points": 15000,
-              "name": "Rift Coin",
-              "type": "Resource",
-              "amount": 600
-            },
-            {
-              "points": 17500,
-              "name": "Shield-maiden",
-              "type": "Units",
-              "amount": null
-            },
-            {
-              "points": 20000,
-              "name": "Rift Coin",
-              "type": "Resource",
-              "amount": 600
-            },
-            {
-              "points": 22500,
-              "name": "Graveguard Potion",
-              "type": "Units",
-              "amount": 4
-            }
-          ]
-        },
-        {
-          "minLevel": 30,
-          "maxLevel": 39,
-          "milestones": [
-            {
-              "points": 2000,
-              "name": "Raid Ladder 60%",
-              "type": "Units",
-              "amount": null
-            },
-            {
-              "points": 4000,
-              "name": "Rift Coin",
-              "type": "Resource",
-              "amount": 500
-            },
-            {
-              "points": 6000,
-              "name": "Shield-maiden",
-              "type": "Units",
-              "amount": null
-            },
-            {
-              "points": 8000,
-              "name": "Rift Coin",
-              "type": "Resource",
-              "amount": 500
-            },
-            {
-              "points": 10000,
-              "name": "Sundial of the cunning",
-              "type": "Equipment",
-              "amount": 1
-            },
-            {
-              "points": 12500,
-              "name": "Raid Ladder 80%",
-              "type": "Units",
-              "amount": null
-            },
-            {
-              "points": 15000,
-              "name": "Rift Coin",
-              "type": "Resource",
-              "amount": 600
-            },
-            {
-              "points": 17500,
-              "name": "Shield-maiden",
-              "type": "Units",
-              "amount": null
-            },
-            {
-              "points": 20000,
-              "name": "Rift Coin",
-              "type": "Resource",
-              "amount": 600
-            },
-            {
-              "points": 22500,
-              "name": "Graveguard Potion",
-              "type": "Units",
               "amount": 4
             },
             {
-              "points": 25000,
-              "name": "Great Graveguard Potion",
-              "type": "Units",
-              "amount": 35
-            },
-            {
-              "points": 28000,
-              "name": "Huge Nomad tablet chest",
-              "type": "Units",
-              "amount": 10000
-            },
-            {
-              "points": 31000,
-              "name": "Silver Sporeguard Chrono-Vial (All Sides)",
-              "type": "Units",
-              "amount": 5
-            },
-            {
-              "points": 34000,
-              "name": "Bronze Obsidian Weighted Net",
-              "type": "Units",
-              "amount": null
-            },
-            {
-              "points": 37000,
-              "name": "Enormous Samurai Token Chest",
-              "type": "Units",
-              "amount": 10000
-            }
-          ]
-        },
-        {
-          "minLevel": 40,
-          "maxLevel": 49,
-          "milestones": [
-            {
-              "points": 2000,
-              "name": "Raid Ladder 60%",
-              "type": "Units",
-              "amount": null
-            },
-            {
-              "points": 4000,
+              "points": 435300,
               "name": "Rift Coin",
               "type": "Resource",
-              "amount": 500
+              "amount": 167
             },
             {
-              "points": 6000,
-              "name": "Shield-maiden",
-              "type": "Units",
-              "amount": null
-            },
-            {
-              "points": 8000,
-              "name": "Rift Coin",
+              "points": 448300,
+              "name": "15,000 generals XP",
               "type": "Resource",
-              "amount": 500
+              "amount": 7
             },
             {
-              "points": 10000,
-              "name": "Sundial of the cunning",
-              "type": "Equipment",
-              "amount": 1
-            },
-            {
-              "points": 12500,
-              "name": "Raid Ladder 80%",
-              "type": "Units",
-              "amount": null
-            },
-            {
-              "points": 15000,
-              "name": "Rift Coin",
+              "points": 461200,
+              "name": "Plaster",
               "type": "Resource",
-              "amount": 600
+              "amount": 167
             },
             {
-              "points": 17500,
-              "name": "Shield-maiden",
-              "type": "Units",
-              "amount": null
-            },
-            {
-              "points": 20000,
-              "name": "Rift Coin",
+              "points": 474200,
+              "name": "15,000 generals XP",
               "type": "Resource",
-              "amount": 600
-            },
-            {
-              "points": 22500,
-              "name": "Graveguard Potion",
-              "type": "Units",
               "amount": 4
             },
             {
-              "points": 25000,
-              "name": "Great Graveguard Potion",
-              "type": "Units",
-              "amount": 35
-            },
-            {
-              "points": 28000,
-              "name": "Huge Nomad tablet chest",
-              "type": "Units",
-              "amount": 10000
-            },
-            {
-              "points": 31000,
-              "name": "Silver Sporeguard Chrono-Vial (All Sides)",
-              "type": "Units",
-              "amount": 5
-            },
-            {
-              "points": 34000,
-              "name": "Bronze Obsidian Weighted Net",
-              "type": "Units",
-              "amount": null
-            },
-            {
-              "points": 37000,
-              "name": "Enormous Samurai Token Chest",
-              "type": "Units",
-              "amount": 10000
-            },
-            {
-              "points": 40000,
-              "name": "Great Graveguard Potion",
-              "type": "Units",
-              "amount": 35
-            },
-            {
-              "points": 43000,
+              "points": 487200,
               "name": "Rift Coin",
               "type": "Resource",
-              "amount": 1600
+              "amount": 167
             },
             {
-              "points": 46000,
-              "name": "Silver Obsidian Weighted Net",
-              "type": "Units",
-              "amount": null
-            },
-            {
-              "points": 49000,
-              "name": "Construction Item",
-              "type": "Construction",
-              "amount": 1
-            },
-            {
-              "points": 52000,
-              "name": "Construction Item",
-              "type": "Construction",
-              "amount": 1
-            }
-          ]
-        },
-        {
-          "minLevel": 50,
-          "maxLevel": 69,
-          "milestones": [
-            {
-              "points": 2000,
-              "name": "Raid Ladder 60%",
-              "type": "Units",
-              "amount": null
-            },
-            {
-              "points": 4000,
-              "name": "Rift Coin",
+              "points": 500200,
+              "name": "15,000 generals XP",
               "type": "Resource",
-              "amount": 500
+              "amount": 7
             },
             {
-              "points": 6000,
-              "name": "Shield-maiden",
-              "type": "Units",
-              "amount": null
-            },
-            {
-              "points": 8000,
-              "name": "Rift Coin",
+              "points": 513100,
+              "name": "Plaster",
               "type": "Resource",
-              "amount": 500
+              "amount": 167
             },
             {
-              "points": 10000,
-              "name": "Sundial of the cunning",
-              "type": "Equipment",
-              "amount": 1
-            },
-            {
-              "points": 12500,
-              "name": "Raid Ladder 80%",
-              "type": "Units",
-              "amount": null
-            },
-            {
-              "points": 15000,
-              "name": "Rift Coin",
+              "points": 526100,
+              "name": "15,000 generals XP",
               "type": "Resource",
-              "amount": 600
-            },
-            {
-              "points": 17500,
-              "name": "Shield-maiden",
-              "type": "Units",
-              "amount": null
-            },
-            {
-              "points": 20000,
-              "name": "Rift Coin",
-              "type": "Resource",
-              "amount": 600
-            },
-            {
-              "points": 22500,
-              "name": "Graveguard Potion",
-              "type": "Units",
               "amount": 4
             },
             {
-              "points": 25000,
-              "name": "Great Graveguard Potion",
-              "type": "Units",
-              "amount": 35
-            },
-            {
-              "points": 28000,
-              "name": "Huge Nomad tablet chest",
-              "type": "Units",
-              "amount": 10000
-            },
-            {
-              "points": 31000,
-              "name": "Silver Sporeguard Chrono-Vial (All Sides)",
-              "type": "Units",
-              "amount": 5
-            },
-            {
-              "points": 34000,
-              "name": "Bronze Obsidian Weighted Net",
-              "type": "Units",
-              "amount": null
-            },
-            {
-              "points": 37000,
-              "name": "Enormous Samurai Token Chest",
-              "type": "Units",
-              "amount": 10000
-            },
-            {
-              "points": 40000,
-              "name": "Great Graveguard Potion",
-              "type": "Units",
-              "amount": 35
-            },
-            {
-              "points": 43000,
+              "points": 539100,
               "name": "Rift Coin",
               "type": "Resource",
-              "amount": 1600
+              "amount": 167
             },
             {
-              "points": 46000,
-              "name": "Silver Obsidian Weighted Net",
-              "type": "Units",
-              "amount": null
-            },
-            {
-              "points": 49000,
-              "name": "Construction Item",
-              "type": "Construction",
-              "amount": 1
-            },
-            {
-              "points": 52000,
-              "name": "Construction Item",
-              "type": "Construction",
-              "amount": 1
-            },
-            {
-              "points": 55500,
+              "points": 552100,
               "name": "15,000 generals XP",
               "type": "Resource",
-              "amount": 25
+              "amount": 7
             },
             {
-              "points": 59000,
-              "name": "Imperial ducats",
+              "points": 565000,
+              "name": "Plaster",
               "type": "Resource",
-              "amount": 50
+              "amount": 167
             },
             {
-              "points": 62500,
-              "name": "Construction Item",
-              "type": "Construction",
-              "amount": 1
-            },
-            {
-              "points": 66000,
+              "points": 578000,
               "name": "15,000 generals XP",
               "type": "Resource",
-              "amount": 40
-            },
-            {
-              "points": 69500,
-              "name": "Rift Coin",
-              "type": "Resource",
-              "amount": 1000
-            }
-          ]
-        },
-        {
-          "minLevel": 70,
-          "maxLevel": 1020,
-          "milestones": [
-            {
-              "points": 2000,
-              "name": "Raid Ladder 60%",
-              "type": "Units",
-              "amount": null
-            },
-            {
-              "points": 4000,
-              "name": "Rift Coin",
-              "type": "Resource",
-              "amount": 500
-            },
-            {
-              "points": 6000,
-              "name": "Shield-maiden",
-              "type": "Units",
-              "amount": null
-            },
-            {
-              "points": 8000,
-              "name": "Rift Coin",
-              "type": "Resource",
-              "amount": 500
-            },
-            {
-              "points": 10000,
-              "name": "Sundial of the cunning",
-              "type": "Equipment",
-              "amount": 1
-            },
-            {
-              "points": 12500,
-              "name": "Raid Ladder 80%",
-              "type": "Units",
-              "amount": null
-            },
-            {
-              "points": 15000,
-              "name": "Rift Coin",
-              "type": "Resource",
-              "amount": 600
-            },
-            {
-              "points": 17500,
-              "name": "Shield-maiden",
-              "type": "Units",
-              "amount": null
-            },
-            {
-              "points": 20000,
-              "name": "Rift Coin",
-              "type": "Resource",
-              "amount": 600
-            },
-            {
-              "points": 22500,
-              "name": "Graveguard Potion",
-              "type": "Units",
               "amount": 4
             },
             {
-              "points": 25000,
-              "name": "Great Graveguard Potion",
-              "type": "Units",
-              "amount": 35
-            },
-            {
-              "points": 28000,
-              "name": "Huge Nomad tablet chest",
-              "type": "Units",
-              "amount": 10000
-            },
-            {
-              "points": 31000,
-              "name": "Silver Sporeguard Chrono-Vial (All Sides)",
-              "type": "Units",
-              "amount": 5
-            },
-            {
-              "points": 34000,
-              "name": "Bronze Obsidian Weighted Net",
-              "type": "Units",
-              "amount": null
-            },
-            {
-              "points": 37000,
-              "name": "Enormous Samurai Token Chest",
-              "type": "Units",
-              "amount": 10000
-            },
-            {
-              "points": 40000,
-              "name": "Great Graveguard Potion",
-              "type": "Units",
-              "amount": 35
-            },
-            {
-              "points": 43000,
+              "points": 591000,
               "name": "Rift Coin",
               "type": "Resource",
-              "amount": 1600
+              "amount": 166
             },
             {
-              "points": 46000,
-              "name": "Silver Obsidian Weighted Net",
-              "type": "Units",
-              "amount": null
-            },
-            {
-              "points": 49000,
-              "name": "Construction Item",
-              "type": "Construction",
-              "amount": 1
-            },
-            {
-              "points": 52000,
-              "name": "Construction Item",
-              "type": "Construction",
-              "amount": 1
-            },
-            {
-              "points": 55500,
+              "points": 604000,
               "name": "15,000 generals XP",
               "type": "Resource",
-              "amount": 25
+              "amount": 6
             },
             {
-              "points": 59000,
-              "name": "Imperial ducats",
+              "points": 616900,
+              "name": "Plaster",
               "type": "Resource",
-              "amount": 50
+              "amount": 166
             },
             {
-              "points": 62500,
-              "name": "Construction Item",
-              "type": "Construction",
-              "amount": 1
-            },
-            {
-              "points": 66000,
+              "points": 629900,
               "name": "15,000 generals XP",
               "type": "Resource",
-              "amount": 40
+              "amount": 4
             },
             {
-              "points": 69500,
+              "points": 642900,
               "name": "Rift Coin",
               "type": "Resource",
-              "amount": 1000
+              "amount": 166
             },
             {
-              "points": 73000,
+              "points": 655900,
               "name": "15,000 generals XP",
               "type": "Resource",
-              "amount": 55
+              "amount": 6
             },
             {
-              "points": 76500,
+              "points": 668800,
+              "name": "Plaster",
+              "type": "Resource",
+              "amount": 166
+            },
+            {
+              "points": 681800,
+              "name": "15,000 generals XP",
+              "type": "Resource",
+              "amount": 8
+            },
+            {
+              "points": 694800,
               "name": "Rift Coin",
               "type": "Resource",
-              "amount": 1100
+              "amount": 158
             },
             {
-              "points": 80000,
+              "points": 707800,
+              "name": "Rift Coin",
+              "type": "Resource",
+              "amount": 158
+            },
+            {
+              "points": 720700,
               "name": "Dragon scale tiles",
               "type": "Resource",
-              "amount": 4000
+              "amount": 572
             },
             {
-              "points": 83500,
+              "points": 733700,
+              "name": "15,000 generals XP",
+              "type": "Resource",
+              "amount": 8
+            },
+            {
+              "points": 746700,
+              "name": "Plaster",
+              "type": "Resource",
+              "amount": 204
+            },
+            {
+              "points": 759700,
+              "name": "Imperial ducats",
+              "type": "Resource",
+              "amount": 11
+            },
+            {
+              "points": 772600,
+              "name": "Dragon scale tiles",
+              "type": "Resource",
+              "amount": 572
+            },
+            {
+              "points": 785600,
+              "name": "15,000 generals XP",
+              "type": "Resource",
+              "amount": 8
+            },
+            {
+              "points": 798600,
               "name": "Rift Coin",
               "type": "Resource",
-              "amount": 1100
+              "amount": 157
             },
             {
-              "points": 87000,
-              "name": "Reward",
-              "type": "Misc",
-              "amount": null
+              "points": 811600,
+              "name": "Rift Coin",
+              "type": "Resource",
+              "amount": 157
+            },
+            {
+              "points": 824500,
+              "name": "Dragon scale splinters",
+              "type": "Resource",
+              "amount": 500
+            },
+            {
+              "points": 837500,
+              "name": "Plaster",
+              "type": "Resource",
+              "amount": 214
+            },
+            {
+              "points": 850500,
+              "name": "Imperial ducats",
+              "type": "Resource",
+              "amount": 11
+            },
+            {
+              "points": 863500,
+              "name": "Dragon scale tiles",
+              "type": "Resource",
+              "amount": 571
+            },
+            {
+              "points": 876400,
+              "name": "15,000 generals XP",
+              "type": "Resource",
+              "amount": 8
+            },
+            {
+              "points": 889400,
+              "name": "Rift Coin",
+              "type": "Resource",
+              "amount": 157
+            },
+            {
+              "points": 902400,
+              "name": "Rift Coin",
+              "type": "Resource",
+              "amount": 157
+            },
+            {
+              "points": 915400,
+              "name": "Dragon scale splinters",
+              "type": "Resource",
+              "amount": 500
+            },
+            {
+              "points": 928400,
+              "name": "Plaster",
+              "type": "Resource",
+              "amount": 214
+            },
+            {
+              "points": 941300,
+              "name": "Imperial ducats",
+              "type": "Resource",
+              "amount": 10
+            },
+            {
+              "points": 954300,
+              "name": "Dragon scale tiles",
+              "type": "Resource",
+              "amount": 571
+            },
+            {
+              "points": 967300,
+              "name": "15,000 generals XP",
+              "type": "Resource",
+              "amount": 7
+            },
+            {
+              "points": 980300,
+              "name": "Rift Coin",
+              "type": "Resource",
+              "amount": 157
+            },
+            {
+              "points": 993200,
+              "name": "Rift Coin",
+              "type": "Resource",
+              "amount": 157
             }
           ]
         }
