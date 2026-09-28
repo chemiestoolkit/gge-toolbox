@@ -46,8 +46,17 @@ EVENT_META = [
     ("Imperial Patronage",     "👑", "patronage.webp"),
     ("Grand Nobility Contest", "🎖️", "ltpe.webp"),
 ]
-# Page aliases -> canonical name (some events appear under a short label).
-ALIASES = {"Berimond": "Berimond Kingdom", "Grand Nobility": "Grand Nobility Contest"}
+# Page aliases -> canonical name (some events appear under a short label). Keys
+# are REGEXES, so an alias can refuse a longer name it would otherwise swallow:
+# "Berimond" must not claim the dates of "Berimond Invasion", which is a separate
+# event. LTPE is GGS's internal label for the Grand Nobility Contest and turns up
+# in their own tooling, so accept it too.
+ALIASES = {
+    r"Berimond(?!\s+Invasion)": "Berimond Kingdom",
+    r"Grand Nobility":           "Grand Nobility Contest",
+    r"(?<![A-Za-z])LTPE(?![A-Za-z])": "Grand Nobility Contest",
+    r"Nobility Contest":         "Grand Nobility Contest",
+}
 
 
 def clean(s):
@@ -93,7 +102,7 @@ def fetch_calendar(cur, year):
         for m in re.finditer(re.escape(canon), txt):
             names.append((m.start(), canon))
     for alias, canon in ALIASES.items():
-        for m in re.finditer(re.escape(alias), txt):
+        for m in re.finditer(alias, txt):          # keys are regexes, not literals
             names.append((m.start(), canon))
     names.sort()
     if not names:
