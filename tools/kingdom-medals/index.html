@@ -1,0 +1,281 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Kingdom Medal Calculator — Maxy's Empire Toolkit</title>
+  <meta property="og:type" content="website" />
+  <meta property="og:site_name" content="Maxy's Empire Toolkit" />
+  <meta property="og:title" content="Kingdom Medal Calculator — Maxy's Empire Toolkit" />
+  <meta property="og:description" content="Work out how long the next Kingdom's League title takes. Pick where you finish in your division each day and see the medals, points and days to any title." />
+  <meta property="og:url" content="https://chemiestoolkit.github.io/gge-toolbox/tools/kingdom-medals/" />
+  <meta property="og:image" content="https://chemiestoolkit.github.io/gge-toolbox/assets/img/event-icons/kingdomleague.webp" />
+  <meta name="twitter:card" content="summary" />
+  <meta name="description" content="Goodgame Empire Kingdom's League medal calculator — medals per division position, medal points per kingdom title, and how many days each promotion takes." />
+  <link rel="stylesheet" href="../../assets/css/theme.css?v=15" />
+  <link rel="icon" type="image/png" href="../../assets/img/favicon.png" />
+  <style>
+    .km-controls { display: flex; flex-wrap: wrap; gap: 12px; align-items: flex-end; }
+    .km-field { display: flex; flex-direction: column; gap: 4px; }
+    .km-field label { font-size: .78rem; color: var(--text-dim); }
+    .km-field select, .km-field input { padding: 9px 11px; font: inherit; background: var(--bg-elev);
+      border: 1px solid var(--border); border-radius: var(--radius-sm, 8px); color: var(--text); }
+    .km-field select { min-width: 190px; }
+    .km-field input { width: 130px; }
+    .km-field select:focus, .km-field input:focus { outline: none; border-color: var(--gold); }
+    .km-btn { padding: 9px 14px; font: inherit; cursor: pointer; border-radius: var(--radius-sm, 8px);
+      border: 1px solid var(--border); background: var(--bg-elev); color: var(--text-dim); }
+    .km-btn:hover { border-color: var(--gold); color: var(--gold); }
+
+    .km-summary { margin: 14px 0; padding: 14px 16px; border: 1px solid var(--gold-dim);
+      border-radius: var(--radius); background: rgba(20,21,26,.96);
+      display: flex; flex-wrap: wrap; gap: 16px 28px; align-items: center; }
+    .km-summary .big { font-size: 1.45rem; font-weight: 700; color: var(--gold-bright); font-variant-numeric: tabular-nums; }
+    .km-summary .lbl { font-size: .78rem; color: var(--text-dim); display: block; }
+    .km-summary .warn { color: var(--bad); }
+    .km-summary .ok { color: var(--good); }
+
+    /* GGS's own 760x62 strip: 8 frames of 95px. Frame index == division position. */
+    .km-medal { --scale: .72; display: inline-block; vertical-align: middle;
+      width: calc(95px * var(--scale)); height: calc(62px * var(--scale));
+      background-image: url("./img/medals.webp"); background-repeat: no-repeat;
+      background-size: calc(760px * var(--scale)) auto; }
+    .km-medal.sm { --scale: .5; }
+
+    table.km { width: 100%; border-collapse: collapse; margin-top: 6px; }
+    table.km th, table.km td { padding: 7px 9px; text-align: left; border-bottom: 1px solid rgba(255,255,255,.06); }
+    table.km th { font-size: .74rem; text-transform: uppercase; letter-spacing: .05em;
+      color: var(--gold); border-bottom-color: var(--border); }
+    table.km td.num, table.km th.num { text-align: right; font-variant-numeric: tabular-nums; }
+    table.km tr.is-row-current { background: rgba(217,178,90,.10); }
+    table.km tr.is-row-target  { background: rgba(217,178,90,.18); }
+    table.km tr.is-row-current td:first-child { box-shadow: inset 3px 0 0 var(--gold); }
+    table.km tr.is-row-target  td:first-child { box-shadow: inset 3px 0 0 var(--gold-bright); }
+    .km-dim { color: var(--text-dim); }
+    .km-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+    @media (max-width: 860px) { .km-grid { grid-template-columns: 1fr; } }
+    .km-scroll { overflow-x: auto; }
+    h2.km-h { font-size: 1.05rem; margin: 0 0 2px; }
+    p.km-sub { font-size: .8rem; color: var(--text-dim); margin: 0 0 8px; }
+  </style>
+</head>
+<body>
+  <header class="topbar">
+    <div class="wrap">
+      <a class="brand" href="../../"><span class="crest">🛡️</span> Maxy's Empire <b>Toolkit</b></a>
+    </div>
+  </header>
+
+  <main class="wrap">
+    <div class="tool-head">
+      <a class="back" href="../../">← All tools</a>
+      <h1>🎖️ Kingdom Medal Calculator</h1>
+      <p>One medal lands per day, decided by where you finish in your division ranking.
+         Medal points stack up and every kingdom title costs the same again — so pick the
+         position you realistically hold and this tells you how many days the next title,
+         or the whole ladder, actually takes.</p>
+    </div>
+
+    <section class="panel">
+      <div class="km-controls">
+        <div class="km-field">
+          <label for="km-from">Current title</label>
+          <select id="km-from"></select>
+        </div>
+        <div class="km-field">
+          <label for="km-into">Points into it (optional)</label>
+          <input type="number" id="km-into" min="0" placeholder="e.g. 750" />
+        </div>
+        <div class="km-field">
+          <label for="km-to">Target title</label>
+          <select id="km-to"></select>
+        </div>
+        <div class="km-field">
+          <label for="km-pos">Usual division finish</label>
+          <select id="km-pos"></select>
+        </div>
+        <div class="km-field">
+          <label for="km-days">Days left in season (optional)</label>
+          <input type="number" id="km-days" min="0" placeholder="e.g. 30" />
+        </div>
+        <button class="km-btn" id="km-reset">Reset</button>
+      </div>
+    </section>
+
+    <div class="km-summary" id="km-summary"></div>
+
+    <div class="km-grid">
+      <section class="panel">
+        <h2 class="km-h">Every finishing position</h2>
+        <p class="km-sub">What each division position pays, and how long your target takes at that rate.</p>
+        <div class="km-scroll"><table class="km" id="km-pos-table"></table></div>
+      </section>
+
+      <section class="panel">
+        <h2 class="km-h">Title ladder</h2>
+        <p class="km-sub">Total medal points needed for each kingdom title, counted from the very start.</p>
+        <div class="km-scroll"><table class="km" id="km-ladder"></table></div>
+      </section>
+    </div>
+  </main>
+
+  <footer class="footer">
+    <div class="wrap"><p id="km-foot">Medal values, title ladder and pass prices extracted direct from Goodgame Studios' game data. Medals pay out once a day on your current division ranking.</p></div>
+  </footer>
+
+  <script>
+  (function () {
+    "use strict";
+    var $ = function (id) { return document.getElementById(id); };
+    var esc = function (s) { return String(s == null ? "" : s).replace(/[&<>"]/g, function (c) { return ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" })[c]; }); };
+    var n = function (v) { return Number(v || 0).toLocaleString(); };
+    var KEY = "kingdomMedals.v1";
+    var D = null;
+
+    var state = { from: 1, into: "", to: null, pos: 1, days: "" };
+    try { state = Object.assign(state, JSON.parse(localStorage.getItem(KEY)) || {}); } catch (e) {}
+    function save() { try { localStorage.setItem(KEY, JSON.stringify(state)); } catch (e) {} }
+
+    function rankById(id) {
+      for (var i = 0; i < D.ranks.length; i++) if (D.ranks[i].id === id) return D.ranks[i];
+      return D.ranks[0];
+    }
+
+    // The medal a division position pays. Tiers are listed best-first by
+    // minPosition; anything past the last tier falls to that floor medal.
+    function medalFor(pos) {
+      for (var i = 0; i < D.medals.length; i++) if (D.medals[i].minPosition === pos) return D.medals[i];
+      return D.medals[D.medals.length - 1];
+    }
+
+    function medalSprite(pos, cls) {
+      var frame = Math.min(pos, D.medals.length);       // frame index == position
+      var scale = cls === "sm" ? 0.5 : 0.72;
+      return '<span class="km-medal ' + (cls || "") + '" style="background-position:' +
+             (-(frame * 95 * scale)).toFixed(1) + 'px 0"></span>';
+    }
+
+    function pointsNeeded() {
+      var from = rankById(state.from), to = rankById(state.to);
+      var into = Math.max(0, +state.into || 0);
+      return Math.max(0, to.totalPoints - (from.totalPoints + into));
+    }
+
+    function daysFor(pos) {
+      var per = medalFor(pos).points;
+      if (per <= 0) return Infinity;
+      return Math.ceil(pointsNeeded() / per);
+    }
+
+    function renderSummary() {
+      var to = rankById(state.to), from = rankById(state.from);
+      var need = pointsNeeded();
+      var m = medalFor(state.pos), d = daysFor(state.pos);
+      var left = +state.days || 0;
+      var html = "";
+
+      if (need === 0) {
+        html = '<div><span class="lbl">Target</span><span class="big">Already there</span></div>' +
+               '<div class="km-dim">' + esc(from.title) + ' already covers ' + esc(to.title) +
+               '. Pick a higher target to plan the next promotion.</div>';
+      } else {
+        html += '<div><span class="lbl">Medal points needed</span><span class="big">' + n(need) + '</span></div>';
+        html += '<div><span class="lbl">Daily medal at position ' + state.pos +
+                (state.pos >= D.medals.length ? "+" : "") + '</span>' + medalSprite(state.pos) +
+                ' <span class="big">' + n(m.points) + '</span> <span class="km-dim">pts/day</span></div>';
+        html += '<div><span class="lbl">Days at that rate</span><span class="big">' +
+                (isFinite(d) ? n(d) : "—") + '</span></div>';
+        if (left > 0 && isFinite(d)) {
+          html += d <= left
+            ? '<div><span class="lbl">Season fit</span><span class="big ok">' + n(left - d) + '</span> <span class="km-dim">days to spare</span></div>'
+            : '<div><span class="lbl">Season fit</span><span class="big warn">' + n(d - left) + '</span> <span class="km-dim">days short</span></div>';
+        }
+      }
+      $("km-summary").innerHTML = html;
+    }
+
+    function renderPosTable() {
+      var rows = '<tr><th>Finish</th><th>Medal</th><th class="num">Points/day</th><th class="num">Days to target</th></tr>';
+      for (var p = 1; p <= D.medals.length; p++) {
+        var m = medalFor(p), d = daysFor(p);
+        var last = p === D.medals.length;
+        rows += '<tr' + (p === state.pos ? ' class="is-row-target"' : '') + '>' +
+          '<td>' + p + (last ? "+" : "") + '</td>' +
+          '<td>' + medalSprite(p, "sm") + ' ' + esc(m.name) + '</td>' +
+          '<td class="num">' + n(m.points) + '</td>' +
+          '<td class="num">' + (isFinite(d) ? n(d) : "—") + '</td></tr>';
+      }
+      $("km-pos-table").innerHTML = rows;
+    }
+
+    function renderLadder() {
+      var rows = '<tr><th>#</th><th>Kingdom title</th><th class="num">Step</th><th class="num">Total points</th></tr>';
+      D.ranks.forEach(function (r) {
+        var cls = r.id === state.from ? ' class="is-row-current"' : (r.id === state.to ? ' class="is-row-target"' : "");
+        rows += '<tr' + cls + '><td>' + r.id + '</td><td>' + esc(r.title) + '</td>' +
+          '<td class="num">' + (r.stepPoints ? n(r.stepPoints) : "—") + '</td>' +
+          '<td class="num">' + n(r.totalPoints) + '</td></tr>';
+      });
+      $("km-ladder").innerHTML = rows;
+    }
+
+    function render() { renderSummary(); renderPosTable(); renderLadder(); }
+
+    function fillSelects() {
+      var opts = D.ranks.map(function (r) {
+        return '<option value="' + r.id + '">' + esc(r.id + ". " + r.title) + '</option>';
+      }).join("");
+      $("km-from").innerHTML = opts;
+      $("km-to").innerHTML = opts;
+
+      var posOpts = "";
+      for (var p = 1; p <= D.medals.length; p++) {
+        var m = medalFor(p);
+        posOpts += '<option value="' + p + '">' + p + (p === D.medals.length ? "+" : "") +
+                   " — " + esc(m.name) + " (" + m.points + ")</option>";
+      }
+      $("km-pos").innerHTML = posOpts;
+
+      $("km-from").value = state.from;
+      $("km-to").value = state.to;
+      $("km-pos").value = state.pos;
+      $("km-into").value = state.into;
+      $("km-days").value = state.days;
+    }
+
+    function bind() {
+      $("km-from").addEventListener("change", function () {
+        state.from = +this.value;
+        if (state.to < state.from) { state.to = state.from; $("km-to").value = state.to; }
+        save(); render();
+      });
+      $("km-to").addEventListener("change", function () { state.to = +this.value; save(); render(); });
+      $("km-pos").addEventListener("change", function () { state.pos = +this.value; save(); render(); });
+      $("km-into").addEventListener("input", function () { state.into = this.value; save(); render(); });
+      $("km-days").addEventListener("input", function () { state.days = this.value; save(); render(); });
+      $("km-reset").addEventListener("click", function () {
+        state = { from: 1, into: "", to: D.ranks[D.ranks.length - 1].id, pos: 1, days: "" };
+        save(); fillSelects(); render();
+      });
+    }
+
+    fetch("./data/kingdom-medals.json")
+      .then(function (r) { return r.json(); })
+      .then(function (d) {
+        D = d;
+        if (state.to == null) state.to = D.ranks[D.ranks.length - 1].id;
+        fillSelects(); bind(); render();
+        var p = D.passPrices || {};
+        if (p.promotion && p.eventEnd) {
+          $("km-foot").innerHTML += " Season pass " + n(p.eventEnd) + " rubies, promotion pass " +
+            n(p.promotion) + " — passes add extra rewards at each promotion, they do not change the medal points you need.";
+        }
+      })
+      .catch(function (e) {
+        $("km-summary").innerHTML = '<p class="km-dim">Could not load the Kingdom&rsquo;s League data.</p>';
+        console.error(e);
+      });
+  })();
+  </script>
+</body>
+</html>
