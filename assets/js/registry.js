@@ -297,6 +297,17 @@ window.TOOLS = [
     tags: ["recruitment", "recruit", "speed", "decorations", "deco", "cap", "troops", "cost", "drill"],
   },
   {
+    slug: "kingdom-medals",
+    img: "assets/img/event-icons/kingdomleague.webp",
+    cat: "calculators",
+    name: "Kingdom Medal Calculator",
+    desc: "One medal a day from your division finish. Pick the position you hold and see the medal points, days and season fit for any kingdom title.",
+    icon: "🎖️",
+    status: "live",
+    url: "tools/kingdom-medals/",
+    tags: ["kingdom's league", "kingdoms league", "season league", "medal", "medals", "medal points", "kingdom title", "division", "promotion", "annihilator", "warlord"],
+  },
+  {
     slug: "hol-planner",
     img: "assets/img/tool-art/layout.webp",
     cat: "calculators",
