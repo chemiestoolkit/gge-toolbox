@@ -193,83 +193,83 @@
   ],
   "newsUrl": "https://communityhub.goodgamestudios.com/newshube4k/",
   "events": {
-    "month": "September 2026",
+    "month": "October 2026",
     "iconBase": "assets/img/event-icons/",
     "items": [
       {
         "name": "Nomad Invasion",
         "emoji": "🌊",
         "icon": "nomadinvasion.webp",
-        "dates": "05–08 · 12–15 · 19–22 · 26–29 Sep"
+        "dates": "03–06 · 10–13 · 17–20 · 24–27 Oct · 31 Oct–03 Nov"
       },
       {
         "name": "Samurai Invasion",
         "emoji": "⚔️",
         "icon": "samuraiinvasion.webp",
-        "dates": "04–05 · 11–12 · 18–19 · 25–26 Sep"
+        "dates": "02–03 · 09–10 · 16–17 · 23–24 · 30–31 Oct"
       },
       {
         "name": "Bloodcrow Invasion",
         "emoji": "🩸",
         "icon": "bloodcrow.webp",
-        "dates": "01–04 · 15–18 Sep"
+        "dates": "13–16 · 27–30 Oct"
       },
       {
         "name": "War of the Realms",
         "emoji": "⚔️",
         "icon": "waroftherealms.webp",
-        "dates": "08–11 · 22–25 Sep"
+        "dates": "06–09 · 20–23 Oct"
       },
       {
         "name": "Berimond Kingdom",
         "emoji": "🏰",
         "icon": "berimond.webp",
-        "dates": "01–04 · 22–25 Sep"
+        "dates": "06–09 · 27–30 Oct"
       },
       {
         "name": "Rift Raid",
         "emoji": "🌀",
         "icon": "riftraid.webp",
-        "dates": "15 · 22 Sep"
+        "dates": "01–08 Oct"
       },
       {
         "name": "Bladecoast",
         "emoji": "🗡️",
         "icon": "bladecoast.webp",
-        "dates": "12–19 Sep"
+        "dates": "12–19 Oct"
       },
       {
         "name": "Grand Tournament",
         "emoji": "🏆",
         "icon": "grandtournament.webp",
-        "dates": "15–22 Sep"
+        "dates": "13–20 Oct"
       },
       {
         "name": "Beyond the Horizon",
         "emoji": "🌅",
         "icon": "beyondthehorizon.webp",
-        "dates": "10–14 · 24–28 Sep"
+        "dates": "08–12 · 22–26 Oct"
       },
       {
         "name": "Outer Realms",
         "emoji": "🌌",
         "icon": "outerrealms.webp",
-        "dates": "03–07 · 07–10 · 14–17 · 17–21 · 21–24 Sep"
+        "dates": "01–05 · 05–08 · 12–15 · 15–19 · 19–22 · 26–29 Oct · 29 Oct–02 Nov"
       },
       {
         "name": "Imperial Patronage",
         "emoji": "👑",
         "icon": "patronage.webp",
-        "dates": "19–26 Sep"
+        "dates": "16–23 Oct"
       },
       {
         "name": "Grand Nobility Contest",
         "emoji": "🎖️",
         "icon": "ltpe.webp",
-        "dates": "15 Sep–13 Oct"
+        "dates": "16 Oct–15 Nov"
       }
     ]
   },
-  "newsUpdated": "2026-09-30",
-  "eventsUpdated": "2026-09-29"
+  "newsUpdated": "2026-10-01",
+  "eventsUpdated": "2026-10-01"
 }
