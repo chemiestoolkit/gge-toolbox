@@ -151,11 +151,6 @@
   ],
   "news": [
     {
-      "date": "1 Oct 2026",
-      "title": "The Battle for Berimond, Reforged",
-      "url": "https://communityhub.goodgamestudios.com/2026/10/01/the-battle-for-berimond-reforged/"
-    },
-    {
       "date": "29 Sep 2026",
       "title": "Elementor #14060",
       "url": "https://communityhub.goodgamestudios.com/2026/09/29/elementor-14060/"
@@ -189,6 +184,11 @@
       "date": "27 Aug 2026",
       "title": "The Celebration Continues: One Last Round of Fortune",
       "url": "https://communityhub.goodgamestudios.com/2026/08/27/elementor-13794/"
+    },
+    {
+      "date": "27 Aug 2026",
+      "title": "Rift Raid: You Spoke Up, the Quests Are Going",
+      "url": "https://communityhub.goodgamestudios.com/2026/08/27/rift-raid-you-spoke-up-the-quests-are-going/"
     }
   ],
   "newsUrl": "https://communityhub.goodgamestudios.com/newshube4k/",
