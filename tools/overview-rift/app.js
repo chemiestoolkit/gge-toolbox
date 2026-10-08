@@ -45,7 +45,7 @@
       const t = document.createElement("button");
       t.className = "boss-tab" + (i === curBoss ? " active" : "");
       t.innerHTML = (b.img ? `<img class="boss-tab-art" src="${esc(b.img)}" alt="" loading="lazy"
-                       style="width:44px;height:44px;object-fit:contain;border-radius:8px"
+                       style="width:42px;height:53px;object-fit:contain;border-radius:6px"
                        onerror="this.remove()">` : "") +
                     `<span class="boss-tab-name">${esc(b.name)}</span>
                      <span class="boss-tab-sub">${esc(b.internalName)} · ${b.levels.length} levels</span>`;
@@ -62,7 +62,7 @@
     head.className = "boss-head";
     head.innerHTML = `
       ${boss.img ? `<img class="boss-head-art" src="${esc(boss.img)}" alt="" loading="lazy"
-         style="width:96px;height:96px;object-fit:contain;border-radius:12px;flex:none" onerror="this.remove()">` : ""}
+         style="width:88px;height:111px;object-fit:contain;border-radius:10px;flex:none" onerror="this.remove()">` : ""}
       <div class="boss-head-main">
         <h2>${esc(boss.name)}${boss.rarity ? `<span class="rarity-pill ${rarCls}">${esc(boss.rarity)}</span>` : ""}</h2>
         <p class="boss-desc">${esc(boss.description || "")}</p>

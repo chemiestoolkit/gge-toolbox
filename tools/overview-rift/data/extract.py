@@ -7,12 +7,13 @@ composition + boss effects, and writes rift-bosses.json.
 Run: python3 extract.py
 """
 import json, sys, os, urllib.request
+from pathlib import Path
 
 # Game data pulled direct from Goodgame Studios by tools/_srcdata/pull.sh
 # (invoked from this tool's build.sh) into _srcdata/cache/ — local reads below.
 _SRC      = os.path.abspath(os.path.join(os.path.dirname(__file__), "..", "..", "_srcdata", "cache"))
-ITEMS_URL = "file://" + os.path.join(_SRC, "items_latest.json")
-LANG_URL  = "file://" + os.path.join(_SRC, "en.json")
+ITEMS_URL = Path(_SRC, "items_latest.json").as_uri()
+LANG_URL  = Path(_SRC, "en.json").as_uri()
 CDN       = "https://empire-html5.goodgamestudios.com/default/assets/itemassets/"
 OUT       = os.path.join(os.path.dirname(__file__), "rift-bosses.json")
 
@@ -25,12 +26,23 @@ def fetch(url, label):
         return r.read().decode("utf-8")
 
 
-def boss_img(bid):
-    """Per-boss portrait (DetailView_RaidBoss_<id>) resolved from the game's DLL asset index."""
+def boss_img(bid, internal):
+    """Per-boss art, resolved from the game's DLL asset index.
+
+    Prefers ARE_BossCard_<internalName> (386x488, a framed portrait built for
+    exactly this job) over DetailView_RaidBoss_<id>, which is a ~2-megapixel
+    full-scene render — shrunk to a 44px tab it was an unreadable smudge and
+    cost half a second to load. Falls back to the detail view if a card is ever
+    missing from the index.
+    """
     import glob, re
     dll = open(glob.glob(os.path.join(_SRC, "ggs.dll*"))[0], encoding="utf-8", errors="replace").read()
-    m = re.search(r"itemassets/[A-Za-z0-9_/]*DetailView_RaidBoss_" + str(bid) + r"--\d+", dll)
-    return "https://empire-html5.goodgamestudios.com/default/assets/" + m.group(0) + ".webp" if m else None
+    for pattern in (r"itemassets/[A-Za-z0-9_/]*ARE_BossCard_" + str(internal) + r"--\d+",
+                    r"itemassets/[A-Za-z0-9_/]*DetailView_RaidBoss_" + str(bid) + r"--\d+"):
+        m = re.search(pattern, dll)
+        if m:
+            return "https://empire-html5.goodgamestudios.com/default/assets/" + m.group(0) + ".webp"
+    return None
 
 
 def main():
@@ -206,7 +218,7 @@ def main():
             "internalName": raw,
             "rarity": rarity,
             "description": desc,
-            "img": boss_img(bid),
+            "img": boss_img(bid, raw),
             "levels": levels_out,
         })
 
