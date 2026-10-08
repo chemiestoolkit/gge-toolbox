@@ -40,15 +40,20 @@
       border: 1px solid var(--border); background: var(--bg-elev-2); color: var(--text); }
     .sh-count { font-size: .76rem; color: var(--text-faint); }
 
-    table.sh { width: 100%; border-collapse: collapse; font-size: .85rem; }
-    .sh th { text-align: left; font-size: .68rem; text-transform: uppercase; letter-spacing: .06em;
-      color: var(--text-faint); padding: 6px 10px; border-bottom: 1px solid var(--border); }
-    .sh td { padding: 9px 10px; border-bottom: 1px solid var(--border); vertical-align: middle; }
-    .sh td.price { white-space: nowrap; width: 132px; font-variant-numeric: tabular-nums;
-      color: var(--gold); font-weight: 800; }
-    .sh td.price img { width: 17px; height: 17px; object-fit: contain; vertical-align: -3px; margin-right: 5px; }
-    .sh td.meta { white-space: nowrap; width: 100px; font-size: .74rem; color: var(--text-faint); }
-    .sh tr:hover td { background: rgba(217,178,90,.03); }
+    /* Stock reads as a grid of boxes: each offer is one price + what it buys,
+       which scans far better than a three-column table on a phone. */
+    .sh-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(262px, 1fr)); gap: 12px; }
+    .sh-card { display: flex; flex-direction: column; gap: 10px; padding: 12px 13px;
+      background: var(--bg-elev-2); border: 1px solid var(--border);
+      border-radius: var(--radius-sm); transition: .12s; }
+    .sh-card:hover { border-color: var(--gold-dim); }
+    .sh-card.isnew { border-color: rgba(127,217,166,.55); }
+    .sh-card-top { display: flex; align-items: center; justify-content: space-between; gap: 10px;
+      padding-bottom: 8px; border-bottom: 1px solid var(--border); }
+    .sh-price { display: inline-flex; align-items: center; gap: 6px; font-size: .95rem;
+      font-weight: 800; color: var(--gold); font-variant-numeric: tabular-nums; }
+    .sh-price img { width: 18px; height: 18px; object-fit: contain; flex: none; }
+    .sh-limit { font-size: .7rem; color: var(--text-faint); white-space: nowrap; }
     .gets { display: flex; flex-wrap: wrap; gap: 6px; align-items: center; }
     .get { display: inline-flex; align-items: center; gap: 6px; font-size: .8rem; color: var(--text);
       background: var(--bg-elev-2); border: 1px solid var(--border-soft); border-radius: 8px; padding: 4px 9px; }
@@ -58,7 +63,6 @@
     .get.equipment { border-color: rgba(217,178,90,.45); }
     .get.pending { border-style: dashed; opacity: .85; }
     .get .soon { font-size: .62rem; color: var(--text-faint); font-style: italic; }
-    .tbl-scroll { overflow-x: auto; }
     .note { font-size: .78rem; color: var(--text-faint); margin-top: 12px; line-height: 1.55; }
     .empty { color: var(--text-faint); padding: 22px 4px; text-align: center; }
   </style>
@@ -93,10 +97,7 @@
         </select>
         <span class="sh-count" id="count"></span>
       </div>
-      <div class="tbl-scroll"><table class="sh">
-        <thead><tr><th>Price</th><th>You get</th><th>Limit</th></tr></thead>
-        <tbody id="rows"></tbody>
-      </table></div>
+      <div class="sh-grid" id="rows"></div>
       <div class="empty" id="empty" hidden>No items match that search.</div>
       <p class="note" id="foot"></p>
     </section>
@@ -131,8 +132,8 @@
           "but have no in-game name yet — they fill in automatically once the update ships them.";
       })
       .catch((e) => {
-        rowsEl.innerHTML = '<tr><td colspan="3" style="color:var(--bad,#f87171)">Could not load shop data: ' +
-          esc(e.message) + "</td></tr>";
+        rowsEl.innerHTML = '<div style="color:var(--bad,#f87171)">Could not load shop data: ' +
+          esc(e.message) + "</div>";
       });
 
     // Two genuinely separate shops: the Rift Raid event blacksmith, and the
@@ -185,11 +186,12 @@
           esc(g.name) + (g.qty > 1 ? " <b>×" + n(g.qty) + "</b>" : "") +
           (g.pending ? ' <span class="soon">unreleased</span>' : "") +
           (e.new ? ' <span class="newtag">new</span>' : "") + "</span>").join("");
-        const limit = e.stock ? e.stock + "× per event" : "unlimited";
-        return "<tr><td class='price'>" +
+        const limit = e.stock ? e.stock + "\u00d7 per event" : "unlimited";
+        return '<article class="sh-card' + (e.new ? " isnew" : "") + '">' +
+          '<div class="sh-card-top"><span class="sh-price">' +
           (e.currencyImg ? '<img src="' + esc(e.currencyImg) + '" alt="" onerror="this.remove()">' : "") +
-          n(e.cost) + "</td><td><div class='gets'>" + gets + "</div></td>" +
-          "<td class='meta'>" + limit + "</td></tr>";
+          n(e.cost) + '</span><span class="sh-limit">' + limit + "</span></div>" +
+          '<div class="gets">' + gets + "</div></article>";
       }).join("");
     }
 
