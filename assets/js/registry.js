@@ -41,7 +41,18 @@ window.TOOLS = [
     status: "live",
     url: "tools/guides/dragon-rift.html",
     tags: ["guide", "rift", "dragon", "ashen", "tyrant", "eggs", "wyrmling", "evolution", "range", "melee", "wall", "obsidian", "boss"],
+  },  {
+    slug: "guide-rift-camps",
+    img: "assets/img/event-icons/riftraid.webp",
+    cat: "featured",
+    name: "Rift Camp Quick Guide",
+    desc: "All three camps side by side: what each one costs you, which tools only work where, and the attack order that clears a level.",
+    icon: "🏕️",
+    status: "live",
+    url: "tools/guides/rift-camps.html",
+    tags: ["guide", "rift", "camp", "camps", "zombie", "corrupted subjects", "mycelial", "sovereign", "spore", "sporebane", "ashen", "tyrant", "dragon", "magmatic", "grenade", "flintlock", "chrono", "graveyard potion", "stages", "gibbyofoz"],
   },
+
   {
     slug: "guide-rift-tournament",
     img: "assets/img/event-icons/riftraid.webp",
