@@ -75,12 +75,12 @@
 
     <section class="panel">
       <div class="wn-nav" id="nav" hidden>
-        <button class="wn-navbtn" id="older" title="Previous update">‹</button>
+        <button class="wn-navbtn" id="newer" title="Newer update">‹</button>
         <div class="wn-nav-mid">
           <div class="wn-nav-title" id="nav-title"></div>
           <div class="wn-dots" id="dots"></div>
         </div>
-        <button class="wn-navbtn" id="newer" title="Newer update">›</button>
+        <button class="wn-navbtn" id="older" title="Older update">›</button>
       </div>
       <div class="wn-summary" id="summary"></div>
       <div id="root"><div class="wn-loading">Loading the latest update…</div></div>
@@ -125,9 +125,10 @@
       // older = further back in time = higher index; newer = lower index
       document.getElementById("older").disabled = cur >= UPDATES.length - 1;
       document.getElementById("newer").disabled = cur <= 0;
-      // Dots run oldest → newest (left → right) so the ‹ older / newer › arrows
-      // move the active dot the same direction they point.
-      document.getElementById("dots").innerHTML = UPDATES.map((_, i) => i).reverse().map((i) =>
+// UPDATES is newest-first and the dots keep that order, so the newest
+      // sits on the left and both the › arrow and the active dot travel
+      // rightwards as you page back through history.
+      document.getElementById("dots").innerHTML = UPDATES.map((_, i) => i).map((i) =>
         '<button class="wn-dot' + (i === cur ? " on" : "") + '" data-i="' + i + '" title="v' + esc(UPDATES[i].version) + '"></button>').join("");
       document.querySelectorAll(".wn-dot").forEach((b) =>
         b.addEventListener("click", () => { cur = +b.dataset.i; renderCurrent(); }));
@@ -138,8 +139,8 @@
     document.getElementById("newer").addEventListener("click", () => { if (cur > 0) { cur--; renderCurrent(); } });
     document.addEventListener("keydown", (e) => {
       if (!UPDATES.length) return;
-      if (e.key === "ArrowLeft" && cur < UPDATES.length - 1) { cur++; renderCurrent(); }
-      if (e.key === "ArrowRight" && cur > 0) { cur--; renderCurrent(); }
+      if (e.key === "ArrowRight" && cur < UPDATES.length - 1) { cur++; renderCurrent(); }
+      if (e.key === "ArrowLeft" && cur > 0) { cur--; renderCurrent(); }
     });
 
     function renderGroup(g) {
