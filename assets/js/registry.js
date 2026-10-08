@@ -11,6 +11,7 @@ window.TOOLS = [
   // ---- Guides ------------------------------------------------------------
   {
     slug: "guide-rift-raid",
+    rift: true,
     img: "assets/img/event-icons/riftraid.webp",
     cat: "featured",
     name: "Rift Raid Basics",
@@ -22,6 +23,7 @@ window.TOOLS = [
   },
   {
     slug: "guide-fungal-rift",
+    rift: true,
     img: "assets/img/event-icons/riftraid.webp",
     cat: "featured",
     name: "Fungal Rift (Mycelial Sovereign)",
@@ -33,6 +35,7 @@ window.TOOLS = [
   },
   {
     slug: "guide-dragon-rift",
+    rift: true,
     img: "assets/img/event-icons/riftraid.webp",
     cat: "featured",
     name: "Dragon Rift (Ashen Tyrant)",
@@ -55,6 +58,7 @@ window.TOOLS = [
 
   {
     slug: "guide-rift-tournament",
+    rift: true,
     img: "assets/img/event-icons/riftraid.webp",
     cat: "featured",
     name: "Rift Tournament",
@@ -364,6 +368,7 @@ window.TOOLS = [
   },
   {
     slug: "rift-optimizer",
+    rift: true,
     img: "assets/img/event-icons/riftraid.webp",
     cat: "calculators",
     feature: true,
@@ -375,6 +380,7 @@ window.TOOLS = [
   },
   {
     slug: "rift-eggs",
+    rift: true,
     img: "assets/img/event-icons/riftraid.webp",
     cat: "calculators",
     name: "Dragon Egg & Grenade Calculator",
@@ -386,6 +392,7 @@ window.TOOLS = [
   },
   {
     slug: "rift-cy-hits",
+    rift: true,
     img: "assets/img/event-icons/riftraid.webp",
     cat: "calculators",
     feature: true,
@@ -398,6 +405,7 @@ window.TOOLS = [
   },
   {
     slug: "wall-break",
+    rift: true,
     cat: "calculators",
     feature: true,
     name: "Rift Wall-Break Simulator",
@@ -514,6 +522,7 @@ window.TOOLS = [
   },
   {
     slug: "overview-rift",
+    rift: true,
     img: "assets/img/event-icons/riftraid.webp",
     cat: "overviews",
     name: "Rift Raid Bosses",
@@ -544,6 +553,7 @@ window.TOOLS = [
   },
   {
     slug: "overview-rift-shop",
+    rift: true,
     img: "assets/img/event-icons/riftraid.webp",
     cat: "overviews",
     name: "Rift Event Shop",
@@ -554,6 +564,7 @@ window.TOOLS = [
   },
   {
     slug: "overview-rift-rewards",
+    rift: true,
     img: "assets/img/event-icons/riftraid.webp",
     cat: "overviews",
     name: "Rift Tournament Rewards",

@@ -9,6 +9,7 @@
     { id: "guides",      label: "Guides",         icon: "📖", href: "browse.html?cat=guides" },
     { id: "calculators", label: "Calculators",    icon: "🧮", href: "browse.html?cat=calculators" },
     { id: "simulators",  label: "Simulators",     icon: "⚔️", href: "browse.html?cat=simulators" },
+    { id: "rift",        label: "Rift",           icon: "🌀", href: "browse.html?cat=rift" },
     { id: "overviews",   label: "Overviews",      icon: "👁️", href: "browse.html?cat=overviews" },
     { id: "rankings",    label: "Rankings",       icon: "📊", href: "browse.html?cat=rankings" },
     { id: "misc",        label: "Misc Tools",     icon: "🧰", href: "browse.html?cat=misc" },
@@ -19,6 +20,7 @@
     guides: "📖 Guides",
     calculators: "🧮 Calculators",
     simulators: "⚔️ Simulators",
+    rift: "🌀 Rift",
     overviews: "👁️ Overviews",
     rankings: "📊 Rankings & Stats",
     misc: "🧰 Misc Tools",
@@ -76,6 +78,10 @@
       // Guides window gathers Feature Guides + Guides under one roof.
       if (cat === "guides") {
         if (t.cat !== "guides" && t.cat !== "featured") return false;
+      } else if (cat === "rift") {
+        // Rift gathers every rift tool whatever its type; the section loop
+        // below then splits them back out into calculators, guides and so on.
+        if (!t.rift) return false;
       } else if (t.cat !== cat) {
         return false;
       }
@@ -105,6 +111,27 @@
     return el;
   }
 
+  // One labelled band of cards. Shared by the home page and the browse grids.
+  function section(labelText, items) {
+    const label = document.createElement("div");
+    label.className = "section-label";
+    label.textContent = labelText;
+    const grid = document.createElement("div");
+    grid.className = "grid";
+    items.forEach((t) => grid.appendChild(cardFor(t)));
+    gridHost.appendChild(label);
+    gridHost.appendChild(grid);
+  }
+
+  // Split a set of tools into its type bands, in the usual order.
+  function sectionsByType(items, prefix) {
+    ORDER.forEach((c) => {
+      const inCat = items.filter((t) => t.cat === c);
+      if (!inCat.length) return;
+      section((prefix || "") + (CAT_LABEL[c] || c), inCat);
+    });
+  }
+
   function render() {
     if (!gridHost) return;
     gridHost.innerHTML = "";
@@ -122,6 +149,23 @@
       items.forEach((t) => grid.appendChild(cardFor(t)));
       gridHost.appendChild(label);
       gridHost.appendChild(grid);
+      // Rift is the busiest part of the game and its tools were scattered
+      // across every category, so the home page gets the whole lot in one
+      // band, still split by what each tool actually is.
+      const riftTools = window.TOOLS.filter((t) => t.rift && t.status === "live");
+      if (riftTools.length) {
+        const head = document.createElement("div");
+        head.className = "section-label";
+        head.textContent = "🌀 Rift — everything in one place";
+        gridHost.appendChild(head);
+        sectionsByType(riftTools, " ");
+        const all = document.createElement("a");
+        all.className = "browse-cta";
+        all.href = "browse.html?cat=rift";
+        all.innerHTML = "<span>All Rift tools</span><span class='arr'>→</span>";
+        gridHost.appendChild(all);
+      }
+
       const cta = document.createElement("a");
       cta.className = "browse-cta";
       cta.href = "browse.html";
@@ -135,16 +179,6 @@
       gridHost.innerHTML = '<div class="empty">No tools match “' + query + "”.</div>";
       return;
     }
-    const section = (labelText, items) => {
-      const label = document.createElement("div");
-      label.className = "section-label";
-      label.textContent = labelText;
-      const grid = document.createElement("div");
-      grid.className = "grid";
-      items.forEach((t) => grid.appendChild(cardFor(t)));
-      gridHost.appendChild(label);
-      gridHost.appendChild(grid);
-    };
     ORDER.forEach((c) => {
       const items = visible.filter((t) => t.cat === c);
       if (!items.length) return;
