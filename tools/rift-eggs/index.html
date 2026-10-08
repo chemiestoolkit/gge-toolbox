@@ -1,0 +1,320 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Dragon Egg &amp; Grenade Calculator — Maxy's Empire Toolkit</title>
+  <meta property="og:type" content="website" />
+  <meta property="og:site_name" content="Maxy's Empire Toolkit" />
+  <meta property="og:title" content="Dragon Egg &amp; Grenade Calculator — Maxy's Empire Toolkit" />
+  <meta property="og:description" content="How many Magmatic Grenades it takes to clear the Dormant Rift-Eggs at the start of any Ashen Tyrant level — including whether to put a grenade on the wall-breaker." />
+  <meta property="og:url" content="https://chemiestoolkit.github.io/gge-toolbox/tools/rift-eggs/" />
+  <meta property="og:image" content="https://chemiestoolkit.github.io/gge-toolbox/assets/img/event-icons/riftraid.webp" />
+  <meta name="twitter:card" content="summary" />
+  <meta name="description" content="Goodgame Empire Rift Raid dragon calculator — how many Magmatic Grenade Flasks clear the Dormant Rift-Eggs, accounting for the 20% post-battle mutation." />
+  <link rel="stylesheet" href="../../assets/css/theme.css?v=15" />
+  <link rel="icon" type="image/png" href="../../assets/img/favicon.png" />
+  <style>
+    .rg-controls { display: flex; flex-wrap: wrap; gap: 12px; align-items: flex-end; }
+    .rg-field { display: flex; flex-direction: column; gap: 4px; }
+    .rg-field label { font-size: .78rem; color: var(--text-dim); }
+    .rg-field select, .rg-field input { padding: 9px 11px; font: inherit; background: var(--bg-elev);
+      border: 1px solid var(--border); border-radius: var(--radius-sm, 8px); color: var(--text); }
+    .rg-field select { min-width: 180px; }
+    .rg-field input { width: 150px; }
+    .rg-field select:focus, .rg-field input:focus { outline: none; border-color: var(--gold); }
+    .rg-check { display: flex; align-items: center; gap: 8px; padding-bottom: 10px; font-size: .9rem; }
+    .rg-check input { width: auto; accent-color: var(--gold); }
+    .rg-btn { padding: 9px 14px; font: inherit; cursor: pointer; border-radius: var(--radius-sm, 8px);
+      border: 1px solid var(--border); background: var(--bg-elev); color: var(--text-dim); }
+    .rg-btn:hover { border-color: var(--gold); color: var(--gold); }
+
+    .rg-summary { margin: 14px 0; padding: 14px 16px; border: 1px solid var(--gold-dim);
+      border-radius: var(--radius); background: rgba(20,21,26,.96);
+      display: flex; flex-wrap: wrap; gap: 16px 28px; align-items: center; }
+    .rg-summary .big { font-size: 1.6rem; font-weight: 700; color: var(--gold-bright); font-variant-numeric: tabular-nums; }
+    .rg-summary .lbl { font-size: .78rem; color: var(--text-dim); display: block; }
+    .rg-summary .good { color: var(--good); }
+
+    table.rg { width: 100%; border-collapse: collapse; margin-top: 6px; font-variant-numeric: tabular-nums; }
+    table.rg th, table.rg td { padding: 6px 9px; text-align: right; border-bottom: 1px solid rgba(255,255,255,.06); }
+    table.rg th:first-child, table.rg td:first-child,
+    table.rg th.l, table.rg td.l { text-align: left; }
+    table.rg th { font-size: .72rem; text-transform: uppercase; letter-spacing: .05em;
+      color: var(--gold); border-bottom-color: var(--border); }
+    table.rg tr.nonade td { color: var(--text-dim); font-style: italic; }
+    table.rg tr.final td { color: var(--good); font-weight: 600; }
+    table.rg tr.is-pick { background: rgba(217,178,90,.14); }
+    .rg-dim { color: var(--text-dim); }
+    .rg-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+    @media (max-width: 900px) { .rg-grid { grid-template-columns: 1fr; } }
+    .rg-scroll { overflow-x: auto; }
+    h2.rg-h { font-size: 1.05rem; margin: 0 0 2px; }
+    p.rg-sub { font-size: .8rem; color: var(--text-dim); margin: 0 0 8px; }
+    .rg-note { margin: 18px 0; padding: 13px 16px; border-radius: var(--radius-sm, 8px);
+      background: rgba(217,178,90,.07); border-left: 3px solid var(--gold); font-size: .9rem; color: var(--text-dim); }
+    .rg-note b { color: var(--gold); }
+  </style>
+</head>
+<body>
+  <header class="topbar">
+    <div class="wrap">
+      <a class="brand" href="../../"><span class="crest">🛡️</span> Maxy's Empire <b>Toolkit</b></a>
+    </div>
+  </header>
+
+  <main class="wrap">
+    <div class="tool-head">
+      <a class="back" href="../../">← All tools</a>
+      <h1>💣 Dragon Egg &amp; Grenade Calculator</h1>
+      <p>Every hit that lands on the Ashen Tyrant mutates a fifth of the remaining
+         Dormant Rift-Eggs into Wyrmlings — so the eggs you do not kill early you
+         never get to kill at all. This works out how many Magmatic Grenades clear
+         the opening pile, and whether the wall-breaker should carry one.</p>
+    </div>
+
+    <section class="panel">
+      <div class="rg-controls">
+        <div class="rg-field">
+          <label for="rg-level">Dragon level</label>
+          <select id="rg-level"></select>
+        </div>
+        <div class="rg-field">
+          <label for="rg-eggs">Dormant Rift-Eggs</label>
+          <input type="number" id="rg-eggs" min="0" step="1000" />
+        </div>
+        <div class="rg-field">
+          <label for="rg-tier">Grenade tier</label>
+          <select id="rg-tier"></select>
+        </div>
+        <label class="rg-check">
+          <input type="checkbox" id="rg-nonade" />
+          Wall-breaker opens <b>without</b> a grenade
+        </label>
+        <button class="rg-btn" id="rg-reset">Reset</button>
+      </div>
+    </section>
+
+    <div class="rg-summary" id="rg-summary"></div>
+
+    <div class="rg-grid">
+      <section class="panel">
+        <h2 class="rg-h">Hit by hit</h2>
+        <p class="rg-sub">Each landed hit kills first, then mutates <span id="rg-pct">20</span>% of whatever survived.</p>
+        <div class="rg-scroll"><table class="rg" id="rg-table"></table></div>
+      </section>
+
+      <section class="panel">
+        <h2 class="rg-h">Grenade tiers</h2>
+        <p class="rg-sub">What the same pile costs with each flask.</p>
+        <div class="rg-scroll"><table class="rg" id="rg-tiers"></table></div>
+
+        <h2 class="rg-h" style="margin-top:18px">Opening hit</h2>
+        <p class="rg-sub">Does putting a grenade on the wall-breaker actually save you one?</p>
+        <div class="rg-scroll"><table class="rg" id="rg-open"></table></div>
+      </section>
+    </div>
+
+    <div class="rg-note" id="rg-regen"></div>
+
+    <section class="panel">
+      <h2 class="rg-h">Every dragon level</h2>
+      <p class="rg-sub">Grenades to clear the opening egg pile, at the tier selected above.</p>
+      <div class="rg-scroll"><table class="rg" id="rg-levels"></table></div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <div class="wrap"><p id="rg-foot">Grenade kill amounts, mutation rates and per-level reserves extracted direct from Goodgame Studios' game data.</p></div>
+  </footer>
+
+  <script>
+  (function () {
+    "use strict";
+    var $ = function (id) { return document.getElementById(id); };
+    var esc = function (s) { return String(s == null ? "" : s).replace(/[&<>"]/g, function (c) { return ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" })[c]; }); };
+    var n = function (v) { return Math.round(Number(v) || 0).toLocaleString(); };
+    var KEY = "riftEggs.v1";
+    var D = null, MUT = 0.20, SAFETY = 400;
+
+    var state = { level: 1, eggs: null, tier: null, noNade: false };
+    try { state = Object.assign(state, JSON.parse(localStorage.getItem(KEY)) || {}); } catch (e) {}
+    function save() { try { localStorage.setItem(KEY, JSON.stringify(state)); } catch (e) {} }
+
+    function levelById(l) {
+      for (var i = 0; i < D.levels.length; i++) if (D.levels[i].level === l) return D.levels[i];
+      return D.levels[0];
+    }
+    function tierByKills(k) {
+      for (var i = 0; i < D.tools.egg.length; i++) if (D.tools.egg[i].kills === k) return D.tools.egg[i];
+      return D.tools.egg[D.tools.egg.length - 1];
+    }
+
+    // Kill, then mutate what survived. The mutation is a post-battle defender
+    // effect in the game data, which is why it applies after the grenade.
+    function run(eggs, kill, skipFirst) {
+      var rows = [], E = Math.max(0, eggs), nades = 0, hits = 0;
+      if (skipFirst && E > 0) {
+        hits++;
+        var m0 = E * MUT;
+        rows.push({ hit: hits, nade: false, before: E, killed: 0, afterKill: E, mutated: m0, after: E - m0 });
+        E = E - m0;
+      }
+      while (E > 0 && hits < SAFETY) {
+        hits++; nades++;
+        var before = E;
+        var killed = Math.min(kill, before);
+        var afterKill = before - killed;
+        var mutated = afterKill * MUT;
+        var after = afterKill - mutated;
+        rows.push({ hit: hits, nade: true, before: before, killed: killed, afterKill: afterKill, mutated: mutated, after: after });
+        E = after;
+        if (afterKill <= 0) { E = 0; break; }
+      }
+      var totalMutated = rows.reduce(function (a, r) { return a + r.mutated; }, 0);
+      return { rows: rows, nades: nades, hits: hits, cleared: E <= 0, mutated: totalMutated };
+    }
+
+    function current() {
+      return run(+state.eggs || 0, tierByKills(state.tier).kills, !!state.noNade);
+    }
+
+    function renderSummary() {
+      var r = current(), t = tierByKills(state.tier);
+      var html = '';
+      if ((+state.eggs || 0) <= 0) {
+        html = '<div class="rg-dim">Enter an egg count, or pick a dragon level, to see the grenade count.</div>';
+      } else {
+        html += '<div><span class="lbl">Grenades needed</span><span class="big">' + n(r.nades) + '</span></div>';
+        html += '<div><span class="lbl">Hits to clear</span><span class="big">' + n(r.hits) + '</span>' +
+                (state.noNade ? ' <span class="rg-dim">(1 without a grenade)</span>' : '') + '</div>';
+        html += '<div><span class="lbl">Eggs lost to mutation</span><span class="big">' + n(r.mutated) + '</span>' +
+                ' <span class="rg-dim">became Wyrmlings</span></div>';
+        html += '<div><span class="lbl">Flask</span><span class="big good" style="font-size:1.05rem">' + esc(t.tier) + '</span>' +
+                ' <span class="rg-dim">' + n(t.kills) + ' / hit</span></div>';
+      }
+      $("rg-summary").innerHTML = html;
+    }
+
+    function renderTable() {
+      var r = current();
+      var h = '<tr><th class="l">Hit</th><th>Eggs before</th><th>Grenade kills</th><th>Mutate ' +
+              (MUT * 100) + '%</th><th>Eggs left</th></tr>';
+      if (!r.rows.length) { $("rg-table").innerHTML = h; return; }
+      r.rows.forEach(function (row, i) {
+        var cls = !row.nade ? ' class="nonade"' : (i === r.rows.length - 1 ? ' class="final"' : '');
+        h += '<tr' + cls + '><td class="l">' + row.hit + (row.nade ? '' : ' — wall-breaker') + '</td>' +
+             '<td>' + n(row.before) + '</td>' +
+             '<td>' + (row.nade ? '−' + n(row.killed) : '—') + '</td>' +
+             '<td>−' + n(row.mutated) + '</td>' +
+             '<td>' + (row.after <= 0 ? '0 ✓' : n(row.after)) + '</td></tr>';
+      });
+      $("rg-table").innerHTML = h;
+    }
+
+    function renderTiers() {
+      var h = '<tr><th class="l">Flask</th><th>Kills / hit</th><th>Grenades</th><th>Hits</th></tr>';
+      D.tools.egg.forEach(function (t) {
+        var r = run(+state.eggs || 0, t.kills, !!state.noNade);
+        h += '<tr' + (t.kills === state.tier ? ' class="is-pick"' : '') + '>' +
+             '<td class="l">' + esc(t.tier) + '</td><td>' + n(t.kills) + '</td>' +
+             '<td>' + n(r.nades) + '</td><td>' + n(r.hits) + '</td></tr>';
+      });
+      $("rg-tiers").innerHTML = h;
+    }
+
+    function renderOpen() {
+      var kill = tierByKills(state.tier).kills;
+      var withN = run(+state.eggs || 0, kill, false);
+      var without = run(+state.eggs || 0, kill, true);
+      var h = '<tr><th class="l">Opening hit</th><th>Grenades</th><th>Hits</th></tr>';
+      h += '<tr' + (!state.noNade ? ' class="is-pick"' : '') + '><td class="l">Wall-breaker carries a grenade</td>' +
+           '<td>' + n(withN.nades) + '</td><td>' + n(withN.hits) + '</td></tr>';
+      h += '<tr' + (state.noNade ? ' class="is-pick"' : '') + '><td class="l">Wall-breaker has none</td>' +
+           '<td>' + n(without.nades) + '</td><td>' + n(without.hits) + '</td></tr>';
+      var d = without.nades - withN.nades;
+      h += '<tr><td class="l rg-dim" colspan="3">' +
+           (d > 0 ? 'Skipping the grenade costs <b>' + n(d) + '</b> extra grenade' + (d === 1 ? '' : 's') + '.'
+                  : 'Same grenade count either way — the opener only adds a hit.') +
+           '</td></tr>';
+      $("rg-open").innerHTML = h;
+    }
+
+    function renderLevels() {
+      var kill = tierByKills(state.tier).kills;
+      var h = '<tr><th class="l">Level</th><th>Opening eggs</th><th>Grenades</th><th>Hits</th>' +
+              '<th>Wall regen puts back</th></tr>';
+      D.levels.forEach(function (L) {
+        var r = run(L.eggs, kill, !!state.noNade);
+        h += '<tr' + (L.level === state.level ? ' class="is-pick"' : '') + '>' +
+             '<td class="l">' + L.level + '</td><td>' + n(L.eggs) + '</td>' +
+             '<td>' + n(r.nades) + '</td><td>' + n(r.hits) + '</td>' +
+             '<td>+' + n(L.wallRegenEggs) + '</td></tr>';
+      });
+      $("rg-levels").innerHTML = h;
+    }
+
+    function renderRegen() {
+      var L = levelById(state.level);
+      $("rg-regen").innerHTML =
+        '<b>This clears the opening pile only.</b> On level ' + L.level + ' the wall regeneration drops another <b>' +
+        n(L.wallRegenEggs) + '</b> Dormant Rift-Eggs back into the reserve every <b>' +
+        Math.round(L.wallRegenSeconds / 60) + ' minutes</b>, so a level that drags on needs grenades again. ' +
+        'That is the whole reason to front-load them — every hit you spend without one mutates ' + (MUT * 100) +
+        '% of what is still sitting there.';
+    }
+
+    function render() { renderSummary(); renderTable(); renderTiers(); renderOpen(); renderLevels(); renderRegen(); }
+
+    function fill() {
+      $("rg-level").innerHTML = D.levels.map(function (L) {
+        return '<option value="' + L.level + '">Level ' + L.level + ' — ' + n(L.eggs) + ' eggs</option>';
+      }).join("");
+      $("rg-tier").innerHTML = D.tools.egg.map(function (t) {
+        return '<option value="' + t.kills + '">' + esc(t.tier) + ' — ' + n(t.kills) + ' / hit</option>';
+      }).join("");
+      $("rg-level").value = state.level;
+      $("rg-tier").value = state.tier;
+      $("rg-eggs").value = state.eggs;
+      $("rg-nonade").checked = !!state.noNade;
+      $("rg-pct").textContent = MUT * 100;
+    }
+
+    function bind() {
+      $("rg-level").addEventListener("change", function () {
+        state.level = +this.value;
+        state.eggs = levelById(state.level).eggs;     // level drives the egg count
+        $("rg-eggs").value = state.eggs;
+        save(); render();
+      });
+      $("rg-eggs").addEventListener("input", function () { state.eggs = +this.value || 0; save(); render(); });
+      $("rg-tier").addEventListener("change", function () { state.tier = +this.value; save(); render(); });
+      $("rg-nonade").addEventListener("change", function () { state.noNade = this.checked; save(); render(); });
+      $("rg-reset").addEventListener("click", function () {
+        state = { level: 1, eggs: D.levels[0].eggs, tier: D.tools.egg[D.tools.egg.length - 1].kills, noNade: false };
+        save(); fill(); render();
+      });
+    }
+
+    fetch("./data/rift-eggs.json")
+      .then(function (r) { return r.json(); })
+      .then(function (d) {
+        D = d;
+        var eggMut = (d.mutation || []).filter(function (m) { return m.wodID === 785; })[0];
+        if (eggMut) MUT = eggMut.pct / 100;
+        if (state.tier == null) state.tier = D.tools.egg[D.tools.egg.length - 1].kills;   // default Gold
+        if (state.eggs == null) state.eggs = levelById(state.level).eggs;
+        fill(); bind(); render();
+        var chain = (d.mutation || []).map(function (m) {
+          return esc(m.name) + " " + m.pct + "%";
+        }).join(" → ");
+        if (chain) $("rg-foot").innerHTML += " Post-battle mutation chain: " + chain + ".";
+      })
+      .catch(function (e) {
+        $("rg-summary").innerHTML = '<p class="rg-dim">Could not load the rift egg data.</p>';
+        console.error(e);
+      });
+  })();
+  </script>
+</body>
+</html>
