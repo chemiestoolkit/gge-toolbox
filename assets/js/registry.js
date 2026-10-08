@@ -352,6 +352,17 @@ window.TOOLS = [
     tags: ["rift", "equipment", "optimizer", "gear", "set bonuses", "commander"],
   },
   {
+    slug: "rift-eggs",
+    img: "assets/img/event-icons/riftraid.webp",
+    cat: "calculators",
+    name: "Dragon Egg & Grenade Calculator",
+    desc: "How many Magmatic Grenades clear the opening Dormant Rift-Egg pile on any Ashen Tyrant level, and whether the wall-breaker should carry one.",
+    icon: "💣",
+    status: "live",
+    url: "tools/rift-eggs/",
+    tags: ["rift", "raid", "dragon", "ashen", "tyrant", "egg", "eggs", "dormant", "rift-egg", "grenade", "magmatic", "flask", "nade", "nades", "wyrmling", "mutation", "wall breaker", "reserve"],
+  },
+  {
     slug: "rift-cy-hits",
     img: "assets/img/event-icons/riftraid.webp",
     cat: "calculators",
