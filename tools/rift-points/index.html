@@ -7,11 +7,11 @@
   <meta property="og:type" content="website" />
   <meta property="og:site_name" content="Maxy's Empire Toolkit" />
   <meta property="og:title" content="Rift Point Calculator — Maxy's Empire Toolkit" />
-  <meta property="og:description" content="Rift Points from troops defeated: pick the boss, level, health stage and the area you hit, and see what the kill is worth." />
+  <meta property="og:description" content="Rift Points from troops defeated: pick the boss, level, health stage and area, add any reserve kills and your Rift Point bonus, and see what the hit is worth." />
   <meta property="og:url" content="https://chemiestoolkit.github.io/gge-toolbox/tools/rift-points/" />
   <meta property="og:image" content="https://chemiestoolkit.github.io/gge-toolbox/assets/img/event-icons/riftraid.webp" />
   <meta name="twitter:card" content="summary" />
-  <meta name="description" content="Goodgame Empire Rift Raid point calculator — activity/Rift Points based on troops defeated, the area hit, the boss and the level." />
+  <meta name="description" content="Goodgame Empire Rift Raid point calculator — Rift Points from troops defeated, reserve kills and Rift Point bonus, for any boss, level and health stage." />
   <link rel="stylesheet" href="../../assets/css/theme.css?v=15" />
   <link rel="icon" type="image/png" href="../../assets/img/favicon.png" />
   <style>
@@ -20,8 +20,8 @@
     .rp-field label { font-size: .78rem; color: var(--text-dim); }
     .rp-field select, .rp-field input { padding: 9px 11px; font: inherit; background: var(--bg-elev);
       border: 1px solid var(--border); border-radius: var(--radius-sm, 8px); color: var(--text); }
-    .rp-field select { min-width: 170px; }
-    .rp-field input { width: 160px; }
+    .rp-field select { min-width: 165px; }
+    .rp-field input { width: 150px; }
     .rp-field select:focus, .rp-field input:focus { outline: none; border-color: var(--gold); }
     .rp-btn { padding: 9px 14px; font: inherit; cursor: pointer; border-radius: var(--radius-sm, 8px);
       border: 1px solid var(--border); background: var(--bg-elev); color: var(--text-dim); }
@@ -33,7 +33,6 @@
     .rp-summary .big { font-size: 1.6rem; font-weight: 700; color: var(--gold-bright); font-variant-numeric: tabular-nums; }
     .rp-summary .lbl { font-size: .78rem; color: var(--text-dim); display: block; }
     .rp-summary .good { color: var(--good); }
-    .rp-summary .warn { color: var(--bad); }
 
     .rp-bar { height: 7px; border-radius: 99px; background: var(--bg-elev); overflow: hidden; margin-top: 6px; min-width: 150px; }
     .rp-bar i { display: block; height: 100%; background: var(--gold); border-radius: 99px; }
@@ -66,19 +65,19 @@
     <div class="tool-head">
       <a class="back" href="../../">← All tools</a>
       <h1>🧮 Rift Point Calculator</h1>
-      <p>Rift Points come from troops defeated, and every area is worth a fixed amount
-         when you clear the whole thing. Pick the boss, level, health stage and the area
-         you are hitting, put in the kill, and this gives you the points.</p>
+      <p>Rift Points come from the share of an area you destroy. Pick the boss, level and
+         health stage, say what you killed in the courtyard or on the walls, add any reserve
+         units and your Rift Point bonus, and this gives you the points.</p>
     </div>
 
     <section class="panel">
       <div class="rp-controls">
         <div class="rp-field">
-          <label for="rp-boss">Boss</label>
+          <label for="rp-boss">Raid boss</label>
           <select id="rp-boss"></select>
         </div>
         <div class="rp-field">
-          <label for="rp-level">Level</label>
+          <label for="rp-level">Boss level</label>
           <select id="rp-level"></select>
         </div>
         <div class="rp-field">
@@ -86,12 +85,20 @@
           <select id="rp-stage"></select>
         </div>
         <div class="rp-field">
-          <label for="rp-area">Area hit</label>
+          <label for="rp-area">Area</label>
           <select id="rp-area"></select>
         </div>
         <div class="rp-field">
-          <label for="rp-killed">Troops defeated</label>
+          <label for="rp-killed">Defeated troops</label>
           <input type="number" id="rp-killed" min="0" step="100" />
+        </div>
+        <div class="rp-field">
+          <label for="rp-reserve">Defeated reserve units</label>
+          <input type="number" id="rp-reserve" min="0" step="100" placeholder="0" />
+        </div>
+        <div class="rp-field">
+          <label for="rp-bonus">Rift Point bonus (%)</label>
+          <input type="number" id="rp-bonus" min="0" step="5" placeholder="0" />
         </div>
         <button class="rp-btn" id="rp-full">Fill whole area</button>
         <button class="rp-btn" id="rp-reset">Reset</button>
@@ -103,13 +110,13 @@
     <div class="rp-grid">
       <section class="panel">
         <h2 class="rp-h">Areas at this stage</h2>
-        <p class="rp-sub">What each area holds, and what a full clear of it pays.</p>
+        <p class="rp-sub">What each area holds, and what clearing all of it pays.</p>
         <div class="rp-scroll"><table class="rp" id="rp-areas"></table></div>
       </section>
 
       <section class="panel">
         <h2 class="rp-h">This boss, level by level</h2>
-        <p class="rp-sub">Full-clear value of each area, and the points you need to qualify for the boss reward.</p>
+        <p class="rp-sub">Full-clear value of each area, and the points needed to qualify for the boss reward.</p>
         <div class="rp-scroll"><table class="rp" id="rp-levels"></table></div>
       </section>
     </div>
@@ -118,7 +125,7 @@
   </main>
 
   <footer class="footer">
-    <div class="wrap"><p>Point factors, courtyard sizes and wall garrisons extracted direct from Goodgame Studios' game data.</p></div>
+    <div class="wrap"><p>Point factors, courtyard sizes and wall garrisons extracted direct from Goodgame Studios' game data. Scoring behaviour reimplemented from the Generals Forum calculator — see CREDITS.</p></div>
   </footer>
 
   <script>
@@ -128,17 +135,17 @@
     var esc = function (s) { return String(s == null ? "" : s).replace(/[&<>"]/g, function (c) { return ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" })[c]; }); };
     var n = function (v) { return Math.round(Number(v) || 0).toLocaleString(); };
     var n1 = function (v) { var x = Number(v) || 0; return (Math.round(x * 10) / 10).toLocaleString(); };
-    var KEY = "riftPoints.v1";
+    var KEY = "riftPoints.v2";
     var D = null;
 
+    // The three wall segments count as ONE area worth a single wallPointFactor
+    // between them — not one factor each.
     var AREAS = [
       { key: "courtyard", label: "Courtyard" },
-      { key: "left", label: "Left wall" },
-      { key: "front", label: "Front wall" },
-      { key: "right", label: "Right wall" },
+      { key: "walls", label: "Castle wall" },
     ];
 
-    var state = { boss: 3, level: 1, stage: 0, area: "courtyard", killed: null };
+    var state = { boss: 3, level: 1, stage: 0, area: "courtyard", killed: null, reserve: null, bonus: null };
     try { state = Object.assign(state, JSON.parse(localStorage.getItem(KEY)) || {}); } catch (e) {}
     function save() { try { localStorage.setItem(KEY, JSON.stringify(state)); } catch (e) {} }
 
@@ -156,65 +163,79 @@
       return L.stages[Math.min(state.stage, L.stages.length - 1)] || L.stages[0];
     }
 
-    // How many defenders an area holds right now. The courtyard is a property of
-    // the level; the wall garrisons change with the health stage.
+    // Courtyard capacity belongs to the level; the wall garrison is the three
+    // segments added together at the current health stage.
     function areaSize(key) {
-      return key === "courtyard" ? level().courtyardSize : (stage()[key] || 0);
+      if (key === "courtyard") return level().courtyardSize;
+      var s = stage();
+      return (s.left || 0) + (s.front || 0) + (s.right || 0);
     }
-    // Clearing a whole area pays its factor; a partial clear pays pro rata on
-    // troops defeated. Each wall segment is worth the full wall factor.
     function areaFull(key) {
       var L = level();
       return key === "courtyard" ? L.courtyardFactor : L.wallFactor;
     }
-    function pointsFor(key, killed) {
+
+    // Share of the area destroyed, scaled by its factor and rounded down; the
+    // bonus then applies to that figure and is rounded down again. Reserve kills
+    // sit on top of the capped garrison share, so a hit can beat a full clear.
+    function pointsFor(key, killed, reserve, bonusPct) {
       var size = areaSize(key);
-      if (!size) return 0;
-      return areaFull(key) * Math.min(1, Math.max(0, killed / size));
+      if (!size) return { ratio: 0, base: 0, points: 0 };
+      var ratio = Math.min(killed / size, 1) + (reserve / size);
+      var base = Math.floor(ratio * areaFull(key));
+      return { ratio: ratio, base: base, points: Math.floor(base * (1 + bonusPct / 100)) };
+    }
+
+    function inputs() {
+      return {
+        killed: Math.max(0, +state.killed || 0),
+        reserve: Math.max(0, +state.reserve || 0),
+        bonus: Math.max(0, +state.bonus || 0),
+      };
     }
 
     function renderSummary() {
-      var L = level(), key = state.area;
-      var size = areaSize(key), killed = Math.max(0, +state.killed || 0);
-      var pts = pointsFor(key, killed);
-      var pct = size ? Math.min(100, killed / size * 100) : 0;
+      var L = level(), key = state.area, i = inputs();
+      var size = areaSize(key);
+      var r = pointsFor(key, i.killed, i.reserve, i.bonus);
+      var pct = r.ratio * 100;
       var label = (AREAS.filter(function (a) { return a.key === key; })[0] || {}).label || key;
 
       var html = "";
-      html += '<div><span class="lbl">Rift Points</span><span class="big">' + n1(pts) + '</span></div>';
-      html += '<div><span class="lbl">' + esc(label) + ' cleared</span><span class="big">' +
-              n1(pct) + '%</span><div class="rp-bar"><i style="width:' + pct.toFixed(1) + '%"></i></div></div>';
-      html += '<div><span class="lbl">Full clear pays</span><span class="big">' + n1(areaFull(key)) +
+      html += '<div><span class="lbl">Rift Points</span><span class="big">' + n(r.points) + '</span></div>';
+      html += '<div><span class="lbl">' + esc(label) + ' destroyed</span><span class="big">' +
+              n1(pct) + '%</span><div class="rp-bar"><i style="width:' + Math.min(100, pct).toFixed(1) + '%"></i></div></div>';
+      html += '<div><span class="lbl">Full clear pays</span><span class="big">' + n(areaFull(key)) +
               '</span> <span class="rp-dim">of ' + n(size) + ' troops</span></div>';
+      if (i.bonus > 0) {
+        html += '<div><span class="lbl">Before your +' + n1(i.bonus) + '% bonus</span><span class="big">' + n(r.base) + '</span></div>';
+      }
       if (L.minPoints) {
-        var share = pts / L.minPoints * 100;
         html += '<div><span class="lbl">Toward the ' + n(L.minPoints) + '-point reward floor</span><span class="big ' +
-                (pts >= L.minPoints ? "good" : "") + '">' + n1(Math.min(100, share)) + '%</span></div>';
+                (r.points >= L.minPoints ? "good" : "") + '">' + n1(Math.min(100, r.points / L.minPoints * 100)) + '%</span></div>';
       }
       $("rp-summary").innerHTML = html;
     }
 
     function renderAreas() {
+      var i = inputs();
       var h = '<tr><th>Area</th><th>Troops</th><th>Full clear</th><th>Your hit</th></tr>';
       AREAS.forEach(function (a) {
-        var size = areaSize(a.key);
-        // Only the area you actually hit gets a value; applying the same kill
-        // to the others would just cap every wall at its full factor.
         var mine = a.key === state.area;
-        var pts = mine ? pointsFor(a.key, Math.max(0, +state.killed || 0)) : null;
+        var r = mine ? pointsFor(a.key, i.killed, i.reserve, i.bonus) : null;
         h += '<tr' + (mine ? ' class="is-pick"' : '') + '><td>' + esc(a.label) + '</td>' +
-             '<td>' + n(size) + '</td><td>' + n1(areaFull(a.key)) + '</td>' +
-             '<td>' + (pts === null ? '<span class="rp-dim">—</span>' : n1(pts)) + '</td></tr>';
+             '<td>' + n(areaSize(a.key)) + '</td><td>' + n(areaFull(a.key)) + '</td>' +
+             '<td>' + (r ? n(r.points) : '<span class="rp-dim">&mdash;</span>') + '</td></tr>';
       });
       $("rp-areas").innerHTML = h;
     }
 
     function renderLevels() {
       var b = boss();
-      var h = '<tr><th>Lvl</th><th>Courtyard</th><th>Each wall</th><th>Courtyard size</th><th>Reward floor</th></tr>';
+      var h = '<tr><th>Lvl</th><th>Courtyard</th><th>Castle wall</th><th>Courtyard size</th><th>Reward floor</th></tr>';
       b.levels.forEach(function (L) {
         h += '<tr' + (L.level === state.level ? ' class="is-pick"' : '') + '><td>' + L.level + '</td>' +
-             '<td>' + n1(L.courtyardFactor) + '</td><td>' + n1(L.wallFactor) + '</td>' +
+             '<td>' + n(L.courtyardFactor) + '</td><td>' + n(L.wallFactor) + '</td>' +
              '<td>' + n(L.courtyardSize) + '</td><td>' + n(L.minPoints) + '</td></tr>';
       });
       $("rp-levels").innerHTML = h;
@@ -222,12 +243,13 @@
 
     function renderNote() {
       $("rp-src").innerHTML =
-        '<b>Where these come from.</b> Each level stores one figure for clearing the whole courtyard and ' +
-        'one for clearing a whole wall segment, and a hit earns the share of that figure matching the ' +
-        'share of the area it killed. Note the wall figure is exactly <b>half</b> the courtyard figure on ' +
-        'every boss level in the game data — per troop a wall is actually worth more, because a segment ' +
-        'holds far fewer defenders than the courtyard. If the in-game ⓘ panel on your level disagrees, ' +
-        'trust it over this and tell me, since the panel is the live source.';
+        '<b>How it adds up.</b> Each level pays a fixed figure for destroying a whole area, and you earn the ' +
+        'share of that figure matching the share you killed. The three wall segments count as <b>one</b> area ' +
+        'between them, so clearing all three pays the wall figure once. Reserve units are counted on top of ' +
+        'the garrison, which is how a hit can be worth more than a full clear. The result is rounded down, ' +
+        'then your Rift Point bonus is applied and rounded down again. The wall figure is exactly <b>half</b> ' +
+        'the courtyard figure on every boss level — per troop the wall is still the better target, because ' +
+        'it holds far fewer defenders.';
     }
 
     function render() { renderSummary(); renderAreas(); renderLevels(); renderNote(); }
@@ -248,34 +270,41 @@
       if (!b.levels.some(function (L) { return L.level === state.level; })) state.level = b.levels[0].level;
       $("rp-level").value = state.level;
     }
+    function fillAreas() {
+      $("rp-area").innerHTML = AREAS.map(function (a) {
+        return '<option value="' + a.key + '">' + esc(a.label) + ' (' + n(areaFull(a.key)) + ')</option>';
+      }).join("");
+      $("rp-area").value = state.area;
+    }
     function fill() {
       $("rp-boss").innerHTML = D.bosses.map(function (b) {
         return '<option value="' + b.id + '">' + esc(b.name) + '</option>';
       }).join("");
       $("rp-boss").value = state.boss;
-      fillLevels(); fillStages();
-      $("rp-area").innerHTML = AREAS.map(function (a) {
-        return '<option value="' + a.key + '">' + esc(a.label) + '</option>';
-      }).join("");
-      $("rp-area").value = state.area;
+      fillLevels(); fillStages(); fillAreas();
       $("rp-killed").value = state.killed == null ? "" : state.killed;
+      $("rp-reserve").value = state.reserve == null ? "" : state.reserve;
+      $("rp-bonus").value = state.bonus == null ? "" : state.bonus;
     }
 
     function bind() {
       $("rp-boss").addEventListener("change", function () {
-        state.boss = +this.value; fillLevels(); fillStages(); save(); render();
+        state.boss = +this.value; fillLevels(); fillStages(); fillAreas(); save(); render();
       });
       $("rp-level").addEventListener("change", function () {
-        state.level = +this.value; fillStages(); save(); render();
+        state.level = +this.value; fillStages(); fillAreas(); save(); render();
       });
       $("rp-stage").addEventListener("change", function () { state.stage = +this.value; save(); render(); });
       $("rp-area").addEventListener("change", function () { state.area = this.value; save(); render(); });
       $("rp-killed").addEventListener("input", function () { state.killed = +this.value || 0; save(); render(); });
+      $("rp-reserve").addEventListener("input", function () { state.reserve = +this.value || 0; save(); render(); });
+      $("rp-bonus").addEventListener("input", function () { state.bonus = +this.value || 0; save(); render(); });
       $("rp-full").addEventListener("click", function () {
         state.killed = areaSize(state.area); $("rp-killed").value = state.killed; save(); render();
       });
       $("rp-reset").addEventListener("click", function () {
-        state = { boss: D.bosses[D.bosses.length - 1].id, level: 1, stage: 0, area: "courtyard", killed: null };
+        state = { boss: D.bosses[D.bosses.length - 1].id, level: 1, stage: 0, area: "courtyard",
+                  killed: null, reserve: null, bonus: null };
         fill(); save(); render();
       });
     }
@@ -285,6 +314,7 @@
       .then(function (d) {
         D = d;
         if (!D.bosses.some(function (b) { return b.id === state.boss; })) state.boss = D.bosses[0].id;
+        if (state.area !== "courtyard" && state.area !== "walls") state.area = "courtyard";
         fill(); bind(); render();
       })
       .catch(function (e) {

@@ -20,10 +20,10 @@ language bundle, client DLL and asset CDN the game itself loads. See
   <https://danadum.github.io/empire-rankings/> · <https://github.com/danadum>
 - **GGE Tracker** — advanced stats & dungeon tracking
   <https://gge-tracker.com/>
-- **GeneralsCamp / Generals Forum** — battle simulator & calculators; the Defence
+- **GeneralsCamp / Generals Forum** (Dániel) — battle simulator & calculators; the Defence
   Survival Calculator's per-wave combat formula and unit/tool combat values are
   reimplemented from their open battle simulator (game data is Goodgame's)
-  <https://generalscamp.github.io/forum/>
+  <https://generalsforum.com/> (was generalscamp.github.io/forum/)
 
 Calculator and simulator logic here is **reimplemented** from observed in-game
 behaviour and the publicly visible reference tools above, not copied. If you are
