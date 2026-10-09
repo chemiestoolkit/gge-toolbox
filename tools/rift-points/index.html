@@ -1,0 +1,297 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Rift Point Calculator — Maxy's Empire Toolkit</title>
+  <meta property="og:type" content="website" />
+  <meta property="og:site_name" content="Maxy's Empire Toolkit" />
+  <meta property="og:title" content="Rift Point Calculator — Maxy's Empire Toolkit" />
+  <meta property="og:description" content="Rift Points from troops defeated: pick the boss, level, health stage and the area you hit, and see what the kill is worth." />
+  <meta property="og:url" content="https://chemiestoolkit.github.io/gge-toolbox/tools/rift-points/" />
+  <meta property="og:image" content="https://chemiestoolkit.github.io/gge-toolbox/assets/img/event-icons/riftraid.webp" />
+  <meta name="twitter:card" content="summary" />
+  <meta name="description" content="Goodgame Empire Rift Raid point calculator — activity/Rift Points based on troops defeated, the area hit, the boss and the level." />
+  <link rel="stylesheet" href="../../assets/css/theme.css?v=15" />
+  <link rel="icon" type="image/png" href="../../assets/img/favicon.png" />
+  <style>
+    .rp-controls { display: flex; flex-wrap: wrap; gap: 12px; align-items: flex-end; }
+    .rp-field { display: flex; flex-direction: column; gap: 4px; }
+    .rp-field label { font-size: .78rem; color: var(--text-dim); }
+    .rp-field select, .rp-field input { padding: 9px 11px; font: inherit; background: var(--bg-elev);
+      border: 1px solid var(--border); border-radius: var(--radius-sm, 8px); color: var(--text); }
+    .rp-field select { min-width: 170px; }
+    .rp-field input { width: 160px; }
+    .rp-field select:focus, .rp-field input:focus { outline: none; border-color: var(--gold); }
+    .rp-btn { padding: 9px 14px; font: inherit; cursor: pointer; border-radius: var(--radius-sm, 8px);
+      border: 1px solid var(--border); background: var(--bg-elev); color: var(--text-dim); }
+    .rp-btn:hover { border-color: var(--gold); color: var(--gold); }
+
+    .rp-summary { margin: 14px 0; padding: 14px 16px; border: 1px solid var(--gold-dim);
+      border-radius: var(--radius); background: rgba(20,21,26,.96);
+      display: flex; flex-wrap: wrap; gap: 16px 28px; align-items: center; }
+    .rp-summary .big { font-size: 1.6rem; font-weight: 700; color: var(--gold-bright); font-variant-numeric: tabular-nums; }
+    .rp-summary .lbl { font-size: .78rem; color: var(--text-dim); display: block; }
+    .rp-summary .good { color: var(--good); }
+    .rp-summary .warn { color: var(--bad); }
+
+    .rp-bar { height: 7px; border-radius: 99px; background: var(--bg-elev); overflow: hidden; margin-top: 6px; min-width: 150px; }
+    .rp-bar i { display: block; height: 100%; background: var(--gold); border-radius: 99px; }
+
+    table.rp { width: 100%; border-collapse: collapse; margin-top: 6px; font-variant-numeric: tabular-nums; }
+    table.rp th, table.rp td { padding: 7px 9px; text-align: right; border-bottom: 1px solid rgba(255,255,255,.06); }
+    table.rp th:first-child, table.rp td:first-child { text-align: left; }
+    table.rp th { font-size: .72rem; text-transform: uppercase; letter-spacing: .05em;
+      color: var(--gold); border-bottom-color: var(--border); }
+    table.rp tr.is-pick { background: rgba(217,178,90,.14); }
+    .rp-dim { color: var(--text-dim); }
+    .rp-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+    @media (max-width: 900px) { .rp-grid { grid-template-columns: 1fr; } }
+    .rp-scroll { overflow-x: auto; }
+    h2.rp-h { font-size: 1.05rem; margin: 0 0 2px; }
+    p.rp-sub { font-size: .8rem; color: var(--text-dim); margin: 0 0 8px; }
+    .rp-note { margin: 18px 0; padding: 13px 16px; border-radius: var(--radius-sm, 8px);
+      background: rgba(217,178,90,.07); border-left: 3px solid var(--gold); font-size: .88rem; color: var(--text-dim); }
+    .rp-note b { color: var(--gold); }
+  </style>
+</head>
+<body>
+  <header class="topbar">
+    <div class="wrap">
+      <a class="brand" href="../../"><span class="crest">🛡️</span> Maxy's Empire <b>Toolkit</b></a>
+    </div>
+  </header>
+
+  <main class="wrap">
+    <div class="tool-head">
+      <a class="back" href="../../">← All tools</a>
+      <h1>🧮 Rift Point Calculator</h1>
+      <p>Rift Points come from troops defeated, and every area is worth a fixed amount
+         when you clear the whole thing. Pick the boss, level, health stage and the area
+         you are hitting, put in the kill, and this gives you the points.</p>
+    </div>
+
+    <section class="panel">
+      <div class="rp-controls">
+        <div class="rp-field">
+          <label for="rp-boss">Boss</label>
+          <select id="rp-boss"></select>
+        </div>
+        <div class="rp-field">
+          <label for="rp-level">Level</label>
+          <select id="rp-level"></select>
+        </div>
+        <div class="rp-field">
+          <label for="rp-stage">Health stage</label>
+          <select id="rp-stage"></select>
+        </div>
+        <div class="rp-field">
+          <label for="rp-area">Area hit</label>
+          <select id="rp-area"></select>
+        </div>
+        <div class="rp-field">
+          <label for="rp-killed">Troops defeated</label>
+          <input type="number" id="rp-killed" min="0" step="100" />
+        </div>
+        <button class="rp-btn" id="rp-full">Fill whole area</button>
+        <button class="rp-btn" id="rp-reset">Reset</button>
+      </div>
+    </section>
+
+    <div class="rp-summary" id="rp-summary"></div>
+
+    <div class="rp-grid">
+      <section class="panel">
+        <h2 class="rp-h">Areas at this stage</h2>
+        <p class="rp-sub">What each area holds, and what a full clear of it pays.</p>
+        <div class="rp-scroll"><table class="rp" id="rp-areas"></table></div>
+      </section>
+
+      <section class="panel">
+        <h2 class="rp-h">This boss, level by level</h2>
+        <p class="rp-sub">Full-clear value of each area, and the points you need to qualify for the boss reward.</p>
+        <div class="rp-scroll"><table class="rp" id="rp-levels"></table></div>
+      </section>
+    </div>
+
+    <div class="rp-note" id="rp-src"></div>
+  </main>
+
+  <footer class="footer">
+    <div class="wrap"><p>Point factors, courtyard sizes and wall garrisons extracted direct from Goodgame Studios' game data.</p></div>
+  </footer>
+
+  <script>
+  (function () {
+    "use strict";
+    var $ = function (id) { return document.getElementById(id); };
+    var esc = function (s) { return String(s == null ? "" : s).replace(/[&<>"]/g, function (c) { return ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" })[c]; }); };
+    var n = function (v) { return Math.round(Number(v) || 0).toLocaleString(); };
+    var n1 = function (v) { var x = Number(v) || 0; return (Math.round(x * 10) / 10).toLocaleString(); };
+    var KEY = "riftPoints.v1";
+    var D = null;
+
+    var AREAS = [
+      { key: "courtyard", label: "Courtyard" },
+      { key: "left", label: "Left wall" },
+      { key: "front", label: "Front wall" },
+      { key: "right", label: "Right wall" },
+    ];
+
+    var state = { boss: 3, level: 1, stage: 0, area: "courtyard", killed: null };
+    try { state = Object.assign(state, JSON.parse(localStorage.getItem(KEY)) || {}); } catch (e) {}
+    function save() { try { localStorage.setItem(KEY, JSON.stringify(state)); } catch (e) {} }
+
+    function boss() {
+      for (var i = 0; i < D.bosses.length; i++) if (D.bosses[i].id === state.boss) return D.bosses[i];
+      return D.bosses[0];
+    }
+    function level() {
+      var b = boss();
+      for (var i = 0; i < b.levels.length; i++) if (b.levels[i].level === state.level) return b.levels[i];
+      return b.levels[0];
+    }
+    function stage() {
+      var L = level();
+      return L.stages[Math.min(state.stage, L.stages.length - 1)] || L.stages[0];
+    }
+
+    // How many defenders an area holds right now. The courtyard is a property of
+    // the level; the wall garrisons change with the health stage.
+    function areaSize(key) {
+      return key === "courtyard" ? level().courtyardSize : (stage()[key] || 0);
+    }
+    // Clearing a whole area pays its factor; a partial clear pays pro rata on
+    // troops defeated. Each wall segment is worth the full wall factor.
+    function areaFull(key) {
+      var L = level();
+      return key === "courtyard" ? L.courtyardFactor : L.wallFactor;
+    }
+    function pointsFor(key, killed) {
+      var size = areaSize(key);
+      if (!size) return 0;
+      return areaFull(key) * Math.min(1, Math.max(0, killed / size));
+    }
+
+    function renderSummary() {
+      var L = level(), key = state.area;
+      var size = areaSize(key), killed = Math.max(0, +state.killed || 0);
+      var pts = pointsFor(key, killed);
+      var pct = size ? Math.min(100, killed / size * 100) : 0;
+      var label = (AREAS.filter(function (a) { return a.key === key; })[0] || {}).label || key;
+
+      var html = "";
+      html += '<div><span class="lbl">Rift Points</span><span class="big">' + n1(pts) + '</span></div>';
+      html += '<div><span class="lbl">' + esc(label) + ' cleared</span><span class="big">' +
+              n1(pct) + '%</span><div class="rp-bar"><i style="width:' + pct.toFixed(1) + '%"></i></div></div>';
+      html += '<div><span class="lbl">Full clear pays</span><span class="big">' + n1(areaFull(key)) +
+              '</span> <span class="rp-dim">of ' + n(size) + ' troops</span></div>';
+      if (L.minPoints) {
+        var share = pts / L.minPoints * 100;
+        html += '<div><span class="lbl">Toward the ' + n(L.minPoints) + '-point reward floor</span><span class="big ' +
+                (pts >= L.minPoints ? "good" : "") + '">' + n1(Math.min(100, share)) + '%</span></div>';
+      }
+      $("rp-summary").innerHTML = html;
+    }
+
+    function renderAreas() {
+      var h = '<tr><th>Area</th><th>Troops</th><th>Full clear</th><th>Your hit</th></tr>';
+      AREAS.forEach(function (a) {
+        var size = areaSize(a.key);
+        // Only the area you actually hit gets a value; applying the same kill
+        // to the others would just cap every wall at its full factor.
+        var mine = a.key === state.area;
+        var pts = mine ? pointsFor(a.key, Math.max(0, +state.killed || 0)) : null;
+        h += '<tr' + (mine ? ' class="is-pick"' : '') + '><td>' + esc(a.label) + '</td>' +
+             '<td>' + n(size) + '</td><td>' + n1(areaFull(a.key)) + '</td>' +
+             '<td>' + (pts === null ? '<span class="rp-dim">—</span>' : n1(pts)) + '</td></tr>';
+      });
+      $("rp-areas").innerHTML = h;
+    }
+
+    function renderLevels() {
+      var b = boss();
+      var h = '<tr><th>Lvl</th><th>Courtyard</th><th>Each wall</th><th>Courtyard size</th><th>Reward floor</th></tr>';
+      b.levels.forEach(function (L) {
+        h += '<tr' + (L.level === state.level ? ' class="is-pick"' : '') + '><td>' + L.level + '</td>' +
+             '<td>' + n1(L.courtyardFactor) + '</td><td>' + n1(L.wallFactor) + '</td>' +
+             '<td>' + n(L.courtyardSize) + '</td><td>' + n(L.minPoints) + '</td></tr>';
+      });
+      $("rp-levels").innerHTML = h;
+    }
+
+    function renderNote() {
+      $("rp-src").innerHTML =
+        '<b>Where these come from.</b> Each level stores one figure for clearing the whole courtyard and ' +
+        'one for clearing a whole wall segment, and a hit earns the share of that figure matching the ' +
+        'share of the area it killed. Note the wall figure is exactly <b>half</b> the courtyard figure on ' +
+        'every boss level in the game data — per troop a wall is actually worth more, because a segment ' +
+        'holds far fewer defenders than the courtyard. If the in-game ⓘ panel on your level disagrees, ' +
+        'trust it over this and tell me, since the panel is the live source.';
+    }
+
+    function render() { renderSummary(); renderAreas(); renderLevels(); renderNote(); }
+
+    function fillStages() {
+      var L = level();
+      $("rp-stage").innerHTML = L.stages.map(function (s, i) {
+        return '<option value="' + i + '">' + s.health + '% health</option>';
+      }).join("");
+      if (state.stage >= L.stages.length) state.stage = 0;
+      $("rp-stage").value = state.stage;
+    }
+    function fillLevels() {
+      var b = boss();
+      $("rp-level").innerHTML = b.levels.map(function (L) {
+        return '<option value="' + L.level + '">Level ' + L.level + '</option>';
+      }).join("");
+      if (!b.levels.some(function (L) { return L.level === state.level; })) state.level = b.levels[0].level;
+      $("rp-level").value = state.level;
+    }
+    function fill() {
+      $("rp-boss").innerHTML = D.bosses.map(function (b) {
+        return '<option value="' + b.id + '">' + esc(b.name) + '</option>';
+      }).join("");
+      $("rp-boss").value = state.boss;
+      fillLevels(); fillStages();
+      $("rp-area").innerHTML = AREAS.map(function (a) {
+        return '<option value="' + a.key + '">' + esc(a.label) + '</option>';
+      }).join("");
+      $("rp-area").value = state.area;
+      $("rp-killed").value = state.killed == null ? "" : state.killed;
+    }
+
+    function bind() {
+      $("rp-boss").addEventListener("change", function () {
+        state.boss = +this.value; fillLevels(); fillStages(); save(); render();
+      });
+      $("rp-level").addEventListener("change", function () {
+        state.level = +this.value; fillStages(); save(); render();
+      });
+      $("rp-stage").addEventListener("change", function () { state.stage = +this.value; save(); render(); });
+      $("rp-area").addEventListener("change", function () { state.area = this.value; save(); render(); });
+      $("rp-killed").addEventListener("input", function () { state.killed = +this.value || 0; save(); render(); });
+      $("rp-full").addEventListener("click", function () {
+        state.killed = areaSize(state.area); $("rp-killed").value = state.killed; save(); render();
+      });
+      $("rp-reset").addEventListener("click", function () {
+        state = { boss: D.bosses[D.bosses.length - 1].id, level: 1, stage: 0, area: "courtyard", killed: null };
+        fill(); save(); render();
+      });
+    }
+
+    fetch("./data/rift-points.json")
+      .then(function (r) { return r.json(); })
+      .then(function (d) {
+        D = d;
+        if (!D.bosses.some(function (b) { return b.id === state.boss; })) state.boss = D.bosses[0].id;
+        fill(); bind(); render();
+      })
+      .catch(function (e) {
+        $("rp-summary").innerHTML = '<p class="rp-dim">Could not load the rift point data.</p>';
+        console.error(e);
+      });
+  })();
+  </script>
+</body>
+</html>

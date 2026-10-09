@@ -380,6 +380,18 @@ window.TOOLS = [
     tags: ["rift", "equipment", "optimizer", "gear", "set bonuses", "commander"],
   },
   {
+    slug: "rift-points",
+    rift: true,
+    img: "assets/img/event-icons/riftraid.webp",
+    cat: "calculators",
+    name: "Rift Point Calculator",
+    desc: "What a hit is worth: troops defeated in a courtyard or wall segment, converted to Rift Points for any boss, level and health stage.",
+    icon: "🧮",
+    status: "live",
+    url: "tools/rift-points/",
+    tags: ["rift", "raid", "points", "rift points", "activity points", "courtyard", "wall", "segment", "boss", "level", "stage", "qualify", "threshold", "reward"],
+  },
+  {
     slug: "rift-eggs",
     rift: true,
     img: "assets/img/event-icons/riftraid.webp",
