@@ -46,6 +46,7 @@ window.TOOLS = [
     tags: ["guide", "rift", "dragon", "ashen", "tyrant", "eggs", "wyrmling", "evolution", "range", "melee", "wall", "obsidian", "boss"],
   },  {
     slug: "guide-rift-camps",
+    rift: true,
     img: "assets/img/event-icons/riftraid.webp",
     cat: "featured",
     name: "Rift Camp Quick Guide",
