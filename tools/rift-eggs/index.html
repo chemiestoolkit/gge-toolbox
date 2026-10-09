@@ -69,19 +69,15 @@
       <h1>💣 Dragon Egg &amp; Grenade Calculator</h1>
       <p>Every hit that lands on the Ashen Tyrant mutates a fifth of the remaining
          Dormant Rift-Eggs into Wyrmlings — so the eggs you do not kill early you
-         never get to kill at all. This works out how many Magmatic Grenades clear
-         the opening pile, and whether the wall-breaker should carry one.</p>
+         never get to kill at all. Scout the reserve, put the egg count in below, and this works out how many
+         Magmatic Grenades clear it and whether the wall-breaker should carry one.</p>
     </div>
 
     <section class="panel">
       <div class="rg-controls">
         <div class="rg-field">
-          <label for="rg-level">Dragon level</label>
-          <select id="rg-level"></select>
-        </div>
-        <div class="rg-field">
           <label for="rg-eggs">Dormant Rift-Eggs</label>
-          <input type="number" id="rg-eggs" min="0" step="1000" />
+          <input type="number" id="rg-eggs" min="0" step="1000" placeholder="e.g. 1,250,000" />
         </div>
         <div class="rg-field">
           <label for="rg-tier">Grenade tier</label>
@@ -117,11 +113,6 @@
 
     <div class="rg-note" id="rg-regen"></div>
 
-    <section class="panel">
-      <h2 class="rg-h">Every dragon level</h2>
-      <p class="rg-sub">Grenades to clear the opening egg pile, at the tier selected above.</p>
-      <div class="rg-scroll"><table class="rg" id="rg-levels"></table></div>
-    </section>
   </main>
 
   <footer class="footer">
@@ -137,14 +128,10 @@
     var KEY = "riftEggs.v1";
     var D = null, MUT = 0.20, SAFETY = 400;
 
-    var state = { level: 1, eggs: null, tier: null, noNade: false };
+    var state = { eggs: null, tier: null, noNade: false };
     try { state = Object.assign(state, JSON.parse(localStorage.getItem(KEY)) || {}); } catch (e) {}
     function save() { try { localStorage.setItem(KEY, JSON.stringify(state)); } catch (e) {} }
 
-    function levelById(l) {
-      for (var i = 0; i < D.levels.length; i++) if (D.levels[i].level === l) return D.levels[i];
-      return D.levels[0];
-    }
     function tierByKills(k) {
       for (var i = 0; i < D.tools.egg.length; i++) if (D.tools.egg[i].kills === k) return D.tools.egg[i];
       return D.tools.egg[D.tools.egg.length - 1];
@@ -183,7 +170,7 @@
       var r = current(), t = tierByKills(state.tier);
       var html = '';
       if ((+state.eggs || 0) <= 0) {
-        html = '<div class="rg-dim">Enter an egg count, or pick a dragon level, to see the grenade count.</div>';
+        html = '<div class="rg-dim">Scout the reserve and enter the Dormant Rift-Egg count to see the grenade count.</div>';
       } else {
         html += '<div><span class="lbl">Grenades needed</span><span class="big">' + n(r.nades) + '</span></div>';
         html += '<div><span class="lbl">Hits to clear</span><span class="big">' + n(r.hits) + '</span>' +
@@ -240,40 +227,21 @@
       $("rg-open").innerHTML = h;
     }
 
-    function renderLevels() {
-      var kill = tierByKills(state.tier).kills;
-      var h = '<tr><th class="l">Level</th><th>Opening eggs</th><th>Grenades</th><th>Hits</th>' +
-              '<th>Wall regen puts back</th></tr>';
-      D.levels.forEach(function (L) {
-        var r = run(L.eggs, kill, !!state.noNade);
-        h += '<tr' + (L.level === state.level ? ' class="is-pick"' : '') + '>' +
-             '<td class="l">' + L.level + '</td><td>' + n(L.eggs) + '</td>' +
-             '<td>' + n(r.nades) + '</td><td>' + n(r.hits) + '</td>' +
-             '<td>+' + n(L.wallRegenEggs) + '</td></tr>';
-      });
-      $("rg-levels").innerHTML = h;
-    }
-
     function renderRegen() {
-      var L = levelById(state.level);
       $("rg-regen").innerHTML =
-        '<b>This clears the opening pile only.</b> On level ' + L.level + ' the wall regeneration drops another <b>' +
-        n(L.wallRegenEggs) + '</b> Dormant Rift-Eggs back into the reserve every <b>' +
-        Math.round(L.wallRegenSeconds / 60) + ' minutes</b>, so a level that drags on needs grenades again. ' +
-        'That is the whole reason to front-load them — every hit you spend without one mutates ' + (MUT * 100) +
-        '% of what is still sitting there.';
+        "<b>This clears the pile you type in, nothing more.</b> Wall regeneration keeps dropping " +
+        "fresh Dormant Rift-Eggs back into the reserve while the level runs, and the amount scales " +
+        "steeply with level, so re-scout and run this again rather than trusting one answer for a " +
+        "whole level. Front-load the grenades either way \u2014 every hit you land without one mutates " +
+        (MUT * 100) + "% of whatever is still sitting there.";
     }
 
-    function render() { renderSummary(); renderTable(); renderTiers(); renderOpen(); renderLevels(); renderRegen(); }
+    function render() { renderSummary(); renderTable(); renderTiers(); renderOpen(); renderRegen(); }
 
     function fill() {
-      $("rg-level").innerHTML = D.levels.map(function (L) {
-        return '<option value="' + L.level + '">Level ' + L.level + ' — ' + n(L.eggs) + ' eggs</option>';
-      }).join("");
       $("rg-tier").innerHTML = D.tools.egg.map(function (t) {
         return '<option value="' + t.kills + '">' + esc(t.tier) + ' — ' + n(t.kills) + ' / hit</option>';
       }).join("");
-      $("rg-level").value = state.level;
       $("rg-tier").value = state.tier;
       $("rg-eggs").value = state.eggs;
       $("rg-nonade").checked = !!state.noNade;
@@ -281,17 +249,11 @@
     }
 
     function bind() {
-      $("rg-level").addEventListener("change", function () {
-        state.level = +this.value;
-        state.eggs = levelById(state.level).eggs;     // level drives the egg count
-        $("rg-eggs").value = state.eggs;
-        save(); render();
-      });
       $("rg-eggs").addEventListener("input", function () { state.eggs = +this.value || 0; save(); render(); });
       $("rg-tier").addEventListener("change", function () { state.tier = +this.value; save(); render(); });
       $("rg-nonade").addEventListener("change", function () { state.noNade = this.checked; save(); render(); });
       $("rg-reset").addEventListener("click", function () {
-        state = { level: 1, eggs: D.levels[0].eggs, tier: D.tools.egg[D.tools.egg.length - 1].kills, noNade: false };
+        state = { eggs: null, tier: D.tools.egg[D.tools.egg.length - 1].kills, noNade: false };
         save(); fill(); render();
       });
     }
@@ -303,7 +265,6 @@
         var eggMut = (d.mutation || []).filter(function (m) { return m.wodID === 785; })[0];
         if (eggMut) MUT = eggMut.pct / 100;
         if (state.tier == null) state.tier = D.tools.egg[D.tools.egg.length - 1].kills;   // default Gold
-        if (state.eggs == null) state.eggs = levelById(state.level).eggs;
         fill(); bind(); render();
         var chain = (d.mutation || []).map(function (m) {
           return esc(m.name) + " " + m.pct + "%";
