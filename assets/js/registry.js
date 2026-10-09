@@ -473,6 +473,17 @@ window.TOOLS = [
     tags: ["decorations", "deco", "might", "po", "decoration points", "layout", "effects", "courtyard", "exalted"],
   },
   {
+    slug: "berimond",
+    img: "assets/img/event-icons/berimond.webp",
+    cat: "overviews",
+    name: "Berimond Overview",
+    desc: "Every Berimond watchtower and camp lane by lane - the rubies each one pays, the coins, the garrison waiting inside and its level.",
+    icon: "🏰",
+    status: "live",
+    url: "tools/berimond/",
+    tags: ["berimond", "faction", "watchtower", "tower", "towers", "camp", "camps", "capital", "rubies", "ruby", "coins", "lane", "garrison", "defenders", "kingdom"],
+  },
+  {
     slug: "overview-buildings",
     img: "assets/img/tool-art/reinforced-vault.webp",
     cat: "overviews",

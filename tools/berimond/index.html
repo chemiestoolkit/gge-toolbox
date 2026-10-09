@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Berimond Overview — Maxy's Empire Toolkit</title>
+  <meta property="og:type" content="website" />
+  <meta property="og:site_name" content="Maxy's Empire Toolkit" />
+  <meta property="og:title" content="Berimond Overview — Maxy's Empire Toolkit" />
+  <meta property="og:description" content="Every Berimond watchtower and camp lane by lane: rubies paid, coins, defenders and the level art, straight from the game data." />
+  <meta property="og:url" content="https://chemiestoolkit.github.io/gge-toolbox/tools/berimond/" />
+  <meta property="og:image" content="https://chemiestoolkit.github.io/gge-toolbox/assets/img/event-icons/berimond.webp" />
+  <meta name="twitter:card" content="summary" />
+  <meta name="description" content="Goodgame Empire Berimond overview — ruby payout per watchtower, coins, defender counts and camp levels for every lane." />
+  <link rel="stylesheet" href="../../assets/css/theme.css?v=15" />
+  <link rel="icon" type="image/png" href="../../assets/img/favicon.png" />
+  <style>
+    .bm-bar { display: flex; flex-wrap: wrap; gap: 10px; align-items: center; margin-bottom: 4px; }
+    .bm-tab { padding: 8px 14px; font: inherit; font-size: .84rem; font-weight: 700; cursor: pointer;
+      border-radius: var(--radius-sm, 8px); border: 1px solid var(--border);
+      background: var(--bg-elev-2, var(--bg-elev)); color: var(--text-dim); transition: .12s; }
+    .bm-tab:hover { border-color: var(--gold-dim); color: var(--text); }
+    .bm-tab.on { border-color: var(--gold); color: var(--text); background: rgba(217,178,90,.08); }
+    .bm-count { font-size: .76rem; color: var(--text-faint, #8a8372); margin-left: auto; }
+
+    .bm-lane { margin-bottom: 22px; }
+    .bm-lane-head { display: flex; align-items: baseline; gap: 10px; margin: 0 0 8px;
+      padding-bottom: 5px; border-bottom: 1px solid var(--border); }
+    .bm-lane-head h2 { font-size: .95rem; margin: 0; color: var(--gold); }
+    .bm-lane-head .sub { font-size: .76rem; color: var(--text-dim); }
+
+    .bm-row { display: grid; grid-template-columns: repeat(auto-fill, minmax(104px, 1fr)); gap: 10px; }
+    .bm-camp { display: flex; flex-direction: column; align-items: center; gap: 2px; padding: 9px 6px 7px;
+      border: 1px solid var(--border); border-radius: var(--radius-sm, 8px);
+      background: var(--bg-elev-2, var(--bg-elev)); transition: .12s; }
+    .bm-camp:hover { border-color: var(--gold-dim); }
+    .bm-camp.capital { border-color: var(--gold); background: rgba(217,178,90,.07); }
+    /* The building sprites are tall (about 688x1356), so a square box rendered
+       them as an unreadable sliver. Match the box to the art. */
+    .bm-art { width: 54px; height: 100px; object-fit: contain; }
+    .bm-art-fallback { width: 54px; height: 100px; display: grid; place-items: center; font-size: 1.6rem; }
+    /* The ruby count sits under the tower, the way the game map prints it. */
+    .bm-rubies { font-size: 1.15rem; font-weight: 800; color: var(--gold-bright);
+      font-variant-numeric: tabular-nums; line-height: 1.1; }
+    .bm-rubies .r { font-size: .72rem; color: var(--text-dim); font-weight: 600; margin-left: 2px; }
+    .bm-meta { font-size: .68rem; color: var(--text-faint, #8a8372); text-align: center; line-height: 1.35; }
+    .bm-cap-tag { font-size: .6rem; font-weight: 800; letter-spacing: .05em; text-transform: uppercase;
+      color: var(--gold); }
+
+    table.bm { width: 100%; border-collapse: collapse; margin-top: 6px; font-variant-numeric: tabular-nums; font-size: .86rem; }
+    table.bm th, table.bm td { padding: 6px 9px; text-align: right; border-bottom: 1px solid rgba(255,255,255,.06); }
+    table.bm th:first-child, table.bm td:first-child { text-align: left; }
+    table.bm th { font-size: .7rem; text-transform: uppercase; letter-spacing: .05em;
+      color: var(--gold); border-bottom-color: var(--border); }
+    .bm-scroll { overflow-x: auto; }
+    h2.bm-h { font-size: 1.05rem; margin: 0 0 2px; }
+    p.bm-sub { font-size: .8rem; color: var(--text-dim); margin: 0 0 8px; }
+    .bm-note { margin: 18px 0; padding: 13px 16px; border-radius: var(--radius-sm, 8px);
+      background: rgba(217,178,90,.07); border-left: 3px solid var(--gold); font-size: .88rem; color: var(--text-dim); }
+    .bm-note b { color: var(--gold); }
+  </style>
+</head>
+<body>
+  <header class="topbar">
+    <div class="wrap">
+      <a class="brand" href="../../"><span class="crest">🛡️</span> Maxy's Empire <b>Toolkit</b></a>
+    </div>
+  </header>
+
+  <main class="wrap">
+    <div class="tool-head">
+      <a class="back" href="../../">← All tools</a>
+      <h1>🏰 Berimond Overview</h1>
+      <p>Every watchtower and camp on the Berimond map, lane by lane, with the rubies it
+         pays printed underneath exactly as the game shows it — plus the coins, the
+         defenders waiting inside and the level each one is.</p>
+    </div>
+
+    <section class="panel">
+      <div class="bm-bar" id="bm-tabs"></div>
+    </section>
+
+    <div id="bm-lanes"></div>
+
+    <section class="panel">
+      <h2 class="bm-h">Every camp in detail</h2>
+      <p class="bm-sub">Sorted by payout. Defenders are the garrison totals; a range means the camp draws from more than one set.</p>
+      <div class="bm-scroll"><table class="bm" id="bm-table"></table></div>
+    </section>
+
+    <div class="bm-note" id="bm-note"></div>
+  </main>
+
+  <footer class="footer">
+    <div class="wrap"><p>Camp payouts, garrisons and building art extracted direct from Goodgame Studios' game data.</p></div>
+  </footer>
+
+  <script>
+  (function () {
+    "use strict";
+    var $ = function (id) { return document.getElementById(id); };
+    var esc = function (s) { return String(s == null ? "" : s).replace(/[&<>"]/g, function (c) { return ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" })[c]; }); };
+    var n = function (v) { return Math.round(Number(v) || 0).toLocaleString(); };
+    var KEY = "berimond.v1";
+    var D = null;
+
+    // Lanes 1-4 and 5-8 are the two mirrored sides of the map.
+    var SIDES = [
+      { key: "all", label: "Both sides", test: function () { return true; } },
+      { key: "low", label: "Lanes 1–4", test: function (c) { return c.lane <= 4; } },
+      { key: "high", label: "Lanes 5–8", test: function (c) { return c.lane >= 5; } },
+    ];
+    var side = "all";
+    try { side = JSON.parse(localStorage.getItem(KEY)) || "all"; } catch (e) {}
+    function save() { try { localStorage.setItem(KEY, JSON.stringify(side)); } catch (e) {} }
+
+    function visible() {
+      var t = (SIDES.filter(function (s) { return s.key === side; })[0] || SIDES[0]).test;
+      return D.camps.filter(t);
+    }
+
+    // One sprite per kind. The game does not give a Berimond tower different
+    // art at different levels, so neither does this.
+    function artFor(c) {
+      return c.type === "CAPITAL" ? D.art.capital : D.art.tower;
+    }
+
+    function campCard(c) {
+      var url = artFor(c);
+      var art = url
+        ? '<img class="bm-art" src="' + esc(url) + '" alt="" loading="lazy" ' +
+          'onerror="this.outerHTML=\'<div class=&quot;bm-art-fallback&quot;>🏰</div>\'">'
+        : '<div class="bm-art-fallback">🏰</div>';
+      var cap = c.type === "CAPITAL";
+      return '<div class="bm-camp' + (cap ? ' capital' : '') + '">' + art +
+        '<div class="bm-rubies">' + n(c.rubies) + '<span class="r">💎</span></div>' +
+        (cap ? '<div class="bm-cap-tag">Capital</div>' : '') +
+        '<div class="bm-meta">L' + c.level + ' · ' + n(c.coins) + ' coins<br>' +
+        (c.defenceMin == null ? 'garrison ?' :
+          (c.defenceMin === c.defenceMax ? n(c.defenceMin) : n(c.defenceMin) + '–' + n(c.defenceMax)) + ' def') +
+        '</div></div>';
+    }
+
+    function renderTabs() {
+      $("bm-tabs").innerHTML = SIDES.map(function (s) {
+        return '<button class="bm-tab' + (s.key === side ? ' on' : '') + '" data-k="' + s.key + '" type="button">' +
+               esc(s.label) + '</button>';
+      }).join("") + '<span class="bm-count">' + n(visible().length) + ' camps · ' +
+        n(visible().reduce(function (a, c) { return a + c.rubies; }, 0)) + ' rubies total</span>';
+      $("bm-tabs").querySelectorAll(".bm-tab").forEach(function (b) {
+        b.addEventListener("click", function () { side = b.dataset.k; save(); render(); });
+      });
+    }
+
+    function renderLanes() {
+      var byLane = {};
+      visible().forEach(function (c) { (byLane[c.lane] = byLane[c.lane] || []).push(c); });
+      var html = Object.keys(byLane).sort(function (a, b) { return a - b; }).map(function (lane) {
+        var list = byLane[lane];
+        var rub = list.reduce(function (a, c) { return a + c.rubies; }, 0);
+        return '<section class="panel bm-lane"><div class="bm-lane-head"><h2>Lane ' + lane + '</h2>' +
+          '<span class="sub">' + list.length + ' camps · ' + n(rub) + ' rubies</span></div>' +
+          '<div class="bm-row">' + list.map(campCard).join("") + '</div></section>';
+      }).join("");
+      $("bm-lanes").innerHTML = html;
+    }
+
+    function renderTable() {
+      var rows = visible().slice().sort(function (a, b) { return b.rubies - a.rubies || a.lane - b.lane; });
+      var h = '<tr><th>Lane</th><th>Type</th><th>Lvl</th><th>Rubies</th><th>Coins</th>' +
+              '<th>Defenders</th><th>Villages</th><th>Wood</th><th>Stone</th><th>Food</th></tr>';
+      rows.forEach(function (c) {
+        h += '<tr><td>' + c.lane + '</td><td>' + esc(c.type === "CAPITAL" ? "Capital" : "Camp") + '</td>' +
+             '<td>' + c.level + '</td><td>' + n(c.rubies) + '</td><td>' + n(c.coins) + '</td>' +
+             '<td>' + (c.defenceMin == null ? '—' :
+                (c.defenceMin === c.defenceMax ? n(c.defenceMin) : n(c.defenceMin) + '–' + n(c.defenceMax))) + '</td>' +
+             '<td>' + n(c.villages) + '</td><td>' + n(c.wood) + '</td><td>' + n(c.stone) + '</td><td>' + n(c.food) + '</td></tr>';
+      });
+      $("bm-table").innerHTML = h;
+    }
+
+    function renderNote() {
+      var caps = D.camps.filter(function (c) { return c.type === "CAPITAL"; });
+      $("bm-note").innerHTML =
+        '<b>Reading the map.</b> The number under each tower is its ruby payout, which is how the game ' +
+        'labels them in play. Lanes 1–4 and 5–8 are the two mirrored sides, so a camp on lane 1 has a twin ' +
+        'on lane 5 with the same payout. The ' + caps.length + ' capitals are the heavily garrisoned ones ' +
+        'at the end of each side and are marked separately — the game does not print a ruby label on those. ' +
+        'The art is one sprite per kind, tower or capital, because that is how the game draws them: a level 60 ' +
+        'tower and a level 50 tower look identical on the map, only the numbers differ.';
+    }
+
+    function render() { renderTabs(); renderLanes(); renderTable(); renderNote(); }
+
+    fetch("./data/berimond.json")
+      .then(function (r) { return r.json(); })
+      .then(function (d) {
+        D = d;
+        render();
+      })
+      .catch(function (e) {
+        $("bm-lanes").innerHTML = '<p class="muted">Could not load the Berimond data.</p>';
+        console.error(e);
+      });
+  })();
+  </script>
+</body>
+</html>
