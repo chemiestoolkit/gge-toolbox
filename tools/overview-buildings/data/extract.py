@@ -9,10 +9,13 @@ Game data pulled direct from Goodgame by tools/_srcdata/pull.sh.
 Run from build.sh.
 """
 import glob, json, os, re, urllib.request
+from pathlib import Path
 
 _SRC      = os.path.abspath(os.path.join(os.path.dirname(__file__), "..", "..", "_srcdata", "cache"))
-ITEMS_URL = "file://" + os.path.join(_SRC, "items_latest.json")
-LANG_URL  = "file://" + os.path.join(_SRC, "en.json")
+# "file://" joined to a Windows drive path is not a valid URL, so this could
+# only ever run on macOS/Linux. Path.as_uri() is correct on every platform.
+ITEMS_URL = Path(_SRC, "items_latest.json").as_uri()
+LANG_URL  = Path(_SRC, "en.json").as_uri()
 OUT       = os.path.join(os.path.dirname(__file__), "buildings.json")
 ASSET_ROOT = "https://empire-html5.goodgamestudios.com/default/assets/"
 
@@ -26,9 +29,24 @@ def asset_index():
     return idx
 
 
+# A few buildings have no asset under their own key. The client ships one
+# generic Palace sprite and uses it for the Fire Peaks, Burning Sands and
+# Everwinter palaces alike, so point all three at it.
+#
+# Deliberately NOT aliased, because the client has no art for them at all and a
+# stand-in would be a guess: Kingdomhunter (Campaign hunting lodge), FactionGate
+# (Gate), FactionPalisade (Palisades) and the generic Deco row. Those fall
+# through to the page's placeholder.
+IMG_ALIAS = {
+    "firepalace": "palace",
+    "desertpalace": "palace",
+    "icepalace": "palace",
+}
+
+
 def building_img(idx, raw, max_level):
     """Best skin: highest shipped level asset at or below max level, else any variant."""
-    rl = raw.lower()
+    rl = IMG_ALIAS.get(raw.lower(), raw.lower())
     # collect every "<raw>_building_level<n>[_variant]" style key (incl. fixed-position piers etc.)
     cands = []
     for k in idx:
@@ -146,7 +164,11 @@ def main():
         })
 
     items.sort(key=lambda x: (-x["might"], x["name"]))
-    json.dump({"items": items, "count": len(items)}, open(OUT, "w"), ensure_ascii=False)
+    # encoding matters: with ensure_ascii=False the non-ASCII output (building
+    # sizes use a multiplication sign) must be written as UTF-8 explicitly, or a
+    # Windows run writes cp1252 and the served JSON is mojibake.
+    json.dump({"items": items, "count": len(items)},
+              open(OUT, "w", encoding="utf-8"), ensure_ascii=False)
     print(f"Wrote buildings.json — {len(items)} buildings.")
 
 
