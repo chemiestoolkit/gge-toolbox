@@ -36,7 +36,11 @@ EVENT_META = [
     ("Nomad Invasion",         "🌊", "nomadinvasion.webp"),
     ("Samurai Invasion",       "⚔️", "samuraiinvasion.webp"),
     ("Bloodcrow Invasion",     "🩸", "bloodcrow.webp"),
-    ("War of the Realms",      "⚔️", "waroftherealms.webp"),
+    # No icon: the file that shipped here was Berimond art (the red/blue Bears
+    # vs Lions paw emblem), not War of the Realms, so it was removed rather
+    # than left showing the wrong event. The chip falls back to the emoji.
+    # Drop a correct emblem in as waroftherealms.webp and restore the name here.
+    ("War of the Realms",      "⚔️", ""),
     ("Berimond Kingdom",       "🏰", "berimond.webp"),
     ("Rift Raid",              "🌀", "riftraid.webp"),
     ("Bladecoast",             "🗡️", "bladecoast.webp"),
