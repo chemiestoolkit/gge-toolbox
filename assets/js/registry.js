@@ -452,7 +452,7 @@ window.TOOLS = [
   },
   {
     slug: "battle-simulator",
-    img: "assets/img/event-icons/waroftherealms.webp",
+    img: "assets/img/tool-art/troops.webp",
     cat: "simulators",
     name: "Battle Simulator",
     desc: "Full attack-vs-castle combat sim: waves, tools, commander & castellan.",
