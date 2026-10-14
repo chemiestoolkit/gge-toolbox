@@ -151,11 +151,6 @@
   ],
   "news": [
     {
-      "date": "13 Oct 2026",
-      "title": "Special Spooky Halloween Deals",
-      "url": "https://communityhub.goodgamestudios.com/2026/10/13/special-spooky-halloween-deals/"
-    },
-    {
       "date": "1 Oct 2026",
       "title": "The Battle for Berimond, Reforged",
       "url": "https://communityhub.goodgamestudios.com/2026/10/01/the-battle-for-berimond-reforged/"
@@ -189,6 +184,11 @@
       "date": "7 Sep 2026",
       "title": "The TikTok Gates Are Opening",
       "url": "https://communityhub.goodgamestudios.com/2026/09/07/the-tiktok-gates-are-opening/"
+    },
+    {
+      "date": "27 Aug 2026",
+      "title": "The Celebration Continues: One Last Round of Fortune",
+      "url": "https://communityhub.goodgamestudios.com/2026/08/27/elementor-13794/"
     }
   ],
   "newsUrl": "https://communityhub.goodgamestudios.com/newshube4k/",
@@ -270,6 +270,6 @@
       }
     ]
   },
-  "newsUpdated": "2026-10-13",
-  "eventsUpdated": "2026-10-13"
+  "newsUpdated": "2026-10-14",
+  "eventsUpdated": "2026-10-14"
 }
