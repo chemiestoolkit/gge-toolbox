@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Gacha Rankings — Maxy's Empire Toolkit</title>
+  <meta property="og:type" content="website" />
+  <meta property="og:site_name" content="Maxy's Empire Toolkit" />
+  <meta property="og:title" content="Gacha Rankings — Maxy's Empire Toolkit" />
+  <meta property="og:description" content="Live leaderboards for the gacha events — Halloween Banquet, King&#x27;s Banquet, Enchanted Snowglobe and the rest — straight off the game servers, per server." />
+  <meta property="og:url" content="https://chemiestoolkit.github.io/gge-toolbox/tools/gacha-rankings/" />
+  <meta property="og:image" content="https://chemiestoolkit.github.io/gge-toolbox/assets/img/tool-art/gacha.webp" />
+  <meta name="twitter:card" content="summary" />
+  <meta name="description" content="Goodgame Empire gacha event rankings — Halloween Banquet and every other gacha leaderboard, live, per server." />
+  <link rel="stylesheet" href="../../assets/css/theme.css?v=15" />
+  <link rel="icon" type="image/png" href="../../assets/img/favicon.png" />
+  <style>
+    .gr-bar { display: flex; flex-wrap: wrap; gap: 10px; align-items: center; margin: 16px 0 10px; }
+    .gr-bar select, .gr-bar input {
+      padding: 8px 12px; font: inherit; background: var(--bg-elev); border: 1px solid var(--border);
+      border-radius: var(--radius-sm); color: var(--text); outline: none; min-width: 0;
+    }
+    .gr-bar select:focus, .gr-bar input:focus { border-color: var(--gold); }
+    .gr-btn {
+      padding: 8px 16px; font: inherit; font-weight: 600; cursor: pointer; border-radius: var(--radius-sm);
+      background: var(--gold); color: #1a1206; border: 1px solid var(--gold);
+    }
+    .gr-btn.ghost { background: var(--bg-elev); color: var(--text-dim); border-color: var(--border); }
+    .gr-btn.ghost:hover { color: var(--text); border-color: var(--gold-dim); }
+    .gr-btn:disabled { opacity: .5; cursor: default; }
+
+    .gr-you { display: none; flex-wrap: wrap; align-items: center; gap: 10px 26px; margin: 6px 0 14px;
+      padding: 14px 18px; border: 1px solid var(--gold-dim); border-radius: var(--radius);
+      background: linear-gradient(90deg, rgba(217,178,90,.12), transparent); }
+    .gr-you.on { display: flex; }
+    .gr-you .big { font-size: 2.4rem; font-weight: 800; color: var(--gold); line-height: 1; font-variant-numeric: tabular-nums; }
+    .gr-you .lbl { font-size: .68rem; text-transform: uppercase; letter-spacing: .06em; color: var(--text-faint); }
+    .gr-you .val { font-size: 1.15rem; font-weight: 700; color: var(--text); font-variant-numeric: tabular-nums; }
+    .gr-you .sub { font-size: .82rem; color: var(--text-dim); }
+    .gr-you .who { font-weight: 700; color: var(--text); }
+
+    table.gr { width: 100%; border-collapse: collapse; font-size: .9rem; }
+    table.gr th { text-align: left; padding: 9px 11px; font-size: .68rem; text-transform: uppercase; letter-spacing: .06em;
+      color: var(--gold-dim); border-bottom: 1px solid var(--border); white-space: nowrap; }
+    table.gr th.r, table.gr td.r { text-align: right; font-variant-numeric: tabular-nums; }
+    table.gr td { padding: 8px 11px; border-bottom: 1px solid var(--border-soft); color: var(--text-dim); }
+    table.gr td.nm { color: var(--text); font-weight: 600; }
+    table.gr tbody tr:hover td { background: rgba(217,178,90,.04); }
+    table.gr tbody tr.me td { background: rgba(217,178,90,.16); }
+    table.gr tbody tr.me td.nm { color: var(--gold); }
+    table.gr tbody tr.hit td { background: rgba(217,178,90,.10); }
+    .gr-status { color: var(--text-dim); font-size: .85rem; margin: 8px 0; }
+    .gr-status.err { color: var(--bad); }
+    .gr-pager { display: flex; flex-wrap: wrap; align-items: center; gap: 12px; margin-top: 12px; font-size: .85rem; color: var(--text-dim); }
+    .gr-live { display: inline-flex; align-items: center; gap: 6px; font-size: .8rem; color: var(--text-dim); margin-left: auto; }
+    .gr-live input { accent-color: var(--gold); }
+    .gr-note { font-size: .8rem; color: var(--text-faint); margin-top: 14px; line-height: 1.5;
+      border-left: 3px solid var(--gold-dim); padding: 8px 14px; background: rgba(217,178,90,.05); border-radius: var(--radius-sm); }
+    @media (max-width: 560px) {
+      .gr-bar select, .gr-bar input { flex: 1 1 100%; }
+      .gr-you .big { font-size: 2rem; }
+      table.gr td.al, table.gr th.al { display: none; }
+    }
+  </style>
+</head>
+<body>
+  <header class="topbar">
+    <div class="wrap">
+      <a class="brand" href="../../"><span class="crest">🛡️</span> Maxy's Empire <b>Toolkit</b></a>
+    </div>
+  </header>
+
+  <main class="wrap">
+    <div class="tool-head">
+      <a class="back" href="../../">← All tools</a>
+      <h1>🎰 Gacha Rankings</h1>
+      <p>Live leaderboards for the gacha events — Halloween Banquet, King's Banquet, the
+         Enchanted Snowglobe and the rest — read straight off the game servers. Save your
+         name to keep your own rank in view; the page refreshes itself while it's open.</p>
+    </div>
+
+    <section class="panel">
+      <div class="gr-bar">
+        <select id="server" title="Server"></select>
+        <select id="event" title="Gacha event"></select>
+        <select id="league" title="League"></select>
+        <input id="q" placeholder="Name…" style="min-width:150px" />
+        <button class="gr-btn" id="go">Find</button>
+        <button class="gr-btn ghost" id="me" title="Remember this name and keep its rank on top">★ That's me</button>
+      </div>
+
+      <div class="gr-you" id="you"></div>
+      <div class="gr-status" id="status"></div>
+      <div style="overflow-x:auto"><table class="gr" id="tbl"></table></div>
+      <div class="gr-pager">
+        <button class="gr-btn ghost" id="prev">← Prev</button>
+        <span id="pageinfo"></span>
+        <button class="gr-btn ghost" id="next">Next →</button>
+        <button class="gr-btn ghost" id="all">Full list</button>
+        <label class="gr-live"><input type="checkbox" id="live" checked /> refresh every minute <span id="updated"></span></label>
+      </div>
+
+      <div class="gr-note">
+        <b>About the data:</b> the game's own gacha highscore lists (highscore types 80–88 —
+        the Halloween Banquet is 86), read live via
+        <a href="https://github.com/danadum/empire-api" target="_blank" rel="noopener">danadum's empire-api</a>,
+        the same source as the Player &amp; Alliance Rankings. In the game itself the gacha
+        window only shows your own rank; this is the whole list. A gacha that isn't running
+        on a server shows no entries.
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <div class="wrap"><p>Rankings data: danadum's empire-api (live game highscore lists). A community project — see <a href="../../CREDITS.md">credits</a>.</p></div>
+  </footer>
+
+  <script src="app.js?v=1"></script>
+</body>
+</html>

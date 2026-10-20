@@ -44,7 +44,8 @@ window.TOOLS = [
     status: "live",
     url: "tools/guides/dragon-rift.html",
     tags: ["guide", "rift", "dragon", "ashen", "tyrant", "eggs", "wyrmling", "evolution", "range", "melee", "wall", "obsidian", "boss"],
-  },  {
+  },
+  {
     slug: "guide-rift-camps",
     rift: true,
     img: "assets/img/event-icons/riftraid.webp",
@@ -609,6 +610,17 @@ window.TOOLS = [
     status: "live",
     url: "tools/event-rankings/",
     tags: ["rankings", "leaderboard", "event", "live", "might", "honour", "invasion", "contest", "berimond", "nomad", "samurai", "rift"],
+  },
+  {
+    slug: "gacha-rankings",
+    img: "assets/img/tool-art/gacha.webp",
+    cat: "rankings",
+    name: "Gacha Rankings",
+    desc: "Live leaderboards for the gacha events — Halloween Banquet, King's Banquet, the Enchanted Snowglobe and the rest — with your own rank kept in view.",
+    icon: "🎰",
+    status: "live",
+    url: "tools/gacha-rankings/",
+    tags: ["rankings", "leaderboard", "gacha", "halloween", "banquet", "snowglobe", "carnival", "midnight market", "sands of fortune", "live", "event"],
   },
   {
     slug: "search-analyse",
