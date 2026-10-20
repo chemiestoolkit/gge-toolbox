@@ -1,5 +1,5 @@
 {
-  "generated": "2026-10-19T22:41:33Z",
+  "generated": "2026-10-20T12:39:43Z",
   "events": [
     {
       "eventID": 36,
@@ -1139,7 +1139,7 @@
             },
             {
               "points": 15000,
-              "name": "Pool of the Berimond kings",
+              "name": "Exalted Pool of the Berimond kings",
               "type": "Decoration",
               "amount": 1
             },
@@ -1229,7 +1229,7 @@
             },
             {
               "points": 30000,
-              "name": "Pool of the Berimond kings",
+              "name": "Exalted Pool of the Berimond kings",
               "type": "Decoration",
               "amount": 1
             },
@@ -1361,7 +1361,7 @@
             },
             {
               "points": 200000,
-              "name": "Pool of the Berimond kings",
+              "name": "Exalted Pool of the Berimond kings",
               "type": "Decoration",
               "amount": 1
             },
@@ -1393,19 +1393,73 @@
               "points": 400000,
               "name": "Silver pieces",
               "type": "Resource",
-              "amount": 1800
+              "amount": 1500
             },
             {
               "points": 450000,
               "name": "Silver pieces",
               "type": "Resource",
-              "amount": 1800
+              "amount": 1500
             },
             {
               "points": 500000,
               "name": "Silver pieces",
               "type": "Resource",
-              "amount": 3600
+              "amount": 1500
+            },
+            {
+              "points": 550000,
+              "name": "Silver pieces",
+              "type": "Resource",
+              "amount": 1500
+            },
+            {
+              "points": 600000,
+              "name": "Silver pieces",
+              "type": "Resource",
+              "amount": 1500
+            },
+            {
+              "points": 650000,
+              "name": "Silver pieces",
+              "type": "Resource",
+              "amount": 1500
+            },
+            {
+              "points": 700000,
+              "name": "Silver pieces",
+              "type": "Resource",
+              "amount": 2500
+            },
+            {
+              "points": 750000,
+              "name": "Silver pieces",
+              "type": "Resource",
+              "amount": 1800
+            },
+            {
+              "points": 800000,
+              "name": "Silver pieces",
+              "type": "Resource",
+              "amount": 1800
+            },
+            {
+              "points": 850000,
+              "name": "Silver pieces",
+              "type": "Resource",
+              "amount": 1800
+            },
+            {
+              "points": 900000,
+              "name": "Silver pieces",
+              "type": "Resource",
+              "amount": 1800
+            },
+            {
+              "points": 950000,
+              "name": "Silver pieces",
+              "type": "Resource",
+              "amount": 4000
             }
           ]
         },
@@ -1523,7 +1577,7 @@
             },
             {
               "points": 15000,
-              "name": "Pool of the Berimond kings",
+              "name": "Exalted Pool of the Berimond kings",
               "type": "Decoration",
               "amount": 1
             },
@@ -1613,7 +1667,7 @@
             },
             {
               "points": 30000,
-              "name": "Pool of the Berimond kings",
+              "name": "Exalted Pool of the Berimond kings",
               "type": "Decoration",
               "amount": 1
             },
@@ -1745,7 +1799,7 @@
             },
             {
               "points": 200000,
-              "name": "Pool of the Berimond kings",
+              "name": "Exalted Pool of the Berimond kings",
               "type": "Decoration",
               "amount": 1
             },
@@ -1777,19 +1831,73 @@
               "points": 400000,
               "name": "Silver pieces",
               "type": "Resource",
-              "amount": 1800
+              "amount": 1500
             },
             {
               "points": 450000,
               "name": "Silver pieces",
               "type": "Resource",
-              "amount": 1800
+              "amount": 1500
             },
             {
               "points": 500000,
               "name": "Silver pieces",
               "type": "Resource",
-              "amount": 3600
+              "amount": 1500
+            },
+            {
+              "points": 550000,
+              "name": "Silver pieces",
+              "type": "Resource",
+              "amount": 1500
+            },
+            {
+              "points": 600000,
+              "name": "Silver pieces",
+              "type": "Resource",
+              "amount": 1500
+            },
+            {
+              "points": 650000,
+              "name": "Silver pieces",
+              "type": "Resource",
+              "amount": 1500
+            },
+            {
+              "points": 700000,
+              "name": "Silver pieces",
+              "type": "Resource",
+              "amount": 2500
+            },
+            {
+              "points": 750000,
+              "name": "Silver pieces",
+              "type": "Resource",
+              "amount": 1800
+            },
+            {
+              "points": 800000,
+              "name": "Silver pieces",
+              "type": "Resource",
+              "amount": 1800
+            },
+            {
+              "points": 850000,
+              "name": "Silver pieces",
+              "type": "Resource",
+              "amount": 1800
+            },
+            {
+              "points": 900000,
+              "name": "Silver pieces",
+              "type": "Resource",
+              "amount": 1800
+            },
+            {
+              "points": 950000,
+              "name": "Silver pieces",
+              "type": "Resource",
+              "amount": 4000
             }
           ]
         }
