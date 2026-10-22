@@ -612,6 +612,17 @@ window.TOOLS = [
     tags: ["rankings", "leaderboard", "event", "live", "might", "honour", "invasion", "contest", "berimond", "nomad", "samurai", "rift"],
   },
   {
+    slug: "berimond-titles",
+    img: "assets/img/event-icons/berimond.webp",
+    cat: "rankings",
+    name: "Berimond Gallantry Titles",
+    desc: "Who is first and who is in the top 10 of the Battle for Berimond faction board, with their gallantry points — plus all 27 gallantry titles, the points or position each needs, its daily decay and its bonus.",
+    icon: "🐻",
+    status: "live",
+    url: "tools/berimond-titles/",
+    tags: ["berimond", "gallantry", "titles", "title", "faction", "rankings", "leaderboard", "top 10", "claw king", "herald of the battle", "ursidae", "gerbrandt", "decay", "bravery", "nobility"],
+  },
+  {
     slug: "gacha-rankings",
     img: "assets/img/tool-art/gacha.webp",
     cat: "rankings",

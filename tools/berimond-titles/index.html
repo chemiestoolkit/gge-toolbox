@@ -1,0 +1,513 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Berimond Gallantry Titles — Maxy's Empire Toolkit</title>
+  <meta property="og:type" content="website" />
+  <meta property="og:site_name" content="Maxy's Empire Toolkit" />
+  <meta property="og:title" content="Berimond Gallantry Titles — Maxy's Empire Toolkit" />
+  <meta property="og:description" content="The live Battle for Berimond gallantry board — who is first, who is in the top 10, and the points they hold — plus the full 27-step gallantry title ladder." />
+  <meta property="og:url" content="https://chemiestoolkit.github.io/gge-toolbox/tools/berimond-titles/" />
+  <meta property="og:image" content="https://chemiestoolkit.github.io/gge-toolbox/assets/img/event-icons/berimond.webp" />
+  <meta name="twitter:card" content="summary" />
+  <meta name="description" content="Goodgame Empire Berimond gallantry titles — the live faction leaderboard top 10 with scores, and every gallantry title from Acolyte to Claw King with its points, decay, might and bonus." />
+  <link rel="stylesheet" href="../../assets/css/theme.css?v=15" />
+  <link rel="stylesheet" href="../vip/vip.css" />
+  <link rel="icon" type="image/png" href="../../assets/img/favicon.png" />
+  <style>
+    /* ---- banner + the #1 hero ---- */
+    .bt-banner { display: flex; align-items: center; gap: 14px; background: linear-gradient(90deg, rgba(217,178,90,.10), transparent);
+      border: 1px solid var(--gold-dim); border-radius: var(--radius); padding: 12px 16px; margin: 4px 0 14px; }
+    .bt-art { width: 52px; height: 52px; border-radius: var(--radius-sm); object-fit: cover; flex: none; box-shadow: 0 2px 8px rgba(0,0,0,.3); }
+    .bt-bn-name { font-size: 1.08rem; font-weight: 700; color: var(--text); font-family: var(--font-display, inherit); }
+    .bt-bn-sub { font-size: .8rem; color: var(--text-dim); margin-top: 2px; }
+
+    /* Shown by the script (as flex) only once a rank-1 row is actually on screen. */
+    .bt-hero { display: none; margin: 0 0 14px; padding: 16px 18px; border: 1px solid var(--gold); border-radius: var(--radius);
+      background: radial-gradient(120% 140% at 0% 0%, rgba(217,178,90,.16), rgba(20,21,26,.96));
+      flex-wrap: wrap; gap: 6px 28px; align-items: baseline; }
+    .bt-hero .crown { font-size: 1.5rem; line-height: 1; }
+    .bt-hero .who { font-size: 1.6rem; font-weight: 700; color: var(--gold-bright); font-family: var(--font-display, inherit); }
+    .bt-hero .pts { font-size: 1.6rem; font-weight: 700; color: var(--text); font-variant-numeric: tabular-nums; }
+    .bt-hero .lbl { display: block; font-size: .72rem; text-transform: uppercase; letter-spacing: .06em; color: var(--text-dim); font-weight: 400; }
+    .bt-hero .ttl { font-size: .95rem; color: var(--gold); }
+
+    .bt-cut td { position: relative; }
+    .bt-cut td:first-child { box-shadow: inset 3px 0 0 var(--gold); }
+    tr.bt-cut-after td { border-bottom: 1px solid var(--gold-dim) !important; }
+    .bt-badge { display: inline-block; padding: 1px 6px; border-radius: 999px; font-size: .68rem;
+      border: 1px solid var(--gold-dim); color: var(--gold); white-space: nowrap; }
+    .bt-worn { color: var(--text-faint); font-size: .72rem; }
+
+    /* ---- the ladder ---- */
+    .bt-controls { display: flex; flex-wrap: wrap; gap: 12px; align-items: flex-end; }
+    .bt-field { display: flex; flex-direction: column; gap: 4px; }
+    .bt-field label { font-size: .78rem; color: var(--text-dim); }
+    .bt-field input { padding: 9px 11px; font: inherit; width: 150px; background: var(--bg-elev);
+      border: 1px solid var(--border); border-radius: var(--radius-sm, 8px); color: var(--text); }
+    .bt-field input:focus { outline: none; border-color: var(--gold); }
+    .bt-btn { padding: 9px 14px; font: inherit; cursor: pointer; border-radius: var(--radius-sm, 8px);
+      border: 1px solid var(--border); background: var(--bg-elev); color: var(--text-dim); }
+    .bt-btn:hover { border-color: var(--gold); color: var(--gold); }
+
+    .bt-summary { margin: 14px 0 0; padding: 14px 16px; border: 1px solid var(--gold-dim); border-radius: var(--radius);
+      background: rgba(20,21,26,.96); display: flex; flex-wrap: wrap; gap: 14px 28px; align-items: baseline; }
+    .bt-summary .big { font-size: 1.3rem; font-weight: 700; color: var(--gold-bright); font-variant-numeric: tabular-nums; }
+    .bt-summary .lbl { display: block; font-size: .74rem; text-transform: uppercase; letter-spacing: .05em; color: var(--text-dim); font-weight: 400; }
+    .bt-summary .warn { color: var(--bad); }
+    .bt-summary .ok { color: var(--good); }
+    .bt-summary .bt-faint { display: block; margin-top: 2px; }
+
+    table.bt { width: 100%; border-collapse: collapse; margin-top: 6px; }
+    table.bt th, table.bt td { padding: 7px 9px; text-align: left; border-bottom: 1px solid rgba(255,255,255,.06); }
+    table.bt th { font-size: .74rem; text-transform: uppercase; letter-spacing: .05em; color: var(--gold); border-bottom-color: var(--border); }
+    table.bt td.num, table.bt th.num { text-align: right; font-variant-numeric: tabular-nums; }
+    table.bt tr.is-held { background: rgba(217,178,90,.10); }
+    table.bt tr.is-next { background: rgba(217,178,90,.18); }
+    table.bt tr.is-held td:first-child { box-shadow: inset 3px 0 0 var(--gold); }
+    table.bt tr.is-next td:first-child { box-shadow: inset 3px 0 0 var(--gold-bright); }
+    table.bt tr.is-ranked td.req { color: var(--gold); }
+    .bt-dim { color: var(--text-dim); }
+    .bt-faint { color: var(--text-faint); font-size: .76rem; }
+    .bt-scroll { overflow-x: auto; }
+    h2.bt-h { font-size: 1.05rem; margin: 0 0 2px; }
+    p.bt-sub { font-size: .8rem; color: var(--text-dim); margin: 0 0 8px; }
+    .bt-note { margin: 10px 0 0; padding: 11px 13px; border-left: 3px solid var(--gold-dim);
+      background: rgba(217,178,90,.05); font-size: .83rem; color: var(--text-dim); }
+    .bt-note b { color: var(--text); }
+  </style>
+</head>
+<body>
+  <header class="topbar">
+    <div class="wrap">
+      <a class="brand" href="../../"><span class="crest">🛡️</span> Maxy's Empire <b>Toolkit</b></a>
+    </div>
+  </header>
+
+  <main class="wrap">
+    <div class="tool-head">
+      <a class="back" href="../../">← All tools</a>
+      <h1>🐻 Berimond Gallantry Titles</h1>
+      <p>Berimond runs its own title ladder, separate from glory — the game calls them
+         <b>gallantry titles</b>. The first twenty are bought with gallantry points; the last
+         seven are bought with a <b>position on the faction board</b>, which is why the top of
+         Berimond is a race and not a grind. This reads that board live and shows who holds what.</p>
+    </div>
+
+    <!-- ===================== live board ===================== -->
+    <section class="panel">
+      <h2 class="bt-h">Live faction board</h2>
+      <p class="bt-sub">Straight off the game servers. Search a rank number or a name to jump.</p>
+
+      <div class="vip-toolbar" id="bt-toolbar">
+        <select class="vip-server-pick" id="bt-server"></select>
+        <select class="vip-server-pick" id="bt-board"></select>
+        <input class="vip-input" id="bt-q" placeholder="Rank # or name…" style="min-width:150px" />
+        <button class="vip-btn" id="bt-go">Search</button>
+        <button class="vip-btn ghost" id="bt-top">Top 10</button>
+      </div>
+
+      <div class="bt-banner" id="bt-banner" style="display:none"></div>
+      <div class="bt-hero" id="bt-hero"></div>
+      <div class="vip-status" id="bt-status"></div>
+      <div class="bt-scroll"><table class="vip-table" id="bt-table"></table></div>
+      <div class="vip-pager">
+        <button class="vip-btn ghost" id="bt-prev">← Prev</button>
+        <span id="bt-pageinfo"></span>
+        <button class="vip-btn ghost" id="bt-next">Next →</button>
+      </div>
+
+      <p class="vip-credit">Live data over the game protocol via
+        <a href="https://github.com/danadum/empire-api" target="_blank" rel="noopener">danadum's empire-api</a>.
+        The game only publishes this board while a Battle for Berimond is running.</p>
+    </section>
+
+    <!-- ===================== where am I ===================== -->
+    <section class="panel">
+      <h2 class="bt-h">Which title do my points buy?</h2>
+      <p class="bt-sub">Gallantry points carry over between Berimond runs, but they bleed away every day — so the
+        question is not only what you have reached, it is what you can hold.</p>
+      <div class="bt-controls">
+        <div class="bt-field">
+          <label for="bt-points">Your gallantry points</label>
+          <input type="number" id="bt-points" min="0" placeholder="e.g. 120000" />
+        </div>
+        <div class="bt-field">
+          <label for="bt-rank">Your board position (optional)</label>
+          <input type="number" id="bt-rank" min="1" placeholder="e.g. 8" />
+        </div>
+        <button class="bt-btn" id="bt-clear">Clear</button>
+      </div>
+      <div class="bt-summary" id="bt-summary"></div>
+    </section>
+
+    <!-- ===================== the ladder ===================== -->
+    <section class="panel">
+      <h2 class="bt-h">The gallantry ladder</h2>
+      <p class="bt-sub" id="bt-ladder-sub"></p>
+      <div class="bt-scroll"><table class="bt" id="bt-ladder"></table></div>
+      <p class="bt-note" id="bt-ladder-note"></p>
+    </section>
+
+    <section class="panel">
+      <h2 class="bt-h">How the ladder works</h2>
+      <ul class="bt-dim" style="font-size:.86rem; line-height:1.65; padding-left:1.1rem; margin:6px 0 0">
+        <li><b>Two currencies for one ladder.</b> Steps 1–20 unlock at a fixed gallantry-point total.
+          Steps 21–27 unlock at a <b>position</b> instead — top 100, 75, 50, 30, 20, 10 and finally
+          first. No amount of points buys those; somebody has to be behind you.</li>
+        <li><b>Points decay daily.</b> Each title carries its own loss rate, rising to 7% a day at the
+          top. Holding a title is a separate job from reaching it — if a day's decay drops you under the
+          threshold, the title goes with it.</li>
+        <li><b>The top thresholds move.</b> The game refreshes the points needed for the ranked
+          positions every 12 hours, and treats them as approximate even then. The live board above is
+          the real answer to "what does top 10 cost today".</li>
+        <li><b>Four separate boards.</b> Ursidae (blue) and Gerbrandt (red) each get a level 40–69 board
+          and a level 70 board, so a position is a position <em>within your own list</em>.</li>
+        <li><b>You keep the bonus either way.</b> Every title you hold applies its effect whether or not
+          you have it selected for display — selecting only changes the name other lords see.</li>
+      </ul>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <div class="wrap"><p id="bt-foot">Title ladder, thresholds, decay rates and bonuses extracted direct from Goodgame Studios' game data.</p></div>
+  </footer>
+
+  <script src="../vip/vip-icons.js"></script>
+  <script src="../vip/vip-viz.js"></script>
+  <script>
+  (function () {
+    "use strict";
+    var API = "https://empire-api.fly.dev";
+
+    /* GGE worlds: zone -> display name (same list the Live Event Rankings tool uses). */
+    var SERVERS = {
+      "EmpireEx_22": "Australia (AU1)", "EmpireEx": "International 1", "EmpireEx_7": "International 2",
+      "EmpireEx_43": "International 3", "EmpireEx_46": "World 1", "EmpireEx_49": "World 2",
+      "EmpireEx_2": "Germany", "EmpireEx_3": "France", "EmpireEx_19": "Great Britain",
+      "EmpireEx_21": "USA", "EmpireEx_20": "Brazil", "EmpireEx_8": "Spain", "EmpireEx_38": "Spain 2",
+      "EmpireEx_9": "Italy", "EmpireEx_10": "Turkey", "EmpireEx_11": "Netherlands",
+      "EmpireEx_12": "Hungary", "EmpireEx_17": "Hungary 2", "EmpireEx_5": "Poland",
+      "EmpireEx_6": "Portuguese", "EmpireEx_4": "Czechia", "EmpireEx_18": "Slovakia",
+      "EmpireEx_13": "Scandinavia", "EmpireEx_14": "Russia", "EmpireEx_15": "Romania",
+      "EmpireEx_16": "Bulgaria", "EmpireEx_28": "Greece", "EmpireEx_29": "Lithuania",
+      "EmpireEx_24": "Japan", "EmpireEx_26": "India", "EmpireEx_27": "China",
+      "EmpireEx_25": "Hispanic", "EmpireEx_32": "Saudi Arabia", "EmpireEx_33": "UAE",
+      "EmpireEx_34": "Egypt", "EmpireEx_35": "Arab", "EmpireEx_36": "Asia", "EmpireEx_37": "HANT"
+    };
+
+    var $ = function (id) { return document.getElementById(id); };
+    var esc = function (s) { return String(s == null ? "" : s).replace(/[&<>"]/g, function (c) {
+      return ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" })[c]; }); };
+    var n = function (v) { return v == null ? "—" : Number(v).toLocaleString(); };
+
+    var KEY = "berimondTitles.v1";
+    var D = null, byId = {};
+    var state = { server: "EmpireEx_22", lid: 3, points: "", rank: "" };
+    try { state = Object.assign(state, JSON.parse(localStorage.getItem(KEY)) || {}); } catch (e) {}
+    function save() { try { localStorage.setItem(KEY, JSON.stringify(state)); } catch (e) {} }
+
+    /* ---------- the ladder maths ----------
+       A title is held when its points threshold is met, or when the board
+       position is inside its topX. The ladder is ordered, so the title you
+       actually wear is the furthest step you qualify for either way. */
+    function heldStep(points, rank) {
+      var best = 0;
+      for (var i = 0; i < D.titles.length; i++) {
+        var t = D.titles[i];
+        var ok = (t.points != null && points != null && points >= t.points) ||
+                 (t.topX != null && rank != null && rank >= 1 && rank <= t.topX);
+        if (ok) best = t.step;
+      }
+      return best;
+    }
+    function stepTitle(step) { return step >= 1 ? D.titles[step - 1] : null; }
+
+    /* ---------- live board ---------- */
+    var rows = [], firstRank = 1, lastRank = 1, pageSize = 10;
+    var search = 1;
+
+    function boardName(lid) {
+      for (var i = 0; i < D.boards.length; i++) if (D.boards[i].lid === lid) return D.boards[i].name;
+      return "List " + lid;
+    }
+
+    function renderBanner() {
+      $("bt-banner").innerHTML =
+        '<img class="bt-art" src="../../assets/img/event-icons/berimond.webp" alt="" loading="lazy">' +
+        '<div><div class="bt-bn-name">' + esc(D.labels.eventName || "Battle for Berimond") + "</div>" +
+        '<div class="bt-bn-sub">' + esc(boardName(state.lid)) + " · " +
+        esc(SERVERS[state.server] || state.server) + "</div></div>";
+      $("bt-banner").style.display = "";
+    }
+
+    function wornTitle(info) {
+      var out = [];
+      [info.PRE, info.SUF].forEach(function (id) {
+        var t = byId[id];
+        if (t) out.push(t.name);
+      });
+      return out;
+    }
+
+    function renderHero() {
+      var top = rows.length && rows[0][0] === 1 ? rows[0] : null;
+      if (!top) { $("bt-hero").style.display = "none"; return; }
+      var t = stepTitle(heldStep(Number(top[1]), 1));
+      $("bt-hero").innerHTML =
+        '<span class="crown">👑</span>' +
+        '<span><span class="lbl">First on this board</span><span class="who">' + esc(top[2].N || "?") + "</span></span>" +
+        '<span><span class="lbl">Gallantry points</span><span class="pts">' + n(top[1]) + "</span></span>" +
+        (t ? '<span><span class="lbl">Title this buys</span><span class="ttl">' + esc(t.name) + "</span></span>" : "") +
+        (top[2].AN ? '<span><span class="lbl">Alliance</span><span class="ttl">' + esc(top[2].AN) + "</span></span>" : "");
+      $("bt-hero").style.display = "flex";
+    }
+
+    function renderRows() {
+      var max = 1;
+      rows.forEach(function (r) { max = Math.max(max, Number(r[1]) || 0); });
+      var html = "<thead><tr><th>#</th><th>Player</th><th>Level</th><th>Alliance</th>" +
+        "<th style='text-align:right'>" + (window.GGEi.ic("glory", 13) || "") + " Gallantry</th>" +
+        "<th>Title this position earns</th></tr></thead>";
+      $("bt-table").innerHTML = html;
+      var tb = document.createElement("tbody");
+      rows.forEach(function (row) {
+        var rank = row[0], score = Number(row[1]) || 0, info = row[2] || {};
+        var t = stepTitle(heldStep(score, rank));
+        var worn = wornTitle(info);
+        var lvl = info.LL ? info.L + "/" + info.LL : info.L;
+        var tr = document.createElement("tr");
+        if (rank <= 10) tr.className = "bt-cut";
+        if (rank === 10) tr.className += " bt-cut-after";
+        tr.innerHTML =
+          '<td class="r">' + (window.GGEi.medal(rank, 17) || n(rank)) + "</td>" +
+          '<td class="nm">' + esc(info.N || "?") +
+            (worn.length ? '<div class="bt-worn">wearing ' + esc(worn.join(" · ")) + "</div>" : "") + "</td>" +
+          '<td class="r">' + esc(lvl == null ? "—" : lvl) + "</td>" +
+          "<td>" + esc(info.AN || "—") + "</td>" +
+          '<td class="r"><span class="gv-barwrap">' +
+            window.GGEv.bar(score, max, { w: 46, bare: true, color: "var(--gold)" }) +
+            "<b>" + n(score) + "</b></span></td>" +
+          "<td>" + (t ? '<span class="bt-badge">' + esc(t.name) + "</span>" : '<span class="bt-faint">none yet</span>') + "</td>";
+        tb.appendChild(tr);
+      });
+      $("bt-table").appendChild(tb);
+    }
+
+    function offline(message) {
+      rows = [];
+      $("bt-hero").style.display = "none";
+      $("bt-table").innerHTML = "";
+      $("bt-pageinfo").textContent = "";
+      $("bt-status").className = "vip-status";
+      $("bt-status").innerHTML = message;
+    }
+
+    function load() {
+      renderBanner();
+      $("bt-status").className = "vip-status";
+      $("bt-status").textContent = "Loading…";
+      var isRank = /^-?[0-9]+$/.test(String(search));
+      var url = API + "/" + state.server + "/hgh/%22LT%22:" + D.listType + ",%22LID%22:" + state.lid +
+        ",%22SV%22:%22" + encodeURIComponent(isRank ? String(search) : search) + "%22";
+
+      // Two tries: the socket occasionally drops the first reply.
+      (function attemptFetch(tries) {
+        fetch(url)
+          .then(function (r) { return r.json(); })
+          .then(function (j) {
+            if (!(j.return_code === 0 || j.return_code === "0")) throw new Error(j.error || "no reply");
+            var content = j.content || {};
+            rows = content.L || [];
+            lastRank = content.LR || (rows.length ? rows[rows.length - 1][0] : 0);
+            if (!rows.length) {
+              offline("No entries on <b>" + esc(boardName(state.lid)) + "</b>. If you searched a name, " +
+                "check the spelling — otherwise this list is empty right now.");
+              return;
+            }
+            firstRank = rows[0][0];
+            pageSize = Math.max(rows.length, 1);
+            renderHero();
+            renderRows();
+            $("bt-status").textContent = boardName(state.lid) + " · highest tracked rank ~" + n(lastRank);
+            $("bt-pageinfo").textContent = "Ranks " + n(firstRank) + "–" + n(rows[rows.length - 1][0]);
+          })
+          .catch(function (e) {
+            if (tries > 1) { setTimeout(function () { attemptFetch(tries - 1); }, 600); return; }
+            offline("<b>No live gallantry board on " + esc(SERVERS[state.server] || state.server) + " right now.</b> " +
+              "The game only publishes the faction leaderboard while a Battle for Berimond is running — " +
+              "between runs there is nothing to read, so this comes back empty. " +
+              "The ladder below is extracted from the game data and is accurate either way.");
+          });
+      })(2);
+    }
+
+    /* ---------- "which title do my points buy" ---------- */
+    function renderSummary() {
+      var points = state.points === "" ? null : Math.max(0, Number(state.points) || 0);
+      var rank = state.rank === "" ? null : Math.max(1, Number(state.rank) || 0);
+      if (points == null && rank == null) {
+        $("bt-summary").innerHTML = '<span class="bt-dim">Enter your gallantry points — and your board position if you have one — ' +
+          'to see the title you hold, what is next, and whether a day of decay costs you it.</span>';
+        highlight(0, 0);
+        return;
+      }
+      var step = heldStep(points, rank);
+      var held = stepTitle(step);
+      var next = step < D.titles.length ? D.titles[step] : null;
+      var parts = [];
+
+      parts.push('<span><span class="lbl">Title held</span><span class="big">' +
+        (held ? esc(held.name) : "none yet") + "</span></span>");
+
+      if (next) {
+        if (next.points != null) {
+          var gap = points == null ? next.points : Math.max(0, next.points - points);
+          parts.push('<span><span class="lbl">Next: ' + esc(next.name) + '</span><span class="big">' +
+            n(gap) + ' <span style="font-size:.8rem;font-weight:400;color:var(--text-dim)">points to go</span></span></span>');
+        } else {
+          parts.push('<span><span class="lbl">Next: ' + esc(next.name) + '</span><span class="big">top ' +
+            n(next.topX) + ' <span style="font-size:.8rem;font-weight:400;color:var(--text-dim)">on your board</span></span></span>');
+        }
+      } else {
+        parts.push('<span><span class="lbl">Next</span><span class="big ok">top of the ladder</span></span>');
+      }
+
+      /* Decay: the game takes `decay`% of your points off every day. The title
+         only survives tomorrow if what is left still clears its threshold. */
+      if (held && points != null && held.decayPct > 0) {
+        var afterDay = Math.floor(points * (100 - held.decayPct) / 100);
+        if (held.points != null) {
+          var safe = afterDay >= held.points;
+          parts.push('<span><span class="lbl">After one day of −' + held.decayPct + '%</span><span class="big ' +
+            (safe ? "ok" : "warn") + '">' + n(afterDay) + "</span>" +
+            '<span class="bt-faint">' + (safe ? "still holds " + esc(held.name) : "drops below " + esc(held.name)) +
+            "</span></span>");
+        } else {
+          parts.push('<span><span class="lbl">After one day of −' + held.decayPct + '%</span><span class="big">' +
+            n(afterDay) + "</span><span class=\"bt-faint\">position titles depend on the board, not this number</span></span>");
+        }
+      }
+
+      if (held) {
+        parts.push('<span><span class="lbl">' + esc(D.labels.mightHeader || "Awarded might points") +
+          '</span><span class="big">' + n(held.might) + "</span></span>");
+      }
+
+      $("bt-summary").innerHTML = parts.join("");
+      highlight(step, next ? next.step : 0);
+    }
+
+    function highlight(heldStepNo, nextStepNo) {
+      var trs = $("bt-ladder").querySelectorAll("tbody tr");
+      for (var i = 0; i < trs.length; i++) {
+        var s = +trs[i].getAttribute("data-step");
+        trs[i].classList.toggle("is-held", s === heldStepNo);
+        trs[i].classList.toggle("is-next", s === nextStepNo);
+      }
+    }
+
+    /* ---------- the ladder table ---------- */
+    function renderLadder() {
+      var loss = D.labels.dailyLoss || "-{0}% points per day";
+      $("bt-ladder").innerHTML = "<thead><tr><th>#</th><th>Title</th><th>Shown as</th>" +
+        "<th class='num'>" + esc(D.labels.pointsNeeded || "Gallantry points required") + "</th>" +
+        "<th class='num'>Daily loss</th><th class='num'>Might</th><th>Bonus</th></tr></thead>";
+      var tb = document.createElement("tbody");
+      D.titles.forEach(function (t) {
+        var tr = document.createElement("tr");
+        tr.setAttribute("data-step", t.step);
+        if (t.topX != null) tr.className = "is-ranked";
+        var req = t.points != null ? n(t.points) : "top " + n(t.topX);
+        var bonus = t.effects.map(function (e) {
+          var text = esc(e.text);
+          if (e.bare != null) text += ' <span class="bt-badge">' + n(e.bare) + "</span>";
+          if (e.derived) text += ' <span class="bt-faint" title="The game ships no wording for this effect, so it is named from its own data.">·</span>';
+          return text;
+        }).join("<br>");
+        tr.innerHTML =
+          '<td class="num bt-faint">' + t.step + "</td>" +
+          "<td><b>" + esc(t.name) + "</b></td>" +
+          '<td class="bt-faint">' + t.display + "</td>" +
+          '<td class="num req">' + req + "</td>" +
+          '<td class="num">' + (t.decayPct ? loss.replace("{0}", t.decayPct).replace(/^-/, "−") : "—") + "</td>" +
+          '<td class="num">' + n(t.might) + "</td>" +
+          "<td>" + (bonus || '<span class="bt-faint">—</span>') + "</td>";
+        tb.appendChild(tr);
+      });
+      $("bt-ladder").appendChild(tb);
+
+      var byPoints = D.titles.filter(function (t) { return t.points != null; });
+      var byRank = D.titles.filter(function (t) { return t.topX != null; });
+      $("bt-ladder-sub").textContent = D.titles.length + " titles: " + byPoints.length +
+        " bought with gallantry points, up to " + n(byPoints[byPoints.length - 1].points) +
+        ", then " + byRank.length + " bought with a board position — top " +
+        byRank.map(function (t) { return t.topX; }).join(", top ") + ".";
+      $("bt-ladder-note").innerHTML = "<b>" + esc(D.labels.info || "") + "</b> " +
+        esc(D.labels.refreshNote || "");
+    }
+
+    /* ---------- wiring ---------- */
+    function fillSelectors() {
+      $("bt-server").innerHTML = Object.keys(SERVERS).map(function (z) {
+        return '<option value="' + z + '"' + (z === state.server ? " selected" : "") + ">" + esc(SERVERS[z]) + "</option>";
+      }).join("");
+      $("bt-board").innerHTML = D.boards.map(function (b) {
+        return '<option value="' + b.lid + '"' + (b.lid === state.lid ? " selected" : "") + ">" + esc(b.name) + "</option>";
+      }).join("");
+    }
+
+    function bind() {
+      $("bt-server").addEventListener("change", function () {
+        state.server = this.value; save(); search = 1; load();
+      });
+      $("bt-board").addEventListener("change", function () {
+        state.lid = +this.value; save(); search = 1; load();
+      });
+      $("bt-go").addEventListener("click", function () {
+        var v = $("bt-q").value.trim();
+        search = v === "" ? 1 : (/^[0-9]+$/.test(v) ? +v : v);
+        load();
+      });
+      $("bt-q").addEventListener("keydown", function (e) { if (e.key === "Enter") $("bt-go").click(); });
+      $("bt-top").addEventListener("click", function () { $("bt-q").value = ""; search = 1; load(); });
+      $("bt-prev").addEventListener("click", function () { search = Math.max(1, firstRank - pageSize); load(); });
+      $("bt-next").addEventListener("click", function () { search = firstRank + pageSize; load(); });
+
+      $("bt-points").value = state.points;
+      $("bt-rank").value = state.rank;
+      $("bt-points").addEventListener("input", function () { state.points = this.value; save(); renderSummary(); });
+      $("bt-rank").addEventListener("input", function () { state.rank = this.value; save(); renderSummary(); });
+      $("bt-clear").addEventListener("click", function () {
+        state.points = ""; state.rank = "";
+        $("bt-points").value = ""; $("bt-rank").value = "";
+        save(); renderSummary();
+      });
+    }
+
+    fetch("./data/berimond-titles.json")
+      .then(function (r) { return r.json(); })
+      .then(function (d) {
+        D = d;
+        D.titles.forEach(function (t) { byId[t.id] = t; });
+        // A remembered board that the game no longer publishes would leave the
+        // selector and the state disagreeing, so fall back to the first list.
+        if (!D.boards.some(function (b) { return b.lid === state.lid; })) {
+          state.lid = (D.boards[2] || D.boards[0]).lid;
+          save();
+        }
+        fillSelectors(); bind(); renderLadder(); renderSummary(); load();
+        if (D.itemsVersion) {
+          $("bt-foot").textContent += " Item table v" + D.itemsVersion + ".";
+        }
+      })
+      .catch(function (e) {
+        $("bt-status").className = "vip-status vip-error";
+        $("bt-status").textContent = "Could not load the gallantry title data.";
+        console.error(e);
+      });
+  })();
+  </script>
+</body>
+</html>
