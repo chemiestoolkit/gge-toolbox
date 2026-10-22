@@ -200,61 +200,43 @@
         "name": "Nomad Invasion",
         "emoji": "🌊",
         "icon": "nomadinvasion.webp",
-        "dates": "03–06 · 10–13 · 17–20 · 24–27 Oct · 31 Oct–03 Nov"
+        "dates": "24–27 Oct · 31 Oct–03 Nov"
       },
       {
         "name": "Samurai Invasion",
         "emoji": "⚔️",
         "icon": "samuraiinvasion.webp",
-        "dates": "02–03 · 09–10 · 16–17 · 23–24 · 30–31 Oct"
+        "dates": "23–24 · 30–31 Oct"
       },
       {
         "name": "Bloodcrow Invasion",
         "emoji": "🩸",
         "icon": "bloodcrow.webp",
-        "dates": "13–16 · 27–30 Oct"
+        "dates": "27–30 Oct"
       },
       {
         "name": "War of the Realms",
         "emoji": "⚔️",
         "icon": "",
-        "dates": "06–09 · 20–23 Oct"
+        "dates": "20–23 Oct"
       },
       {
         "name": "Berimond Kingdom",
         "emoji": "🏰",
         "icon": "berimond.webp",
-        "dates": "06–09 · 27–30 Oct"
-      },
-      {
-        "name": "Rift Raid",
-        "emoji": "🌀",
-        "icon": "riftraid.webp",
-        "dates": "01–08 Oct"
-      },
-      {
-        "name": "Bladecoast",
-        "emoji": "🗡️",
-        "icon": "bladecoast.webp",
-        "dates": "12–19 Oct"
-      },
-      {
-        "name": "Grand Tournament",
-        "emoji": "🏆",
-        "icon": "grandtournament.webp",
-        "dates": "13–20 Oct"
+        "dates": "27–30 Oct"
       },
       {
         "name": "Beyond the Horizon",
         "emoji": "🌅",
         "icon": "beyondthehorizon.webp",
-        "dates": "08–12 · 22–26 Oct"
+        "dates": "22–26 Oct"
       },
       {
         "name": "Outer Realms",
         "emoji": "🌌",
         "icon": "outerrealms.webp",
-        "dates": "01–05 · 05–08 · 12–15 · 15–19 · 19–22 · 26–29 Oct · 29 Oct–02 Nov"
+        "dates": "19–22 · 26–29 Oct · 29 Oct–02 Nov"
       },
       {
         "name": "Imperial Patronage",
@@ -266,10 +248,10 @@
         "name": "Grand Nobility Contest",
         "emoji": "🎖️",
         "icon": "ltpe.webp",
-        "dates": "16 Oct–15 Nov"
+        "dates": "06 Oct–17 Nov"
       }
     ]
   },
-  "newsUpdated": "2026-10-21",
-  "eventsUpdated": "2026-10-21"
+  "newsUpdated": "2026-10-22",
+  "eventsUpdated": "2026-10-22"
 }
