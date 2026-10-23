@@ -21,6 +21,13 @@ Goodgame's own tables:
                    rather than a percentage, so those two titles are read as
                    "this unit can be recruited".
 
+It also emits `worn`: every title id in every system, with the system it belongs
+to. A leaderboard row carries only `PRE`/`SUF` — the prefix and suffix a player
+has *chosen to display* — so that map is the only way to say whether the name
+hanging off a player is a gallantry title, a glory one or a Storm Islands one.
+The titles a player holds but has not selected are not in any frame the client
+receives about other players, so they cannot be shown at all.
+
 Title names come from the language bundle as `playerTitle_<id>`, and the page's
 wording (header, "gallantry points required", the daily-loss line, the 12-hour
 refresh note) is taken from the game's own `dialog_factionTitles_*` strings so
@@ -62,6 +69,14 @@ LANG_KEYS = {
     "mightHeader":   "dialog_gloryTitles_mightCounter_header",
     "eventName":     "event_title_3",
     "systemPlural":  "nobilityTitles_plural",
+}
+
+# The three title systems, as the client names them (ClientConstTitle:
+# GLORY_TITLE / BRAVERY_TITLE / ISLAND_TITLE), keyed by the item table's type.
+SYSTEMS = {
+    "FAME":    {"key": "glory",     "lang": "gloryTitles_plural"},
+    "FACTION": {"key": "gallantry", "lang": "nobilityTitles_plural"},
+    "ISLE":    {"key": "storm",     "lang": "eilandTitles_plural"},
 }
 
 # The four live boards the game splits the faction highscore into. LT 30 is
@@ -170,13 +185,25 @@ def main():
 
     boards = [{"lid": b["lid"], "name": lang.get(b["key"], "List " + str(b["lid"]))} for b in BOARDS]
 
+    # Every title in every system, so a PRE/SUF id off a leaderboard row can be
+    # named and attributed to the right ladder.
+    worn = {}
+    for t in root["titles"]:
+        system = SYSTEMS.get(t.get("type"))
+        if not system:
+            continue
+        tid = str(t["titleID"])
+        worn[tid] = {"name": lang.get("playerTitle_" + tid, "Title " + tid), "system": system["key"]}
+
     out = {
         "generated": datetime.datetime.now(datetime.timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ"),
         "itemsVersion": items.get("version") or items.get("Version") or None,
         "listType": 30,              # HighscoreConst.FACTION_TOURNAMENT
         "boards": boards,
         "labels": {k: lang.get(v, "") for k, v in LANG_KEYS.items()},
+        "systems": {s["key"]: lang.get(s["lang"], s["key"]) for s in SYSTEMS.values()},
         "titles": titles,
+        "worn": worn,
     }
     with open(OUT, "w", encoding="utf-8", newline="\n") as f:
         json.dump(out, f, separators=(",", ":"))

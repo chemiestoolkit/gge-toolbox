@@ -7,11 +7,11 @@
   <meta property="og:type" content="website" />
   <meta property="og:site_name" content="Maxy's Empire Toolkit" />
   <meta property="og:title" content="Berimond Gallantry Titles — Maxy's Empire Toolkit" />
-  <meta property="og:description" content="The live Battle for Berimond gallantry board — who is first, who is in the top 10, and the points they hold — plus the full 27-step gallantry title ladder." />
+  <meta property="og:description" content="The live Battle for Berimond faction board — who is first, who is in the top 10, and the title each is displaying — plus the full 27-step gallantry title ladder." />
   <meta property="og:url" content="https://chemiestoolkit.github.io/gge-toolbox/tools/berimond-titles/" />
   <meta property="og:image" content="https://chemiestoolkit.github.io/gge-toolbox/assets/img/event-icons/berimond.webp" />
   <meta name="twitter:card" content="summary" />
-  <meta name="description" content="Goodgame Empire Berimond gallantry titles — the live faction leaderboard top 10 with scores, and every gallantry title from Acolyte to Claw King with its points, decay, might and bonus." />
+  <meta name="description" content="Goodgame Empire Berimond gallantry titles — the live faction leaderboard top 10 with this run's scores, and every gallantry title from Acolyte to Claw King with its points, decay, might and bonus." />
   <link rel="stylesheet" href="../../assets/css/theme.css?v=15" />
   <link rel="stylesheet" href="../vip/vip.css" />
   <link rel="icon" type="image/png" href="../../assets/img/favicon.png" />
@@ -38,7 +38,13 @@
     tr.bt-cut-after td { border-bottom: 1px solid var(--gold-dim) !important; }
     .bt-badge { display: inline-block; padding: 1px 6px; border-radius: 999px; font-size: .68rem;
       border: 1px solid var(--gold-dim); color: var(--gold); white-space: nowrap; }
-    .bt-worn { color: var(--text-faint); font-size: .72rem; }
+    /* Which ladder a displayed title came from — gallantry is the one this page is about. */
+    .bt-sys { display: inline-block; padding: 0 5px; border-radius: 999px; font-size: .62rem;
+      text-transform: uppercase; letter-spacing: .04em; vertical-align: 1px;
+      border: 1px solid currentColor; opacity: .85; white-space: nowrap; }
+    .bt-sys-gallantry { color: var(--gold-bright); }
+    .bt-sys-glory { color: var(--text-dim); }
+    .bt-sys-storm { color: #67c1e8; }
 
     /* ---- the ladder ---- */
     .bt-controls { display: flex; flex-wrap: wrap; gap: 12px; align-items: flex-end; }
@@ -91,14 +97,17 @@
       <h1>🐻 Berimond Gallantry Titles</h1>
       <p>Berimond runs its own title ladder, separate from glory — the game calls them
          <b>gallantry titles</b>. The first twenty are bought with gallantry points; the last
-         seven are bought with a <b>position on the faction board</b>, which is why the top of
-         Berimond is a race and not a grind. This reads that board live and shows who holds what.</p>
+         seven are bought with a <b>position</b>, which is why the top of Berimond is a race and
+         not a grind. Below: the live faction board while a run is on, the full ladder, and what
+         your own points are worth.</p>
     </div>
 
     <!-- ===================== live board ===================== -->
     <section class="panel">
       <h2 class="bt-h">Live faction board</h2>
-      <p class="bt-sub">Straight off the game servers. Search a rank number or a name to jump.</p>
+      <p class="bt-sub">Straight off the game servers: the points scored in <b>the run that is on now</b>,
+        which reset when it ends. This is not the gallantry total the titles are built on. Search a rank
+        number or a name to jump.</p>
 
       <div class="vip-toolbar" id="bt-toolbar">
         <select class="vip-server-pick" id="bt-server"></select>
@@ -118,6 +127,14 @@
         <button class="vip-btn ghost" id="bt-next">Next →</button>
       </div>
 
+      <p class="bt-note"><b>Two different numbers, and only one of them is public.</b>
+        The board ranks players on the points they have scored in the current run. Titles are bought with
+        <b>gallantry points</b>, a separate total that carries over between runs and decays — and the game
+        never sends another player's gallantry total or gallantry rank to your client. The only thing it
+        does send about someone else's titles is the prefix and suffix they have <b>selected for
+        display</b>, which is the "title shown" column. A player who holds Claw King but displays a glory
+        title looks, from the outside, like a player with no gallantry title at all.</p>
+
       <p class="vip-credit">Live data over the game protocol via
         <a href="https://github.com/danadum/empire-api" target="_blank" rel="noopener">danadum's empire-api</a>.
         The game only publishes this board while a Battle for Berimond is running.</p>
@@ -126,8 +143,9 @@
     <!-- ===================== where am I ===================== -->
     <section class="panel">
       <h2 class="bt-h">Which title do my points buy?</h2>
-      <p class="bt-sub">Gallantry points carry over between Berimond runs, but they bleed away every day — so the
-        question is not only what you have reached, it is what you can hold.</p>
+      <p class="bt-sub">Your gallantry total is on no leaderboard — read it off the <b>Gallantry titles</b>
+        panel in game, which also shows your position. The points carry over between Berimond runs but
+        bleed away every day, so the question is not only what you have reached, it is what you can hold.</p>
       <div class="bt-controls">
         <div class="bt-field">
           <label for="bt-points">Your gallantry points</label>
@@ -165,7 +183,9 @@
         <li><b>Four separate boards.</b> Ursidae (blue) and Gerbrandt (red) each get a level 40–69 board
           and a level 70 board, so a position is a position <em>within your own list</em>.</li>
         <li><b>You keep the bonus either way.</b> Every title you hold applies its effect whether or not
-          you have it selected for display — selecting only changes the name other lords see.</li>
+          you have it selected for display — selecting only changes the name other lords see. Which is
+          exactly why you cannot tell from outside who holds what: most people leave a glory title on,
+          and the gallantry one they hold is never sent to anyone else's client.</li>
       </ul>
     </section>
   </main>
@@ -242,25 +262,34 @@
       $("bt-banner").style.display = "";
     }
 
-    function wornTitle(info) {
-      var out = [];
-      [info.PRE, info.SUF].forEach(function (id) {
-        var t = byId[id];
-        if (t) out.push(t.name);
-      });
-      return out;
+    /* A leaderboard row carries PRE and SUF: the prefix and suffix the player
+       has selected for display. That is the whole of what the game tells us
+       about another player's titles — the ones they hold but have not selected
+       are never sent. So this names what is shown, and says which ladder it
+       came from, rather than pretending to know what they hold. */
+    function wornTitles(info) {
+      return [info.PRE, info.SUF]
+        .map(function (id) { return D.worn[String(id)]; })
+        .filter(Boolean);
+    }
+    function wornHtml(info) {
+      var worn = wornTitles(info);
+      if (!worn.length) return '<span class="bt-faint">none shown</span>';
+      return worn.map(function (t) {
+        return esc(t.name) + ' <span class="bt-sys bt-sys-' + t.system + '">' +
+          esc((D.systems[t.system] || t.system).replace(/ titles$/i, "")) + "</span>";
+      }).join("<br>");
     }
 
     function renderHero() {
       var top = rows.length && rows[0][0] === 1 ? rows[0] : null;
       if (!top) { $("bt-hero").style.display = "none"; return; }
-      var t = stepTitle(heldStep(Number(top[1]), 1));
       $("bt-hero").innerHTML =
         '<span class="crown">👑</span>' +
         '<span><span class="lbl">First on this board</span><span class="who">' + esc(top[2].N || "?") + "</span></span>" +
-        '<span><span class="lbl">Gallantry points</span><span class="pts">' + n(top[1]) + "</span></span>" +
-        (t ? '<span><span class="lbl">Title this buys</span><span class="ttl">' + esc(t.name) + "</span></span>" : "") +
-        (top[2].AN ? '<span><span class="lbl">Alliance</span><span class="ttl">' + esc(top[2].AN) + "</span></span>" : "");
+        '<span><span class="lbl">Berimond points, this run</span><span class="pts">' + n(top[1]) + "</span></span>" +
+        (top[2].AN ? '<span><span class="lbl">Alliance</span><span class="ttl">' + esc(top[2].AN) + "</span></span>" : "") +
+        '<span><span class="lbl">Title shown</span><span class="ttl">' + wornHtml(top[2]) + "</span></span>";
       $("bt-hero").style.display = "flex";
     }
 
@@ -268,28 +297,25 @@
       var max = 1;
       rows.forEach(function (r) { max = Math.max(max, Number(r[1]) || 0); });
       var html = "<thead><tr><th>#</th><th>Player</th><th>Level</th><th>Alliance</th>" +
-        "<th style='text-align:right'>" + (window.GGEi.ic("glory", 13) || "") + " Gallantry</th>" +
-        "<th>Title this position earns</th></tr></thead>";
+        "<th style='text-align:right'>Berimond points</th>" +
+        "<th>Title shown</th></tr></thead>";
       $("bt-table").innerHTML = html;
       var tb = document.createElement("tbody");
       rows.forEach(function (row) {
         var rank = row[0], score = Number(row[1]) || 0, info = row[2] || {};
-        var t = stepTitle(heldStep(score, rank));
-        var worn = wornTitle(info);
         var lvl = info.LL ? info.L + "/" + info.LL : info.L;
         var tr = document.createElement("tr");
         if (rank <= 10) tr.className = "bt-cut";
         if (rank === 10) tr.className += " bt-cut-after";
         tr.innerHTML =
           '<td class="r">' + (window.GGEi.medal(rank, 17) || n(rank)) + "</td>" +
-          '<td class="nm">' + esc(info.N || "?") +
-            (worn.length ? '<div class="bt-worn">wearing ' + esc(worn.join(" · ")) + "</div>" : "") + "</td>" +
+          '<td class="nm">' + esc(info.N || "?") + "</td>" +
           '<td class="r">' + esc(lvl == null ? "—" : lvl) + "</td>" +
           "<td>" + esc(info.AN || "—") + "</td>" +
           '<td class="r"><span class="gv-barwrap">' +
             window.GGEv.bar(score, max, { w: 46, bare: true, color: "var(--gold)" }) +
             "<b>" + n(score) + "</b></span></td>" +
-          "<td>" + (t ? '<span class="bt-badge">' + esc(t.name) + "</span>" : '<span class="bt-faint">none yet</span>') + "</td>";
+          "<td>" + wornHtml(info) + "</td>";
         tb.appendChild(tr);
       });
       $("bt-table").appendChild(tb);
@@ -335,8 +361,18 @@
           })
           .catch(function (e) {
             if (tries > 1) { setTimeout(function () { attemptFetch(tries - 1); }, 600); return; }
-            offline("<b>No live gallantry board on " + esc(SERVERS[state.server] || state.server) + " right now.</b> " +
-              "The game only publishes the faction leaderboard while a Battle for Berimond is running — " +
+            var where = esc(SERVERS[state.server] || state.server);
+            // The relay says "Server not connected" when its own socket to that
+            // world is down, which is a very different problem from the game
+            // declining to publish the list — don't report one as the other.
+            if (/not connected/i.test(e.message || "")) {
+              offline("<b>The live feed can't reach " + where + " at the moment.</b> " +
+                "That is the relay's connection to the game world, not the Berimond board itself — " +
+                "it usually comes back on its own, so try again shortly.");
+              return;
+            }
+            offline("<b>No live faction board on " + where + " right now.</b> " +
+              "The game only publishes it while a Battle for Berimond is running — " +
               "between runs there is nothing to read, so this comes back empty. " +
               "The ladder below is extracted from the game data and is accurate either way.");
           });

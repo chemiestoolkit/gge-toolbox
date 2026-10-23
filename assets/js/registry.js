@@ -616,7 +616,7 @@ window.TOOLS = [
     img: "assets/img/event-icons/berimond.webp",
     cat: "rankings",
     name: "Berimond Gallantry Titles",
-    desc: "Who is first and who is in the top 10 of the Battle for Berimond faction board, with their gallantry points — plus all 27 gallantry titles, the points or position each needs, its daily decay and its bonus.",
+    desc: "Who is first and who is in the top 10 of the Battle for Berimond faction board while a run is on, with the title each is displaying — plus all 27 gallantry titles, the points or position each needs, its daily decay and its bonus.",
     icon: "🐻",
     status: "live",
     url: "tools/berimond-titles/",
