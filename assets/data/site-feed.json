@@ -151,6 +151,11 @@
   ],
   "news": [
     {
+      "date": "19 Oct 2026",
+      "title": "Upcoming Update – 20th of October",
+      "url": "https://communityhub.goodgamestudios.com/2026/10/19/upcoming-update-20th-of-october/"
+    },
+    {
       "date": "14 Oct 2026",
       "title": "Something Wicked This Way Comes",
       "url": "https://communityhub.goodgamestudios.com/2026/10/14/something-wicked-this-way-comes/"
@@ -184,11 +189,6 @@
       "date": "21 Sep 2026",
       "title": "Rift Raid & Server Performance Issues",
       "url": "https://communityhub.goodgamestudios.com/2026/09/21/elementor-14018/"
-    },
-    {
-      "date": "17 Sep 2026",
-      "title": "The Empire Calls Its Champions",
-      "url": "https://communityhub.goodgamestudios.com/2026/09/17/elementor-13975/"
     }
   ],
   "newsUrl": "https://communityhub.goodgamestudios.com/newshube4k/",
@@ -252,6 +252,6 @@
       }
     ]
   },
-  "newsUpdated": "2026-10-30",
-  "eventsUpdated": "2026-10-30"
+  "newsUpdated": "2026-10-31",
+  "eventsUpdated": "2026-10-31"
 }
