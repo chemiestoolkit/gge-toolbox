@@ -1,5 +1,5 @@
 {
-  "generated": "2026-11-10T01:48:04Z",
+  "generated": "2026-11-10T15:30:43Z",
   "events": [
     {
       "eventID": 36,
@@ -7103,27 +7103,27 @@
           "milestones": [
             {
               "points": 5,
-              "name": "Merchants Key",
-              "type": "Resource",
-              "amount": 100
+              "name": "Luxury Stonemason",
+              "type": "Construction",
+              "amount": 1
             },
             {
               "points": 10,
-              "name": "Luxury Greenhouse",
-              "type": "Construction",
-              "amount": 1
+              "name": "Merchants Key",
+              "type": "Resource",
+              "amount": 300
             },
             {
               "points": 15,
               "name": "15,000 generals XP",
               "type": "Resource",
-              "amount": 20
+              "amount": 10
             },
             {
               "points": 30,
-              "name": "Merchants Key",
-              "type": "Resource",
-              "amount": 100
+              "name": "Exalted Green Knightly Feast Court",
+              "type": "Decoration",
+              "amount": 1
             }
           ]
         }

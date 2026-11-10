@@ -1,5 +1,5 @@
 {
-  "generated": "2026-11-10T01:48:09Z",
+  "generated": "2026-11-10T15:30:47Z",
   "sets": [
     {
       "setID": "1063",
@@ -2627,6 +2627,273 @@
           "name": "Tristan's bow",
           "slot": "Weapon",
           "might": 2500,
+          "wearer": "General"
+        }
+      ],
+      "wearer": "General",
+      "maxPieces": 9
+    },
+    {
+      "setID": "1103",
+      "name": "Astrolabe Bronze Set",
+      "tiers": [
+        {
+          "need": 2,
+          "effects": [
+            "+1000 to troop capacity for final assault against NPC targets"
+          ]
+        },
+        {
+          "need": 3,
+          "effects": [
+            "+125% coins plundered from Robber Barons"
+          ]
+        },
+        {
+          "need": 4,
+          "effects": [
+            "+150% gallantry points during the Battle for Berimond and the Berimond invasions"
+          ]
+        },
+        {
+          "need": 5,
+          "effects": [
+            "+1500% glory when attacking Alien and Bloodcrow camps"
+          ]
+        },
+        {
+          "need": 6,
+          "effects": [
+            "+150% Khan chest earned when attacking NPC targets",
+            "+150% Muscle man earned when attacking NPC targets"
+          ]
+        },
+        {
+          "need": 7,
+          "effects": [
+            "+125% loot from Storm Islands fortresses"
+          ]
+        },
+        {
+          "need": 8,
+          "effects": [
+            "-5% attack cooldown against kingdom NPC targets"
+          ]
+        },
+        {
+          "need": 9,
+          "effects": [
+            "+1 additional wave(s) against NPC targets"
+          ]
+        }
+      ],
+      "pieces": [
+        {
+          "name": "Bronze Astrolabe Armor",
+          "slot": "Armor",
+          "might": 0,
+          "wearer": "General"
+        },
+        {
+          "name": "Bronze Astrolabe Artifact",
+          "slot": "Artifact",
+          "might": 0,
+          "wearer": "General"
+        },
+        {
+          "name": "Bronze Astrolabe Helmet",
+          "slot": "Helmet",
+          "might": 0,
+          "wearer": "General"
+        },
+        {
+          "name": "Astrolabe Apprentice",
+          "slot": "Hero",
+          "might": 0,
+          "wearer": "General"
+        },
+        {
+          "name": "Bronze Astrolabe Sword",
+          "slot": "Weapon",
+          "might": 0,
+          "wearer": "General"
+        }
+      ],
+      "wearer": "General",
+      "maxPieces": 9
+    },
+    {
+      "setID": "1105",
+      "name": "Astrolabe Gold Set",
+      "tiers": [
+        {
+          "need": 2,
+          "effects": [
+            "+1500 to troop capacity for final assault against NPC targets"
+          ]
+        },
+        {
+          "need": 3,
+          "effects": [
+            "+175% coins plundered from Robber Barons"
+          ]
+        },
+        {
+          "need": 4,
+          "effects": [
+            "+350% gallantry points during the Battle for Berimond and the Berimond invasions"
+          ]
+        },
+        {
+          "need": 5,
+          "effects": [
+            "+3500% glory when attacking Alien and Bloodcrow camps"
+          ]
+        },
+        {
+          "need": 6,
+          "effects": [
+            "+350% Khan chest earned when attacking NPC targets",
+            "+350% Muscle man earned when attacking NPC targets"
+          ]
+        },
+        {
+          "need": 7,
+          "effects": [
+            "+175% loot from Storm Islands fortresses"
+          ]
+        },
+        {
+          "need": 8,
+          "effects": [
+            "-15% attack cooldown against kingdom NPC targets"
+          ]
+        },
+        {
+          "need": 9,
+          "effects": [
+            "+3 additional wave(s) against NPC targets"
+          ]
+        }
+      ],
+      "pieces": [
+        {
+          "name": "Gold Astrolabe Armor",
+          "slot": "Armor",
+          "might": 0,
+          "wearer": "General"
+        },
+        {
+          "name": "Gold Astrolabe Artifact",
+          "slot": "Artifact",
+          "might": 0,
+          "wearer": "General"
+        },
+        {
+          "name": "Gold Astrolabe Helmet",
+          "slot": "Helmet",
+          "might": 0,
+          "wearer": "General"
+        },
+        {
+          "name": "Astrolabe Sage",
+          "slot": "Hero",
+          "might": 0,
+          "wearer": "General"
+        },
+        {
+          "name": "Gold Astrolabe Sword",
+          "slot": "Weapon",
+          "might": 0,
+          "wearer": "General"
+        }
+      ],
+      "wearer": "General",
+      "maxPieces": 9
+    },
+    {
+      "setID": "1104",
+      "name": "Astrolabe Silver Set",
+      "tiers": [
+        {
+          "need": 2,
+          "effects": [
+            "+1250 to troop capacity for final assault against NPC targets"
+          ]
+        },
+        {
+          "need": 3,
+          "effects": [
+            "+150% coins plundered from Robber Barons"
+          ]
+        },
+        {
+          "need": 4,
+          "effects": [
+            "+200% gallantry points during the Battle for Berimond and the Berimond invasions"
+          ]
+        },
+        {
+          "need": 5,
+          "effects": [
+            "+2000% glory when attacking Alien and Bloodcrow camps"
+          ]
+        },
+        {
+          "need": 6,
+          "effects": [
+            "+200% Khan chest earned when attacking NPC targets",
+            "+200% Muscle man earned when attacking NPC targets"
+          ]
+        },
+        {
+          "need": 7,
+          "effects": [
+            "+150% loot from Storm Islands fortresses"
+          ]
+        },
+        {
+          "need": 8,
+          "effects": [
+            "-10% attack cooldown against kingdom NPC targets"
+          ]
+        },
+        {
+          "need": 9,
+          "effects": [
+            "+2 additional wave(s) against NPC targets"
+          ]
+        }
+      ],
+      "pieces": [
+        {
+          "name": "Silver Astrolabe Armor",
+          "slot": "Armor",
+          "might": 0,
+          "wearer": "General"
+        },
+        {
+          "name": "Silver Astrolabe Artifact",
+          "slot": "Artifact",
+          "might": 0,
+          "wearer": "General"
+        },
+        {
+          "name": "Silver Astrolabe Helmet",
+          "slot": "Helmet",
+          "might": 0,
+          "wearer": "General"
+        },
+        {
+          "name": "Astrolabe Scholar",
+          "slot": "Hero",
+          "might": 0,
+          "wearer": "General"
+        },
+        {
+          "name": "Silver Astrolabe Sword",
+          "slot": "Weapon",
+          "might": 0,
           "wearer": "General"
         }
       ],
