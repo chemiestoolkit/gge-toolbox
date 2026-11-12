@@ -151,8 +151,18 @@
   ],
   "news": [
     {
+      "date": "11 Nov 2026",
+      "title": "Singles Day Deal!",
+      "url": "https://communityhub.goodgamestudios.com/2026/11/11/elementor-14471/"
+    },
+    {
+      "date": "29 Oct 2026",
+      "title": "Halloween Gacha Night Rotation",
+      "url": "https://communityhub.goodgamestudios.com/2026/10/29/halloween-gacha-night-rotation/"
+    },
+    {
       "date": "19 Oct 2026",
-      "title": "Upcoming Update – 20th of October",
+      "title": "Upcoming Update – 10th of November",
       "url": "https://communityhub.goodgamestudios.com/2026/10/19/upcoming-update-20th-of-october/"
     },
     {
@@ -179,16 +189,6 @@
       "date": "29 Sep 2026",
       "title": "Elementor #14060",
       "url": "https://communityhub.goodgamestudios.com/2026/09/29/elementor-14060/"
-    },
-    {
-      "date": "23 Sep 2026",
-      "title": "Recent Issues with Gifts",
-      "url": "https://communityhub.goodgamestudios.com/2026/09/23/elementor-14043/"
-    },
-    {
-      "date": "21 Sep 2026",
-      "title": "Rift Raid & Server Performance Issues",
-      "url": "https://communityhub.goodgamestudios.com/2026/09/21/elementor-14018/"
     }
   ],
   "newsUrl": "https://communityhub.goodgamestudios.com/newshube4k/",
