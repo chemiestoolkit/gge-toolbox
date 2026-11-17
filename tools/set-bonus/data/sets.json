@@ -1,5 +1,5 @@
 {
-  "generated": "2026-11-17T02:12:55Z",
+  "generated": "2026-11-17T16:49:29Z",
   "sets": [
     {
       "setID": "1063",
@@ -2982,6 +2982,270 @@
           "name": "Crow mace",
           "slot": "Weapon",
           "might": 2500,
+          "wearer": "General"
+        }
+      ],
+      "wearer": "General",
+      "maxPieces": 9
+    },
+    {
+      "setID": "1106",
+      "name": "Conqueror Bronze Set",
+      "tiers": [
+        {
+          "need": 2,
+          "effects": [
+            "+2% courtyard attack strength in the Jade Desert"
+          ]
+        },
+        {
+          "need": 3,
+          "effects": [
+            "+5% courtyard attack strength in the Jade Desert"
+          ]
+        },
+        {
+          "need": 4,
+          "effects": [
+            "+10% ranged unit strength when attacking in the Jade Desert"
+          ]
+        },
+        {
+          "need": 5,
+          "effects": [
+            "+10% melee unit strength when attacking in the Jade Desert"
+          ]
+        },
+        {
+          "need": 6,
+          "effects": [
+            "+10 army loot capacity in the Jade Desert"
+          ]
+        },
+        {
+          "need": 7,
+          "effects": [
+            "+100% final assault troop capacity in the Jade Desert"
+          ]
+        },
+        {
+          "need": 8,
+          "effects": [
+            "+1 additional wave(s) in the Jade Desert"
+          ]
+        },
+        {
+          "need": 9,
+          "effects": [
+            "BtHStatuetteCastleLootBoost"
+          ]
+        }
+      ],
+      "pieces": [
+        {
+          "name": "Bronze Conqueror Armor",
+          "slot": "Armor",
+          "might": 1000,
+          "wearer": "General"
+        },
+        {
+          "name": "Bronze Conqueror Banner",
+          "slot": "Artifact",
+          "might": 1000,
+          "wearer": "General"
+        },
+        {
+          "name": "Bronze Conqueror Helmet",
+          "slot": "Helmet",
+          "might": 1000,
+          "wearer": "General"
+        },
+        {
+          "name": "Bronze Siege Marshal",
+          "slot": "Hero",
+          "might": 1000,
+          "wearer": "General"
+        },
+        {
+          "name": "Bronze Conqueror Glaive",
+          "slot": "Weapon",
+          "might": 1000,
+          "wearer": "General"
+        }
+      ],
+      "wearer": "General",
+      "maxPieces": 9
+    },
+    {
+      "setID": "1108",
+      "name": "Conqueror Gold Set",
+      "tiers": [
+        {
+          "need": 2,
+          "effects": [
+            "+7% courtyard attack strength in the Jade Desert"
+          ]
+        },
+        {
+          "need": 3,
+          "effects": [
+            "+10% courtyard attack strength in the Jade Desert"
+          ]
+        },
+        {
+          "need": 4,
+          "effects": [
+            "+30% ranged unit strength when attacking in the Jade Desert"
+          ]
+        },
+        {
+          "need": 5,
+          "effects": [
+            "+30% melee unit strength when attacking in the Jade Desert"
+          ]
+        },
+        {
+          "need": 6,
+          "effects": [
+            "+20 army loot capacity in the Jade Desert"
+          ]
+        },
+        {
+          "need": 7,
+          "effects": [
+            "+300% final assault troop capacity in the Jade Desert"
+          ]
+        },
+        {
+          "need": 8,
+          "effects": [
+            "+3 additional wave(s) in the Jade Desert"
+          ]
+        },
+        {
+          "need": 9,
+          "effects": [
+            "BtHStatuetteCastleLootBoost"
+          ]
+        }
+      ],
+      "pieces": [
+        {
+          "name": "Gold Conqueror Armor",
+          "slot": "Armor",
+          "might": 1000,
+          "wearer": "General"
+        },
+        {
+          "name": "Gold Conqueror Banner",
+          "slot": "Artifact",
+          "might": 1000,
+          "wearer": "General"
+        },
+        {
+          "name": "Gold Conqueror Helmet",
+          "slot": "Helmet",
+          "might": 1000,
+          "wearer": "General"
+        },
+        {
+          "name": "Gold Siege Marshal",
+          "slot": "Hero",
+          "might": 1000,
+          "wearer": "General"
+        },
+        {
+          "name": "Gold Conqueror Glaive",
+          "slot": "Weapon",
+          "might": 1000,
+          "wearer": "General"
+        }
+      ],
+      "wearer": "General",
+      "maxPieces": 9
+    },
+    {
+      "setID": "1107",
+      "name": "Conqueror Silver Set",
+      "tiers": [
+        {
+          "need": 2,
+          "effects": [
+            "+5% courtyard attack strength in the Jade Desert"
+          ]
+        },
+        {
+          "need": 3,
+          "effects": [
+            "+7% courtyard attack strength in the Jade Desert"
+          ]
+        },
+        {
+          "need": 4,
+          "effects": [
+            "+20% ranged unit strength when attacking in the Jade Desert"
+          ]
+        },
+        {
+          "need": 5,
+          "effects": [
+            "+20% melee unit strength when attacking in the Jade Desert"
+          ]
+        },
+        {
+          "need": 6,
+          "effects": [
+            "+15 army loot capacity in the Jade Desert"
+          ]
+        },
+        {
+          "need": 7,
+          "effects": [
+            "+200% final assault troop capacity in the Jade Desert"
+          ]
+        },
+        {
+          "need": 8,
+          "effects": [
+            "+2 additional wave(s) in the Jade Desert"
+          ]
+        },
+        {
+          "need": 9,
+          "effects": [
+            "BtHStatuetteCastleLootBoost"
+          ]
+        }
+      ],
+      "pieces": [
+        {
+          "name": "Silver Conqueror Armor",
+          "slot": "Armor",
+          "might": 1000,
+          "wearer": "General"
+        },
+        {
+          "name": "Silver Conqueror Banner",
+          "slot": "Artifact",
+          "might": 1000,
+          "wearer": "General"
+        },
+        {
+          "name": "Silver Conqueror Helmet",
+          "slot": "Helmet",
+          "might": 1000,
+          "wearer": "General"
+        },
+        {
+          "name": "Silver Siege Marshal",
+          "slot": "Hero",
+          "might": 1000,
+          "wearer": "General"
+        },
+        {
+          "name": "Silver Conqueror Glaive",
+          "slot": "Weapon",
+          "might": 1000,
           "wearer": "General"
         }
       ],

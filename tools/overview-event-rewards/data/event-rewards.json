@@ -1,5 +1,5 @@
 {
-  "generated": "2026-11-17T02:12:49Z",
+  "generated": "2026-11-17T16:49:25Z",
   "events": [
     {
       "eventID": 36,
@@ -6853,6 +6853,42 @@
               "points": 30,
               "name": "Exalted Green Halloween Mausoleum",
               "type": "Decoration",
+              "amount": 1
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "eventID": 139,
+      "name": "Jade Guardian's Chest",
+      "brackets": [
+        {
+          "minLevel": 70,
+          "maxLevel": 1020,
+          "milestones": [
+            {
+              "points": 5,
+              "name": "Jade Talisman",
+              "type": "Resource",
+              "amount": 100
+            },
+            {
+              "points": 10,
+              "name": "5,000 generals XP",
+              "type": "Resource",
+              "amount": 3
+            },
+            {
+              "points": 20,
+              "name": "Exalted Red Jade Caravanserai",
+              "type": "Decoration",
+              "amount": 1
+            },
+            {
+              "points": 35,
+              "name": "Bronze Siege Marshal",
+              "type": "Equipment",
               "amount": 1
             }
           ]
