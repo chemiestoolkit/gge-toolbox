@@ -1,5 +1,5 @@
 {
-  "generated": "2026-11-18T01:26:33Z",
+  "generated": "2026-11-18T16:21:50Z",
   "sets": [
     {
       "setID": "1063",
@@ -2989,6 +2989,180 @@
       "maxPieces": 9
     },
     {
+      "setID": "1115",
+      "name": "Caravaneer Bronze Set",
+      "tiers": [
+        {
+          "need": 2,
+          "effects": [
+            "+20% army travel speed for Oasis trades"
+          ]
+        },
+        {
+          "need": 4,
+          "effects": [
+            "+5% units returned from Oasis trades"
+          ]
+        },
+        {
+          "need": 5,
+          "effects": [
+            "+5% Golden royal coin case received from Oasis trades"
+          ]
+        }
+      ],
+      "pieces": [
+        {
+          "name": "Bronze Caravaneer Armor",
+          "slot": "Armor",
+          "might": 1000,
+          "wearer": "General"
+        },
+        {
+          "name": "Bronze Caravaneer Ledger",
+          "slot": "Artifact",
+          "might": 1000,
+          "wearer": "General"
+        },
+        {
+          "name": "Bronze Caravaneer Helmet",
+          "slot": "Helmet",
+          "might": 1000,
+          "wearer": "General"
+        },
+        {
+          "name": "Bronze Oasis Trader",
+          "slot": "Hero",
+          "might": 1000,
+          "wearer": "General"
+        },
+        {
+          "name": "Bronze Caravaneer Saber",
+          "slot": "Weapon",
+          "might": 1000,
+          "wearer": "General"
+        }
+      ],
+      "wearer": "General",
+      "maxPieces": 5
+    },
+    {
+      "setID": "1117",
+      "name": "Caravaneer Gold Set",
+      "tiers": [
+        {
+          "need": 2,
+          "effects": [
+            "+30% army travel speed for Oasis trades"
+          ]
+        },
+        {
+          "need": 4,
+          "effects": [
+            "+15% units returned from Oasis trades"
+          ]
+        },
+        {
+          "need": 5,
+          "effects": [
+            "+15% Golden royal coin case received from Oasis trades"
+          ]
+        }
+      ],
+      "pieces": [
+        {
+          "name": "Gold Caravaneer Armor",
+          "slot": "Armor",
+          "might": 1000,
+          "wearer": "General"
+        },
+        {
+          "name": "Gold Caravaneer Ledger",
+          "slot": "Artifact",
+          "might": 1000,
+          "wearer": "General"
+        },
+        {
+          "name": "Gold Caravaneer Helmet",
+          "slot": "Helmet",
+          "might": 1000,
+          "wearer": "General"
+        },
+        {
+          "name": "Gold Oasis Trader",
+          "slot": "Hero",
+          "might": 1000,
+          "wearer": "General"
+        },
+        {
+          "name": "Gold Caravaneer Saber",
+          "slot": "Weapon",
+          "might": 1000,
+          "wearer": "General"
+        }
+      ],
+      "wearer": "General",
+      "maxPieces": 5
+    },
+    {
+      "setID": "1116",
+      "name": "Caravaneer Silver Set",
+      "tiers": [
+        {
+          "need": 2,
+          "effects": [
+            "+25% army travel speed for Oasis trades"
+          ]
+        },
+        {
+          "need": 4,
+          "effects": [
+            "+10% units returned from Oasis trades"
+          ]
+        },
+        {
+          "need": 5,
+          "effects": [
+            "+10% Golden royal coin case received from Oasis trades"
+          ]
+        }
+      ],
+      "pieces": [
+        {
+          "name": "Silver Caravaneer Armor",
+          "slot": "Armor",
+          "might": 1000,
+          "wearer": "General"
+        },
+        {
+          "name": "Silver Caravaneer Ledger",
+          "slot": "Artifact",
+          "might": 1000,
+          "wearer": "General"
+        },
+        {
+          "name": "Silver Caravaneer Helmet",
+          "slot": "Helmet",
+          "might": 1000,
+          "wearer": "General"
+        },
+        {
+          "name": "Silver Oasis Trader",
+          "slot": "Hero",
+          "might": 1000,
+          "wearer": "General"
+        },
+        {
+          "name": "Silver Caravaneer Saber",
+          "slot": "Weapon",
+          "might": 1000,
+          "wearer": "General"
+        }
+      ],
+      "wearer": "General",
+      "maxPieces": 5
+    },
+    {
       "setID": "1106",
       "name": "Conqueror Bronze Set",
       "tiers": [
@@ -3037,7 +3211,7 @@
         {
           "need": 9,
           "effects": [
-            "BtHStatuetteCastleLootBoost"
+            "+93+5% Ancient Statuettes looted from castles and citadels"
           ]
         }
       ],
@@ -3125,7 +3299,7 @@
         {
           "need": 9,
           "effects": [
-            "BtHStatuetteCastleLootBoost"
+            "+93+10% Ancient Statuettes looted from castles and citadels"
           ]
         }
       ],
@@ -3213,7 +3387,7 @@
         {
           "need": 9,
           "effects": [
-            "BtHStatuetteCastleLootBoost"
+            "+93+7% Ancient Statuettes looted from castles and citadels"
           ]
         }
       ],
@@ -4703,6 +4877,336 @@
       ],
       "wearer": "Baron",
       "maxPieces": 5
+    },
+    {
+      "setID": "1112",
+      "name": "Fortress Breaker Bronze Set",
+      "tiers": [
+        {
+          "need": 2,
+          "effects": [
+            "+5% Golden royal token chest looted from palace fortresses",
+            "+5% unit 98 looted from palace fortresses",
+            "+5% Royal token chest looted from palace fortresses"
+          ]
+        },
+        {
+          "need": 3,
+          "effects": [
+            "+10% army travel speed when attacking palace fortresses"
+          ]
+        },
+        {
+          "need": 4,
+          "effects": [
+            "-5% wall protection of palace fortresses"
+          ]
+        },
+        {
+          "need": 5,
+          "effects": [
+            "+5% melee attack strength against palace fortresses"
+          ]
+        },
+        {
+          "need": 6,
+          "effects": [
+            "+10% Golden royal token chest looted from palace fortresses",
+            "+10% unit 98 looted from palace fortresses",
+            "+10% Royal token chest looted from palace fortresses"
+          ]
+        },
+        {
+          "need": 7,
+          "effects": [
+            "+10% courtyard attack strength against palace fortresses"
+          ]
+        },
+        {
+          "need": 8,
+          "effects": [
+            "-30% gate protection of palace fortresses"
+          ]
+        },
+        {
+          "need": 9,
+          "effects": [
+            "-30% wall protection of palace fortresses"
+          ]
+        }
+      ],
+      "pieces": [
+        {
+          "name": "Bronze Fortress Breaker Armor",
+          "slot": "Armor",
+          "might": 1000,
+          "wearer": "General"
+        },
+        {
+          "name": "Bronze Fortress Breaker Horn",
+          "slot": "Artifact",
+          "might": 1000,
+          "wearer": "General"
+        },
+        {
+          "name": "Bronze Fortress Breaker War Helm",
+          "slot": "Helmet",
+          "might": 1000,
+          "wearer": "General"
+        },
+        {
+          "name": "Bronze Fortress Breaker",
+          "slot": "Hero",
+          "might": 1000,
+          "wearer": "General"
+        },
+        {
+          "name": "Bronze Varnish Fortress Breaker",
+          "slot": "Hero",
+          "might": 1000,
+          "wearer": "General"
+        },
+        {
+          "name": "Bronze Jadeite Fortress Breaker",
+          "slot": "Hero",
+          "might": 1000,
+          "wearer": "General"
+        },
+        {
+          "name": "Bronze Silk Fortress Breaker",
+          "slot": "Hero",
+          "might": 1000,
+          "wearer": "General"
+        },
+        {
+          "name": "Bronze Fortress Breaker Mace",
+          "slot": "Weapon",
+          "might": 1000,
+          "wearer": "General"
+        }
+      ],
+      "wearer": "General",
+      "maxPieces": 9
+    },
+    {
+      "setID": "1114",
+      "name": "Fortress Breaker Gold Set",
+      "tiers": [
+        {
+          "need": 2,
+          "effects": [
+            "+15% Golden royal token chest looted from palace fortresses",
+            "+15% unit 98 looted from palace fortresses",
+            "+15% Royal token chest looted from palace fortresses"
+          ]
+        },
+        {
+          "need": 3,
+          "effects": [
+            "+10% army travel speed when attacking palace fortresses"
+          ]
+        },
+        {
+          "need": 4,
+          "effects": [
+            "-5% wall protection of palace fortresses"
+          ]
+        },
+        {
+          "need": 5,
+          "effects": [
+            "+5% melee attack strength against palace fortresses"
+          ]
+        },
+        {
+          "need": 6,
+          "effects": [
+            "+20% Golden royal token chest looted from palace fortresses",
+            "+20% unit 98 looted from palace fortresses",
+            "+20% Royal token chest looted from palace fortresses"
+          ]
+        },
+        {
+          "need": 7,
+          "effects": [
+            "+40% courtyard attack strength against palace fortresses"
+          ]
+        },
+        {
+          "need": 8,
+          "effects": [
+            "-75% gate protection of palace fortresses"
+          ]
+        },
+        {
+          "need": 9,
+          "effects": [
+            "-75% wall protection of palace fortresses"
+          ]
+        }
+      ],
+      "pieces": [
+        {
+          "name": "Gold Fortress Breaker Armor",
+          "slot": "Armor",
+          "might": 1000,
+          "wearer": "General"
+        },
+        {
+          "name": "Gold Fortress Breaker Horn",
+          "slot": "Artifact",
+          "might": 1000,
+          "wearer": "General"
+        },
+        {
+          "name": "Gold Fortress Breaker War Helm",
+          "slot": "Helmet",
+          "might": 1000,
+          "wearer": "General"
+        },
+        {
+          "name": "Gold Fortress Breaker",
+          "slot": "Hero",
+          "might": 1000,
+          "wearer": "General"
+        },
+        {
+          "name": "Gold Varnish Fortress Breaker",
+          "slot": "Hero",
+          "might": 1000,
+          "wearer": "General"
+        },
+        {
+          "name": "Gold Jadeite Fortress Breaker",
+          "slot": "Hero",
+          "might": 1000,
+          "wearer": "General"
+        },
+        {
+          "name": "Gold Silk Fortress Breaker",
+          "slot": "Hero",
+          "might": 1000,
+          "wearer": "General"
+        },
+        {
+          "name": "Gold Fortress Breaker Mace",
+          "slot": "Weapon",
+          "might": 1000,
+          "wearer": "General"
+        }
+      ],
+      "wearer": "General",
+      "maxPieces": 9
+    },
+    {
+      "setID": "1113",
+      "name": "Fortress Breaker Silver Set",
+      "tiers": [
+        {
+          "need": 2,
+          "effects": [
+            "+10% Golden royal token chest looted from palace fortresses",
+            "+10% unit 98 looted from palace fortresses",
+            "+10% Royal token chest looted from palace fortresses"
+          ]
+        },
+        {
+          "need": 3,
+          "effects": [
+            "+10% army travel speed when attacking palace fortresses"
+          ]
+        },
+        {
+          "need": 4,
+          "effects": [
+            "-5% wall protection of palace fortresses"
+          ]
+        },
+        {
+          "need": 5,
+          "effects": [
+            "+5% melee attack strength against palace fortresses"
+          ]
+        },
+        {
+          "need": 6,
+          "effects": [
+            "+15% Golden royal token chest looted from palace fortresses",
+            "+15% unit 98 looted from palace fortresses",
+            "+15% Royal token chest looted from palace fortresses"
+          ]
+        },
+        {
+          "need": 7,
+          "effects": [
+            "+20% courtyard attack strength against palace fortresses"
+          ]
+        },
+        {
+          "need": 8,
+          "effects": [
+            "-50% gate protection of palace fortresses"
+          ]
+        },
+        {
+          "need": 9,
+          "effects": [
+            "-50% wall protection of palace fortresses"
+          ]
+        }
+      ],
+      "pieces": [
+        {
+          "name": "Silver Fortress Breaker Armor",
+          "slot": "Armor",
+          "might": 1000,
+          "wearer": "General"
+        },
+        {
+          "name": "Silver Fortress Breaker Horn",
+          "slot": "Artifact",
+          "might": 1000,
+          "wearer": "General"
+        },
+        {
+          "name": "Silver Fortress Breaker War Helm",
+          "slot": "Helmet",
+          "might": 1000,
+          "wearer": "General"
+        },
+        {
+          "name": "Silver Fortress Breaker",
+          "slot": "Hero",
+          "might": 1000,
+          "wearer": "General"
+        },
+        {
+          "name": "Silver Varnish Fortress Breaker",
+          "slot": "Hero",
+          "might": 1000,
+          "wearer": "General"
+        },
+        {
+          "name": "Silver Jadeite Fortress Breaker",
+          "slot": "Hero",
+          "might": 1000,
+          "wearer": "General"
+        },
+        {
+          "name": "Silver Silk Fortress Breaker",
+          "slot": "Hero",
+          "might": 1000,
+          "wearer": "General"
+        },
+        {
+          "name": "Silver Fortress Breaker Mace",
+          "slot": "Weapon",
+          "might": 1000,
+          "wearer": "General"
+        }
+      ],
+      "wearer": "General",
+      "maxPieces": 9
     },
     {
       "setID": "54",
@@ -9144,6 +9648,270 @@
         }
       ],
       "wearer": "General",
+      "maxPieces": 9
+    },
+    {
+      "setID": "1109",
+      "name": "Warden Bronze Set",
+      "tiers": [
+        {
+          "need": 2,
+          "effects": [
+            "+1+5#2+5% Refinery output in the Jade Desert"
+          ]
+        },
+        {
+          "need": 3,
+          "effects": [
+            "+5% recruitment speed in the Jade Desert"
+          ]
+        },
+        {
+          "need": 4,
+          "effects": [
+            "+10% melee defense strength in the Jade Desert"
+          ]
+        },
+        {
+          "need": 5,
+          "effects": [
+            "+10% ranged defense strength in the Jade Desert"
+          ]
+        },
+        {
+          "need": 6,
+          "effects": [
+            "+5% surviving defenders in the Jade Desert"
+          ]
+        },
+        {
+          "need": 7,
+          "effects": [
+            "+10% unit limit on the wall in the Jade Desert"
+          ]
+        },
+        {
+          "need": 8,
+          "effects": [
+            "-93+5% currencies lost to attackers in the Jade Desert"
+          ]
+        },
+        {
+          "need": 9,
+          "effects": [
+            "+10 secure storage capacity in the Jade Desert"
+          ]
+        }
+      ],
+      "pieces": [
+        {
+          "name": "Bronze Warden Armor",
+          "slot": "Armor",
+          "might": 1000,
+          "wearer": "Baron"
+        },
+        {
+          "name": "Bronze Warden Ledger",
+          "slot": "Artifact",
+          "might": 1000,
+          "wearer": "Baron"
+        },
+        {
+          "name": "Bronze Warden Helmet",
+          "slot": "Helmet",
+          "might": 1000,
+          "wearer": "Baron"
+        },
+        {
+          "name": "Bronze Warden",
+          "slot": "Hero",
+          "might": 1000,
+          "wearer": "Baron"
+        },
+        {
+          "name": "Bronze Warden Halberd",
+          "slot": "Weapon",
+          "might": 1000,
+          "wearer": "Baron"
+        }
+      ],
+      "wearer": "Baron",
+      "maxPieces": 9
+    },
+    {
+      "setID": "1111",
+      "name": "Warden Gold Set",
+      "tiers": [
+        {
+          "need": 2,
+          "effects": [
+            "+1+10#2+10% Refinery output in the Jade Desert"
+          ]
+        },
+        {
+          "need": 3,
+          "effects": [
+            "+10% recruitment speed in the Jade Desert"
+          ]
+        },
+        {
+          "need": 4,
+          "effects": [
+            "+30% melee defense strength in the Jade Desert"
+          ]
+        },
+        {
+          "need": 5,
+          "effects": [
+            "+30% ranged defense strength in the Jade Desert"
+          ]
+        },
+        {
+          "need": 6,
+          "effects": [
+            "+10% surviving defenders in the Jade Desert"
+          ]
+        },
+        {
+          "need": 7,
+          "effects": [
+            "+15% unit limit on the wall in the Jade Desert"
+          ]
+        },
+        {
+          "need": 8,
+          "effects": [
+            "-93+10% currencies lost to attackers in the Jade Desert"
+          ]
+        },
+        {
+          "need": 9,
+          "effects": [
+            "+20 secure storage capacity in the Jade Desert"
+          ]
+        }
+      ],
+      "pieces": [
+        {
+          "name": "Gold Warden Armor",
+          "slot": "Armor",
+          "might": 1000,
+          "wearer": "Baron"
+        },
+        {
+          "name": "Gold Warden Ledger",
+          "slot": "Artifact",
+          "might": 1000,
+          "wearer": "Baron"
+        },
+        {
+          "name": "Gold Warden Helmet",
+          "slot": "Helmet",
+          "might": 1000,
+          "wearer": "Baron"
+        },
+        {
+          "name": "Gold Warden",
+          "slot": "Hero",
+          "might": 1000,
+          "wearer": "Baron"
+        },
+        {
+          "name": "Gold Warden Halberd",
+          "slot": "Weapon",
+          "might": 1000,
+          "wearer": "Baron"
+        }
+      ],
+      "wearer": "Baron",
+      "maxPieces": 9
+    },
+    {
+      "setID": "1110",
+      "name": "Warden Silver Set",
+      "tiers": [
+        {
+          "need": 2,
+          "effects": [
+            "+1+7#2+7% Refinery output in the Jade Desert"
+          ]
+        },
+        {
+          "need": 3,
+          "effects": [
+            "+7% recruitment speed in the Jade Desert"
+          ]
+        },
+        {
+          "need": 4,
+          "effects": [
+            "+20% melee defense strength in the Jade Desert"
+          ]
+        },
+        {
+          "need": 5,
+          "effects": [
+            "+20% ranged defense strength in the Jade Desert"
+          ]
+        },
+        {
+          "need": 6,
+          "effects": [
+            "+8% surviving defenders in the Jade Desert"
+          ]
+        },
+        {
+          "need": 7,
+          "effects": [
+            "+12% unit limit on the wall in the Jade Desert"
+          ]
+        },
+        {
+          "need": 8,
+          "effects": [
+            "-93+7% currencies lost to attackers in the Jade Desert"
+          ]
+        },
+        {
+          "need": 9,
+          "effects": [
+            "+15 secure storage capacity in the Jade Desert"
+          ]
+        }
+      ],
+      "pieces": [
+        {
+          "name": "Silver Warden Armor",
+          "slot": "Armor",
+          "might": 1000,
+          "wearer": "Baron"
+        },
+        {
+          "name": "Silver Warden Ledger",
+          "slot": "Artifact",
+          "might": 1000,
+          "wearer": "Baron"
+        },
+        {
+          "name": "Silver Warden Helmet",
+          "slot": "Helmet",
+          "might": 1000,
+          "wearer": "Baron"
+        },
+        {
+          "name": "Silver Warden",
+          "slot": "Hero",
+          "might": 1000,
+          "wearer": "Baron"
+        },
+        {
+          "name": "Silver Warden Halberd",
+          "slot": "Weapon",
+          "might": 1000,
+          "wearer": "Baron"
+        }
+      ],
+      "wearer": "Baron",
       "maxPieces": 9
     }
   ]
