@@ -1,5 +1,5 @@
 {
-  "generated": "2026-11-20T00:58:29Z",
+  "generated": "2026-11-20T16:00:51Z",
   "sets": [
     {
       "setID": "1063",
@@ -2640,7 +2640,7 @@
         {
           "need": 2,
           "effects": [
-            "+1000 to troop capacity for final assault against NPC targets"
+            "Get supported by 1000 Valkyrie ranger in courtyard attack against NPC targets"
           ]
         },
         {
@@ -2729,7 +2729,7 @@
         {
           "need": 2,
           "effects": [
-            "+1500 to troop capacity for final assault against NPC targets"
+            "Get supported by 1500 Valkyrie ranger in courtyard attack against NPC targets"
           ]
         },
         {
@@ -2818,7 +2818,7 @@
         {
           "need": 2,
           "effects": [
-            "+1250 to troop capacity for final assault against NPC targets"
+            "Get supported by 1250 Valkyrie ranger in courtyard attack against NPC targets"
           ]
         },
         {
