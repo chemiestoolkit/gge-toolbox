@@ -14,7 +14,7 @@
     { id: "bonuses", icon: "🛡️", name: "Alliance Bonuses", sub: "All twelve bonuses bought from alliance funds, level by level." },
     { id: "rewards", icon: "🏆", name: "Rewards", sub: "Rank rewards for the alliance and solo rankings." },
     { id: "chest", icon: "🎁", name: "Jade Guardian's Chest", sub: "Drop chances for both phases, and a chest you can spin." },
-    { id: "relic", icon: "🗿", name: "Relic Items", sub: "The Jade Stone upgrades that appeared in the game files, then left again." },
+    { id: "relic", icon: "🗿", name: "Relic Items", sub: "Every level of the five relic build items, including the Jade Stone upgrades." },
   ];
 
   const fmt = (n) => (n === null || n === undefined ? "—" : Number(n).toLocaleString("en-US"));
@@ -29,15 +29,16 @@
     citadel: { from: 1, to: 6, held: "" },
     trades: { offer: 0, goods: "", room: "", troops: 1000, loot: 100, army: 0, cargo: 0 },
     rewards: { run: "normal", board: "alliance" },
+    relic: { family: 0, range: "low" },
     chest: { phase: "phase1", level: 0, pulls: 0, spent: 0, haul: {} },
   };
 
-  function table(heads, rows, rowClass) {
+  function table(heads, rows, rowClass, tableClass) {
     const th = heads.map((h) => '<th class="' + (h.n ? "n" : "") + '">' + h.t + "</th>").join("");
     const body = rows.map((r, i) =>
       '<tr class="' + (rowClass ? rowClass(i) : "") + '">' +
       r.map((c, j) => '<td class="' + (heads[j].n ? "n" : "") + '">' + c + "</td>").join("") + "</tr>").join("");
-    return '<div class="jd-scroll"><table class="jd"><thead><tr>' + th + "</tr></thead><tbody>" + body + "</tbody></table></div>";
+    return '<div class="jd-scroll"><table class="jd ' + (tableClass || "") + '"><thead><tr>' + th + "</tr></thead><tbody>" + body + "</tbody></table></div>";
   }
 
   /* ---- Citadel --------------------------------------------------------- */
@@ -174,59 +175,83 @@
 
   /* ---- Alliance bonuses ------------------------------------------------ */
   function bonuses() {
-    const val = (b, v) => "+" + fmt(v) + b.unit;
-    const block = (b) => {
-      const first = b.levels[0], last = b.levels[b.levels.length - 1];
-      const timed = b.levels.some((l) => l.hours);
-      const heads = [{ t: "Level" }, { t: "Bonus", n: 1 }].concat(timed ? [{ t: "Lasts", n: 1 }] : []).concat([{ t: "Rubies", n: 1 }]);
-      const rows = b.levels.map((l) => ["<b>" + l.level + "</b>", val(b, l.value)].concat(timed ? [l.hours + " h"] : []).concat([fmt(l.cost)]));
-      const right = b.temporary ? fmt(first.cost) + " to " + fmt(Math.max.apply(null, b.levels.map((l) => l.cost))) + " rubies" : fmt(b.total) + " rubies to max";
-      return '<details class="jd-more"><summary><span>' + esc(b.name) + '</span><span class="dim">' + val(b, first.value) + " → " + val(b, Math.max.apply(null, b.levels.map((l) => l.value))) + " · " + right + "</span></summary>" + table(heads, rows) + "</details>";
+    const by = (id) => D.bonuses.find((b) => b.id === id);
+    const plus = (b, v) => "+" + fmt(v) + b.unit;
+    const numeric = (labels) => labels.map((t) => ({ t, n: 1 }));
+
+    // Lines that share a price ladder sit side by side, as one table.
+    const ladder = (ids, labels) => {
+      const lines = ids.map(by);
+      let spent = 0;
+      const rows = lines[0].levels.map((l, i) => {
+        spent += l.cost;
+        return ["<b>" + l.level + "</b>"].concat(lines.map((b) => plus(b, b.levels[i].value)), [fmt(l.cost), fmt(spent)]);
+      });
+      return table([{ t: "Level" }].concat(numeric(labels), numeric(["Rubies", "Total to here"])), rows, null, "jd-lock");
     };
-    const perm = D.bonuses.filter((b) => !b.temporary), temp = D.bonuses.filter((b) => b.temporary);
-    const total = perm.reduce((a, b) => a + b.total, 0);
-    const cheap = perm.filter((b) => b.total < 500000);
+
+    // The game numbers these 1 to 6, but 4 to 6 are just 1 to 3 held for longer.
+    const wall = by(29), yard = by(30);
+    const timed = (b, h) => b.levels.filter((l) => l.hours === h);
+    const short = timed(wall, 3), long = timed(wall, 9), yardShort = timed(yard, 3);
+    const citadelBoosts = short.map((l, i) => ["<b>" + plus(wall, l.value) + "</b>", plus(yard, yardShort[i].value), fmt(l.cost), fmt(long[i].cost)]);
+
+    const jadeite = by(35), varnish = by(36), silk = by(37);
+    const lootBoosts = jadeite.levels.map((l, i) => ["<b>" + l.level + "</b>", plus(jadeite, l.value), plus(varnish, varnish.levels[i].value), plus(silk, silk.levels[i].value), l.hours + " h", fmt(l.cost)]);
+
+    const perm = D.bonuses.filter((b) => !b.temporary);
     view.innerHTML =
-      '<div class="jd-summary"><div><span class="lbl">All ' + perm.length + ' permanent bonuses</span><span class="big">' + fmt(total) + ' rubies</span></div>' +
-      '<div><span class="lbl">The ' + cheap.length + " cheap ones</span><span class=\"big\">" + fmt(cheap.reduce((a, b) => a + b.total, 0)) + " rubies</span></div></div>" +
-      '<h2 class="jd-h">Permanent for the event</h2>' + perm.map(block).join("") +
-      '<h2 class="jd-h">Temporary</h2>' + temp.map(block).join("") +
-      '<div class="jd-note">Paid from alliance funds. Each listed value is the <b>total at that level</b>, so levels don\'t stack on each other. Citadel boosts are bought separately, and the longer 9-hour options cost more for duration, not strength.</div>';
+      '<div class="jd-summary"><div><span class="lbl">All ' + perm.length + ' permanent bonuses, maxed</span><span class="big">' + fmt(perm.reduce((a, b) => a + b.total, 0)) + "</span></div>" +
+      '<div><span class="lbl">Each wall, gate or moat line</span><span class="big">' + fmt(by(26).total) + "</span></div>" +
+      '<div><span class="lbl">Each loot, trade or storage line</span><span class="big">' + fmt(by(31).total) + "</span></div></div>" +
+      '<p class="jd-sub">All prices are rubies from alliance funds. A bonus is the total at that level, so levels don\'t add together.</p>' +
+      '<h2 class="jd-h">Citadel protection</h2><p class="jd-sub">Permanent for the event. Wall, gate and moat are three separate purchases, each at these prices.</p>' +
+      ladder([26, 27, 28], ["Wall", "Gate", "Moat"]) +
+      '<h2 class="jd-h">Loot, trades and storage</h2><p class="jd-sub">Permanent for the event. Four separate purchases, each at these prices. Storage is a flat amount.</p>' +
+      ladder([31, 32, 33, 34], ["Ancient", "Restored", "Trade units", "Storage"]) +
+      '<h2 class="jd-h">Citadel defence boosts</h2><p class="jd-sub">Temporary. Wall limit and courtyard defence are bought separately. The 9-hour price buys more time, not more strength.</p>' +
+      table(numeric(["Wall unit limit", "Courtyard defence", "Rubies, 3 hours", "Rubies, 9 hours"]), citadelBoosts) +
+      '<h2 class="jd-h">Fortress loot boosts</h2><p class="jd-sub">Temporary. The price buys one resource, so all three cost three times as much.</p>' +
+      table([{ t: "Level" }].concat(numeric(["Raw Jadeite", "Varnish", "Raw Silk", "Lasts", "Rubies each"])), lootBoosts, null, "jd-lock");
   }
 
   /* ---- Rewards --------------------------------------------------------- */
   function rewards() {
     const s = state.rewards, R = D.rewards;
-    const jadeLive = R.assign.normal && R.assign.normal.alliance === R.jadeSets.alliance;
-    const runs = [["normal", "Normal run (live)"], ["beta", "Beta run"]];
-    if (!jadeLive) runs.splice(1, 0, ["jade", "Jade tables (not live)"]);
-    if (!runs.some((r) => r[0] === s.run)) s.run = "normal";
-    const ids = s.run === "jade" ? R.jadeSets : R.assign[s.run];
-    const set = R.sets[ids[s.board]];
-    const note = {
-      normal: jadeLive
-        ? "Normal Jade runs pay these tables."
-        : "<b>This is what the game is set to pay right now.</b> Normal Jade runs still point at the older Beyond the Horizon reward tables.",
-      jade: "<b>Not active yet.</b> These Jade reward tables are in the game files, but no event setting uses them. Goodgame may change them before they go live.",
-      beta: "<b>Beta runs hold small placeholder amounts.</b> The game's own notes disagree on the currency, so they're shown as plain numbers. Beta rewards don't carry over.",
-    }[s.run];
-    const matNames = [];
-    set.brackets.forEach((b) => b.items.forEach((i) => { if (!matNames.includes(i.n)) matNames.push(i.n); }));
-    const hasBuild = set.brackets.some((b) => b.build.length);
-    const heads = [{ t: "Rank" }].concat(matNames.map((n) => ({ t: s.run === "beta" ? "Amount" : esc(n), n: 1 })));
-    if (hasBuild) heads.push({ t: "Build items (42 days)" });
-    const rows = set.brackets.slice().sort((a, b) => a.from - b.from).map((b) => {
-      const rank = b.from === b.to ? fmt(b.from) : fmt(b.from) + "–" + fmt(b.to);
-      const cells = matNames.map((n) => { const x = b.items.find((i) => i.n === n); return x ? fmt(x.a) : "—"; });
-      const row = ["<b>" + rank + "</b>"].concat(cells);
-      if (hasBuild) row.push(b.build.map((x) => esc(x.name) + (x.tier ? " T" + x.tier : "") + (x.effect ? ' <span class="dim">' + esc(x.effect) + "</span>" : "")).join("<br>") || "—");
-      return row;
+    const set = R.sets[R.assign[s.run][s.board]];
+    const brackets = set.brackets.slice().sort((a, b) => a.from - b.from);
+    const mats = [], builds = [], stats = {};
+    brackets.forEach((b) => {
+      b.items.forEach((i) => { if (!mats.includes(i.n)) mats.push(i.n); });
+      b.build.forEach((x) => {
+        if (!builds.includes(x.name)) builds.push(x.name);
+        stats[x.name + x.tier] = x;
+      });
     });
+    const heads = [{ t: "Rank" }]
+      .concat(mats.map((n) => ({ t: s.run === "beta" ? "Amount" : esc(n), n: 1 })))
+      .concat(builds.map((n) => ({ t: esc(n) })));
+    const rows = brackets.map((b) => {
+      const rank = b.from === b.to ? fmt(b.from) : fmt(b.from) + "–" + fmt(b.to);
+      const amounts = mats.map((n) => { const x = b.items.find((i) => i.n === n); return x ? fmt(x.a) : "—"; });
+      const tiers = builds.map((n) => { const x = b.build.find((i) => i.name === n); return x ? "T" + x.tier : "—"; });
+      return ["<b>" + rank + "</b>"].concat(amounts, tiers);
+    });
+    const statRows = Object.values(stats)
+      .sort((a, b) => builds.indexOf(a.name) - builds.indexOf(b.name) || b.tier - a.tier)
+      .map((x) => [esc(x.name), "<b>T" + x.tier + "</b>", esc(x.effect).replace(/, /g, " · ")]);
     const btn = (group, id, label, on) => '<button class="jd-btn' + (on ? " on" : "") + '" data-' + group + '="' + id + '">' + label + "</button>";
     view.innerHTML =
-      '<div class="jd-controls"><div class="jd-toggle">' + runs.map((r) => btn("run", r[0], r[1], r[0] === s.run)).join("") + "</div>" +
+      '<div class="jd-controls"><div class="jd-toggle">' + btn("run", "normal", "Normal run", s.run === "normal") + btn("run", "beta", "Beta run", s.run === "beta") + "</div>" +
       '<div class="jd-toggle">' + btn("board", "alliance", "Alliance ranking", s.board === "alliance") + btn("board", "solo", "Solo ranking", s.board === "solo") + "</div></div>" +
-      '<div class="jd-note ' + (s.run === "normal" ? "" : "warn") + '">' + note + "</div>" + table(heads, rows);
+      table(heads, rows, null, "jd-lock") +
+      (statRows.length
+        ? '<h2 class="jd-h">What each build item gives</h2>' + table([{ t: "Build item" }, { t: "Tier" }, { t: "Bonus" }], statRows) +
+          '<p class="jd-sub" style="margin-top:8px">Every build item lasts 42 days. Tiers are the game\'s own labels, and T5 isn\'t the strongest.</p>'
+        : "") +
+      (s.run === "beta"
+        ? '<div class="jd-note">Beta runs only store these small amounts, and the game\'s notes disagree on which currency they are.</div>'
+        : R.pending ? '<div class="jd-note">The event settings still link normal runs to the older Beyond the Horizon table, so check in-game before planning around these.</div>' : "");
     view.querySelectorAll("[data-run]").forEach((b) => (b.onclick = () => { s.run = b.dataset.run; rewards(); }));
     view.querySelectorAll("[data-board]").forEach((b) => (b.onclick = () => { s.board = b.dataset.board; rewards(); }));
   }
@@ -284,17 +309,41 @@
 
   /* ---- Relic ----------------------------------------------------------- */
   function relic() {
-    const r = D.relic;
-    const show = (o) => Object.keys(o).map((k) => "+" + o[k] + "% " + esc(k)).join("<br>");
-    const rows = r.families.map((f) => ["<b>" + esc(f.name) + "</b>", show(f.now), show(f.preview), fmt(f.jadeStones)]);
+    const r = D.relic, s = state.relic, f = r.families[s.family], low = s.range === "low";
+    const stat = (name, v) => (v === null ? "—" : "+" + fmt(v) + (name.includes("support") ? "" : "%"));
+    const amount = (v) => (v ? fmt(v) : "—");
+    const price = (was, now) => (was === now ? amount(now) : '<span class="jd-was">' + fmt(was) + "</span>" + amount(now));
+    const line = (L) => ["<b>" + L.l + "</b>"]
+      .concat(f.stats.map((n, i) => stat(n, L.fx[i])))
+      .concat(L.now.map((v, i) => (L.was ? price(L.was[i], v) : amount(v))))
+      .concat(low ? [] : [amount(L.jade)]);
+
+    const levels = f.levels.filter((L) => (low ? L.l <= 30 : L.l > 30));
+    const sum = (key, i) => levels.reduce((a, L) => a + L[key][i], 0);
+    const total = ["<b>Total</b>"].concat(f.stats.map(() => ""))
+      .concat(r.materials.map((_, i) => (low ? price(sum("was", i), sum("now", i)) : amount(sum("now", i)))))
+      .concat(low ? [] : [amount(levels.reduce((a, L) => a + L.jade, 0))]);
+    const rows = levels.map(line);
+    if (!low && f.extra) rows.push(line(f.extra));
+    rows.push(total);
+
+    const heads = [{ t: "Level" }].concat(f.stats.map((t) => ({ t: esc(t), n: 1 })), r.materials.map((t) => ({ t, n: 1 })), low ? [] : [{ t: "Jade Stones", n: 1 }]);
+    const btn = (group, id, label, on) => '<button class="jd-btn' + (on ? " on" : "") + '" data-' + group + '="' + id + '">' + label + "</button>";
     view.innerHTML =
       (r.live
         ? '<div class="jd-note warn"><b>Levels 31–60 are back in the game files.</b> The figures below are from the ' + esc(r.version) + " snapshot, so check prices in-game.</div>"
-        : '<div class="jd-note bad"><b>Not in the game right now.</b> Update ' + esc(r.version) + " added these upgrades, then the next update removed them again. In the current files (" + esc(D.itemsVersion) + ") these items still stop at level 30 at the old prices. Treat this as a preview of what may return.</div>") +
-      table([{ t: "Build item" }, { t: "Level 30 today" }, { t: "Level 60 in the preview" }, { t: "Jade Stones, 31–60", n: 1 }], rows) +
-      '<h2 class="jd-h">How the preview priced it</h2>' +
-      '<div class="jd-note">Jade Stones rose by <b>10 per level</b>, from 10 at level 31 to 300 at level 60. Odd levels also took 18,750 Timber, 9,375 Nails and 1,875 Cobblestone. Even levels took 14,100 Straw, 4,725 Glue and 75 Fabric. Levels 1–30 dropped to about a quarter of their current material cost.</div>' +
-      '<div class="jd-note">Jade Stones come from the solo ranking table, which is <b>not live yet</b> either. See <a href="#rewards">Rewards</a>.</div>';
+        : '<div class="jd-note bad"><b>Not in the game right now.</b> Update ' + esc(r.version) + " added these prices and levels 31–60, then the next update removed them. In the current files (" + esc(D.itemsVersion) + ") these items stop at level 30 at the old prices.</div>") +
+      '<div class="jd-controls"><div class="jd-toggle">' + r.families.map((x, i) => btn("family", i, esc(x.name), i === s.family)).join("") + "</div>" +
+      '<div class="jd-toggle">' + btn("range", "low", "Levels 1–30", low) + btn("range", "high", "Levels 31–60", !low) + "</div></div>" +
+      '<p class="jd-sub">' + (low
+        ? "Crossed-out numbers are the current prices. The number under them is the " + esc(r.version) + " price."
+        : "New levels from " + esc(r.version) + ". Jade Stones rise by 10 per level, and materials alternate between odd and even levels.") +
+      " Each row is the cost of that one step, and bonuses are the total at that level.</p>" +
+      table(heads, rows, (i) => (i === rows.length - 1 ? "jd-tot" : ""), "jd-lock jd-wrap") +
+      (!low && f.extra ? '<p class="jd-sub" style="margin-top:8px">The Extra row is one more courtyard step the files held after level 60. It adds no strength and isn\'t in the total.</p>' : "") +
+      '<div class="jd-note">Jade Stones come from the solo ranking. See <a href="#rewards">Rewards</a>.</div>';
+    view.querySelectorAll("[data-family]").forEach((b) => (b.onclick = () => { s.family = Number(b.dataset.family); relic(); }));
+    view.querySelectorAll("[data-range]").forEach((b) => (b.onclick = () => { s.range = b.dataset.range; relic(); }));
   }
 
   const RENDER = { citadel, trades, fortresses, crafting, bonuses, rewards, chest, relic };

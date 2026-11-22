@@ -72,6 +72,13 @@
     .jd-ladder button.on { border-color: var(--gold); color: var(--gold-bright); background: rgba(217,178,90,.14); }
     .jd-r1 { color: #b9c0ca; } .jd-r2 { color: #6fc2ff; } .jd-r3 { color: #c79bff; } .jd-r4 { color: var(--gold-bright); }
     .jd-haul { max-height: 280px; overflow-y: auto; }
+    table.jd.jd-lock th:first-child, table.jd.jd-lock td:first-child { position: sticky; left: 0; z-index: 1; background: var(--bg-elev); }
+    table.jd.jd-lock td:first-child { white-space: nowrap; }
+    table.jd.jd-wrap th { white-space: normal; vertical-align: bottom; line-height: 1.2; }
+    table.jd .jd-was { display: block; color: var(--text-faint); font-size: .74rem; text-decoration: line-through; }
+    table.jd tr.jd-tot td { font-weight: 700; color: var(--gold-bright); border-top: 1px solid var(--gold-dim); }
+    table.jd tr.jd-tot .jd-was { font-weight: 400; }
+    .jd-sub { margin: -2px 0 8px; color: var(--text-dim); font-size: .86rem; line-height: 1.45; }
     @media (max-width: 560px) { .jd-field, .jd-field input, .jd-field select { width: 100%; } }
   </style>
 </head>

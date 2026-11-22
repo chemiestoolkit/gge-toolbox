@@ -7,9 +7,9 @@ language file. The Jade mode is scoring 3 ("AllianceJade") of event 113.
 
 Two things here are deliberately not taken at face value:
 
-  Rewards   Sets 6 and 7 are the Jade reward tables, but the live event settings
-            still point normal runs at sets 1 and 3. The page shows which set
-            each run type really uses, read from the settings every refresh.
+  Rewards   Sets 6 (alliance) and 7 (solo) are the Jade reward tables and are
+            what the page shows for normal runs. The event settings still point
+            normal runs at sets 1 and 3, so `pending` stays true until they move.
 
   Relic     Items 790.01 added levels 31-60 and Jade Stone prices to five relic
             build items. 790.02 took them back out. relic-preview.json keeps
@@ -233,33 +233,33 @@ def build_item(ci):
             "days": round(num(ci.get("duration")) / 86400) if ci.get("duration") else None}
 
 
-def rewards(max_alliances):
-    runs, assign = {}, {}
+def rewards():
+    jade = {"alliance": "6", "solo": "7"}
+    settings = {}
     for s in items["allianceBattleGroundSettings"]:
-        if s.get("scoringID") != JADE:
-            continue
-        kind = "beta" if s.get("isBetaRun") else "normal"
-        runs.setdefault(kind, set()).update([s["allianceRewardSetID"], s["playerRewardSetID"]])
-        assign[kind] = {"alliance": s["allianceRewardSetID"], "solo": s["playerRewardSetID"]}
+        if s.get("scoringID") == JADE:
+            kind = "beta" if s.get("isBetaRun") else "normal"
+            settings[kind] = {"alliance": s["allianceRewardSetID"], "solo": s["playerRewardSetID"]}
+    assign = {"normal": jade, "beta": settings["beta"]}
+    wanted = set(jade.values()) | set(settings["beta"].values())
     sets = {}
     for row in items["allianceBattleGroundRankRewards"]:
-        if row["eventID"] == "113" and row["rewardSetID"] in ("1", "3", "6", "7", "8", "9"):
+        if row["eventID"] == "113" and row["rewardSetID"] in wanted:
             sets.setdefault(row["rewardSetID"], []).append(row)
     out = {}
     for sid, rows in sets.items():
         rows.sort(key=lambda r: num(r["rank"]))
         brackets, low = [], 1
         for row in rows:
-            high = min(num(row["rank"]), max_alliances)
+            high = num(row["rank"])
             reward = REWARDS[row["rewardID"]]
             parts = [p for p in reward_parts(reward) if p["k"] != "Build item"]
             ids = re.split("[#,]", str(reward.get("constructionItemIDs", ""))) if reward.get("constructionItemIDs") else []
             brackets.append({"from": low, "to": high, "items": [{"n": p["n"], "a": p["a"]} for p in parts],
                              "build": [build_item(CIS[i]) for i in ids if i in CIS]})
             low = high + 1
-        status = "normal" if sid in runs.get("normal", ()) else "beta" if sid in runs.get("beta", ()) else "unassigned"
-        out[sid] = {"status": status, "brackets": brackets}
-    return {"assign": assign, "jadeSets": {"alliance": "6", "solo": "7"}, "sets": out}
+        out[sid] = {"brackets": brackets}
+    return {"assign": assign, "pending": settings["normal"] != jade, "sets": out}
 
 
 def gacha():
@@ -304,7 +304,7 @@ data = {
     "trades": trades(),
     "crafting": crafting(),
     "bonuses": bonuses(),
-    "rewards": rewards(max_alliances),
+    "rewards": rewards(),
     "gacha": gacha(),
     "relic": relic(),
 }
