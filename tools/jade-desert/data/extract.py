@@ -109,7 +109,7 @@ def reward_parts(reward):
                 out.append({"n": ci_name(ci), "a": 1, "k": "Build item", "id": cid})
     if reward.get("gemIDs"):
         for gid in str(reward["gemIDs"]).split(","):
-            out.append({"n": t("gem_%s_name" % gid, GEMS.get(gid, {}).get("comment1", "Gem")), "a": 1, "k": "Gem"})
+            out.append({"n": t("gem_unique_" + gid) or t("gem_%s_name" % gid, GEMS.get(gid, {}).get("comment1", "Gem")), "a": 1, "k": "Gem"})
     return out
 
 

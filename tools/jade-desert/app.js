@@ -255,7 +255,7 @@
       '<div class="jd-controls"><div class="jd-toggle">' +
       '<button class="jd-btn' + (s.phase === "phase1" ? " on" : "") + '" data-phase="phase1">Phase 1 pool</button>' +
       '<button class="jd-btn' + (s.phase === "phase2" ? " on" : "") + '" data-phase="phase2">Phase 2 pool</button></div></div>' +
-      '<div class="jd-note">The chest resets every 24 hours and pulls count from level 1 again. Each pull costs <b>' + L.cost + " Jade Gacha Tokens</b>. Phase 1 pools hold Fortress Breaker and Caravaneer gear. From the switch, Phase 2 pools hold Conqueror and Warden instead.</div>" +
+      '<div class="jd-note">The chest resets every 24 hours and pulls count from level 1 again. Each pull costs <b>' + L.cost + " Jade Gacha Tokens</b>. Phase 1 is mostly Fortress Breaker and Caravaneer gear. From the switch, Phase 2 is mostly Conqueror and Warden. Each pool still holds a little of the other set.</div>" +
       '<div class="jd-ladder">' + levels.map((l, i) => '<button class="' + (l.bonus ? "bonus " : "") + (i === s.level ? "on" : "") + '" data-level="' + i + '">' + l.label + " · " + span(l) + "</button>").join("") + "</div>" +
       '<h2 class="jd-h">' + L.label + " · pull" + (L.from === L.to ? " " : "s ") + span(L) + "</h2>" +
       table([{ t: "Reward" }, { t: "Amount", n: 1 }, { t: "Chance", n: 1 }], rows) +

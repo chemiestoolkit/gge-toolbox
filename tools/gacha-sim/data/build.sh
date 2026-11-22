@@ -17,6 +17,7 @@ echo "→ version $ver"
 jq -c 'with_entries(.key|=ascii_downcase)' "$cache/en.json" > "$tmp/en_lower.json"
 jq --slurpfile lang "$tmp/en_lower.json" -f "$here/extract_gacha.jq" "$cache/items_latest.json" \
    > "$here/gacha-$ver.json"
+python3 "$here/add_phases.py" "$cache/items_latest.json" "$cache/en.json" "$here/gacha-$ver.json"
 
 # Manifest from every gacha-*.json on disk (version-sorted; last = latest).
 versions="$(ls "$here"/gacha-*.json 2>/dev/null \

@@ -31,6 +31,7 @@ function initVersions() {
   sel.addEventListener("change", () => loadVersion(sel.value));
 
   $("event").addEventListener("change", () => selectEvent($("event").value));
+  $("phase").addEventListener("change", fillLevels);
   $("level").addEventListener("change", () => selectLevel(parseInt($("level").value, 10)));
 
   loadVersion(MANIFEST.latest);
@@ -57,16 +58,36 @@ function applyVersion(evts) {
 
 function selectEvent(eventID) {
   event = events.find((e) => e.eventID === eventID) || events[0];
-  const prevLvl = parseInt($("level").value, 10);
-  $("level").innerHTML = event.levels
-    .map((l) => '<option value="' + l.level + '">Level ' + l.level + "</option>")
+  const phases = event.phases || [];
+  const prevPhase = $("phase").value;
+  $("phaseField").style.display = phases.length ? "" : "none";
+  $("phase").innerHTML = phases
+    .map((p) => '<option value="' + esc(p.name) + '">' + esc(p.name) + " pool</option>")
     .join("");
-  if (event.levels.some((l) => l.level === prevLvl)) $("level").value = prevLvl;
+  if (phases.some((p) => p.name === prevPhase)) $("phase").value = prevPhase;
+  fillLevels();
+}
+
+// Some gachas swap to a second pool partway through the event.
+function currentLevels() {
+  const phases = event.phases || [];
+  if (!phases.length) return event.levels;
+  return (phases.find((p) => p.name === $("phase").value) || phases[0]).levels;
+}
+
+function fillLevels() {
+  const levels = currentLevels();
+  const prevLvl = parseInt($("level").value, 10);
+  $("level").innerHTML = levels
+    .map((l) => '<option value="' + l.level + '">' + esc(l.label || "Level " + l.level) + "</option>")
+    .join("");
+  if (levels.some((l) => l.level === prevLvl)) $("level").value = prevLvl;
   selectLevel(parseInt($("level").value, 10));
 }
 
 function selectLevel(level) {
-  const lvl = event.levels.find((l) => l.level === level) || event.levels[0];
+  const levels = currentLevels();
+  const lvl = levels.find((l) => l.level === level) || levels[0];
   pool = lvl;
   resetStats();
   renderMeta(lvl);
@@ -78,7 +99,7 @@ function selectLevel(level) {
 function cleanData(evts) {
   const ROMAN = ["", "", " II", " III", " IV", " V", " VI", " VII", " VIII", " IX", " X"];
   evts.forEach((ev) =>
-    ev.levels.forEach((l) => {
+    ev.levels.concat(...(ev.phases || []).map((p) => p.levels)).forEach((l) => {
       const seen = new Map();
       l.entries.forEach((e) => {
         if (window.ggeFixName) e.name = window.ggeFixName(e.name);
@@ -183,8 +204,7 @@ function spin(n) {
 }
 function renderSim(lastGot) {
   $("statPulls").textContent = stats.pulls.toLocaleString();
-  const lvl = event ? event.levels.find((l) => l.level === pool.level) : null;
-  const each = lvl && lvl.cost ? lvl.cost.amount : 0;
+  const each = pool && pool.cost ? pool.cost.amount : 0;
   $("statCost").textContent = each ? (stats.pulls * each).toLocaleString() : "—";
   $("statBest").innerHTML = stats.best
     ? '<span class="r' + stats.best.rarity + '">' + esc(stats.best.name) + "</span>" : "—";
