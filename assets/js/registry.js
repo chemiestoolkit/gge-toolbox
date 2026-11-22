@@ -171,7 +171,7 @@ window.TOOLS = [
   {
     slug: "guide-jade-desert",
     jade: true,
-    img: "assets/img/event-icons/beyondthehorizon.webp",
+    img: "assets/img/jade/card-guide.webp",
     cat: "featured",
     name: "The Jade Desert",
     desc: "The full plan: statuettes, Citadel reach, the fortress and oasis loop, phase 2 and what to buy with alliance funds.",
@@ -466,7 +466,7 @@ window.TOOLS = [
   {
     slug: "jade-chest",
     jade: true,
-    img: "assets/img/event-icons/beyondthehorizon.webp",
+    img: "assets/img/jade/chest-button.webp",
     cat: "simulators",
     name: "Jade Guardian's Chest",
     desc: "Drop chances for both the Phase 1 and Phase 2 pools, plus a chest you can spin through the daily ladder.",
@@ -703,7 +703,7 @@ window.TOOLS = [
   {
     slug: "jade-citadel",
     jade: true,
-    img: "assets/img/event-icons/beyondthehorizon.webp",
+    img: "assets/img/jade/citadel-5.webp",
     cat: "calculators",
     name: "Jade Citadel Planner",
     desc: "What each Citadel level costs, how far it reaches and how many Ancient statuettes you still need.",
@@ -715,7 +715,7 @@ window.TOOLS = [
   {
     slug: "jade-trades",
     jade: true,
-    img: "assets/img/event-icons/beyondthehorizon.webp",
+    img: "assets/img/jade/carrier.webp",
     cat: "calculators",
     name: "Jade Oasis Trades",
     desc: "How many troops a trade really gets you, from your carriers, bonuses, goods and the oasis stock left.",
@@ -727,7 +727,7 @@ window.TOOLS = [
   {
     slug: "jade-fortresses",
     jade: true,
-    img: "assets/img/event-icons/beyondthehorizon.webp",
+    img: "assets/img/jade/card-fortress.webp",
     cat: "overviews",
     name: "Jade Palace Fortresses",
     desc: "All six fortress tiers: attack level, defence, loot pool, walls, guards and the extra loot table.",
@@ -739,7 +739,7 @@ window.TOOLS = [
   {
     slug: "jade-crafting",
     jade: true,
-    img: "assets/img/event-icons/beyondthehorizon.webp",
+    img: "assets/img/jade/blades.webp",
     cat: "overviews",
     name: "Jade Crafting",
     desc: "Every Toolsmith and Refinery recipe, with what the 1-hour version really costs you.",
@@ -751,7 +751,7 @@ window.TOOLS = [
   {
     slug: "jade-bonuses",
     jade: true,
-    img: "assets/img/event-icons/beyondthehorizon.webp",
+    img: "assets/img/jade/card-gate.webp",
     cat: "overviews",
     name: "Jade Alliance Bonuses",
     desc: "All twelve bonuses bought from alliance funds, level by level, with the cost to max each one.",
@@ -763,7 +763,7 @@ window.TOOLS = [
   {
     slug: "jade-rewards",
     jade: true,
-    img: "assets/img/event-icons/beyondthehorizon.webp",
+    img: "assets/img/jade/restored.webp",
     cat: "overviews",
     name: "Jade Rewards",
     desc: "Alliance and solo rank rewards for normal and beta runs, with what every build item gives.",
@@ -775,7 +775,7 @@ window.TOOLS = [
   {
     slug: "jade-relic",
     jade: true,
-    img: "assets/img/event-icons/beyondthehorizon.webp",
+    img: "assets/img/jade/jade-stone.webp",
     cat: "overviews",
     name: "Jade Relic Items",
     desc: "Full level 1-60 tables for all five relic build items: bonuses, materials and Jade Stones.",

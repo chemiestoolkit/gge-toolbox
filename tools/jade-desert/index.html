@@ -78,6 +78,16 @@
     table.jd .jd-was { display: block; color: var(--text-faint); font-size: .74rem; text-decoration: line-through; }
     table.jd tr.jd-tot td { font-weight: 700; color: var(--gold-bright); border-top: 1px solid var(--gold-dim); }
     table.jd tr.jd-tot .jd-was { font-weight: 400; }
+    .jd-banner { display: block; width: 100%; height: clamp(92px, 17vw, 190px); margin: 0 0 14px; object-fit: cover; object-position: center top;
+      border: 1px solid var(--border-soft); border-radius: var(--radius); }
+    .jd-ico { width: 24px; height: 24px; margin-right: 6px; object-fit: contain; vertical-align: -7px; }
+    table.jd th .jd-ico, .jd-field label .jd-ico, .jd-summary .lbl .jd-ico { width: 18px; height: 18px; margin-right: 4px; vertical-align: -4px; }
+    .jd-lv { display: inline-flex; align-items: center; gap: 10px; }
+    .jd-cit { display: inline-block; width: 42px; height: 48px; object-fit: contain; }
+    .jd-hero { display: flex; justify-content: center; align-items: flex-end; gap: clamp(10px, 4vw, 34px); margin: 0 0 14px; }
+    .jd-hero-img { min-width: 0; max-width: 48%; height: clamp(84px, 18vw, 150px); object-fit: contain; }
+    .jd-nw { white-space: nowrap; }
+    .jd-scene { display: block; width: 100%; max-width: 420px; margin: 0 auto 12px; border-radius: var(--radius); }
     .jd-sub { margin: -2px 0 8px; color: var(--text-dim); font-size: .86rem; line-height: 1.45; }
     @media (max-width: 560px) { .jd-field, .jd-field input, .jd-field select { width: 100%; } }
   </style>
@@ -90,6 +100,7 @@
   </header>
 
   <main class="wrap">
+    <img class="jd-banner" src="../../assets/img/jade/banner.webp" alt="" />
     <div class="tool-head">
       <a class="back" href="../../browse.html?cat=jade">← BTH: Jade Edition</a>
       <h1 id="jd-title">🏜️ BTH: Jade Edition</h1>

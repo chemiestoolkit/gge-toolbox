@@ -24,6 +24,18 @@
   const costText = (c) => Object.keys(c).map((k) => fmt(c[k]) + " " + esc(k)).join(" + ");
   const intOf = (el) => Math.max(0, Math.floor(Number(el.value) || 0));
 
+  const ART = "../../assets/img/jade/";
+  const pic = (name, cls) => '<img class="' + (cls || "jd-ico") + '" src="' + ART + name + '.webp" alt="" loading="lazy" />';
+  const CITADEL_ART = 5; // Levels 6 to 10 have no picture yet.
+  const MADE = { "Jade Blades": "blades", "Jade Arrowheads": "arrowheads", "Silk Coat": "silk-coat", "Silk Veil": "silk-veil", "Caravan Ingot": "ingot" };
+  const DROPS = { "Raw Jadeite": "jadeite", Varnish: "varnish", "Raw Silk": "silk" };
+  const TROOPS = {
+    "Melee Attackers": ["melee-attacker"], "Melee Defenders": ["melee-defender"],
+    "Ranged Attackers": ["ranged-attacker"], "Ranged Defenders": ["ranged-defender"],
+    "Mixed Attackers": ["melee-attacker", "ranged-attacker"], "Mixed Defenders": ["melee-defender", "ranged-defender"],
+  };
+  const art = (map, key) => (map[key] ? pic(map[key]) : "");
+
   let D = null;
   const state = {
     citadel: { from: 1, to: 6, held: "" },
@@ -49,7 +61,7 @@
     let spent = 0;
     const rows = D.citadel.map((c) => {
       spent += c.cost;
-      return ["<b>" + c.level + "</b>", c.radius, c.cost ? fmt(c.cost) : "—", fmt(spent), fmt(c.wallUnits), hrs(c.protectionH)];
+      return ['<span class="jd-lv">' + (c.level <= CITADEL_ART ? pic("citadel-" + c.level, "jd-cit") : '<span class="jd-cit"></span>') + "<b>" + c.level + "</b></span>", c.radius, c.cost ? fmt(c.cost) : "—", fmt(spent), fmt(c.wallUnits), hrs(c.protectionH)];
     });
     view.innerHTML =
       '<div class="jd-controls">' +
@@ -58,7 +70,7 @@
       '<div class="jd-field"><label for="c-held">Ancient statuettes ready</label><input id="c-held" type="number" min="0" step="1000" placeholder="0" value="' + esc(s.held) + '" /></div>' +
       "</div>" +
       '<div class="jd-summary" id="c-out"></div>' +
-      table([{ t: "Level" }, { t: "Radius", n: 1 }, { t: "Upgrade cost", n: 1 }, { t: "Total parked", n: 1 }, { t: "Wall units", n: 1 }, { t: "Protection", n: 1 }], rows,
+      table([{ t: "Level" }, { t: "Radius", n: 1 }, { t: pic("ancient") + "Upgrade cost", n: 1 }, { t: pic("ancient") + "Total parked", n: 1 }, { t: "Wall units", n: 1 }, { t: "Protection", n: 1 }], rows,
         (i) => (D.citadel[i].level === s.to ? "hit" : "")) +
       '<div class="jd-note"><b>Reach:</b> you can only attack what sits inside your citadel radius. A target inside your next level\'s ring shows <b>"Requires Citadel level N"</b> and has no attack button. On our map, neighbours came into reach at <b>level 6</b>. Other spacing can mean another number.</div>' +
       '<div class="jd-note"><b>Upgrading doesn\'t cost points.</b> Statuettes spent on the citadel still convert 1:1 when the event ends. You only lose them if the citadel loses a level.</div>' +
@@ -78,7 +90,7 @@
         const short = need - held;
         const a = D.citadel.find((c) => c.level === s.from), b = D.citadel.find((c) => c.level === s.to);
         out.innerHTML =
-          '<div><span class="lbl">Ancient statuettes needed</span><span class="big">' + fmt(need) + "</span></div>" +
+          '<div><span class="lbl">' + pic("ancient") + 'Ancient statuettes needed</span><span class="big">' + fmt(need) + "</span></div>" +
           '<div><span class="lbl">' + (short > 0 ? "Still to find" : "Left over") + '</span><span class="big ' + (short > 0 ? "bad" : "good") + '">' + fmt(Math.abs(short)) + "</span></div>" +
           '<div><span class="lbl">Radius</span><span class="big">' + a.radius + " → " + b.radius + "</span></div>";
       }
@@ -92,13 +104,13 @@
   function trades() {
     const s = state.trades;
     const opts = D.trades.map((t, i) => '<option value="' + i + '"' + (i === s.offer ? " selected" : "") + ">" + esc(t.gives) + " (" + costText(t.cost) + ")</option>").join("");
-    const rows = D.trades.map((t) => [esc(t.gives), costText(t.cost), t.units, fmt(t.capacity), fmt(t.capacity / t.units)]);
+    const rows = D.trades.map((t) => [(TROOPS[t.gives] || []).map((n) => pic(n)).join("") + esc(t.gives), costText(t.cost), t.units, fmt(t.capacity), fmt(t.capacity / t.units)]);
     const oasisRows = D.oases.map((o) => ["<b>" + o.level + "</b>", fmt(o.stock), o.level, fmt(o.maxArmy), o.cooldownH + " h"]);
     view.innerHTML =
       '<div class="jd-controls">' +
       '<div class="jd-field"><label for="t-offer">Trade</label><select id="t-offer">' + opts + "</select></div>" +
       '<div class="jd-field"><label for="t-troops">Troops you send</label><input id="t-troops" type="number" min="0" value="' + esc(s.troops) + '" /></div>' +
-      '<div class="jd-field"><label for="t-loot">Loot per troop</label><select id="t-loot"><option value="100"' + (s.loot === 100 ? " selected" : "") + '>Dune Carrier (100)</option><option value="50"' + (s.loot === 50 ? " selected" : "") + '>Jade troops (50)</option></select></div>' +
+      '<div class="jd-field"><label for="t-loot">' + pic("carrier") + 'Loot per troop</label><select id="t-loot"><option value="100"' + (s.loot === 100 ? " selected" : "") + '>Dune Carrier (100)</option><option value="50"' + (s.loot === 50 ? " selected" : "") + '>Jade troops (50)</option></select></div>' +
       '<div class="jd-field"><label for="t-army">Trade army size bonus %</label><input id="t-army" type="number" min="0" value="' + esc(s.army) + '" /></div>' +
       '<div class="jd-field"><label for="t-cargo">Loot capacity bonus %</label><input id="t-cargo" type="number" min="0" value="' + esc(s.cargo) + '" /></div>' +
       '<div class="jd-field"><label for="t-room">Oasis stock left</label><input id="t-room" type="number" min="0" placeholder="Not set" value="' + esc(s.room) + '" /></div>' +
@@ -146,8 +158,9 @@
     const tierRows = f.tiers.map((x) => ["<b>" + x.tier + "</b>", x.level, fmt(x.def), fmt(x.pool), "+" + fmt(x.wall) + "%", "+" + fmt(x.gate) + "%", x.guards]);
     const extra = f.extraLoot.map((e) => ['<span class="jd-r' + e.r + '">' + esc(e.n) + "</span>", e.a && e.a > 1 ? fmt(e.a) : "", pct(e.p)]);
     view.innerHTML =
+      '<div class="jd-hero">' + pic("card-fortress", "jd-hero-img") + pic("card-gate", "jd-hero-img") + "</div>" +
       '<h2 class="jd-h">Three fortress types</h2>' +
-      table([{ t: "Fortress" }, { t: "Drops" }], f.types.map((x) => [esc(x.name), esc(x.drops) + " + Ancient Jade Statuettes"])) +
+      table([{ t: "Fortress" }, { t: "Drops" }], f.types.map((x) => ['<span class="jd-nw">' + art(DROPS, x.drops) + esc(x.name) + "</span>", esc(x.drops) + " + " + pic("ancient") + "Ancient Jade Statuettes"])) +
       '<h2 class="jd-h">Tiers</h2>' +
       table([{ t: "Tier" }, { t: "Attack level", n: 1 }, { t: "Defence", n: 1 }, { t: "Loot pool", n: 1 }, { t: "Wall", n: 1 }, { t: "Gate", n: 1 }, { t: "Guards", n: 1 }], tierRows) +
       '<div class="jd-note">All three types share these defences. A used-up fortress returns <b>one tier higher</b> after ' + f.cooldownH + " hours, and travel costs <b>" + (f.travel * 100) + "%</b> of normal. The defender is the <b>Jade Sentinel</b>: +15% melee and ranged defender strength, with no defence tools.</div>" +
@@ -166,7 +179,7 @@
     });
     const rows = Object.values(pairs).map((p) => {
       const l = p.Long, sh = p.Short;
-      return [esc(l.building), "<b>" + fmt(l.amount) + " " + esc(l.makes) + "</b>", costText(l.cost), l.hours + " h, free", sh.hours + " h, " + fmt(sh.rubies) + " rubies", fmt(l.skip)];
+      return [esc(l.building), art(MADE, l.makes) + "<b>" + fmt(l.amount) + " " + esc(l.makes) + "</b>", costText(l.cost), l.hours + " h, free", sh.hours + " h, " + fmt(sh.rubies) + " rubies", fmt(l.skip)];
     });
     view.innerHTML =
       table([{ t: "Building" }, { t: "Makes" }, { t: "Materials" }, { t: "Long" }, { t: "Short" }, { t: "Skip Long (rubies)", n: 1 }], rows) +
@@ -208,11 +221,11 @@
       '<h2 class="jd-h">Citadel protection</h2><p class="jd-sub">Permanent for the event. Wall, gate and moat are three separate purchases, each at these prices.</p>' +
       ladder([26, 27, 28], ["Wall", "Gate", "Moat"]) +
       '<h2 class="jd-h">Loot, trades and storage</h2><p class="jd-sub">Permanent for the event. Four separate purchases, each at these prices. Storage is a flat amount.</p>' +
-      ladder([31, 32, 33, 34], ["Ancient", "Restored", "Trade units", "Storage"]) +
+      ladder([31, 32, 33, 34], [pic("ancient") + "Ancient", pic("restored") + "Restored", "Trade units", "Storage"]) +
       '<h2 class="jd-h">Citadel defence boosts</h2><p class="jd-sub">Temporary. Wall limit and courtyard defence are bought separately. The 9-hour price buys more time, not more strength.</p>' +
       table(numeric(["Wall unit limit", "Courtyard defence", "Rubies, 3 hours", "Rubies, 9 hours"]), citadelBoosts) +
       '<h2 class="jd-h">Fortress loot boosts</h2><p class="jd-sub">Temporary. The price buys one resource, so all three cost three times as much.</p>' +
-      table([{ t: "Level" }].concat(numeric(["Raw Jadeite", "Varnish", "Raw Silk", "Lasts", "Rubies each"])), lootBoosts, null, "jd-lock");
+      table([{ t: "Level" }].concat(numeric([pic("jadeite") + "Raw Jadeite", pic("varnish") + "Varnish", pic("silk") + "Raw Silk", "Lasts", "Rubies each"])), lootBoosts, null, "jd-lock");
   }
 
   /* ---- Rewards --------------------------------------------------------- */
@@ -229,7 +242,7 @@
       });
     });
     const heads = [{ t: "Rank" }]
-      .concat(mats.map((n) => ({ t: s.run === "beta" ? "Amount" : esc(n), n: 1 })))
+      .concat(mats.map((n) => ({ t: s.run === "beta" ? "Amount" : (n === "Jade Stones" ? pic("jade-stone") : "") + esc(n), n: 1 })))
       .concat(builds.map((n) => ({ t: esc(n) })));
     const rows = brackets.map((b) => {
       const rank = b.from === b.to ? fmt(b.from) : fmt(b.from) + "–" + fmt(b.to);
@@ -277,10 +290,11 @@
     const nextPull = s.pulls + 1, nextL = levelForPull(levels, nextPull);
     const haul = Object.values(s.haul).sort((a, b) => b.count - a.count);
     view.innerHTML =
+      pic("chest-scene", "jd-scene") +
       '<div class="jd-controls"><div class="jd-toggle">' +
       '<button class="jd-btn' + (s.phase === "phase1" ? " on" : "") + '" data-phase="phase1">Phase 1 pool</button>' +
       '<button class="jd-btn' + (s.phase === "phase2" ? " on" : "") + '" data-phase="phase2">Phase 2 pool</button></div></div>' +
-      '<div class="jd-note">The chest resets every 24 hours and pulls count from level 1 again. Each pull costs <b>' + L.cost + " Jade Gacha Tokens</b>. Phase 1 is mostly Fortress Breaker and Caravaneer gear. From the switch, Phase 2 is mostly Conqueror and Warden. Each pool still holds a little of the other set.</div>" +
+      '<div class="jd-note">The chest resets every 24 hours and pulls count from level 1 again. Each pull costs ' + pic("token") + "<b>" + L.cost + " Jade Gacha Tokens</b>. Phase 1 is mostly Fortress Breaker and Caravaneer gear. From the switch, Phase 2 is mostly Conqueror and Warden. Each pool still holds a little of the other set.</div>" +
       '<div class="jd-ladder">' + levels.map((l, i) => '<button class="' + (l.bonus ? "bonus " : "") + (i === s.level ? "on" : "") + '" data-level="' + i + '">' + l.label + " · " + span(l) + "</button>").join("") + "</div>" +
       '<h2 class="jd-h">' + L.label + " · pull" + (L.from === L.to ? " " : "s ") + span(L) + "</h2>" +
       table([{ t: "Reward" }, { t: "Amount", n: 1 }, { t: "Chance", n: 1 }], rows) +
@@ -327,7 +341,7 @@
     if (!low && f.extra) rows.push(line(f.extra));
     rows.push(total);
 
-    const heads = [{ t: "Level" }].concat(f.stats.map((t) => ({ t: esc(t), n: 1 })), r.materials.map((t) => ({ t, n: 1 })), low ? [] : [{ t: "Jade Stones", n: 1 }]);
+    const heads = [{ t: "Level" }].concat(f.stats.map((t) => ({ t: esc(t), n: 1 })), r.materials.map((t) => ({ t, n: 1 })), low ? [] : [{ t: pic("jade-stone") + "Jade Stones", n: 1 }]);
     const btn = (group, id, label, on) => '<button class="jd-btn' + (on ? " on" : "") + '" data-' + group + '="' + id + '">' + label + "</button>";
     view.innerHTML =
       (r.live

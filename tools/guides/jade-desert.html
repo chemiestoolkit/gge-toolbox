@@ -15,6 +15,11 @@
   <link rel="stylesheet" href="../../assets/css/theme.css?v=15" />
   <link rel="stylesheet" href="./guide.css" />
   <link rel="icon" type="image/png" href="../../assets/img/favicon.png" />
+  <style>
+    .jade-banner { display: block; width: 100%; height: clamp(92px, 17vw, 190px); margin: 0 0 14px; object-fit: cover; object-position: center top;
+      border: 1px solid var(--border-soft); border-radius: var(--radius); }
+    .jade-ico { width: 20px; height: 20px; margin-right: 5px; object-fit: contain; vertical-align: -5px; }
+  </style>
 </head>
 <body>
   <header class="topbar">
@@ -24,6 +29,7 @@
   </header>
 
   <main class="wrap">
+    <img class="jade-banner" src="../../assets/img/jade/banner.webp" alt="" />
     <div class="tool-head guide">
       <a class="back" href="../../browse.html?cat=jade">← BTH: Jade Edition</a>
       <h1>🏜️ The Jade Desert</h1>
@@ -82,7 +88,7 @@
 
         <h2>The two statuettes</h2>
         <table class="guide-table">
-          <thead><tr><th></th><th>Ancient</th><th>Restored</th></tr></thead>
+          <thead><tr><th></th><th><img class="jade-ico" src="../../assets/img/jade/ancient.webp" alt="" />Ancient</th><th><img class="jade-ico" src="../../assets/img/jade/restored.webp" alt="" />Restored</th></tr></thead>
           <tbody>
             <tr><td><b>Comes from</b></td><td>Palace fortresses, enemy castles, enemy citadels</td><td>Oasis trades, converting Ancient</td></tr>
             <tr><td><b>Can be looted?</b></td><td>Yes</td><td>No, and it can't be transferred</td></tr>
