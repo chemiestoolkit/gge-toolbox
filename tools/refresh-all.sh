@@ -27,6 +27,10 @@ builds=(
   "gacha-sim/data/build.sh"
   "storm-forts/data/build.sh"
   "aqua-islands/data/build.sh"
+  "kingdom-medals/data/build.sh"
+  "rift-eggs/data/build.sh"
+  "rift-points/data/build.sh"
+  "berimond-titles/data/build.sh"
   "whats-new/data/build.sh"
 )
 
