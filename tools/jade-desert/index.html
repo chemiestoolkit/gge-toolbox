@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>BTH: Jade Edition — Maxy's Empire Toolkit</title>
+  <meta property="og:type" content="website" />
+  <meta property="og:site_name" content="Maxy's Empire Toolkit" />
+  <meta property="og:title" content="BTH: Jade Edition — Maxy's Empire Toolkit" />
+  <meta property="og:description" content="Citadel planner, oasis trade calculator, fortress tiers, crafting, alliance bonuses, rewards and the Jade Guardian's Chest for the Jade Desert." />
+  <meta property="og:url" content="https://chemiestoolkit.github.io/gge-toolbox/tools/jade-desert/" />
+  <meta property="og:image" content="https://chemiestoolkit.github.io/gge-toolbox/assets/img/event-icons/beyondthehorizon.webp" />
+  <meta name="twitter:card" content="summary" />
+  <meta name="description" content="Goodgame Empire Beyond the Horizon: Jade Desert reference and calculators, built from the game's own data." />
+  <link rel="stylesheet" href="../../assets/css/theme.css?v=15" />
+  <link rel="icon" type="image/png" href="../../assets/img/favicon.png" />
+  <style>
+    .jd-tabs { display: flex; flex-wrap: wrap; gap: 6px; margin: 0 0 14px; }
+    .jd-tabs a { padding: 8px 12px; border: 1px solid var(--border); border-radius: var(--radius-sm);
+      background: var(--bg-elev); color: var(--text-dim); text-decoration: none; font-size: .88rem; }
+    .jd-tabs a:hover { border-color: var(--gold); color: var(--gold); }
+    .jd-tabs a.on { border-color: var(--gold); background: rgba(217,178,90,.14); color: var(--gold-bright); }
+
+    .jd-controls { display: flex; flex-wrap: wrap; gap: 12px; align-items: flex-end; margin-bottom: 12px; }
+    .jd-field { display: flex; flex-direction: column; gap: 4px; min-width: 0; }
+    .jd-field label { font-size: .78rem; color: var(--text-dim); }
+    .jd-field select, .jd-field input { padding: 9px 11px; font: inherit; background: var(--bg-elev); color: var(--text);
+      border: 1px solid var(--border); border-radius: var(--radius-sm); max-width: 100%; }
+    .jd-field input { width: 140px; }
+    .jd-field select:focus, .jd-field input:focus { outline: none; border-color: var(--gold); }
+
+    .jd-toggle { display: inline-flex; flex-wrap: wrap; gap: 4px; }
+    .jd-btn { padding: 8px 12px; font: inherit; font-size: .88rem; cursor: pointer; color: var(--text-dim);
+      background: var(--bg-elev); border: 1px solid var(--border); border-radius: var(--radius-sm); }
+    .jd-btn:hover { border-color: var(--gold); color: var(--gold); }
+    .jd-btn.on { border-color: var(--gold); background: rgba(217,178,90,.14); color: var(--gold-bright); }
+
+    .jd-summary { display: flex; flex-wrap: wrap; gap: 14px 30px; margin: 12px 0; padding: 14px 16px;
+      border: 1px solid var(--gold-dim); border-radius: var(--radius); background: rgba(20,21,26,.96); }
+    .jd-summary .lbl { display: block; font-size: .78rem; color: var(--text-dim); }
+    .jd-summary .big { font-size: 1.5rem; font-weight: 700; color: var(--gold-bright); font-variant-numeric: tabular-nums; }
+    .jd-summary .good { color: var(--good); }
+    .jd-summary .bad { color: var(--bad); }
+
+    .jd-scroll { overflow-x: auto; -webkit-overflow-scrolling: touch; }
+    table.jd { width: 100%; border-collapse: collapse; font-variant-numeric: tabular-nums; font-size: .9rem; }
+    table.jd th { text-align: left; padding: 8px 10px; color: var(--gold); font-size: .78rem; white-space: nowrap;
+      border-bottom: 1px solid var(--border); }
+    table.jd td { padding: 7px 10px; border-bottom: 1px solid var(--border-soft); color: var(--text); }
+    table.jd td.n, table.jd th.n { text-align: right; white-space: nowrap; }
+    table.jd tr.hit td { background: rgba(217,178,90,.12); }
+    table.jd .dim { color: var(--text-faint); font-size: .82rem; }
+
+    .jd-note { margin: 12px 0; padding: 11px 14px; border-left: 3px solid var(--accent); border-radius: 4px;
+      background: rgba(79,157,222,.09); color: var(--text-dim); font-size: .9rem; line-height: 1.5; }
+    .jd-note.warn { border-left-color: var(--gold); background: rgba(217,178,90,.10); }
+    .jd-note.bad { border-left-color: var(--bad); background: rgba(248,81,73,.09); }
+    .jd-note b { color: var(--text); }
+    h2.jd-h { margin: 18px 0 8px; font-size: 1.1rem; color: var(--gold-bright); }
+    h2.jd-h:first-child { margin-top: 0; }
+
+    details.jd-more { border-bottom: 1px solid var(--border-soft); }
+    details.jd-more summary { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 4px 16px;
+      padding: 9px 4px; cursor: pointer; color: var(--text); }
+    details.jd-more summary .dim { color: var(--text-faint); font-size: .84rem; }
+    details.jd-more[open] { padding-bottom: 8px; }
+
+    .jd-ladder { display: flex; flex-wrap: wrap; gap: 4px; margin: 8px 0 12px; }
+    .jd-ladder button { padding: 6px 9px; font: inherit; font-size: .8rem; cursor: pointer; color: var(--text-dim);
+      background: var(--bg-elev); border: 1px solid var(--border); border-radius: 6px; }
+    .jd-ladder button.bonus { border-style: dashed; }
+    .jd-ladder button.on { border-color: var(--gold); color: var(--gold-bright); background: rgba(217,178,90,.14); }
+    .jd-r1 { color: #b9c0ca; } .jd-r2 { color: #6fc2ff; } .jd-r3 { color: #c79bff; } .jd-r4 { color: var(--gold-bright); }
+    .jd-haul { max-height: 280px; overflow-y: auto; }
+    @media (max-width: 560px) { .jd-field, .jd-field input, .jd-field select { width: 100%; } }
+  </style>
+</head>
+<body>
+  <header class="topbar">
+    <div class="wrap">
+      <a class="brand" href="../../"><span class="crest">🛡️</span> Maxy's Empire <b>Toolkit</b></a>
+    </div>
+  </header>
+
+  <main class="wrap">
+    <div class="tool-head">
+      <a class="back" href="../../browse.html?cat=jade">← BTH: Jade Edition</a>
+      <h1 id="jd-title">🏜️ BTH: Jade Edition</h1>
+      <p id="jd-sub">Every number for the Jade Desert, read from the game's own files.</p>
+    </div>
+    <nav class="jd-tabs" id="jd-tabs" aria-label="Jade Desert pages"></nav>
+    <section class="panel" id="jd-view"><p>Loading Jade Desert data…</p></section>
+  </main>
+
+  <footer class="footer">
+    <div class="wrap"><p id="jd-foot">Game data belongs to Goodgame Studios.</p></div>
+  </footer>
+  <script src="app.js"></script>
+</body>
+</html>

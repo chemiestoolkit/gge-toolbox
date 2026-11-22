@@ -31,6 +31,7 @@ builds=(
   "rift-eggs/data/build.sh"
   "rift-points/data/build.sh"
   "berimond-titles/data/build.sh"
+  "jade-desert/data/build.sh"
   "whats-new/data/build.sh"
 )
 

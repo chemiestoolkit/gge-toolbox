@@ -1,0 +1,64 @@
+{
+ "version": "790.01",
+ "families": [
+  {
+   "name": "Flank attack unit limit",
+   "now": {
+    "unit limit": 60
+   },
+   "preview": {
+    "unit limit": 75,
+    "attack strength": 30,
+    "travel speed": 75
+   },
+   "jadeStones": 4650,
+   "extraStep": null
+  },
+  {
+   "name": "Front attack unit limit",
+   "now": {
+    "unit limit": 60
+   },
+   "preview": {
+    "unit limit": 75,
+    "attack strength": 30,
+    "travel speed": 75
+   },
+   "jadeStones": 4650,
+   "extraStep": null
+  },
+  {
+   "name": "Courtyard attack strength",
+   "now": {
+    "courtyard attack": 60
+   },
+   "preview": {
+    "courtyard attack": 75
+   },
+   "jadeStones": 4650,
+   "extraStep": 3000
+  },
+  {
+   "name": "Melee attack strength",
+   "now": {
+    "melee attack": 30
+   },
+   "preview": {
+    "melee attack": 45
+   },
+   "jadeStones": 4650,
+   "extraStep": null
+  },
+  {
+   "name": "Ranged attack strength",
+   "now": {
+    "ranged attack": 30
+   },
+   "preview": {
+    "ranged attack": 45
+   },
+   "jadeStones": 4650,
+   "extraStep": null
+  }
+ ]
+}

@@ -10,6 +10,7 @@
     { id: "calculators", label: "Calculators",    icon: "🧮", href: "browse.html?cat=calculators" },
     { id: "simulators",  label: "Simulators",     icon: "⚔️", href: "browse.html?cat=simulators" },
     { id: "rift",        label: "Rift",           icon: "🌀", href: "browse.html?cat=rift" },
+    { id: "jade",        label: "BTH: Jade",      icon: "🏜️", href: "browse.html?cat=jade" },
     { id: "overviews",   label: "Overviews",      icon: "👁️", href: "browse.html?cat=overviews" },
     { id: "rankings",    label: "Rankings",       icon: "📊", href: "browse.html?cat=rankings" },
     { id: "misc",        label: "Misc Tools",     icon: "🧰", href: "browse.html?cat=misc" },
@@ -21,6 +22,7 @@
     calculators: "🧮 Calculators",
     simulators: "⚔️ Simulators",
     rift: "🌀 Rift",
+    jade: "🏜️ BTH: Jade Edition",
     overviews: "👁️ Overviews",
     rankings: "📊 Rankings & Stats",
     misc: "🧰 Misc Tools",
@@ -82,6 +84,9 @@
         // Rift gathers every rift tool whatever its type; the section loop
         // below then splits them back out into calculators, guides and so on.
         if (!t.rift) return false;
+      } else if (cat === "jade") {
+        // Same idea as Rift: everything for the Jade Desert, split by type.
+        if (!t.jade) return false;
       } else if (t.cat !== cat) {
         return false;
       }
@@ -132,6 +137,22 @@
     });
   }
 
+  // A home-page band for one event, still split by what each tool actually is.
+  function eventBand(flag, title, allLabel) {
+    const tools = window.TOOLS.filter((t) => t[flag] && t.status === "live");
+    if (!tools.length) return;
+    const head = document.createElement("div");
+    head.className = "section-label";
+    head.textContent = title;
+    gridHost.appendChild(head);
+    sectionsByType(tools, " ");
+    const all = document.createElement("a");
+    all.className = "browse-cta";
+    all.href = "browse.html?cat=" + flag;
+    all.innerHTML = "<span>" + allLabel + "</span><span class='arr'>→</span>";
+    gridHost.appendChild(all);
+  }
+
   function render() {
     if (!gridHost) return;
     gridHost.innerHTML = "";
@@ -152,19 +173,8 @@
       // Rift is the busiest part of the game and its tools were scattered
       // across every category, so the home page gets the whole lot in one
       // band, still split by what each tool actually is.
-      const riftTools = window.TOOLS.filter((t) => t.rift && t.status === "live");
-      if (riftTools.length) {
-        const head = document.createElement("div");
-        head.className = "section-label";
-        head.textContent = "🌀 Rift — everything in one place";
-        gridHost.appendChild(head);
-        sectionsByType(riftTools, " ");
-        const all = document.createElement("a");
-        all.className = "browse-cta";
-        all.href = "browse.html?cat=rift";
-        all.innerHTML = "<span>All Rift tools</span><span class='arr'>→</span>";
-        gridHost.appendChild(all);
-      }
+      eventBand("rift", "🌀 Rift — everything in one place", "All Rift tools");
+      eventBand("jade", "🏜️ BTH: Jade Edition — everything in one place", "All Jade tools");
 
       const cta = document.createElement("a");
       cta.className = "browse-cta";
