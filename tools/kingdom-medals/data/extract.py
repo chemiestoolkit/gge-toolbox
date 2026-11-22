@@ -79,7 +79,9 @@ def main():
     st = (root.get("seasonSettings") or [{}])[0]
     out = {
         "generated": datetime.datetime.now(datetime.timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ"),
-        "itemsVersion": items.get("version") or items.get("Version") or None,
+        # The item table stamps its version at versionInfo.version.@value,
+        # not at the top level.
+        "itemsVersion": ((items.get("versionInfo") or {}).get("version") or {}).get("@value"),
         "payoutPerDay": 1,          # "Medals: Awarded once a day according to your current division ranking"
         "medals": medals,
         "ranks": ranks,

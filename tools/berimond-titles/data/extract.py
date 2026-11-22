@@ -197,7 +197,9 @@ def main():
 
     out = {
         "generated": datetime.datetime.now(datetime.timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ"),
-        "itemsVersion": items.get("version") or items.get("Version") or None,
+        # The item table stamps its version at versionInfo.version.@value,
+        # not at the top level.
+        "itemsVersion": ((items.get("versionInfo") or {}).get("version") or {}).get("@value"),
         "listType": 30,              # HighscoreConst.FACTION_TOURNAMENT
         "boards": boards,
         "labels": {k: lang.get(v, "") for k, v in LANG_KEYS.items()},
