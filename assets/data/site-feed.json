@@ -200,43 +200,25 @@
         "name": "Nomad Invasion",
         "emoji": "🌊",
         "icon": "nomadinvasion.webp",
-        "dates": "07–10 · 14–17 · 21–24 Nov · 28 Nov–01 Dec"
+        "dates": "21–24 Nov · 28 Nov–01 Dec"
       },
       {
         "name": "Samurai Invasion",
         "emoji": "⚔️",
         "icon": "samuraiinvasion.webp",
-        "dates": "06–07 · 13–14 · 20–21 · 27–28 Nov"
+        "dates": "27–28 Nov"
       },
       {
         "name": "Bloodcrow Invasion",
         "emoji": "🩸",
         "icon": "bloodcrow.webp",
-        "dates": "10–13 · 24–27 Nov"
-      },
-      {
-        "name": "War of the Realms",
-        "emoji": "⚔️",
-        "icon": "",
-        "dates": "03–06 · 17–20 Nov"
+        "dates": "24–27 Nov"
       },
       {
         "name": "Berimond Kingdom",
         "emoji": "🏰",
         "icon": "berimond.webp",
         "dates": "24–27 Nov"
-      },
-      {
-        "name": "Rift Raid",
-        "emoji": "🌀",
-        "icon": "riftraid.webp",
-        "dates": "09–16 Nov"
-      },
-      {
-        "name": "Bladecoast",
-        "emoji": "🗡️",
-        "icon": "bladecoast.webp",
-        "dates": "12–19 Nov"
       },
       {
         "name": "Grand Tournament",
@@ -248,13 +230,13 @@
         "name": "Beyond the Horizon",
         "emoji": "🌅",
         "icon": "beyondthehorizon.webp",
-        "dates": "05–09 · 19–23 Nov"
+        "dates": "26–30 Nov"
       },
       {
         "name": "Outer Realms",
         "emoji": "🌌",
         "icon": "outerrealms.webp",
-        "dates": "02–05 · 09–12 · 12–16 · 16–19 · 23–26 · 26–30 Nov · 30 Nov–03 Dec"
+        "dates": "23–26 Nov · 30 Nov–03 Dec"
       },
       {
         "name": "Imperial Patronage",
@@ -270,6 +252,6 @@
       }
     ]
   },
-  "newsUpdated": "2026-11-22",
-  "eventsUpdated": "2026-11-22"
+  "newsUpdated": "2026-11-23",
+  "eventsUpdated": "2026-11-23"
 }
